@@ -44,6 +44,7 @@ export default function SignInScreen() {
             placeholderTextColor="rgba(255,255,255, 0.6)"
             keyboardType="email-address"
             onChangeText={text => setEmail(text)}
+            value={email}
             // autoCompleteType="email"
           />
         </View>
@@ -76,6 +77,7 @@ export default function SignInScreen() {
               placeholderTextColor="rgba(255,255,255, 0.6)"
               keyboardType="email-address"
               onChangeText={text => setPassword(text)}
+              value={password}
               // autoCompleteType="email"
             />
             <Pressable>
@@ -158,7 +160,7 @@ export default function SignInScreen() {
               alignSelf: 'center',
             }}>
             <Image
-              source={require('../../assets/logos/icons8-google-48.png')}
+              source={require('../../assets/google.png')}
               style={{height: 24, width: 24}}
             />
             <Text style={{color: 'white', fontSize: 18}}>Google</Text>

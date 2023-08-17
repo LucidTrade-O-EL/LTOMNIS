@@ -6,21 +6,15 @@ import {
   Pressable,
   Image,
 } from 'react-native';
-import React, {
-  ChangeEvent,
-  ChangeEventHandler,
-  ReactEventHandler,
-  ReactHTMLElement,
-  useState,
-} from 'react';
+import React, {useState} from 'react';
 import {Divider} from '@rneui/themed';
 import {color} from '@rneui/base';
 
 export default function RegisterScreen() {
-  const [name, setName] = useState(' ');
-  const [email, setEmail] = useState(' ');
-  const [password, setPassword] = useState(' ');
-  const [confirmPassword, setConfirmPassword] = useState(' ');
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [invalidPassword, setInvalidPassword] = useState(false);
 
   const getName = (text: React.SetStateAction<string>) => {
@@ -107,7 +101,7 @@ export default function RegisterScreen() {
             Password must be atleast 8 characters
           </Text>
         ) : (
-          <View> </View>
+          <Text> </Text>
         )}
         <Text
           style={{
