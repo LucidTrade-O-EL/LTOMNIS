@@ -43,6 +43,7 @@ import OnboardingScreen2 from './screens/onboarding/OnboardingScreen2';
 import InternationalCreditReportAccess from './screens/add_post/InternationalCreditReportAccess';
 import NFCHoldNearReader from './screens/NFC/NFCHoldNearReader';
 import SignUpScreen from './screens/auth/SignUpScreen';
+import NFCAcceptFriend from './screens/NFC/NFCAcceptFriend';
 
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -57,7 +58,7 @@ function App(): JSX.Element {
     <NavigationContainer>
       <Stack.Navigator screenOptions={{headerShown: false}}>
         {/* <Stack.Screen name="SplashScreen" component={SplashScreen} /> */}
-        <Stack.Screen name="SignUp" component={SignUpScreen} />
+        {/* <Stack.Screen name="SignUp" component={SignUpScreen} /> */}
         {/*  */}
         {/* <Stack.Screen name="Register" component={RegisterScreen} /> */}
         {/* <Stack.Screen
@@ -78,6 +79,7 @@ function App(): JSX.Element {
         {/* <Stack.Screen name="NFCFaceId" component={NFCFaceId} /> */}
         {/* <Stack.Screen name="NFCHoldNearReader" component={NFCHoldNearReader} /> */}
         {/* <Stack.Screen name="NFCDone" component={NFCDone} /> */}
+        <Stack.Screen name="NFCAcceptFriend" component={NFCAcceptFriend} />
       </Stack.Navigator>
     </NavigationContainer>
   );
