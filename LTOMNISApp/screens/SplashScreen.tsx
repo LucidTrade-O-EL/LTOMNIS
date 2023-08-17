@@ -1,0 +1,35 @@
+import React from "react";
+import { View, Text, StyleSheet } from "react-native";
+
+export default function SplashScreen(): JSX.Element {
+  return (
+    <View style={styles.background}>
+      {/* <Image
+        style={styles.image}
+        source={require("../assets/gradient9.png")}
+      /> */}
+      <Text style={styles.text}>Omnis</Text>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  background: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    height: "100%",
+    backgroundColor: "#1E1E1E",
+  },
+
+  text: {
+    color: "#fff",
+  },
+
+  image: {
+    margin: 10,
+    resizeMode: "contain",
+    width: 300,
+    height: 300,
+  },
+});
