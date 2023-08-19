@@ -27,7 +27,7 @@ import {
 
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import SplashScreen from './screens/SplashScreen';
+import SplashScreen from './screens/SplashScreen/SplashScreen';
 import NFCDone from './screens/NFC/NFCDone';
 import RegisterScreen from './screens/auth/RegisterScreen';
 import OnboardingScreen1 from './screens/onboarding/OnboardingScreen1';
@@ -57,7 +57,7 @@ function App(): JSX.Element {
     <NavigationContainer>
       <Stack.Navigator screenOptions={{headerShown: false}}>
         {/* <Stack.Screen name="SplashScreen" component={SplashScreen} /> */}
-        <Stack.Screen name="SignUp" component={SignUpScreen} />
+        {/* <Stack.Screen name="SignUp" component={SignUpScreen} /> */}
         {/*  */}
         {/* <Stack.Screen name="Register" component={RegisterScreen} /> */}
         {/* <Stack.Screen
@@ -66,7 +66,7 @@ function App(): JSX.Element {
         /> */}
 
         {/* <Stack.Screen name="Register" component={RegisterScreen} /> */}
-        {/* <Stack.Screen name="HomeScreen" component={HomeScreen} /> */}
+        <Stack.Screen name="HomeScreen" component={HomeScreen} />
         {/* <Stack.Screen name="SignIn" component={SignInScreen} /> */}
         {/* <Stack.Screen name="Onboarding1" component={OnboardingScreen1} /> */}
         {/* <Stack.Screen name="Onboarding2" component={OnboardingScreen2} /> */}
