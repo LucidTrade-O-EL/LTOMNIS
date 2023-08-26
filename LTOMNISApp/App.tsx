@@ -44,6 +44,7 @@ import InternationalCreditReportAccess from './screens/add_post/InternationalCre
 import NFCHoldNearReader from './screens/NFC/NFCHoldNearReader';
 import SignUpScreen from './screens/auth/SignUpScreen';
 import Tabs from './navigation/Tabs';
+import NFCAcceptFriend from './screens/NFC/NFCAcceptFriend';
 
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -80,7 +81,11 @@ function App(): JSX.Element {
         {/* <Stack.Screen name="NFCFaceId" component={NFCFaceId} /> */}
         {/* <Stack.Screen name="NFCHoldNearReader" component={NFCHoldNearReader} /> */}
         {/* <Stack.Screen name="NFCDone" component={NFCDone} /> */}
+
       {/* </Stack.Navigator> */}
+
+        <Stack.Screen name="NFCAcceptFriend" component={NFCAcceptFriend} />
+      </Stack.Navigator>
     </NavigationContainer>
   );
 }
