@@ -60,7 +60,7 @@ function App(): JSX.Element {
         {/* <Stack.Screen name="SplashScreen" component={SplashScreen} /> */}
         {/* <Stack.Screen name="SignUp" component={SignUpScreen} /> */}
         {/*  */}
-        {/* <Stack.Screen name="Register" component={RegisterScreen} /> */}
+        <Stack.Screen name="Register" component={RegisterScreen} />
         {/* <Stack.Screen
           name="InternationalCreditReportAccess"
           component={InternationalCreditReportAccess}

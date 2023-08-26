@@ -9,6 +9,7 @@ import {
 import React, {useState} from 'react';
 import {Divider} from '@rneui/themed';
 import {color} from '@rneui/base';
+import axios from 'axios';
 
 export default function RegisterScreen() {
   const [name, setName] = useState('');
@@ -31,6 +32,32 @@ export default function RegisterScreen() {
   };
   const getConfirmPassword = (text: React.SetStateAction<string>) => {
     setConfirmPassword(text);
+  };
+
+  const signUp = async () => {
+    try {
+      const options = {
+        method: 'POST',
+        url: 'https://localhost:7155/api/Account/register',
+        data: {name, email, password},
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+      };
+
+      const res = await axios(options);
+
+      console.log('data payload ', res.data, res.headers);
+      const user = res.data;
+
+      if (user == null) {
+        console.log('No user data recieved');
+      }
+      console.log('user: ', user);
+    } catch (error: any) {
+      console.error('An error occured:', error);
+    }
   };
 
   return (
@@ -126,7 +153,7 @@ export default function RegisterScreen() {
 
       {/* signup  */}
       <View style={styles.view2}>
-        <Pressable style={styles.button} onPress={() => {}}>
+        <Pressable style={styles.button} onPress={signUp}>
           <Text style={styles.buttonText}>Sign Up</Text>
         </Pressable>
 
