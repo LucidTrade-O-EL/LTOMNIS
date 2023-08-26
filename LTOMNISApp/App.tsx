@@ -27,7 +27,7 @@ import {
 
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import SplashScreen from './screens/SplashScreen';
+import SplashScreen from './screens/SplashScreen/SplashScreen';
 import NFCDone from './screens/NFC/NFCDone';
 import RegisterScreen from './screens/auth/RegisterScreen';
 import OnboardingScreen1 from './screens/onboarding/OnboardingScreen1';
@@ -43,6 +43,7 @@ import OnboardingScreen2 from './screens/onboarding/OnboardingScreen2';
 import InternationalCreditReportAccess from './screens/add_post/InternationalCreditReportAccess';
 import NFCHoldNearReader from './screens/NFC/NFCHoldNearReader';
 import SignUpScreen from './screens/auth/SignUpScreen';
+import Tabs from './navigation/Tabs';
 import NFCAcceptFriend from './screens/NFC/NFCAcceptFriend';
 
 function App(): JSX.Element {
@@ -56,7 +57,8 @@ function App(): JSX.Element {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{headerShown: false}}>
+      {/* <Stack.Navigator screenOptions={{headerShown: false}}> */}
+        <Tabs  />
         {/* <Stack.Screen name="SplashScreen" component={SplashScreen} /> */}
         {/* <Stack.Screen name="SignUp" component={SignUpScreen} /> */}
         {/*  */}
@@ -79,6 +81,9 @@ function App(): JSX.Element {
         {/* <Stack.Screen name="NFCFaceId" component={NFCFaceId} /> */}
         {/* <Stack.Screen name="NFCHoldNearReader" component={NFCHoldNearReader} /> */}
         {/* <Stack.Screen name="NFCDone" component={NFCDone} /> */}
+
+      {/* </Stack.Navigator> */}
+
         <Stack.Screen name="NFCAcceptFriend" component={NFCAcceptFriend} />
       </Stack.Navigator>
     </NavigationContainer>
