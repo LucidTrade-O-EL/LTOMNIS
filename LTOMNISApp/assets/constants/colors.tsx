@@ -10,8 +10,9 @@ export const GlobalStyles = {
     primary500: '#2E2216', // Writing Text Style 1
     primary510: '#43382D', // Writing Text Style 2
     primary600: '#383838', // Decline Button
-
+    primary700: '#272626', // Background Color
     primary800: '#1E1E1E', // Background Color
+
     primary900: '#000000', // Black
 
     accent100: 'rgba(250,250,250, 0.6)', // Not Active

@@ -43,6 +43,7 @@ import OnboardingScreen2 from './screens/onboarding/OnboardingScreen2';
 import InternationalCreditReportAccess from './screens/add_post/InternationalCreditReportAccess';
 import NFCHoldNearReader from './screens/NFC/NFCHoldNearReader';
 import SignUpScreen from './screens/auth/SignUpScreen';
+import Tabs from './navigation/Tabs';
 
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -55,7 +56,8 @@ function App(): JSX.Element {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{headerShown: false}}>
+      {/* <Stack.Navigator screenOptions={{headerShown: false}}> */}
+        <Tabs  />
         {/* <Stack.Screen name="SplashScreen" component={SplashScreen} /> */}
         {/* <Stack.Screen name="SignUp" component={SignUpScreen} /> */}
         {/*  */}
@@ -66,7 +68,7 @@ function App(): JSX.Element {
         /> */}
 
         {/* <Stack.Screen name="Register" component={RegisterScreen} /> */}
-        <Stack.Screen name="HomeScreen" component={HomeScreen} />
+        {/* <Stack.Screen name="HomeScreen" component={HomeScreen} /> */}
         {/* <Stack.Screen name="SignIn" component={SignInScreen} /> */}
         {/* <Stack.Screen name="Onboarding1" component={OnboardingScreen1} /> */}
         {/* <Stack.Screen name="Onboarding2" component={OnboardingScreen2} /> */}
@@ -78,7 +80,7 @@ function App(): JSX.Element {
         {/* <Stack.Screen name="NFCFaceId" component={NFCFaceId} /> */}
         {/* <Stack.Screen name="NFCHoldNearReader" component={NFCHoldNearReader} /> */}
         {/* <Stack.Screen name="NFCDone" component={NFCDone} /> */}
-      </Stack.Navigator>
+      {/* </Stack.Navigator> */}
     </NavigationContainer>
   );
 }
