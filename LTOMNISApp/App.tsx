@@ -44,6 +44,7 @@ import InternationalCreditReportAccess from './screens/add_post/InternationalCre
 import NFCHoldNearReader from './screens/NFC/NFCHoldNearReader';
 import SignUpScreen from './screens/auth/SignUpScreen';
 import Tabs from './navigation/Tabs';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -57,7 +58,10 @@ function App(): JSX.Element {
   return (
     <NavigationContainer>
       {/* <Stack.Navigator screenOptions={{headerShown: false}}> */}
+      <GestureHandlerRootView style={{ flex: 1 }}>
         <Tabs  />
+      </GestureHandlerRootView>
+        
         {/* <Stack.Screen name="SplashScreen" component={SplashScreen} /> */}
         {/* <Stack.Screen name="SignUp" component={SignUpScreen} /> */}
         {/*  */}

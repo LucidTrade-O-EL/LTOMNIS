@@ -10,11 +10,16 @@ import React, {useState} from 'react';
 import {Avatar, Divider} from 'react-native-elements';
 import IonIcon from 'react-native-vector-icons/Ionicons';
 import GlobalStyles from '../assets/constants/colors';
+import GlobalFonts from '../assets/constants/fonts';
 
 export default function HomeScreen() {
   // UseState
   const [userName, setUserName] = useState('Zak Veasy');
   const [balance, setBalance] = useState('$124.56');
+  const [OfferSent, setOfferSent] = useState(25);
+  const [AcceptedOffers, setAcceptedOffers] = useState(6);
+  const [OffersAccepted, setOffersAccepted] = useState(13);
+  const [NewOffers, setNewOffers] = useState(5);
 
   const handleDeposit = () => {
     console.log('Deposit button pressed');
@@ -120,24 +125,16 @@ export default function HomeScreen() {
 
         <View style={styles.RoleContainer}>
           <View style={styles.RoleLabelContainer}>
-            <Text
-              style={{
-                fontSize: 20,
-                marginLeft: 16,
-                marginTop: 16,
-                marginBottom: 6,
-              }}>
-              Lender
-            </Text>
+            <Text style={styles.LenderBorrowerText}>Lender</Text>
             <View style={{flexDirection: 'row'}}>
               <Text style={styles.TextInRoles}>Offer Sent</Text>
               <Divider orientation="vertical" width={1} />
-              <Text style={styles.NumberInRoles}>23</Text>
+              <Text style={styles.NumberInRoles}>{OfferSent}</Text>
             </View>
             <View style={{flexDirection: 'row'}}>
               <Text style={styles.TextInRoles}>Accepted Offers</Text>
               <Divider orientation="vertical" width={1} />
-              <Text style={styles.NumberInRoles}>2</Text>
+              <Text style={styles.NumberInRoles}>{AcceptedOffers}</Text>
             </View>
           </View>
           <View style={styles.RoleButtonContainer}>
@@ -152,14 +149,7 @@ export default function HomeScreen() {
                 marginBottom: 20,
                 marginLeft: 60,
               }}>
-              <Text
-                style={{
-                  color: GlobalStyles.Colors.primary100,
-                  fontSize: 16,
-                  textAlign: 'center',
-                }}>
-                View
-              </Text>
+              <Text style={styles.ViewButton}>View</Text>
             </View>
           </View>
         </View>
@@ -168,24 +158,16 @@ export default function HomeScreen() {
 
         <View style={styles.BorrowerRoleContainer}>
           <View style={styles.RoleLabelContainer}>
-            <Text
-              style={{
-                fontSize: 20,
-                marginLeft: 16,
-                marginTop: 16,
-                marginBottom: 6,
-              }}>
-              Borrower
-            </Text>
+            <Text style={styles.LenderBorrowerText}>Borrower</Text>
             <View style={{flexDirection: 'row'}}>
               <Text style={styles.TextInRoles}>Offers Accepted</Text>
               <Divider orientation="vertical" width={1} />
-              <Text style={styles.NumberInRoles}>23</Text>
+              <Text style={styles.NumberInRoles}>{OffersAccepted}</Text>
             </View>
             <View style={{flexDirection: 'row'}}>
               <Text style={styles.TextInRoles}>New Offers</Text>
               <Divider orientation="vertical" width={1} />
-              <Text style={styles.NumberInRoles}>2</Text>
+              <Text style={styles.NumberInRoles}>{NewOffers}</Text>
             </View>
           </View>
           <View style={styles.RoleButtonContainer}>
@@ -200,14 +182,7 @@ export default function HomeScreen() {
                 marginBottom: 20,
                 marginLeft: 60,
               }}>
-              <Text
-                style={{
-                  color: GlobalStyles.Colors.primary100,
-                  fontSize: 16,
-                  textAlign: 'center',
-                }}>
-                View
-              </Text>
+              <Text style={styles.ViewButton}>View</Text>
             </View>
           </View>
         </View>
@@ -318,6 +293,8 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     fontSize: 16,
     color: GlobalStyles.Colors.primary100,
+    fontFamily: 'San Francisco', // This will default to San Francisco on iOS.
+    fontWeight: 'bold',
   },
 
   //   Transaction History
@@ -385,6 +362,8 @@ const styles = StyleSheet.create({
     marginBottom: 6,
     color: GlobalStyles.Colors.accent300,
     textAlign: 'center',
+    fontFamily: 'San Francisco', // This will default to San Francisco on iOS.
+    fontWeight: '500',
   },
 
   // Numbers inside Roles
@@ -395,6 +374,18 @@ const styles = StyleSheet.create({
     marginBottom: 6,
     color: GlobalStyles.Colors.accent300,
     textAlign: 'center',
+    fontFamily: 'San Francisco', // This will default to San Francisco on iOS.
+    fontWeight: '500',
+  },
+
+  // View Button
+
+  ViewButton: {
+    color: GlobalStyles.Colors.primary100,
+    fontSize: 16,
+    textAlign: 'center',
+    fontFamily: 'San Francisco', // This will default to San Francisco on iOS.
+    fontWeight: 'bold',
   },
 
   //   Borrower
@@ -407,5 +398,14 @@ const styles = StyleSheet.create({
     marginVertical: 8,
     alignSelf: 'center',
     flexDirection: 'row',
+  },
+
+  LenderBorrowerText: {
+    fontSize: 20,
+    marginLeft: 16,
+    marginTop: 16,
+    marginBottom: 6,
+    fontFamily: 'San Francisco', // This will default to San Francisco on iOS.
+    fontWeight: '500',
   },
 });
