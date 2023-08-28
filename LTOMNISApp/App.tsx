@@ -46,6 +46,7 @@ import SignUpScreen from './screens/auth/SignUpScreen';
 import Tabs from './navigation/Tabs';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import NewOffersScreen from './screens/NewOffers/NewOffersScreen';
+import NFCAcceptFriend from './screens/NFC/NFCAcceptFriend';
 
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -66,7 +67,7 @@ function App(): JSX.Element {
         {/* <Stack.Screen name="SplashScreen" component={SplashScreen} /> */}
         {/* <Stack.Screen name="SignUp" component={SignUpScreen} /> */}
         {/*  */}
-        {/* <Stack.Screen name="Register" component={RegisterScreen} /> */}
+        <Stack.Screen name="Register" component={RegisterScreen} />
         {/* <Stack.Screen
           name="InternationalCreditReportAccess"
           component={InternationalCreditReportAccess}
@@ -86,6 +87,10 @@ function App(): JSX.Element {
         {/* <Stack.Screen name="NFCFaceId" component={NFCFaceId} /> */}
         {/* <Stack.Screen name="NFCHoldNearReader" component={NFCHoldNearReader} /> */}
         {/* <Stack.Screen name="NFCDone" component={NFCDone} /> */}
+
+      {/* </Stack.Navigator> */}
+
+        <Stack.Screen name="NFCAcceptFriend" component={NFCAcceptFriend} />
       </Stack.Navigator>
     </NavigationContainer>
   );
