@@ -27,7 +27,7 @@ const OfferBigContainer: React.FC<OfferBigContainerProps> = ({
   fullNumber, 
   users 
 }) => {
-    
+
     const progress = raiseNumber / fullNumber
 
   //   Users Mapping
@@ -93,11 +93,11 @@ export default OfferBigContainer;
 
 const styles = StyleSheet.create({
   container: {
-    height: 387,
     width: 343,
     backgroundColor: 'gray',
     borderRadius: 20,
     marginTop: 16,
+    paddingBottom: 20
   },
   innerContainerTitle: {
     flexDirection: 'row',

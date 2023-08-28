@@ -10,7 +10,7 @@ import {
 import React, {useState} from 'react';
 import IonIcon from 'react-native-vector-icons/Ionicons';
 import {Divider} from '@rneui/themed';
-import PasswordValidation from './passwordValidation';
+import PasswordValidation from '../auth/passwordValidation';
 
 export default function SignInScreen() {
   // UseState
