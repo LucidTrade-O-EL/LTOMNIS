@@ -29,11 +29,11 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import SplashScreen from './screens/SplashScreen/SplashScreen';
 import NFCDone from './screens/NFC/NFCDone';
-import RegisterScreen from './screens/auth/RegisterScreen';
+import RegisterScreen from './screens/SignIn/RegisterScreen';
 import OnboardingScreen1 from './screens/onboarding/OnboardingScreen1';
 import HomeScreen from './screens/HomeScreen';
 import NFCFaceId from './screens/NFC/NFCFaceId';
-import SignInScreen from './screens/auth/SignInScreen';
+import SignInScreen from './screens/SignIn/SignInScreen';
 import ForgotPassword from './screens/auth/ForgotPassword';
 import Verification from './screens/auth/Verification';
 import CreateNewPassword from './screens/auth/CreateNewPassword';
@@ -42,10 +42,12 @@ import OnboardingScreen3 from './screens/onboarding/OnboardingScreen3';
 import OnboardingScreen2 from './screens/onboarding/OnboardingScreen2';
 import InternationalCreditReportAccess from './screens/add_post/InternationalCreditReportAccess';
 import NFCHoldNearReader from './screens/NFC/NFCHoldNearReader';
-import SignUpScreen from './screens/auth/SignUpScreen';
+import SignUpScreen from './screens/SignUp/SignUpScreen';
 import Tabs from './navigation/Tabs';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import NewOffersScreen from './screens/NewOffers/NewOffersScreen';
+import OfferScreen from './screens/NewOffers/OfferScreen';
+import OfferScreenTopTabs from './screens/NewOffers/OfferScreenTopTabs';
 import NFCAcceptFriend from './screens/NFC/NFCAcceptFriend';
 
 function App(): JSX.Element {
@@ -72,10 +74,11 @@ function App(): JSX.Element {
           name="InternationalCreditReportAccess"
           component={InternationalCreditReportAccess}
         /> */}
-
+        {/* <Stack.Screen name="OfferScreenTopTabs" component={OfferScreenTopTabs} /> */}
+        {/* <Stack.Screen name="NewOffersScreen" component={NewOffersScreen} /> */}
         {/* <Stack.Screen name="Register" component={RegisterScreen} /> */}
         {/* <Stack.Screen name="HomeScreen" component={HomeScreen} /> */}
-        <Stack.Screen name="NewOffersScreen" component={NewOffersScreen} />
+        {/* <Stack.Screen name="NewOffersScreen" component={NewOffersScreen} /> */}
         {/* <Stack.Screen name="SignIn" component={SignInScreen} /> */}
         {/* <Stack.Screen name="Onboarding1" component={OnboardingScreen1} /> */}
         {/* <Stack.Screen name="Onboarding2" component={OnboardingScreen2} /> */}
@@ -84,11 +87,12 @@ function App(): JSX.Element {
         {/* <Stack.Screen name="CreateNewPassword" component={CreateNewPassword} /> */}
         {/* <Stack.Screen name="Verification" component={Verification} /> */}
         {/* <Stack.Screen name="ForgotPassword" component={ForgotPassword} /> */}
+        <Stack.Screen name="OfferScreen" component={OfferScreen} />
         {/* <Stack.Screen name="NFCFaceId" component={NFCFaceId} /> */}
         {/* <Stack.Screen name="NFCHoldNearReader" component={NFCHoldNearReader} /> */}
         {/* <Stack.Screen name="NFCDone" component={NFCDone} /> */}
 
-      {/* </Stack.Navigator> */}
+        {/* </Stack.Navigator> */}
 
         <Stack.Screen name="NFCAcceptFriend" component={NFCAcceptFriend} />
       </Stack.Navigator>

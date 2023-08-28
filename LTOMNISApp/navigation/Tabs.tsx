@@ -6,11 +6,11 @@ import GlobalStyles from '../assets/constants/colors';
 import {StyleSheet} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {shadow} from 'react-native-paper';
-import RegisterScreen from '../screens/auth/RegisterScreen';
+import RegisterScreen from '../screens/SignIn/RegisterScreen';
 import Octicons from 'react-native-vector-icons/Octicons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import SignInScreen from '../screens/auth/SignInScreen';
-import SignUpScreen from '../screens/auth/SignUpScreen';
+import SignInScreen from '../screens/SignIn/SignInScreen';
+import SignUpScreen from '../screens/SignUp/SignUpScreen';
 import Verification from '../screens/auth/Verification';
 
 // import the other tabs for screens

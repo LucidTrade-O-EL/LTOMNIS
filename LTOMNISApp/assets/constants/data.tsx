@@ -19,6 +19,14 @@ export const offersData = [
         amount: 2500,
         interest: 10,
       },
+      {
+        firstNameLetter: 'J',
+        lastNameLetter: 'S',
+        userName: 'User 456',
+        amount: 20,
+        interest: 10,
+      },
+      
     ],
   },
   // ... add more offer objects as needed

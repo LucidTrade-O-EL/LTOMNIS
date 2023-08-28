@@ -7,6 +7,7 @@ import {
   TextInput,
 } from 'react-native';
 import React, {useState} from 'react';
+import ScreenTitle from '../../assets/constants/Components/ScreenTitle';
 
 export default function ForgotPassword() {
   // UseState
@@ -14,12 +15,14 @@ export default function ForgotPassword() {
 
   return (
     <SafeAreaView style={styles.Background}>
-      <View style={styles.headerContainer}>
-        <Text style={styles.headerText}>Forgot Password</Text>
-        <Text style={styles.subheaderText}>
-          Enter your email account to reset password
-        </Text>
-      </View>
+      <ScreenTitle
+        title="Forgot Password"
+        subtitle="Enter your email account to reset password"
+        showBackArrow={true}
+        onBackPress={() => {
+          // Handle back action, e.g. navigate back
+        }}
+      />
 
       {/* Email */}
 

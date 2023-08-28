@@ -9,7 +9,7 @@ import { offersData } from '../../assets/constants/data';
 
   export default function NewOffersScreen() {
     return (
-      <FlatList
+      <FlatList style={{ backgroundColor: GlobalStyles.Colors.primary100 }}
         data={offersData}
         renderItem={({ item }) => (
           <OfferBigContainer 
