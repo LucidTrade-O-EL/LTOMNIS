@@ -44,6 +44,8 @@ import InternationalCreditReportAccess from './screens/add_post/InternationalCre
 import NFCHoldNearReader from './screens/NFC/NFCHoldNearReader';
 import SignUpScreen from './screens/auth/SignUpScreen';
 import Tabs from './navigation/Tabs';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
+import NewOffersScreen from './screens/NewOffers/NewOffersScreen';
 import NFCAcceptFriend from './screens/NFC/NFCAcceptFriend';
 
 function App(): JSX.Element {
@@ -57,8 +59,11 @@ function App(): JSX.Element {
 
   return (
     <NavigationContainer>
-      {/* <Stack.Navigator screenOptions={{headerShown: false}}> */}
+      <Stack.Navigator screenOptions={{headerShown: false}}>
+        {/* <GestureHandlerRootView style={{ flex: 1 }}>
         <Tabs  />
+      </GestureHandlerRootView> */}
+
         {/* <Stack.Screen name="SplashScreen" component={SplashScreen} /> */}
         {/* <Stack.Screen name="SignUp" component={SignUpScreen} /> */}
         {/*  */}
@@ -70,6 +75,7 @@ function App(): JSX.Element {
 
         {/* <Stack.Screen name="Register" component={RegisterScreen} /> */}
         {/* <Stack.Screen name="HomeScreen" component={HomeScreen} /> */}
+        <Stack.Screen name="NewOffersScreen" component={NewOffersScreen} />
         {/* <Stack.Screen name="SignIn" component={SignInScreen} /> */}
         {/* <Stack.Screen name="Onboarding1" component={OnboardingScreen1} /> */}
         {/* <Stack.Screen name="Onboarding2" component={OnboardingScreen2} /> */}
