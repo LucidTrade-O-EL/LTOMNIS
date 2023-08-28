@@ -73,7 +73,7 @@ export default function OfferDetailSection({
       <View style={styles.RoleButtonContainer}>
         <Pressable
           style={styles.ViewButtonContainer}>
-          <Text style={styles.ViewButton}>View</Text>
+          <Text style={styles.ViewButton}>Details</Text>
         </Pressable>
       </View>
     </View>
@@ -124,7 +124,7 @@ const styles = StyleSheet.create({
   },
 
   ViewButtonContainer: {
-    width: '40%',
+    width: '42%',
     height: 40,
     backgroundColor: GlobalStyles.Colors.primary200,
     alignSelf: 'center',

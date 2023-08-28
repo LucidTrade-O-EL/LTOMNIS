@@ -46,6 +46,8 @@ import SignUpScreen from './screens/SignUp/SignUpScreen';
 import Tabs from './navigation/Tabs';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import NewOffersScreen from './screens/NewOffers/NewOffersScreen';
+import OfferScreen from './screens/NewOffers/OfferScreen';
+import OfferScreenTopTabs from './screens/NewOffers/OfferScreenTopTabs';
 
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -71,7 +73,8 @@ function App(): JSX.Element {
           name="InternationalCreditReportAccess"
           component={InternationalCreditReportAccess}
         /> */}
-
+        {/* <Stack.Screen name="OfferScreenTopTabs" component={OfferScreenTopTabs} /> */}
+        {/* <Stack.Screen name="NewOffersScreen" component={NewOffersScreen} /> */}
         {/* <Stack.Screen name="Register" component={RegisterScreen} /> */}
         {/* <Stack.Screen name="HomeScreen" component={HomeScreen} /> */}
         {/* <Stack.Screen name="NewOffersScreen" component={NewOffersScreen} /> */}
@@ -82,7 +85,8 @@ function App(): JSX.Element {
         {/* <Stack.Screen name="Onboarding4" component={OnboardingScreen4} /> */}
         {/* <Stack.Screen name="CreateNewPassword" component={CreateNewPassword} /> */}
         {/* <Stack.Screen name="Verification" component={Verification} /> */}
-        <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
+        {/* <Stack.Screen name="ForgotPassword" component={ForgotPassword} /> */}
+        <Stack.Screen name="OfferScreen" component={OfferScreen} />
         {/* <Stack.Screen name="NFCFaceId" component={NFCFaceId} /> */}
         {/* <Stack.Screen name="NFCHoldNearReader" component={NFCHoldNearReader} /> */}
         {/* <Stack.Screen name="NFCDone" component={NFCDone} /> */}
