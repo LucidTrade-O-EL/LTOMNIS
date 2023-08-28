@@ -44,7 +44,8 @@ import InternationalCreditReportAccess from './screens/add_post/InternationalCre
 import NFCHoldNearReader from './screens/NFC/NFCHoldNearReader';
 import SignUpScreen from './screens/auth/SignUpScreen';
 import Tabs from './navigation/Tabs';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
+import NewOffersScreen from './screens/NewOffers/NewOffersScreen';
 
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -57,11 +58,11 @@ function App(): JSX.Element {
 
   return (
     <NavigationContainer>
-      {/* <Stack.Navigator screenOptions={{headerShown: false}}> */}
-      <GestureHandlerRootView style={{ flex: 1 }}>
+      <Stack.Navigator screenOptions={{headerShown: false}}>
+        {/* <GestureHandlerRootView style={{ flex: 1 }}>
         <Tabs  />
-      </GestureHandlerRootView>
-        
+      </GestureHandlerRootView> */}
+
         {/* <Stack.Screen name="SplashScreen" component={SplashScreen} /> */}
         {/* <Stack.Screen name="SignUp" component={SignUpScreen} /> */}
         {/*  */}
@@ -73,6 +74,7 @@ function App(): JSX.Element {
 
         {/* <Stack.Screen name="Register" component={RegisterScreen} /> */}
         {/* <Stack.Screen name="HomeScreen" component={HomeScreen} /> */}
+        <Stack.Screen name="NewOffersScreen" component={NewOffersScreen} />
         {/* <Stack.Screen name="SignIn" component={SignInScreen} /> */}
         {/* <Stack.Screen name="Onboarding1" component={OnboardingScreen1} /> */}
         {/* <Stack.Screen name="Onboarding2" component={OnboardingScreen2} /> */}
@@ -84,7 +86,7 @@ function App(): JSX.Element {
         {/* <Stack.Screen name="NFCFaceId" component={NFCFaceId} /> */}
         {/* <Stack.Screen name="NFCHoldNearReader" component={NFCHoldNearReader} /> */}
         {/* <Stack.Screen name="NFCDone" component={NFCDone} /> */}
-      {/* </Stack.Navigator> */}
+      </Stack.Navigator>
     </NavigationContainer>
   );
 }
