@@ -5,30 +5,28 @@ import GlobalFonts from '../fonts';
 import {LinearProgress} from '@rneui/themed';
 import OfferDetailSection from './OfferDetailSection';
 
-
 type OfferBigContainerProps = {
-    title: string;
-    offerNumber: number;
-    raiseNumber: number;
-    fullNumber: number;
-    users: {
-      firstNameLetter: string;
-      lastNameLetter: string;
-      userName: string;
-      amount: number;
-      interest: number;
-    }[];
-  };
+  title: string;
+  offerNumber: number;
+  raiseNumber: number;
+  fullNumber: number;
+  users: {
+    firstNameLetter: string;
+    lastNameLetter: string;
+    userName: string;
+    amount: number;
+    interest: number;
+  }[];
+};
 
-const OfferBigContainer: React.FC<OfferBigContainerProps> = ({ 
-  title, 
-  offerNumber, 
-  raiseNumber, 
-  fullNumber, 
-  users 
+const OfferBigContainer: React.FC<OfferBigContainerProps> = ({
+  title,
+  offerNumber,
+  raiseNumber,
+  fullNumber,
+  users,
 }) => {
-
-    const progress = raiseNumber / fullNumber
+  const progress = raiseNumber / fullNumber;
 
   //   Users Mapping
 
@@ -97,7 +95,7 @@ const styles = StyleSheet.create({
     backgroundColor: GlobalStyles.Colors.primary120,
     borderRadius: 20,
     marginTop: 16,
-    paddingBottom: 20
+    paddingBottom: 20,
   },
   innerContainerTitle: {
     flexDirection: 'row',
@@ -121,7 +119,7 @@ const styles = StyleSheet.create({
   progressBarContainer: {
     width: '92%',
     height: 18,
-    borderRadius: 10,
+    borderRadius: 6,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'rgba(120,	120, 128, 0.08)',
@@ -131,6 +129,6 @@ const styles = StyleSheet.create({
     marginVertical: 4,
     borderRadius: 10,
     height: 10,
-    width: '98%'
+    width: '98%',
   },
 });

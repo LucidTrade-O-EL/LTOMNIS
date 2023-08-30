@@ -49,6 +49,7 @@ import NewOffersScreen from './screens/NewOffers/NewOffersScreen';
 import OfferScreen from './screens/NewOffers/OfferScreen';
 import OfferScreenTopTabs from './screens/NewOffers/OfferScreenTopTabs';
 import NFCAcceptFriend from './screens/NFC/NFCAcceptFriend';
+import NewOfferDetails from './screens/NewOffers/NewOfferDetails';
 
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -69,7 +70,7 @@ function App(): JSX.Element {
         {/* <Stack.Screen name="SplashScreen" component={SplashScreen} /> */}
         {/* <Stack.Screen name="SignUp" component={SignUpScreen} /> */}
         {/*  */}
-        <Stack.Screen name="Register" component={RegisterScreen} />
+        {/* <Stack.Screen name="Register" component={RegisterScreen} /> */}
         {/* <Stack.Screen
           name="InternationalCreditReportAccess"
           component={InternationalCreditReportAccess}
@@ -87,7 +88,8 @@ function App(): JSX.Element {
         {/* <Stack.Screen name="CreateNewPassword" component={CreateNewPassword} /> */}
         {/* <Stack.Screen name="Verification" component={Verification} /> */}
         {/* <Stack.Screen name="ForgotPassword" component={ForgotPassword} /> */}
-        <Stack.Screen name="OfferScreen" component={OfferScreen} />
+        <Stack.Screen name="NewOfferDetails" component={NewOfferDetails} />
+        {/* <Stack.Screen name="OfferScreen" component={OfferScreen} /> */}
         {/* <Stack.Screen name="NFCFaceId" component={NFCFaceId} /> */}
         {/* <Stack.Screen name="NFCHoldNearReader" component={NFCHoldNearReader} /> */}
         {/* <Stack.Screen name="NFCDone" component={NFCDone} /> */}
