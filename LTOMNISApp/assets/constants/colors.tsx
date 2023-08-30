@@ -20,6 +20,7 @@ export const GlobalStyles = {
     accent115: 'rgba(118,118,128, 0.24)', // Small Details
     accent120: 'rgba(30, 30, 30, 0.6)', // Not Active
     accent200: 'rgba(246,244,244,0.1)', // Transparent (Spotlight)
+    accent250: 'rgba(46, 34, 22, 0.06)', // Not Active
     accent300: 'rgba(46, 34, 22, 0.6)', // Not Active
     accent310: 'rgba(46, 34, 22, 0.4)', // Not Active
     accent400: 'rgba(189,174,141, 0.6)', // Not Active

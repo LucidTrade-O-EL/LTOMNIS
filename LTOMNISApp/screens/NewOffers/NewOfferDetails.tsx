@@ -25,9 +25,6 @@ export default function NewOfferDetails({
         showBackArrow={true}
         onBackPress={() => {}}
         showRightIcon={true}
-        rightIconType="Feather"
-        rightIconName="filter"
-        onRightIconPress={() => {}}
       />
       <CustomOfferBlock
         data={[
@@ -35,11 +32,16 @@ export default function NewOfferDetails({
           {leftText: 'Amount offered', rightText: '$15'},
           {leftText: 'Interest rate', rightText: '3%'},
           {isDivider: true},
-          {leftText: 'Total', rightText: '$31.25'},
+          {leftText: 'Total', rightText: '$15.45'},
         ]}
       />
       <ProgressWithLabel collected={raiseNumber} goal={fullNumber} />
-      <CompleteButton onPress={() => { console.log('Button pressed!'); }} text="Complete" />
+      <CompleteButton
+        onPress={() => {
+          console.log('Button pressed!');
+        }}
+        text="Complete"
+      />
     </SafeAreaView>
   );
 }

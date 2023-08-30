@@ -50,6 +50,7 @@ import OfferScreen from './screens/NewOffers/OfferScreen';
 import OfferScreenTopTabs from './screens/NewOffers/OfferScreenTopTabs';
 import NFCAcceptFriend from './screens/NFC/NFCAcceptFriend';
 import NewOfferDetails from './screens/NewOffers/NewOfferDetails';
+import ChoosePaymentPlanScreen from './screens/NewOffers/ChoosePaymentPlanScreen';
 
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -88,15 +89,16 @@ function App(): JSX.Element {
         {/* <Stack.Screen name="CreateNewPassword" component={CreateNewPassword} /> */}
         {/* <Stack.Screen name="Verification" component={Verification} /> */}
         {/* <Stack.Screen name="ForgotPassword" component={ForgotPassword} /> */}
-        <Stack.Screen name="NewOfferDetails" component={NewOfferDetails} />
+        <Stack.Screen name="ChoosePaymentPlanScreen" component={ChoosePaymentPlanScreen} />
+        {/* <Stack.Screen name="NewOfferDetails" component={NewOfferDetails} /> */}
         {/* <Stack.Screen name="OfferScreen" component={OfferScreen} /> */}
         {/* <Stack.Screen name="NFCFaceId" component={NFCFaceId} /> */}
         {/* <Stack.Screen name="NFCHoldNearReader" component={NFCHoldNearReader} /> */}
         {/* <Stack.Screen name="NFCDone" component={NFCDone} /> */}
 
         {/* </Stack.Navigator> */}
-
-        <Stack.Screen name="NFCAcceptFriend" component={NFCAcceptFriend} />
+{/* 
+        <Stack.Screen name="NFCAcceptFriend" component={NFCAcceptFriend} /> */}
       </Stack.Navigator>
     </NavigationContainer>
   );
