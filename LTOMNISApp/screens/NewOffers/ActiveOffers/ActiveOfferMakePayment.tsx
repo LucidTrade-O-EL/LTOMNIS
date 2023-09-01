@@ -13,6 +13,11 @@ type NewOfferDetailsProps = {
   initialFullNumber?: number;
 };
 
+type WordWithIcon = {
+  text: string;
+  icon: string;
+};
+
 export default function ActiveOfferMakePayment({
   initialRaiseNumber = 40,
   initialFullNumber = 100,
@@ -63,13 +68,13 @@ export default function ActiveOfferMakePayment({
       <SmallOfferDetailsVTwo
         title="Offer Details"
         rightWords={[
-          '01/02/2023',
-          '06:00 PM',
-          'John Doe',
-          '4%',
-          '$32',
-          '$6',
-          '5%APR, 6 months',
+            {text: '#235446577542', icon: 'checkbox-multiple-blank-outline'},
+            {text: 'Zak Veasy'},
+            {text: '3%'},
+            {text: '05.26.2025'},
+            {text: '$1000'},
+            {text: '6%APR, 6 months'},
+            {text: '$171.23'},
         ]}
       />
       <CompleteButton

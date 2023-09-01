@@ -14,18 +14,24 @@ type Props = {
 };
 
 const DEFAULT_RIGHT_WORDS: WordWithIcon[] = [
-  {text: '01/01/2023'},
-  {text: '05:15 PM'},
+  {text: '#235446577542', icon: 'checkbox-multiple-blank-outline'},
   {text: 'Zak Veasy'},
   {text: '3%'},
+  {text: '05.26.2025'},
+  {text: '$1000'},
+  {text: '6%APR, 6 months'},
+  {text: '$171.23'},
   // ... Add other default values as needed
 ];
 
 const LEFT_WORDS = [
-  'Date',
-  'Time',
+  'Offer Number',
   'Sent from',
+  'Amount Offered',
   'Interest rate',
+  'Due date',
+  'Payment Plan',
+  'Amount per month',
   // ... Add other left words as needed
 ];
 
@@ -65,7 +71,6 @@ const styles = StyleSheet.create({
   container: {
     width: '98%',
     padding: 10,
-    marginTop: 40,
   },
   titleText: {
     fontSize: 24,
@@ -96,9 +101,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
-
-
-
 });
 
 export default SmallOfferDetailsVTwo;
