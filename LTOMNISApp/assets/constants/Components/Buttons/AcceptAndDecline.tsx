@@ -5,11 +5,13 @@ import GlobalStyles from '../../colors';
 type CompleteButtonProps = {
   onAccept: () => void;
   onDecline: () => void;
+  acceptButtonStyle?: object; // New prop to hold style object
 };
 
 const AcceptAndDecline: React.FC<CompleteButtonProps> = ({
   onAccept,
   onDecline,
+  acceptButtonStyle,
 }) => {
   return (
     <View
@@ -24,14 +26,24 @@ const AcceptAndDecline: React.FC<CompleteButtonProps> = ({
       <Pressable style={styles.LeftButton} onPress={onDecline}>
         <Text style={styles.SignButtonText}>Decline</Text>
       </Pressable>
-      <Pressable style={styles.RightButton} onPress={onAccept}>
-        <Text style={styles.SignButtonText}>Accept</Text>
+      <Pressable
+        style={[styles.RightButton, acceptButtonStyle]}
+        onPress={onAccept}>
+        <Text
+          style={[
+            styles.SignButtonText,
+            acceptButtonStyle === styles.acceptButtonInactive
+              ? styles.textInactive
+              : {},
+          ]}>
+          Accept
+        </Text>
       </Pressable>
     </View>
   );
 };
 
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
   LeftButton: {
     width: '42%',
     height: 56,
@@ -53,6 +65,15 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 18,
     fontWeight: 'bold',
+  },
+  acceptButtonActive: {
+    backgroundColor: GlobalStyles.Colors.primary200, // or your preferred shade of green
+  },
+  acceptButtonInactive: {
+    backgroundColor: 'rgba(189, 174, 141, 0.4)', // or another color to indicate it's not active
+  },
+  textInactive: {
+    opacity: 0.4,
   },
 });
 

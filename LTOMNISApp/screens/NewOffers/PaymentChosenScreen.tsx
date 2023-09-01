@@ -6,7 +6,7 @@ import CustomOfferBlock from '../../assets/constants/Components/CustomOfferBlock
 import GlobalStyles from '../../assets/constants/colors';
 import CompleteButton from '../../assets/constants/Components/Buttons/CompleteButton';
 import PaymentPlanBoxChangePlan from '../../assets/constants/Components/PaymentPlanBoxChangePlan';
-import AcceptAndDecline from '../../assets/constants/Components/Buttons/AcceptAndDecline';
+import AcceptAndDecline, { styles as AcceptAndDeclineStyles } from '../../assets/constants/Components/Buttons/AcceptAndDecline';
 import BottomSheetModal from '../../assets/constants/Components/BottomSheetModal';
 import CheckBox from '@react-native-community/checkbox';
 
@@ -85,15 +85,29 @@ export default function PaymentChosenScreen({
       ) : (
         <View
           style={{flexDirection: 'row', alignItems: 'center', marginTop: 20}}>
-          <CheckBox value={isChecked} onValueChange={setChecked} />
-          <Text style={{marginLeft: 10}}>Your text here</Text>
+          <CheckBox
+            value={isChecked}
+            onValueChange={setChecked}
+            onCheckColor={GlobalStyles.Colors.primary200}
+            onTintColor={GlobalStyles.Colors.primary200}
+          />
+          <Text
+            style={{
+              marginLeft: 10,
+              width: '80%',
+              color: GlobalStyles.Colors.primary100,
+            }}>
+            I understand that Gifts may be subject to tax in my country.
+          </Text>
         </View>
       )}
       <View style={styles.acceptDeclineContainer}>
-        <AcceptAndDecline
-          onAccept={() => setModalVisible(true)}
-          onDecline={() => console.log('Declined!')}
-        />
+      <AcceptAndDecline
+  onAccept={() => setModalVisible(true)}
+  onDecline={() => console.log('Declined!')}
+  acceptButtonStyle={(interestRate === 'Gift' && isChecked) ? AcceptAndDeclineStyles.acceptButtonActive : AcceptAndDeclineStyles.acceptButtonInactive}
+/>
+
       </View>
       <BottomSheetModal
         isVisible={isModalVisible}

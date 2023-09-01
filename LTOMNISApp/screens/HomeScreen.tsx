@@ -11,6 +11,7 @@ import {Avatar, Divider} from 'react-native-elements';
 import IonIcon from 'react-native-vector-icons/Ionicons';
 import GlobalStyles from '../assets/constants/colors';
 import GlobalFonts from '../assets/constants/fonts';
+import TransactionHistory from '../assets/constants/Components/CustomTransactionButton';
 
 export default function HomeScreen() {
   // UseState
@@ -95,17 +96,10 @@ export default function HomeScreen() {
       </View>
 
       {/* Transaction History */}
-      <Pressable
+      <TransactionHistory
+        buttonText="View Transaction History"
         onPress={handleTransaction}
-        style={styles.TransactionHistoryContainer}>
-        <IonIcon
-          name="timer-outline"
-          size={24}
-          style={{alignSelf: 'center'}}
-          color={GlobalStyles.Colors.primary200}
-        />
-        <Text style={styles.TransactionHistoryText}>Transaction History</Text>
-      </Pressable>
+      />
 
       {/* Outline for ROLES */}
 

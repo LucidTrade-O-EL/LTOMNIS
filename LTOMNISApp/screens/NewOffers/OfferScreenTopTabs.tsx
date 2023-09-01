@@ -1,10 +1,10 @@
-import {View, Text} from 'react-native';
 import React from 'react';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import NewOffersScreen from './NewOffersScreen';
-import Verification from '../auth/Verification';
 import GlobalStyles from '../../assets/constants/colors';
 import SignInScreen from '../SignIn/SignInScreen';
+import ActiveOffers from './ActiveOffers/ActiveOffers';
+import Verification from '../auth/Verification';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -27,8 +27,8 @@ export default function OfferScreenTopTabs() {
       />
       <Tab.Screen
         options={{title: 'Active Offers'}}
-        name="Verification"
-        component={Verification}
+        name="ActiveOffers"
+        component={ActiveOffers}
       />
       <Tab.Screen
         options={{title: 'Closed Offers'}}

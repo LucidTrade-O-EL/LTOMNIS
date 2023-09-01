@@ -6,11 +6,15 @@ import GlobalStyles from '../colors';
 type ProgressWithLabelProps = {
   collected: number;
   goal: number;
+  collectedLabel?: string; // New prop
+  goalLabel?: string; // New prop
 };
 
 const ProgressWithLabel: React.FC<ProgressWithLabelProps> = ({
   collected,
   goal,
+  collectedLabel = 'Collected', // Default value
+  goalLabel = 'Goal', // Default value
 }) => {
   const progress = collected / goal;
 
@@ -29,8 +33,8 @@ const ProgressWithLabel: React.FC<ProgressWithLabelProps> = ({
         />
       </View>
       <View style={styles.labelContainerBottom}>
-        <Text style={styles.labelCollectedBottom}>Collected</Text>
-        <Text style={styles.labelGoalBottom}>Goal</Text>
+        <Text style={styles.labelCollectedBottom}>{collectedLabel}</Text>
+        <Text style={styles.labelGoalBottom}>{goalLabel}</Text>
       </View>
     </View>
   );

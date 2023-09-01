@@ -38,12 +38,13 @@ export default function RegisterScreen() {
     try {
       const options = {
         method: 'POST',
-        url: 'https://localhost:7155/api/Account/register',
+        url: 'http://omnisapi-dev.eba-kbawmupv.us-east-2.elasticbeanstalk.com/api/Account/register',
         data: {name, email, password},
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
         },
+        timeout: 5000, // Setting a timeout of 5 seconds
       };
 
       const res = await axios(options);
@@ -52,11 +53,19 @@ export default function RegisterScreen() {
       const user = res.data;
 
       if (user == null) {
-        console.log('No user data recieved');
+        console.log('No user data received');
       }
       console.log('user: ', user);
-    } catch (error: any) {
-      console.error('An error occured:', error);
+    } catch (error) {
+      if (error.response) {
+        console.log('Data:', error.response.data);
+        console.log('Status:', error.response.status);
+        console.log('Headers:', error.response.headers);
+      } else if (axios.isAxiosError(error) && error.request) {
+        console.log('Request:', error.request);
+      } else {
+        console.log('Error message:', error.message);
+      }
     }
   };
 
