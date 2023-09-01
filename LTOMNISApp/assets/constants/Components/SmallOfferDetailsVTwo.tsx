@@ -36,36 +36,46 @@ const LEFT_WORDS = [
 ];
 
 const SmallOfferDetailsVTwo: React.FC<Props> = ({
-  title,
-  rightWords = DEFAULT_RIGHT_WORDS,
-}) => {
-  return (
-    <View style={styles.container}>
-      <Text style={styles.titleText}>{title}</Text>
-      {LEFT_WORDS.map((leftWord, index) => {
-        const icon = rightWords[index].icon;
-        return (
-          <View key={index}>
-            <View style={styles.row}>
-              <Text style={styles.leftWord}>{leftWord}</Text>
-              <View style={styles.rightWordContainer}>
-                <Text style={styles.rightWord}>{rightWords[index]?.text}</Text>
-                {icon && (
-                  <MaterialCommunityIcons
-                    name={icon}
-                    size={14}
-                    color={GlobalStyles.Colors.primary100}
-                  />
-                )}
+    title,
+    rightWords = DEFAULT_RIGHT_WORDS,
+  }) => {
+    const isGift = rightWords.find((word) => word.text === "Gift");
+  
+    return (
+      <View style={styles.container}>
+        <Text style={styles.titleText}>{title}</Text>
+        {LEFT_WORDS.map((leftWord, index) => {
+          const icon = rightWords[index]?.icon;
+          let rightWordText = rightWords[index]?.text;
+  
+          // Check for "Payment Plan" and "Amount per month" and adjust based on isGift condition
+          if (isGift && (leftWord === "Payment Plan" || leftWord === "Amount per month")) {
+            rightWordText = "-";
+          }
+  
+          return (
+            <View key={index}>
+              <View style={styles.row}>
+                <Text style={styles.leftWord}>{leftWord}</Text>
+                <View style={styles.rightWordContainer}>
+                  <Text style={styles.rightWord}>{rightWordText}</Text>
+                  {icon && (
+                    <MaterialCommunityIcons
+                      name={icon}
+                      size={14}
+                      color={GlobalStyles.Colors.primary100}
+                    />
+                  )}
+                </View>
               </View>
+              {index !== LEFT_WORDS.length - 1 && <View style={styles.divider} />}
             </View>
-            {index !== LEFT_WORDS.length - 1 && <View style={styles.divider} />}
-          </View>
-        );
-      })}
-    </View>
-  );
-};
+          );
+        })}
+      </View>
+    );
+  };
+  
 
 const styles = StyleSheet.create({
   container: {
