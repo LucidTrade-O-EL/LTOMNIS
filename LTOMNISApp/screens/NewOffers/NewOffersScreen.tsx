@@ -1,7 +1,7 @@
 // NewOffersScreen.js
 
 import React from 'react';
-import {View, ScrollView, StyleSheet, FlatList} from 'react-native';
+import {StyleSheet, FlatList} from 'react-native';
 import OfferBigContainer from '../../assets/constants/Components/OfferBigContainer';
 import GlobalStyles from '../../assets/constants/colors';
 import {offersData} from '../../assets/constants/data';

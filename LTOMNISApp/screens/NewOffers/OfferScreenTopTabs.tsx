@@ -5,6 +5,7 @@ import GlobalStyles from '../../assets/constants/colors';
 import SignInScreen from '../SignIn/SignInScreen';
 import ActiveOffers from './ActiveOffers/ActiveOffers';
 import Verification from '../auth/Verification';
+import BorrowerClosedOffers from './ClosedOffers/BorrowerClosedOffers';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -32,8 +33,8 @@ export default function OfferScreenTopTabs() {
       />
       <Tab.Screen
         options={{title: 'Closed Offers'}}
-        name="SignInScreen"
-        component={SignInScreen}
+        name="BorrowerClosedOffers"
+        component={BorrowerClosedOffers}
       />
     </Tab.Navigator>
   );

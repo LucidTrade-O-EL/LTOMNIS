@@ -4,6 +4,7 @@ export const offersData = [
     offerNumber: 5,
     raiseNumber: 1400,
     fullNumber: 2500,
+    status: 'Pending',  // <-- Add this status property to each item
     users: [
       {
         firstNameLetter: 'Z',
@@ -25,9 +26,8 @@ export const offersData = [
         userName: 'User 456',
         amount: 20,
         interest: 10,
-      },
-      
+      }, 
     ],
   },
-  // ... add more offer objects as needed
+  // ... add more offer objects as needed and ensure each object has a 'status' property
 ];

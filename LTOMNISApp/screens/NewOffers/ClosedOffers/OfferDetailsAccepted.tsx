@@ -76,13 +76,6 @@ export default function OfferDetailsAccepted({
         title="Offer Details"
         rightWords={rightWordsData}
       />
-
-      <CompleteButton
-        onPress={() => {
-          console.log('Button pressed!');
-        }}
-        text="Make Payment"
-      />
     </SafeAreaView>
   );
 }

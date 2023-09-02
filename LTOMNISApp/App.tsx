@@ -59,6 +59,7 @@ import LoanDetailsScreen from './screens/NewOffers/ActiveOffers/LoanDetailsScree
 import TransactionHistory from './assets/constants/Components/CustomTransactionButton';
 import OfferTransactionHistory from './screens/NewOffers/ClosedOffers/OfferTransactionHistory';
 import OfferDetailsAccepted from './screens/NewOffers/ClosedOffers/OfferDetailsAccepted';
+import BorrowerClosedOffers from './screens/NewOffers/ClosedOffers/BorrowerClosedOffers';
 
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -100,12 +101,13 @@ function App(): JSX.Element {
         {/* <Stack.Screen name="SuccessOffer" component={SuccessOffer} /> */}
         {/* <Stack.Screen name="PaymentChosenScreen" component={PaymentChosenScreen} /> */}
         {/* <Stack.Screen name="ChoosePaymentPlanScreen" component={ChoosePaymentPlanScreen} /> */}
-        {/* <Stack.Screen name="NewOfferDetails" component={NewOfferDetails} /> */}
-        <Stack.Screen name="OfferDetailsAccepted" component={OfferDetailsAccepted} />
+        {/* <Stack.Screen name="NewOfferDetails" component={NewOfferDetails} /> */} 
+
+        {/* <Stack.Screen name="OfferDetailsAccepted" component={OfferDetailsAccepted} /> */}
         {/* <Stack.Screen name="OfferTransactionHistory" component={OfferTransactionHistory} /> */}
         {/* <Stack.Screen name="LoanDetailsScreen" component={LoanDetailsScreen} /> */}
         {/* <Stack.Screen name="ActiveOfferMakePayment" component={ActiveOfferMakePayment} /> */}
-        {/* <Stack.Screen name="OfferScreen" component={OfferScreen} /> */}
+        <Stack.Screen name="OfferScreen" component={OfferScreen} />
         {/* <Stack.Screen name="ActiveOffers" component={ActiveOffers} /> */}
         {/* <Stack.Screen name="NFCFaceId" component={NFCFaceId} /> */}
         {/* <Stack.Screen name="NFCHoldNearReader" component={NFCHoldNearReader} /> */}
