@@ -1,8 +1,8 @@
 import { View, Text, FlatList, StyleSheet } from 'react-native'
 import React from 'react'
-import GlobalStyles from '../../../assets/constants/colors';
-import { offersData } from '../../../assets/constants/data';
-import OfferBigContainer from '../../../assets/constants/Components/OfferBigContainer';
+import GlobalStyles from '../../../../assets/constants/colors';
+import { offersData } from '../../../../assets/constants/data';
+import OfferBigContainer from '../../../../assets/constants/Components/OfferBigContainer';
 
 export default function ActiveOffers() {
     return (

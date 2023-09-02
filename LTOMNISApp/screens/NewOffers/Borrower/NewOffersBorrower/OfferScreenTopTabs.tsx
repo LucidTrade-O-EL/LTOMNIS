@@ -1,11 +1,10 @@
 import React from 'react';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import NewOffersScreen from './NewOffersScreen';
-import GlobalStyles from '../../assets/constants/colors';
-import SignInScreen from '../SignIn/SignInScreen';
-import ActiveOffers from './ActiveOffers/ActiveOffers';
-import Verification from '../auth/Verification';
-import BorrowerClosedOffers from './ClosedOffers/BorrowerClosedOffers';
+import GlobalStyles from '../../../../assets/constants/colors';
+import ActiveOffers from '../ActiveOffers/ActiveOffers';
+import BorrowerClosedOffers from '../ClosedOffers/BorrowerClosedOffers';
+
 
 const Tab = createMaterialTopTabNavigator();
 

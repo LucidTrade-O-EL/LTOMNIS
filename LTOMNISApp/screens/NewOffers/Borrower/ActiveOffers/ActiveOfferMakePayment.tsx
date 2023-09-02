@@ -1,12 +1,12 @@
 import {View, Text, SafeAreaView, StyleSheet} from 'react-native';
 import React from 'react';
-import ScreenTitle from '../../../assets/constants/Components/ScreenTitle';
-import SuccessOffer from '../SuccessOffer';
-import GlobalStyles from '../../../assets/constants/colors';
-import ProgressWithLabel from '../../../assets/constants/Components/ProgressWithLabel';
-import TransactionHistory from '../../../assets/constants/Components/CustomTransactionButton';
-import CompleteButton from '../../../assets/constants/Components/Buttons/CompleteButton';
-import SmallOfferDetailsVTwo from '../../../assets/constants/Components/SmallOfferDetailsVTwo';
+import ScreenTitle from '../../../../assets/constants/Components/ScreenTitle';
+import SuccessOffer from '../../SuccessOffer';
+import GlobalStyles from '../../../../assets/constants/colors';
+import ProgressWithLabel from '../../../../assets/constants/Components/ProgressWithLabel';
+import TransactionHistory from '../../../../assets/constants/Components/CustomTransactionButton';
+import CompleteButton from '../../../../assets/constants/Components/Buttons/CompleteButton';
+import SmallOfferDetailsVTwo from '../../../../assets/constants/Components/SmallOfferDetailsVTwo';
 
 type NewOfferDetailsProps = {
   initialRaiseNumber?: number;

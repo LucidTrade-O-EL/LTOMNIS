@@ -1,8 +1,8 @@
 import {View, Text, SafeAreaView, StyleSheet} from 'react-native';
 import React from 'react';
-import ScreenTitle from '../../assets/constants/Components/ScreenTitle';
-import GlobalStyles from '../../assets/constants/colors';
 import OfferScreenTopTabs from './OfferScreenTopTabs';
+import ScreenTitle from '../../../../assets/constants/Components/ScreenTitle';
+import GlobalStyles from '../../../../assets/constants/colors';
 
 const OfferScreen = () => {
   return (

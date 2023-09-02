@@ -1,10 +1,10 @@
 import React from 'react';
 import {StyleSheet, FlatList} from 'react-native';
-import GlobalStyles from '../../../assets/constants/colors';
+import GlobalStyles from '../../../../assets/constants/colors';
 import ClosedOfferBigContainer, {
   OfferStatus,
-} from '../../../assets/constants/Components/ClosedOfferBigContainer';
-import {offersData} from '../../../assets/constants/data';
+} from '../../../../assets/constants/Components/ClosedOfferBigContainer';
+import {offersData} from '../../../../assets/constants/data';
 
 const validStatuses = [
   'Closed',

@@ -1,12 +1,12 @@
 import {View, Text, SafeAreaView, StyleSheet} from 'react-native';
 import React from 'react';
-import ScreenTitle from '../../../assets/constants/Components/ScreenTitle';
-import GlobalStyles from '../../../assets/constants/colors';
-import ProgressWithLabel from '../../../assets/constants/Components/ProgressWithLabel';
-import TransactionHistory from '../../../assets/constants/Components/CustomTransactionButton';
-import CompleteButton from '../../../assets/constants/Components/Buttons/CompleteButton';
+import ScreenTitle from '../../../../assets/constants/Components/ScreenTitle';
+import GlobalStyles from '../../../../assets/constants/colors';
+import ProgressWithLabel from '../../../../assets/constants/Components/ProgressWithLabel';
+import TransactionHistory from '../../../../assets/constants/Components/CustomTransactionButton';
+import CompleteButton from '../../../../assets/constants/Components/Buttons/CompleteButton';
 import Icon from 'react-native-vector-icons/Ionicons';
-import SmallOfferDetailsVThree from '../../../assets/constants/Components/SmallOfferDetailsVThree';
+import SmallOfferDetailsVThree from '../../../../assets/constants/Components/SmallOfferDetailsVThree';
 
 type NewOfferDetailsProps = {
   initialRaiseNumber?: number;

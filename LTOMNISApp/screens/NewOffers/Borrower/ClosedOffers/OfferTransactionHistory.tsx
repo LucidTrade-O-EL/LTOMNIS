@@ -1,12 +1,12 @@
 import React from 'react';
 import {View, Text, SafeAreaView, StyleSheet, FlatList} from 'react-native';
-import ScreenTitle from '../../../assets/constants/Components/ScreenTitle';
-import GlobalStyles from '../../../assets/constants/colors';
+import ScreenTitle from '../../../../assets/constants/Components/ScreenTitle';
+import GlobalStyles from '../../../../assets/constants/colors';
 import ListItemWithRadial, {
   ListItemProps,
-} from '../../../assets/constants/Components/ListItemWithRadial';
+} from '../../../../assets/constants/Components/ListItemWithRadial';
 
-const LoanDetailsScreen: React.FC = () => {
+const OfferTransactionHistory: React.FC = () => {
   const formatCurrency = (value: string) => {
     const sign = ['+', '-'].includes(value[0]) ? value[0] : '';
     const amountValue = value.replace('$', '').trim(); // remove dollar sign if it exists
@@ -120,4 +120,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LoanDetailsScreen;
+export default OfferTransactionHistory;

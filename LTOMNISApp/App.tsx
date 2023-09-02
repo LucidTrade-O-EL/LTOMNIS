@@ -50,16 +50,16 @@ import OfferScreen from './screens/NewOffers/OfferScreen';
 import OfferScreenTopTabs from './screens/NewOffers/OfferScreenTopTabs';
 import NFCAcceptFriend from './screens/NFC/NFCAcceptFriend';
 import NewOfferDetails from './screens/NewOffers/NewOfferDetails';
-import ChoosePaymentPlanScreen from './screens/NewOffers/ChoosePaymentPlanScreen';
+import ChoosePaymentPlanScreen from './screens/NewOffers/Borrower/NewOffersBorrower/ChoosePaymentPlanScreen';
 import PaymentChosenScreen from './screens/NewOffers/PaymentChosenScreen';
 import SuccessOffer from './screens/NewOffers/SuccessOffer';
-import ActiveOffers from './screens/NewOffers/ActiveOffers/ActiveOffers';
-import ActiveOfferMakePayment from './screens/NewOffers/ActiveOffers/ActiveOfferMakePayment';
-import LoanDetailsScreen from './screens/NewOffers/ActiveOffers/LoanDetailsScreen';
+import ActiveOffers from './screens/NewOffers/Borrower/ActiveOffers/ActiveOffers';
+import ActiveOfferMakePayment from './screens/NewOffers/Borrower/ActiveOffers/ActiveOfferMakePayment';
+import LoanDetailsScreen from './screens/NewOffers/Borrower/ActiveOffers/LoanDetailsScreen';
 import TransactionHistory from './assets/constants/Components/CustomTransactionButton';
-import OfferTransactionHistory from './screens/NewOffers/ClosedOffers/OfferTransactionHistory';
-import OfferDetailsAccepted from './screens/NewOffers/ClosedOffers/OfferDetailsAccepted';
-import BorrowerClosedOffers from './screens/NewOffers/ClosedOffers/BorrowerClosedOffers';
+import OfferTransactionHistory from './screens/NewOffers/Borrower/ClosedOffers/OfferTransactionHistory';
+import OfferDetailsAccepted from './screens/NewOffers/Borrower/ClosedOffers/OfferDetailsAccepted';
+import BorrowerClosedOffers from './screens/NewOffers/Borrower/ClosedOffers/BorrowerClosedOffers';
 
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';

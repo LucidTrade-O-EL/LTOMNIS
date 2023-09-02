@@ -1,10 +1,10 @@
 import {View, Text, SafeAreaView} from 'react-native';
 import React from 'react';
-import ScreenTitle from '../../assets/constants/Components/ScreenTitle';
+import ScreenTitle from '../../../../assets/constants/Components/ScreenTitle';
 import {StyleSheet} from 'react-native';
-import GlobalStyles from '../../assets/constants/colors';
-import CompleteButton from '../../assets/constants/Components/Buttons/CompleteButton';
-import PaymentPlanBox from '../../assets/constants/Components/PaymentPlanBox';
+import GlobalStyles from '../../../../assets/constants/colors';
+import CompleteButton from '../../../../assets/constants/Components/Buttons/CompleteButton';
+import PaymentPlanBox from '../../../../assets/constants/Components/PaymentPlanBox';
 
 export default function ChoosePaymentPlanScreen() {
   const paymentPlans = ['3 months', '6 months', '12 months'];
