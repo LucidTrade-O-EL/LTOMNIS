@@ -56,6 +56,9 @@ import SuccessOffer from './screens/NewOffers/SuccessOffer';
 import ActiveOffers from './screens/NewOffers/ActiveOffers/ActiveOffers';
 import ActiveOfferMakePayment from './screens/NewOffers/ActiveOffers/ActiveOfferMakePayment';
 import LoanDetailsScreen from './screens/NewOffers/ActiveOffers/LoanDetailsScreen';
+import TransactionHistory from './assets/constants/Components/CustomTransactionButton';
+import OfferTransactionHistory from './screens/NewOffers/ClosedOffers/OfferTransactionHistory';
+import OfferDetailsAccepted from './screens/NewOffers/ClosedOffers/OfferDetailsAccepted';
 
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -98,8 +101,9 @@ function App(): JSX.Element {
         {/* <Stack.Screen name="PaymentChosenScreen" component={PaymentChosenScreen} /> */}
         {/* <Stack.Screen name="ChoosePaymentPlanScreen" component={ChoosePaymentPlanScreen} /> */}
         {/* <Stack.Screen name="NewOfferDetails" component={NewOfferDetails} /> */}
-
-        <Stack.Screen name="LoanDetailsScreen" component={LoanDetailsScreen} />
+        <Stack.Screen name="OfferDetailsAccepted" component={OfferDetailsAccepted} />
+        {/* <Stack.Screen name="OfferTransactionHistory" component={OfferTransactionHistory} /> */}
+        {/* <Stack.Screen name="LoanDetailsScreen" component={LoanDetailsScreen} /> */}
         {/* <Stack.Screen name="ActiveOfferMakePayment" component={ActiveOfferMakePayment} /> */}
         {/* <Stack.Screen name="OfferScreen" component={OfferScreen} /> */}
         {/* <Stack.Screen name="ActiveOffers" component={ActiveOffers} /> */}
