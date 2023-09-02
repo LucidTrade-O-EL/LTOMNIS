@@ -55,6 +55,7 @@ import PaymentChosenScreen from './screens/NewOffers/PaymentChosenScreen';
 import SuccessOffer from './screens/NewOffers/SuccessOffer';
 import ActiveOffers from './screens/NewOffers/ActiveOffers/ActiveOffers';
 import ActiveOfferMakePayment from './screens/NewOffers/ActiveOffers/ActiveOfferMakePayment';
+import LoanDetailsScreen from './screens/NewOffers/ActiveOffers/LoanDetailsScreen';
 
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -98,8 +99,8 @@ function App(): JSX.Element {
         {/* <Stack.Screen name="ChoosePaymentPlanScreen" component={ChoosePaymentPlanScreen} /> */}
         {/* <Stack.Screen name="NewOfferDetails" component={NewOfferDetails} /> */}
 
-
-        <Stack.Screen name="ActiveOfferMakePayment" component={ActiveOfferMakePayment} />
+        <Stack.Screen name="LoanDetailsScreen" component={LoanDetailsScreen} />
+        {/* <Stack.Screen name="ActiveOfferMakePayment" component={ActiveOfferMakePayment} /> */}
         {/* <Stack.Screen name="OfferScreen" component={OfferScreen} /> */}
         {/* <Stack.Screen name="ActiveOffers" component={ActiveOffers} /> */}
         {/* <Stack.Screen name="NFCFaceId" component={NFCFaceId} /> */}
