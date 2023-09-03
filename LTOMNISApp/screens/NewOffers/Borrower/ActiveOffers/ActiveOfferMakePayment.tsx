@@ -1,7 +1,6 @@
 import {View, Text, SafeAreaView, StyleSheet} from 'react-native';
 import React from 'react';
 import ScreenTitle from '../../../../assets/constants/Components/ScreenTitle';
-import SuccessOffer from '../../SuccessOffer';
 import GlobalStyles from '../../../../assets/constants/colors';
 import ProgressWithLabel from '../../../../assets/constants/Components/ProgressWithLabel';
 import TransactionHistory from '../../../../assets/constants/Components/CustomTransactionButton';

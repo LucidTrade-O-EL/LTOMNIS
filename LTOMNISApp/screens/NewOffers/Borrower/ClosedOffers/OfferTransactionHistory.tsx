@@ -5,6 +5,7 @@ import GlobalStyles from '../../../../assets/constants/colors';
 import ListItemWithRadial, {
   ListItemProps,
 } from '../../../../assets/constants/Components/ListItemWithRadial';
+import CompleteButton from '../../../../assets/constants/Components/Buttons/CompleteButton';
 
 const OfferTransactionHistory: React.FC = () => {
   const formatCurrency = (value: string) => {
@@ -94,6 +95,11 @@ const OfferTransactionHistory: React.FC = () => {
           />
         </View>
       </View>
+      <CompleteButton
+        text="Download Summary"
+        color={GlobalStyles.Colors.primary200}
+        onPress={() => console.log('Button pressed!')}
+      />
     </SafeAreaView>
   );
 };
@@ -103,7 +109,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     backgroundColor: GlobalStyles.Colors.primary800,
-    paddingTop: 60,
   },
   contentContainer: {
     height: '100%',
@@ -111,7 +116,7 @@ const styles = StyleSheet.create({
     backgroundColor: GlobalStyles.Colors.primary100,
     borderTopLeftRadius: 40,
     borderTopRightRadius: 40,
-    paddingBottom: 30, // Push the bottom outwards to cover the gap
+    marginTop: 20,
   },
   container: {
     width: '100%',

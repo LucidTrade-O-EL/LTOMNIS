@@ -4,21 +4,27 @@ import GlobalStyles from '../colors';
 
 type CustomRowProps = {
   leftText: string;
-  rightText: string | number;
-  icon?: JSX.Element; // Allows for optional icon next to the rightText
+  rightText?: string | number;
+  icon?: JSX.Element; 
+  customRight?: JSX.Element;
 };
 
-const CustomRow: React.FC<CustomRowProps> = ({leftText, rightText, icon}) => {
+const CustomRow: React.FC<CustomRowProps> = ({leftText, rightText, icon, customRight}) => {
   return (
     <View style={styles.rowContainer}>
       <Text style={styles.leftText}>{leftText}</Text>
       <View style={styles.rightContainer}>
-        <Text style={styles.rightText}>{rightText}</Text>
-        {icon && icon}
+        {customRight ? customRight : (
+          <>
+            <Text style={styles.rightText}>{rightText}</Text>
+            {icon && icon}
+          </>
+        )}
       </View>
     </View>
   );
 };
+
 
 const styles = StyleSheet.create({
   rowContainer: {

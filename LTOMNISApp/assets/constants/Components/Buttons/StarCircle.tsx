@@ -5,21 +5,34 @@ import GlobalStyles from '../../colors';
 
 type StarCircleProps = {
   iconName: string;
+  height?: number;
+  width?: number;
 };
 
-const StarCircle: React.FC<StarCircleProps> = ({iconName}) => {
+const StarCircle: React.FC<StarCircleProps> = ({
+  iconName,
+  height = 24,
+  width = 24,
+}) => {
+  const dynamicStyles = {
+    width,
+    height,
+    borderRadius: height / 2, // half of the height to make it a circle
+  };
+
   return (
-    <View style={styles.circle}>
-      <MaterialCommunityIcons name={iconName} size={14} color={GlobalStyles.Colors.primary100} />
+    <View style={[styles.circle, dynamicStyles]}>
+      <MaterialCommunityIcons
+        name={iconName}
+        size={14}
+        color={GlobalStyles.Colors.primary100}
+      />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   circle: {
-    width: 24,
-    height: 24,
-    borderRadius: 12, // half of the width and height to make it a circle
     backgroundColor: GlobalStyles.Colors.primary200,
     justifyContent: 'center', // center the child vertically
     alignItems: 'center', // center the child horizontally

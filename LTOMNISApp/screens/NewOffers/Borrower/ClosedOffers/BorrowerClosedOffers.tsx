@@ -26,11 +26,7 @@ export default function BorrowerClosedOffers() {
           raiseNumber={item.raiseNumber} // <-- Change offer to item
           fullNumber={item.fullNumber} // <-- Change offer to item
           users={item.users} // <-- Change offer to item
-          status={
-            validStatuses.includes(item.status as OfferStatus) // <-- Using a type assertion
-              ? item.status
-              : 'Closed'
-          }
+          status={'Closed'}
         />
       )}
       keyExtractor={(item, index) => index.toString()}

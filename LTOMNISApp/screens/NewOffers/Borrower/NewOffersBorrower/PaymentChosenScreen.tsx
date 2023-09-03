@@ -1,14 +1,15 @@
 import React, {useState} from 'react';
 import {View, Text, SafeAreaView, StyleSheet} from 'react-native';
-import ScreenTitle from '../../assets/constants/Components/ScreenTitle';
-import ProgressWithLabel from '../../assets/constants/Components/ProgressWithLabel';
-import CustomOfferBlock from '../../assets/constants/Components/CustomOfferBlock';
-import GlobalStyles from '../../assets/constants/colors';
-import CompleteButton from '../../assets/constants/Components/Buttons/CompleteButton';
-import PaymentPlanBoxChangePlan from '../../assets/constants/Components/PaymentPlanBoxChangePlan';
-import AcceptAndDecline, { styles as AcceptAndDeclineStyles } from '../../assets/constants/Components/Buttons/AcceptAndDecline';
-import BottomSheetModal from '../../assets/constants/Components/BottomSheetModal';
+
+
 import CheckBox from '@react-native-community/checkbox';
+import ScreenTitle from '../../../../assets/constants/Components/ScreenTitle';
+import CustomOfferBlock from '../../../../assets/constants/Components/CustomOfferBlock';
+import ProgressWithLabel from '../../../../assets/constants/Components/ProgressWithLabel';
+import GlobalStyles from '../../../../assets/constants/colors';
+import PaymentPlanBoxChangePlan from '../../../../assets/constants/Components/PaymentPlanBoxChangePlan';
+import AcceptAndDecline from '../../../../assets/constants/Components/Buttons/AcceptAndDecline';
+import BottomSheetModal from '../../../../assets/constants/Components/BottomSheetModal';
 
 type NewOfferDetailsProps = {
   initialRaiseNumber?: number;

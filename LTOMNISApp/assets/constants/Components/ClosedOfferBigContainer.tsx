@@ -19,6 +19,8 @@ type ClosedOfferBigContainerProps = {
     | 'Payed';
 };
 
+
+
 export type OfferStatus =
   | 'Closed'
   | 'Pending'
@@ -36,9 +38,10 @@ const statusStyles = {
   Payed: {backgroundColor: '#3EA387', color: 'white'},
 };
 
-const getStatusStyle = (status: OfferStatus) => {
+export const getStatusStyle = (status: OfferStatus) => {
   return statusStyles[status];
 };
+
 
 const ClosedOfferBigContainer: React.FC<ClosedOfferBigContainerProps> = ({
   title,

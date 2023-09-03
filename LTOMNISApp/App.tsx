@@ -45,14 +45,11 @@ import NFCHoldNearReader from './screens/NFC/NFCHoldNearReader';
 import SignUpScreen from './screens/SignUp/SignUpScreen';
 import Tabs from './navigation/Tabs';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
-import NewOffersScreen from './screens/NewOffers/NewOffersScreen';
-import OfferScreen from './screens/NewOffers/OfferScreen';
-import OfferScreenTopTabs from './screens/NewOffers/OfferScreenTopTabs';
+
 import NFCAcceptFriend from './screens/NFC/NFCAcceptFriend';
-import NewOfferDetails from './screens/NewOffers/NewOfferDetails';
+
 import ChoosePaymentPlanScreen from './screens/NewOffers/Borrower/NewOffersBorrower/ChoosePaymentPlanScreen';
-import PaymentChosenScreen from './screens/NewOffers/PaymentChosenScreen';
-import SuccessOffer from './screens/NewOffers/SuccessOffer';
+
 import ActiveOffers from './screens/NewOffers/Borrower/ActiveOffers/ActiveOffers';
 import ActiveOfferMakePayment from './screens/NewOffers/Borrower/ActiveOffers/ActiveOfferMakePayment';
 import LoanDetailsScreen from './screens/NewOffers/Borrower/ActiveOffers/LoanDetailsScreen';
@@ -60,6 +57,12 @@ import TransactionHistory from './assets/constants/Components/CustomTransactionB
 import OfferTransactionHistory from './screens/NewOffers/Borrower/ClosedOffers/OfferTransactionHistory';
 import OfferDetailsAccepted from './screens/NewOffers/Borrower/ClosedOffers/OfferDetailsAccepted';
 import BorrowerClosedOffers from './screens/NewOffers/Borrower/ClosedOffers/BorrowerClosedOffers';
+import OfferScreen from './screens/NewOffers/Borrower/NewOffersBorrower/OfferScreen';
+import NewOfferDetails from './screens/NewOffers/Borrower/NewOffersBorrower/NewOfferDetails';
+import OfferScreenLender from './screens/NewOffers/Lender/OfferScreenLender';
+import ActiveOfferDetails from './screens/NewOffers/Lender/SentOffers/ActiveOfferDetails';
+import ActiveOfferLenderDetails from './screens/NewOffers/Lender/ActiveOffersLenders/ActiveOfferLenderDetails';
+import ClosedOfferGiftAccepted from './screens/NewOffers/Lender/ClosedOfferLenders/ClosedOfferGiftAccepted';
 
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -76,7 +79,6 @@ function App(): JSX.Element {
         {/* <GestureHandlerRootView style={{ flex: 1 }}>
         <Tabs  />
       </GestureHandlerRootView> */}
-
         {/* <Stack.Screen name="SplashScreen" component={SplashScreen} /> */}
         {/* <Stack.Screen name="SignUp" component={SignUpScreen} /> */}
         {/*  */}
@@ -101,20 +103,31 @@ function App(): JSX.Element {
         {/* <Stack.Screen name="SuccessOffer" component={SuccessOffer} /> */}
         {/* <Stack.Screen name="PaymentChosenScreen" component={PaymentChosenScreen} /> */}
         {/* <Stack.Screen name="ChoosePaymentPlanScreen" component={ChoosePaymentPlanScreen} /> */}
-        {/* <Stack.Screen name="NewOfferDetails" component={NewOfferDetails} /> */} 
-
+        {/* <Stack.Screen name="NewOfferDetails" component={NewOfferDetails} />  */}
         {/* <Stack.Screen name="OfferDetailsAccepted" component={OfferDetailsAccepted} /> */}
         {/* <Stack.Screen name="OfferTransactionHistory" component={OfferTransactionHistory} /> */}
         {/* <Stack.Screen name="LoanDetailsScreen" component={LoanDetailsScreen} /> */}
         {/* <Stack.Screen name="ActiveOfferMakePayment" component={ActiveOfferMakePayment} /> */}
-        <Stack.Screen name="OfferScreen" component={OfferScreen} />
+        <Stack.Screen name="OfferScreenLender" component={OfferScreenLender} />
+        {/* <Stack.Screen name="OfferScreen" component={OfferScreen} /> */}
         {/* <Stack.Screen name="ActiveOffers" component={ActiveOffers} /> */}
         {/* <Stack.Screen name="NFCFaceId" component={NFCFaceId} /> */}
         {/* <Stack.Screen name="NFCHoldNearReader" component={NFCHoldNearReader} /> */}
         {/* <Stack.Screen name="NFCDone" component={NFCDone} /> */}
-
+        {/* <Stack.Screen
+          name="ActiveOfferLenderDetails"
+          component={ActiveOfferLenderDetails}
+        /> */}
+        {/* <Stack.Screen
+          name="ClosedOfferGiftAccepted"
+          component={ClosedOfferGiftAccepted}
+        /> */}
+        {/* <Stack.Screen
+          name="ActiveOfferDetails"
+          component={ActiveOfferDetails}
+        /> */}
         {/* </Stack.Navigator> */}
-{/* 
+        {/* 
         <Stack.Screen name="NFCAcceptFriend" component={NFCAcceptFriend} /> */}
       </Stack.Navigator>
     </NavigationContainer>
