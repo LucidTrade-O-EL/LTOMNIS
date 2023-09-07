@@ -5,13 +5,17 @@ import GlobalStyles from '../../colors';
 type CompleteButtonProps = {
   onAccept: () => void;
   onDecline: () => void;
-  acceptButtonStyle?: object; // New prop to hold style object
+  acceptButtonStyle?: object;
+  acceptText?: string; // New property to hold accept button text
+  declineText?: string; // New property to hold decline button text
 };
 
 const AcceptAndDecline: React.FC<CompleteButtonProps> = ({
   onAccept,
   onDecline,
   acceptButtonStyle,
+  acceptText = 'Accept', // Default value in case no prop is passed
+  declineText = 'Decline', // Default value in case no prop is passed
 }) => {
   return (
     <View
@@ -24,7 +28,7 @@ const AcceptAndDecline: React.FC<CompleteButtonProps> = ({
         left: '5%', // This will center the container with respect to the screen
       }}>
       <Pressable style={styles.LeftButton} onPress={onDecline}>
-        <Text style={styles.SignButtonText}>Decline</Text>
+        <Text style={styles.SignButtonText}>{declineText}</Text>
       </Pressable>
       <Pressable
         style={[styles.RightButton, acceptButtonStyle]}
@@ -36,7 +40,7 @@ const AcceptAndDecline: React.FC<CompleteButtonProps> = ({
               ? styles.textInactive
               : {},
           ]}>
-          Accept
+          {acceptText}
         </Text>
       </Pressable>
     </View>

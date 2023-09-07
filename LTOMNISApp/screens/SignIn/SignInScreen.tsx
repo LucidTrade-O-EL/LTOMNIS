@@ -11,12 +11,45 @@ import React, {useState} from 'react';
 import IonIcon from 'react-native-vector-icons/Ionicons';
 import {Divider} from '@rneui/themed';
 import PasswordValidation from '../auth/passwordValidation';
+import axios from 'axios';
 
 export default function SignInScreen() {
   // UseState
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  const signIn = async () => {
+    try {
+      const options = {
+        method: 'POST',
+
+        url: 'https://api.lucidtrades.com/api/Account/login',
+
+        data: {email, password},
+
+        headers: {
+          Accept: 'application/json',
+
+          'Content-Type': 'application/json',
+        },
+      };
+
+      const res = await axios(options);
+
+      console.log('data payload ', res.data, res.headers);
+
+      const user = res.data;
+
+      if (user == null) {
+        console.log('No user data recieved');
+      }
+
+      console.log('user: ', user);
+    } catch (error: any) {
+      console.error('An error occured:', error);
+    }
+  };
 
   return (
     <SafeAreaView style={styles.Background}>
@@ -103,8 +136,7 @@ export default function SignInScreen() {
 
       {/* Sign In Button */}
       <Pressable
-        style={[styles.SignButton, styles.SignButtonOutlined]}
-        onPress={() => {}}>
+        style={[styles.SignButton, styles.SignButtonOutlined]} onPress={signIn} >
         <Text style={[styles.SignButtonText, styles.SignButtonTextOutlined]}>
           Sign In
         </Text>

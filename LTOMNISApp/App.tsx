@@ -63,6 +63,8 @@ import OfferScreenLender from './screens/NewOffers/Lender/OfferScreenLender';
 import ActiveOfferDetails from './screens/NewOffers/Lender/SentOffers/ActiveOfferDetails';
 import ActiveOfferLenderDetails from './screens/NewOffers/Lender/ActiveOffersLenders/ActiveOfferLenderDetails';
 import ClosedOfferGiftAccepted from './screens/NewOffers/Lender/ClosedOfferLenders/ClosedOfferGiftAccepted';
+import OfferScreenTopTabs from './screens/NewOffers/Borrower/NewOffersBorrower/OfferScreenTopTabs';
+import TransactionHistoryFilter from './screens/TransactionHistory/TransactionHistoryFilter';
 
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -98,6 +100,9 @@ function App(): JSX.Element {
         {/* <Stack.Screen name="Onboarding3" component={OnboardingScreen3} /> */}
         {/* <Stack.Screen name="Onboarding4" component={OnboardingScreen4} /> */}
         {/* <Stack.Screen name="CreateNewPassword" component={CreateNewPassword} /> */}
+        <Stack.Screen name="TransactionHistoryFilter" component={TransactionHistoryFilter} />
+
+
         {/* <Stack.Screen name="Verification" component={Verification} /> */}
         {/* <Stack.Screen name="ForgotPassword" component={ForgotPassword} /> */}
         {/* <Stack.Screen name="SuccessOffer" component={SuccessOffer} /> */}
@@ -108,7 +113,7 @@ function App(): JSX.Element {
         {/* <Stack.Screen name="OfferTransactionHistory" component={OfferTransactionHistory} /> */}
         {/* <Stack.Screen name="LoanDetailsScreen" component={LoanDetailsScreen} /> */}
         {/* <Stack.Screen name="ActiveOfferMakePayment" component={ActiveOfferMakePayment} /> */}
-        <Stack.Screen name="OfferScreenLender" component={OfferScreenLender} />
+        {/* <Stack.Screen name="OfferScreenLender" component={OfferScreenLender} /> */}
         {/* <Stack.Screen name="OfferScreen" component={OfferScreen} /> */}
         {/* <Stack.Screen name="ActiveOffers" component={ActiveOffers} /> */}
         {/* <Stack.Screen name="NFCFaceId" component={NFCFaceId} /> */}

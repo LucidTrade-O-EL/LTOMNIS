@@ -8,8 +8,8 @@ import {
 } from 'react-native';
 import React, {useState} from 'react';
 import {Divider} from '@rneui/themed';
-import {color} from '@rneui/base';
 import axios from 'axios';
+import i18n from '../../assets/constants/Transaltion/i18n';
 
 export default function RegisterScreen() {
   const [name, setName] = useState('');
@@ -18,61 +18,42 @@ export default function RegisterScreen() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [invalidPassword, setInvalidPassword] = useState(false);
 
-  const getName = (text: React.SetStateAction<string>) => {
-    setName(text);
-  };
-  const getEmail = (text: React.SetStateAction<string>) => {
-    setEmail(text);
-  };
-  const getPassword = (text: React.SetStateAction<string>) => {
-    if (text.length < 8) {
-      setInvalidPassword(true);
-    }
-    setPassword(text);
-  };
-  const getConfirmPassword = (text: React.SetStateAction<string>) => {
-    setConfirmPassword(text);
-  };
-
-  const signUp = async () => {
+  const register = async () => {
     try {
       const options = {
         method: 'POST',
-        url: 'http://omnisapi-dev.eba-kbawmupv.us-east-2.elasticbeanstalk.com/api/Account/register',
-        data: {name, email, password},
+
+        url: 'https://api.lucidtrades.com/api/Account/register',
+
+        data: {name, email, password, confirmPassword},
+
         headers: {
           Accept: 'application/json',
+
           'Content-Type': 'application/json',
         },
-        timeout: 5000, // Setting a timeout of 5 seconds
       };
 
       const res = await axios(options);
 
       console.log('data payload ', res.data, res.headers);
+
       const user = res.data;
 
       if (user == null) {
-        console.log('No user data received');
+        console.log('No user data recieved');
       }
+
       console.log('user: ', user);
-    } catch (error) {
-      if (error.response) {
-        console.log('Data:', error.response.data);
-        console.log('Status:', error.response.status);
-        console.log('Headers:', error.response.headers);
-      } else if (axios.isAxiosError(error) && error.request) {
-        console.log('Request:', error.request);
-      } else {
-        console.log('Error message:', error.message);
-      }
+    } catch (error: any) {
+      console.error('An error occured:', error);
     }
   };
 
   return (
     <View style={styles.background}>
-      <Text style={styles.text}>Let's Get Started!</Text>
-      <Text style={styles.smallText}>Create your account</Text>
+      <Text style={styles.text}>{i18n.t('letsGetStarted')}</Text>
+      <Text style={styles.smallText}>{i18n.t('createYourAccount')}</Text>
       <View style={styles.view1}>
         {/* input boxes */}
         <Text
@@ -84,12 +65,12 @@ export default function RegisterScreen() {
             alignSelf: 'flex-start',
             paddingLeft: 20,
           }}>
-          Full Name
+          {i18n.t('fullName')}
         </Text>
         <TextInput
           style={[styles.textImputBox, styles.smallText]}
           value={name}
-          onChangeText={getName}
+          onChangeText={text => setName(text)}
           aria-label="Name"
           placeholder="Kayne West"
           placeholderTextColor={'#fff'}
@@ -103,12 +84,12 @@ export default function RegisterScreen() {
             alignSelf: 'flex-start',
             paddingLeft: 20,
           }}>
-          Email
+          {i18n.t('email')}
         </Text>
         <TextInput
           style={[styles.textImputBox, styles.smallText]}
           value={email}
-          onChangeText={getEmail}
+          onChangeText={text => setEmail(text)}
           aria-label="Email"
           placeholder="kanyewest@gmail.com"
           placeholderTextColor={'#fff'}
@@ -122,19 +103,27 @@ export default function RegisterScreen() {
             alignSelf: 'flex-start',
             paddingLeft: 20,
           }}>
-          Password
+          {i18n.t('password')}
         </Text>
         <TextInput
           style={[styles.textImputBox, styles.smallText]}
           value={password}
-          onChangeText={getPassword}
+          onChangeText={text => {
+            // changed to inline function to handle password length check
+            if (text.length < 8) {
+              setInvalidPassword(true);
+            } else {
+              setInvalidPassword(false);
+            }
+            setPassword(text);
+          }}
           aria-label="Password"
           placeholder="password"
           placeholderTextColor={'#fff'}
         />
         {invalidPassword ? (
           <Text style={[styles.smallText, {color: 'red'}]}>
-            Password must be atleast 8 characters
+            {i18n.t('passwordLengthWarning')}
           </Text>
         ) : (
           <Text> </Text>
@@ -148,13 +137,13 @@ export default function RegisterScreen() {
             alignSelf: 'flex-start',
             paddingLeft: 20,
           }}>
-          Confirm Password
+          {i18n.t('confirmPassword')}
         </Text>
         <TextInput
           style={[styles.textImputBox, styles.smallText]}
           value={confirmPassword}
-          onChangeText={getConfirmPassword}
-          aria-label=" Confirm Password"
+          onChangeText={text => setConfirmPassword(text)} // Use setConfirmPassword instead of getConfirmPassword
+          aria-label="Confirm Password"
           placeholder="password"
           placeholderTextColor={'#fff'}
         />
@@ -162,8 +151,8 @@ export default function RegisterScreen() {
 
       {/* signup  */}
       <View style={styles.view2}>
-        <Pressable style={styles.button} onPress={signUp}>
-          <Text style={styles.buttonText}>Sign Up</Text>
+        <Pressable style={styles.button} onPress={register}>
+          <Text style={styles.buttonText}>{i18n.t('signUp')}</Text>
         </Pressable>
 
         {/* or Register with */}
@@ -185,7 +174,7 @@ export default function RegisterScreen() {
             }}>
             <Divider style={{flex: 1, height: 1, backgroundColor: '#fff'}} />
             <Text style={{marginHorizontal: 10, color: '#fff', fontSize: 12}}>
-              Or Register with
+              {i18n.t('orRegisterWith')}
             </Text>
             <Divider style={{flex: 1, height: 1, backgroundColor: '#fff'}} />
           </View>
@@ -209,9 +198,12 @@ export default function RegisterScreen() {
 
         <Pressable style={styles.login} onPress={() => {}}>
           <Text style={{color: 'white', fontSize: 14}}>
-            Already have an account?
+            {i18n.t('alreadyHaveAccount')}
           </Text>
-          <Text style={{color: '#BDAE8D', fontSize: 14}}> Login</Text>
+          <Text style={{color: '#BDAE8D', fontSize: 14}}>
+            {' '}
+            {i18n.t('login')}
+          </Text>
         </Pressable>
       </View>
     </View>
