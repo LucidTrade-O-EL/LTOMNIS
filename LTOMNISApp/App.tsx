@@ -65,6 +65,8 @@ import ActiveOfferLenderDetails from './screens/NewOffers/Lender/ActiveOffersLen
 import ClosedOfferGiftAccepted from './screens/NewOffers/Lender/ClosedOfferLenders/ClosedOfferGiftAccepted';
 import OfferScreenTopTabs from './screens/NewOffers/Borrower/NewOffersBorrower/OfferScreenTopTabs';
 import TransactionHistoryFilter from './screens/TransactionHistory/TransactionHistoryFilter';
+import DepositMoneyScreen from './screens/DepositMoney/DepositMoneyScreen';
+import DepositSuccessful from './screens/DepositMoney/DepositSuccessful';
 
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -85,10 +87,10 @@ function App(): JSX.Element {
         {/* <Stack.Screen name="SignUp" component={SignUpScreen} /> */}
         {/*  */}
         {/* <Stack.Screen name="Register" component={RegisterScreen} /> */}
-        {/* <Stack.Screen
+        <Stack.Screen
           name="InternationalCreditReportAccess"
           component={InternationalCreditReportAccess}
-        /> */}
+        />
         {/* <Stack.Screen name="OfferScreenTopTabs" component={OfferScreenTopTabs} /> */}
         {/* <Stack.Screen name="NewOffersScreen" component={NewOffersScreen} /> */}
         {/* <Stack.Screen name="Register" component={RegisterScreen} /> */}
@@ -100,7 +102,10 @@ function App(): JSX.Element {
         {/* <Stack.Screen name="Onboarding3" component={OnboardingScreen3} /> */}
         {/* <Stack.Screen name="Onboarding4" component={OnboardingScreen4} /> */}
         {/* <Stack.Screen name="CreateNewPassword" component={CreateNewPassword} /> */}
-        <Stack.Screen name="TransactionHistoryFilter" component={TransactionHistoryFilter} />
+        {/* <Stack.Screen name="TransactionHistoryFilter" component={TransactionHistoryFilter} /> */}
+        
+        {/* <Stack.Screen name="DepositSuccessful" component={DepositSuccessful} /> */}
+        {/* <Stack.Screen name="DepositMoneyScreen" component={DepositMoneyScreen} /> */}
 
 
         {/* <Stack.Screen name="Verification" component={Verification} /> */}

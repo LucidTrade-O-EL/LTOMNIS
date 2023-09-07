@@ -7,6 +7,7 @@ import {
   SafeAreaView,
   Pressable,
 } from 'react-native';
+import CountryDropdown from '../../assets/constants/Components/CountryDropdown';
 
 export default function InternationalCreditReportAccess() {
   // UseState
@@ -15,16 +16,17 @@ export default function InternationalCreditReportAccess() {
   const [ssn, setSsn] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-
+  const [selectedCountry, setSelectedCountry] = useState<string | null>(null);
   return (
     <SafeAreaView style={styles.Background}>
       <View style={{justifyContent: 'center', alignSelf: 'center'}}>
-        <Text style={{color: 'white', fontSize: 24}}>International Credit</Text>
+        <Text style={{color: 'white', fontSize: 24, fontWeight: '700'}}>International Credit</Text>
         <Text
           style={{
             color: 'white',
             fontSize: 24,
             marginBottom: 168,
+            fontWeight: '700',
             textAlign: 'center',
           }}>
           Report Access
@@ -55,6 +57,10 @@ export default function InternationalCreditReportAccess() {
           />
         </View>
       </View>
+
+{/* <View>
+      <CountryDropdown onValueChange={(value) => setSelectedCountry(value)} />
+    </View> */}
 
       {/* SSN placement */}
       <View style={styles.passwordButtonContainer}>
@@ -177,6 +183,8 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     backgroundColor: '#BDAE8D',
     opacity: 0.6,
+    position: 'absolute',
+    bottom: 40
   },
   SignButtonText: {
     color: 'white',

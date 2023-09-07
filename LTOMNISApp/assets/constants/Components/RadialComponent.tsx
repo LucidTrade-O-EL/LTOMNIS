@@ -1,18 +1,26 @@
-import React from 'react';
-import { View, Image, StyleSheet } from 'react-native';
+import React, { useState } from 'react';
+import { View, Image, StyleSheet, TouchableWithoutFeedback } from 'react-native';
 import { IconButton } from 'react-native-paper';
+import GlobalStyles from '../colors';
 
 type RadialProps = {
   type: 'radio' | 'icon' | 'image';
   iconName?: string;
   imagePath?: string;
+  isActive?: boolean;
 };
 
-const RadialComponent: React.FC<RadialProps> = ({ type, iconName, imagePath }) => {
+const RadialComponent: React.FC<RadialProps> = ({ type, iconName, imagePath, isActive }) => {
+  // ... other code
+
+  // const handlePress = () => {
+  //   setIsSelected(!isSelected);
+  // };
+
   if (type === 'radio') {
     return (
-      <View style={styles.outerGrayCircle}>
-        <View style={styles.innerGrayCircle} />
+      <View style={[styles.outerGrayCircle, isActive ? { backgroundColor: GlobalStyles.Colors.primary200 } : {}]}>
+        <View style={[styles.innerGrayCircle, { width: isActive ? 12 : 20, height: isActive ? 12 : 20 }]} />
       </View>
     );
   }
@@ -53,11 +61,36 @@ const styles = StyleSheet.create({
     width: 20,
     height: 20,
     borderRadius: 12,
-    backgroundColor: '#B0B0B0',  // Lighter gray
+    backgroundColor: '#fff',  // Lighter gray
   },
   image: {
     width: 20,
     height: 20,
+  },
+  outerCircle: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    backgroundColor: '#C6A98C',  // Dark gray
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 15,
+  },
+
+  outerCircleSelected: {
+    backgroundColor: '#C6A98C',
+  },
+  innerGrayCircleActive: {
+    width: 12,
+    height: 12,
+    borderRadius: 6,
+    backgroundColor: '#fff',
+  },
+  innerGrayCircleInactive: {
+    width: 30,
+    height: 30,
+    borderRadius: 25,
+    backgroundColor: '#fff',
   },
 });
 
