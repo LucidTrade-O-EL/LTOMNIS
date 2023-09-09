@@ -67,6 +67,7 @@ import OfferScreenTopTabs from './screens/NewOffers/Borrower/NewOffersBorrower/O
 import TransactionHistoryFilter from './screens/TransactionHistory/TransactionHistoryFilter';
 import DepositMoneyScreen from './screens/DepositMoney/DepositMoneyScreen';
 import DepositSuccessful from './screens/DepositMoney/DepositSuccessful';
+import AddPostScreen from './screens/add_post/AddPostScreen';
 
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -87,9 +88,13 @@ function App(): JSX.Element {
         {/* <Stack.Screen name="SignUp" component={SignUpScreen} /> */}
         {/*  */}
         {/* <Stack.Screen name="Register" component={RegisterScreen} /> */}
-        <Stack.Screen
+        {/* <Stack.Screen
           name="InternationalCreditReportAccess"
           component={InternationalCreditReportAccess}
+        /> */}
+                <Stack.Screen
+          name="AddPostScreen"
+          component={AddPostScreen}
         />
         {/* <Stack.Screen name="OfferScreenTopTabs" component={OfferScreenTopTabs} /> */}
         {/* <Stack.Screen name="NewOffersScreen" component={NewOffersScreen} /> */}
