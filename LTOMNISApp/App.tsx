@@ -68,6 +68,8 @@ import TransactionHistoryFilter from './screens/TransactionHistory/TransactionHi
 import DepositMoneyScreen from './screens/DepositMoney/DepositMoneyScreen';
 import DepositSuccessful from './screens/DepositMoney/DepositSuccessful';
 import AddPostScreen from './screens/add_post/AddPostScreen';
+import SpotlightScreen from './screens/Spotlight/SpotlightScreen';
+import SpotlightNavOne from './assets/constants/Components/SpotlightNavOne';
 
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -92,10 +94,18 @@ function App(): JSX.Element {
           name="InternationalCreditReportAccess"
           component={InternationalCreditReportAccess}
         /> */}
-                <Stack.Screen
+                {/* <Stack.Screen
           name="AddPostScreen"
           component={AddPostScreen}
+        /> */}
+                        <Stack.Screen
+          name="SpotlightScreen"
+          component={SpotlightScreen}
         />
+                                {/* <Stack.Screen
+          name="SpotlightNavOne"
+          component={SpotlightNavOne}
+        /> */}
         {/* <Stack.Screen name="OfferScreenTopTabs" component={OfferScreenTopTabs} /> */}
         {/* <Stack.Screen name="NewOffersScreen" component={NewOffersScreen} /> */}
         {/* <Stack.Screen name="Register" component={RegisterScreen} /> */}
