@@ -71,6 +71,7 @@ import AddPostScreen from './screens/add_post/AddPostScreen';
 import SpotlightScreen from './screens/Spotlight/SpotlightScreen';
 import SpotlightNavOne from './assets/constants/Components/SpotlightNavOne';
 import AddFriendScreen from './screens/Spotlight/Friends/AddFriendScreen';
+import MakeAGroupScreen from './screens/Spotlight/Groups/MakeAGroupScreen';
 
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -104,9 +105,13 @@ function App(): JSX.Element {
           component={SpotlightScreen}
         /> */}
                                 <Stack.Screen
+          name="MakeAGroupScreen"
+          component={MakeAGroupScreen}
+        />
+                                        {/* <Stack.Screen
           name="AddFriendScreen"
           component={AddFriendScreen}
-        />
+        /> */}
                                 {/* <Stack.Screen
           name="SpotlightNavOne"
           component={SpotlightNavOne}
