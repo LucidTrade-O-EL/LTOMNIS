@@ -70,6 +70,7 @@ import DepositSuccessful from './screens/DepositMoney/DepositSuccessful';
 import AddPostScreen from './screens/add_post/AddPostScreen';
 import SpotlightScreen from './screens/Spotlight/SpotlightScreen';
 import SpotlightNavOne from './assets/constants/Components/SpotlightNavOne';
+import AddFriendScreen from './screens/Spotlight/Friends/AddFriendScreen';
 
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -98,9 +99,13 @@ function App(): JSX.Element {
           name="AddPostScreen"
           component={AddPostScreen}
         /> */}
-                        <Stack.Screen
+                        {/* <Stack.Screen
           name="SpotlightScreen"
           component={SpotlightScreen}
+        /> */}
+                                <Stack.Screen
+          name="AddFriendScreen"
+          component={AddFriendScreen}
         />
                                 {/* <Stack.Screen
           name="SpotlightNavOne"

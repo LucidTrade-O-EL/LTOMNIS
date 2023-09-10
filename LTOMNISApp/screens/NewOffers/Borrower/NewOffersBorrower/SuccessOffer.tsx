@@ -1,10 +1,9 @@
 import {View, Text, SafeAreaView, StyleSheet} from 'react-native';
 import React from 'react';
-import ScreenTitle from '../../assets/constants/Components/ScreenTitle';
-import GlobalStyles from '../../assets/constants/colors';
-import Icon from 'react-native-vector-icons/Ionicons';
-import CompleteButton from '../../assets/constants/Components/Buttons/CompleteButton';
-import SmallOfferDetailsVOne from '../../assets/constants/Components/SmallOfferDetailsVOne';
+import ScreenTitle from '../../../../assets/constants/Components/ScreenTitle';
+import Icon from 'react-native-ionicons';
+import GlobalStyles from '../../../../assets/constants/colors';
+import SmallOfferDetailsVOne from '../../../../assets/constants/Components/SmallOfferDetailsVOne';
 
 type SuccessOfferProps = {
   receivedAmount?: string;
