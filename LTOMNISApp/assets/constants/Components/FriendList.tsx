@@ -1,7 +1,7 @@
 import React from 'react';
-import { Pressable } from 'react-native';
-import { View, Text, StyleSheet, FlatList } from 'react-native';
-import { Avatar } from 'react-native-elements';
+import {Pressable} from 'react-native';
+import {View, Text, StyleSheet, FlatList} from 'react-native';
+import {Avatar} from 'react-native-elements';
 import GlobalStyles from '../colors';
 
 interface Friend {
@@ -12,8 +12,8 @@ interface Friend {
 }
 
 const friendsData: Friend[] = [
-  { id: '1', name: 'Zak Veasy', username: 'pablo', avatarImage: '' },
-  { id: '2', name: 'Friend Ns', username: 'pablo2' },
+  {id: '1', name: 'Zak Veasy', username: 'pablo', avatarImage: ''},
+  {id: '2', name: 'Friend Ns', username: 'pablo2'},
 ];
 
 const getInitials = (name: string) => {
@@ -23,7 +23,15 @@ const getInitials = (name: string) => {
 };
 
 const FriendList = () => {
-  const renderFriendItem = ({ item }: { item: Friend }) => {
+  const renderFriendItem = ({item}: {item: Friend}) => {
+    const isFriend = true; // Replace this with your actual logic to determine if the user is a friend
+
+    const buttonStyle = isFriend
+      ? {backgroundColor: GlobalStyles.Colors.primary200}
+      : {backgroundColor: GlobalStyles.Colors.primary600};
+
+    const buttonText = isFriend ? 'Add' : 'Unfriend';
+
     return (
       <View style={styles.friendContainer}>
         <View style={styles.infoContainer}>
@@ -31,17 +39,21 @@ const FriendList = () => {
             size={44}
             rounded
             title={item.avatarImage ? undefined : getInitials(item.name)}
-            source={item.avatarImage ? { uri: item.avatarImage } : undefined}
-            overlayContainerStyle={{ backgroundColor: GlobalStyles.Colors.primary100 }}
-            titleStyle={{ color: 'black', fontSize: 14, fontWeight: '700' }}
+            source={item.avatarImage ? {uri: item.avatarImage} : undefined}
+            overlayContainerStyle={{
+              backgroundColor: GlobalStyles.Colors.primary100,
+            }}
+            titleStyle={{color: 'black', fontSize: 14, fontWeight: '700'}}
           />
           <View>
             <Text style={styles.friendName}>{item.name}</Text>
             <Text style={styles.username}>@{item.username}</Text>
           </View>
         </View>
-        <Pressable onPress={() => handleUnfriend(item.id)} style={styles.buttonContainer}>
-          <Text style={styles.buttonText}>Unfriend</Text>
+        <Pressable
+          onPress={() => handleUnfriend(item.id)}
+          style={[styles.buttonContainer, buttonStyle]}>
+          <Text style={styles.buttonText}>{buttonText}</Text>
         </Pressable>
       </View>
     );
@@ -55,51 +67,50 @@ const FriendList = () => {
     <FlatList
       data={friendsData}
       renderItem={renderFriendItem}
-      keyExtractor={(item) => item.id}
+      keyExtractor={item => item.id}
     />
   );
 };
 
 const styles = StyleSheet.create({
-    friendContainer: {
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-      padding: 10,
-      width: '100%', // Adjusted to 100%
-    },
-    infoContainer: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      maxWidth: '70%', // Set a maximum width to leave room for the button
-    },
-    friendName: {
-      marginLeft: 10,
-      fontSize: 14,
-      fontWeight: '500',
-      color: GlobalStyles.Colors.primary100,
-    },
-    username: {
-      marginLeft: 10,
-      fontSize: 12,
-      fontWeight: '500',
-      color: GlobalStyles.Colors.accent100,
-    },
-    buttonContainer: {
-      height: 36,
-      justifyContent: 'center',
-      backgroundColor: GlobalStyles.Colors.primary600,
-      borderRadius: 8,
-      paddingHorizontal: 10,
-      minWidth: 100, // Set a minimum width to ensure the text fits within the button
-    },
-    buttonText: {
-      textAlign: 'center',
-      color: GlobalStyles.Colors.primary100,
-      fontSize: 14,
-      fontWeight: '500'
-    },
-  });
-  
+  friendContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: 10,
+    width: '100%', // Adjusted to 100%
+  },
+  infoContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    maxWidth: '70%', // Set a maximum width to leave room for the button
+  },
+  friendName: {
+    marginLeft: 10,
+    fontSize: 14,
+    fontWeight: '500',
+    color: GlobalStyles.Colors.primary100,
+  },
+  username: {
+    marginLeft: 10,
+    fontSize: 12,
+    fontWeight: '500',
+    color: GlobalStyles.Colors.accent100,
+  },
+  buttonContainer: {
+    height: 36,
+    justifyContent: 'center',
+    backgroundColor: GlobalStyles.Colors.primary600,
+    borderRadius: 8,
+    paddingHorizontal: 10,
+    minWidth: 100, // Set a minimum width to ensure the text fits within the button
+  },
+  buttonText: {
+    textAlign: 'center',
+    color: GlobalStyles.Colors.primary100,
+    fontSize: 14,
+    fontWeight: '500',
+  },
+});
 
 export default FriendList;
