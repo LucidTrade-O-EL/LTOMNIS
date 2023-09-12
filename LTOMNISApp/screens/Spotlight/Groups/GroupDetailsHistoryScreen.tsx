@@ -7,11 +7,11 @@ import {
 } from 'react-native';
 import React from 'react';
 import ScreenTitle from '../../../assets/constants/Components/ScreenTitle';
-import GlobalStyles from '../../../assets/constants/colors';
 import GroupDetailsInfo from '../../../assets/constants/Components/GroupDetailsInfo';
 import CompleteButton from '../../../assets/constants/Components/Buttons/CompleteButton';
+import GlobalStyles from '../../../assets/constants/colors';
 
-export default function GroupDetailsScreen() {
+export default function GroupDetailsHistoryScreen() {
   return (
     <View style={styles.Background}>
       <ImageBackground
@@ -27,6 +27,10 @@ export default function GroupDetailsScreen() {
             onBackPress={() => {
               // Handle the back button press, e.g., navigate back
             }}
+            showRightIcon={true}
+            rightIconType="MaterialCommunityIcons" // Either 'Ionicons' or 'Feather'
+            rightIconName="bell-plus-outline" // replace with actual Feather icon name
+            onRightIconPress={() => {}}
           />
         </View>
         {/* The rest of your component goes here, inside the ImageBackground component */}
@@ -41,7 +45,7 @@ export default function GroupDetailsScreen() {
         <GroupDetailsInfo />
       </View>
       <CompleteButton
-        text="Create a group bill"
+        text="View payment status"
         color={GlobalStyles.Colors.primary200}
         onPress={() => console.log('Button pressed!')}
       />

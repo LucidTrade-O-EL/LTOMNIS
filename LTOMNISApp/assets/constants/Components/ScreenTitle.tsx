@@ -1,7 +1,8 @@
 import React from 'react';
-import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
+import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import Feather from 'react-native-vector-icons/Feather'; // Import Feather icons
+import Feather from 'react-native-vector-icons/Feather';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 type ScreenTitleProps = {
   title?: string;
@@ -9,7 +10,7 @@ type ScreenTitleProps = {
   showBackArrow?: boolean;
   onBackPress?: () => void;
   showRightIcon?: boolean;
-  rightIconType?: 'Ionicons' | 'Feather'; // New prop to determine which icon set to use
+  rightIconType?: 'Ionicons' | 'Feather' | 'MaterialCommunityIcons';
   rightIconName?: string;
   onRightIconPress?: () => void;
 };
@@ -20,7 +21,7 @@ const ScreenTitle: React.FC<ScreenTitleProps> = ({
   showBackArrow = false,
   onBackPress,
   showRightIcon = false,
-  rightIconType = 'Ionicons', // Default to Ionicons
+  rightIconType = 'Ionicons',
   rightIconName,
   onRightIconPress,
 }) => {
@@ -39,8 +40,10 @@ const ScreenTitle: React.FC<ScreenTitleProps> = ({
         <TouchableOpacity onPress={onRightIconPress} style={styles.rightButton}>
           {rightIconType === 'Ionicons' ? (
             <Icon name={rightIconName} size={24} color="white" />
-          ) : (
+          ) : rightIconType === 'Feather' ? (
             <Feather name={rightIconName} size={24} color="white" />
+          ) : (
+            <MaterialCommunityIcons name={rightIconName} size={24} color="white" />
           )}
         </TouchableOpacity>
       )}

@@ -8,6 +8,10 @@ interface GroupDetailsInfoProps {
   title?: string;
   description?: string;
 }
+interface WordWithIcon {
+  text: string;
+  icon?: string;
+}
 
 export default function GroupDetailsInfo({
   title = 'Chicago',
@@ -28,6 +32,15 @@ export default function GroupDetailsInfo({
     ],
   };
 
+  const viewStatement = true; // Set this to true or false based on your logic
+
+  const updatedRightWords: WordWithIcon[] = [
+    {text: 'Zak Veasy'},
+    {text: viewStatement ? 'Needed amount / Paid' : '$500.00'},
+    {text: 'Visibility'},
+    {text: 'Exposure'},
+  ];
+
   return (
     <View style={styles.container}>
       <View style={styles.myRoleContainer}>
@@ -41,15 +54,10 @@ export default function GroupDetailsInfo({
       <View style={styles.translucentBackground}>
         <SmallOfferDetailsVFive
           title={fakeData.title}
-          rightWords={fakeData.rightWords}
+          rightWords={updatedRightWords} // Pass the updated rightWords data
           participants={fakeData.participants}
         />
       </View>
-      <CompleteButton
-        text="Create a group bill"
-        color={GlobalStyles.Colors.primary200}
-        onPress={() => console.log('Button pressed!')}
-      />
     </View>
   );
 }
