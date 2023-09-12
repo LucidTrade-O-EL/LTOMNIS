@@ -73,6 +73,7 @@ import SpotlightNavOne from './assets/constants/Components/SpotlightNavOne';
 import AddFriendScreen from './screens/Spotlight/Friends/AddFriendScreen';
 import MakeAGroupScreen from './screens/Spotlight/Groups/MakeAGroupScreen';
 import GroupDetailsScreen from './screens/Spotlight/Groups/GroupDetailsScreen';
+import GroupBill from './screens/Spotlight/Groups/GroupBill';
 
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -97,27 +98,28 @@ function App(): JSX.Element {
           name="InternationalCreditReportAccess"
           component={InternationalCreditReportAccess}
         /> */}
-                {/* <Stack.Screen
+        {/* <Stack.Screen
           name="AddPostScreen"
           component={AddPostScreen}
         /> */}
-                        {/* <Stack.Screen
+        {/* <Stack.Screen
           name="SpotlightScreen"
           component={SpotlightScreen}
         /> */}
-                                        <Stack.Screen
+        <Stack.Screen name="GroupBill" component={GroupBill} />
+        {/* <Stack.Screen
           name="GroupDetailsScreen"
           component={GroupDetailsScreen}
-        />
-                                {/* <Stack.Screen
+        /> */}
+        {/* <Stack.Screen
           name="MakeAGroupScreen"
           component={MakeAGroupScreen}
         /> */}
-                                        {/* <Stack.Screen
+        {/* <Stack.Screen
           name="AddFriendScreen"
           component={AddFriendScreen}
         /> */}
-                                {/* <Stack.Screen
+        {/* <Stack.Screen
           name="SpotlightNavOne"
           component={SpotlightNavOne}
         /> */}
@@ -133,10 +135,9 @@ function App(): JSX.Element {
         {/* <Stack.Screen name="Onboarding4" component={OnboardingScreen4} /> */}
         {/* <Stack.Screen name="CreateNewPassword" component={CreateNewPassword} /> */}
         {/* <Stack.Screen name="TransactionHistoryFilter" component={TransactionHistoryFilter} /> */}
-        
+
         {/* <Stack.Screen name="DepositSuccessful" component={DepositSuccessful} /> */}
         {/* <Stack.Screen name="DepositMoneyScreen" component={DepositMoneyScreen} /> */}
-
 
         {/* <Stack.Screen name="Verification" component={Verification} /> */}
         {/* <Stack.Screen name="ForgotPassword" component={ForgotPassword} /> */}

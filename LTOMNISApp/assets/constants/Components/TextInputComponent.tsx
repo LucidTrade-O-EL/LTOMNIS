@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     alignSelf: 'center',
     borderRadius: 16,
-    marginBottom: 20,
+    marginBottom: 10,
   },
   dollarSign: {
     paddingHorizontal: 10,

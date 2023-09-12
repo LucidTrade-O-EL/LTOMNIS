@@ -25,7 +25,15 @@ const TextInputComponentWithAdd: React.FC<TextInputComponentWithAddProps> = ({
   placeholder = '',
   keyboardType = 'default',
   inputHeight = 50,
-  chips: initialChips = ['@easy', '@user2', '@user3', '@user2', '@user3'], // Providing default dummy chips
+  chips: initialChips = [
+    '@easy',
+    '@user2',
+    '@user3',
+    '@user2',
+    '@user3',
+    '@user3',
+    '@user2',
+  ], // Providing default dummy chips
 }) => {
   const [textValue, setTextValue] = useState<string>('');
   const [chips, setChips] = useState<string[]>(initialChips); // Initializing with dummy chips
@@ -72,51 +80,58 @@ const TextInputComponentWithAdd: React.FC<TextInputComponentWithAddProps> = ({
         style={[
           styles.inputField,
           {
-            height: inputHeight,
+            flexDirection: 'column',
           },
         ]}>
-        <View style={{height: '80%', width: '100%'}}>
-          <ScrollView
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            style={{width: '100%'}}>
-            {chips.map((chip, index) => (
-              <View
-                key={index}
-                style={{
-                  flexDirection: 'row',
-                  backgroundColor: GlobalStyles.Colors.primary200,
-                  borderRadius: 16,
-                  paddingVertical: 4,
-                  paddingHorizontal: 8,
-                  marginHorizontal: 5,
-                  alignItems: 'center',
-                  minWidth: 80,
-                  flexGrow: 1, // Allow the container to grow and take up any available space
-                }}>
-                <Text style={{color: 'white', flexShrink: 1}}>{chip}</Text>
-                <Icon
-                  name="close"
-                  size={16}
-                  color="white"
-                  style={{marginLeft: 8}}
-                  onPress={() => {
-                    setChips(
-                      chips.filter((_, chipIndex) => chipIndex !== index),
-                    );
-                  }}
-                />
-              </View>
-            ))}
-          </ScrollView>
+        <View
+          style={{
+            flexDirection: 'row',
+            flexWrap: 'wrap',
+            alignItems: 'flex-start', // Adjusted to align items at the start
+            marginBottom: 5,
+          }}>
+          {chips.map((chip, index) => (
+            <View
+              key={index}
+              style={{
+                flexDirection: 'row',
+                backgroundColor: GlobalStyles.Colors.primary200,
+                borderRadius: 16,
+                paddingVertical: 4,
+                paddingHorizontal: 8,
+                margin: 5, // Adjusted margin to add vertical spacing
+                alignItems: 'center',
+                minWidth: 80,
+              }}>
+              <Text style={{color: 'white', flexShrink: 1}}>{chip}</Text>
+              <Icon
+                name="close"
+                size={16}
+                color="white"
+                style={{marginLeft: 8}}
+                onPress={() => {
+                  setChips(chips.filter((_, chipIndex) => chipIndex !== index));
+                }}
+              />
+            </View>
+          ))}
         </View>
         <TextInput
-          style={[styles.textInput, {paddingTop: 10, minWidth: 100}]}
+          style={[
+            styles.textInput,
+            {
+              paddingTop: 5,
+              minHeight: 5, // Set a minimum height
+              maxHeight: 5, // Adjust as necessary
+            },
+          ]}
           placeholder={placeholder}
           placeholderTextColor="rgba(255,255,255, 0.6)"
           keyboardType={keyboardType}
           onChangeText={setTextValue}
           value={textValue}
+          multiline // Allow the TextInput to expand over multiple lines
+          numberOfLines={10} // Set a max number of lines to prevent it from growing indefinitely
         />
       </View>
     </View>
@@ -146,7 +161,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     alignSelf: 'center',
     borderRadius: 16,
-    marginBottom: 20,
+    marginBottom: 10,
   },
   textInput: {
     color: '#fff',

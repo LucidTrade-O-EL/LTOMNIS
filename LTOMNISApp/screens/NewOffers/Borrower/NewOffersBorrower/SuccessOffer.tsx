@@ -4,6 +4,7 @@ import ScreenTitle from '../../../../assets/constants/Components/ScreenTitle';
 import Icon from 'react-native-ionicons';
 import GlobalStyles from '../../../../assets/constants/colors';
 import SmallOfferDetailsVOne from '../../../../assets/constants/Components/SmallOfferDetailsVOne';
+import CompleteButton from '../../../../assets/constants/Components/Buttons/CompleteButton';
 
 type SuccessOfferProps = {
   receivedAmount?: string;

@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
   customComponentContainer: {
     alignSelf: 'center',
     width: '90%',
-    marginTop: 20,
+    marginTop: 10,
     alignItems: 'flex-start',
   },
   titleContainer: {
@@ -107,7 +107,6 @@ const styles = StyleSheet.create({
   titleText: {
     color: GlobalStyles.Colors.accent100,
     fontSize: 13,
-    opacity: 0.6,
   },
   toggleButtonContainer: {
     flexDirection: 'row',
