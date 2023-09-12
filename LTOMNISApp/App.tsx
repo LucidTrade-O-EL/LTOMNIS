@@ -76,6 +76,7 @@ import GroupDetailsScreen from './screens/Spotlight/Groups/GroupDetailsScreen';
 import GroupBill from './screens/Spotlight/Groups/GroupBill';
 import ChooseFriends from './screens/Spotlight/Friends/ChooseFriends';
 import GroupDetailsHistoryScreen from './screens/Spotlight/Groups/GroupDetailsHistoryScreen';
+import PaymentStatus from './screens/Spotlight/PaymentStatus';
 
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -108,10 +109,11 @@ function App(): JSX.Element {
           name="SpotlightScreen"
           component={SpotlightScreen}
         /> */}
-        <Stack.Screen
+        <Stack.Screen name="PaymentStatus" component={PaymentStatus} />
+        {/* <Stack.Screen
           name="GroupDetailsHistoryScreen"
           component={GroupDetailsHistoryScreen}
-        />
+        /> */}
         {/* <Stack.Screen name="ChooseFriends" component={ChooseFriends} /> */}
         {/* <Stack.Screen name="GroupBill" component={GroupBill} /> */}
         {/* <Stack.Screen
