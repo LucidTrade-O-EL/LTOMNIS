@@ -77,6 +77,7 @@ import GroupBill from './screens/Spotlight/Groups/GroupBill';
 import ChooseFriends from './screens/Spotlight/Friends/ChooseFriends';
 import GroupDetailsHistoryScreen from './screens/Spotlight/Groups/GroupDetailsHistoryScreen';
 import PaymentStatus from './screens/Spotlight/PaymentStatus';
+import OMNISScoreScreen from './screens/OMNISScore/OMNISScoreScreen';
 
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -109,7 +110,8 @@ function App(): JSX.Element {
           name="SpotlightScreen"
           component={SpotlightScreen}
         /> */}
-        <Stack.Screen name="PaymentStatus" component={PaymentStatus} />
+                <Stack.Screen name="OMNISScoreScreen" component={OMNISScoreScreen} />
+        {/* <Stack.Screen name="PaymentStatus" component={PaymentStatus} /> */}
         {/* <Stack.Screen
           name="GroupDetailsHistoryScreen"
           component={GroupDetailsHistoryScreen}
