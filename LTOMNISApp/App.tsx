@@ -106,11 +106,16 @@ function App(): JSX.Element {
           name="AddPostScreen"
           component={AddPostScreen}
         /> */}
-        {/* <Stack.Screen
+        <Stack.Screen
           name="SpotlightScreen"
           component={SpotlightScreen}
-        /> */}
-                <Stack.Screen name="OMNISScoreScreen" component={OMNISScoreScreen} />
+        />
+
+
+                {/* <Stack.Screen name="OMNISScoreScreen" component={OMNISScoreScreen} /> */}
+
+
+
         {/* <Stack.Screen name="PaymentStatus" component={PaymentStatus} /> */}
         {/* <Stack.Screen
           name="GroupDetailsHistoryScreen"
