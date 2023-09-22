@@ -1,5 +1,5 @@
 import {View, Text, StyleSheet} from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {SafeAreaView} from 'react-native';
 import GlobalStyles from '../../../assets/constants/colors';
 import {
@@ -13,7 +13,7 @@ const handleButtonPress = () => {
   console.log('Button Pressed');
 };
 
-const [group, setGroup] = useState([{}]);
+const [group, setGroup] = useState([{title: 'Initial title'}]);
 const [featuredGroup, setFeaturedGroup] = useState([{}]);
 const [interestGroup, setInterestGroup] = useState([{}]);
 
@@ -37,7 +37,7 @@ const GetMyGroup = async () => {
     if (group == null) {
       console.log('No group data received');
     }
-    setGroup(group)
+    setGroup(group);
     console.log('group: ', group);
   } catch (error: any) {
     console.error('An error occurred:', error);
@@ -64,7 +64,7 @@ const GetMyFeaturedGroup = async () => {
     if (featuredGroup == null) {
       console.log('No featured group data received');
     }
-    setGroup(featuredGroup)
+    setGroup(featuredGroup);
     console.log('featured group: ', featuredGroup);
   } catch (error: any) {
     console.error('An error occurred:', error);
@@ -91,12 +91,22 @@ const GetMyInterestGroup = async () => {
     if (interestGroup == null) {
       console.log('No interest group data received');
     }
-    setGroup(interestGroup)
+    setGroup(interestGroup);
     console.log('interest group: ', interestGroup);
   } catch (error: any) {
     console.error('An error occurred:', error);
   }
 };
+
+useEffect(() => {
+  const fetchData = async () => {
+    await GetMyGroup();
+    await GetMyFeaturedGroup();
+    await GetMyInterestGroup();
+  };
+
+  fetchData();
+}, []);
 
 const images = [
   {
@@ -154,25 +164,28 @@ export default function GroupsScreen() {
     <SafeAreaView style={styles.background}>
       <View style={{marginTop: 20, width: '100%', alignSelf: 'center'}}>
         <CustomTitle
+          data={group}
           title="My groups"
           buttonText="Create"
           onButtonPress={handleButtonPress}
         />
-        <CustomCarousel images={images} />
+        <CustomCarousel data={group} images={images} />
         <View style={{marginTop: 20}} />
         <CustomTitle
+          data={featuredGroup}
           title="Local groups"
           buttonText="Show all"
           onButtonPress={handleButtonPress}
         />
-        <SmallCustomCarousel images={images2} />
+        <SmallCustomCarousel data={featuredGroup} images={images2} />
         <View style={{marginTop: 20}} />
         <CustomTitle
+          data={interestGroup}
           title="Based on your interest"
           buttonText="Show all"
           onButtonPress={handleButtonPress}
         />
-        <SmallCustomCarousel images={images2} />
+        <SmallCustomCarousel data={interestGroup} images={images2} />
       </View>
     </SafeAreaView>
   );

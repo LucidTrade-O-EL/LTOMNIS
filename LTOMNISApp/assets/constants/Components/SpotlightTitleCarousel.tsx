@@ -13,16 +13,18 @@ interface CustomTitleProps {
   title: string;
   buttonText: string;
   onButtonPress: () => void;
+  data: {title: string}[]; // Define the type of objects in the array
 }
 
 export const CustomTitle: React.FC<CustomTitleProps> = ({
   title,
   buttonText,
   onButtonPress,
+  data,
 }) => {
   return (
     <View style={styles.titleContainer}>
-      <Text style={styles.titleText}>{title}</Text>
+      <Text style={styles.titleText}>{data[0]?.title}</Text>
       <TouchableOpacity style={styles.button} onPress={onButtonPress}>
         <Text style={styles.buttonText}>{buttonText}</Text>
       </TouchableOpacity>

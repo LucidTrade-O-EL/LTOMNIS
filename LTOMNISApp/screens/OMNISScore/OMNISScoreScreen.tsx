@@ -13,6 +13,7 @@ import GlobalStyles from '../../assets/constants/colors';
 import CreditScoreBar from '../../assets/constants/Components/CreditScoreBar';
 import SmallCreditScoreBar from '../../assets/constants/Components/SmallCreditScoreBar';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import OmnisOptions from '../../assets/constants/Components/OmnisOptions';
 
 export default function OMNISScoreScreen() {
   const refRBSheet = useRef<RBSheet>(null);
@@ -65,6 +66,27 @@ export default function OMNISScoreScreen() {
             alignItems: 'center',
           },
         }}
+      />
+      <OmnisOptions
+        isLottie={true}
+        title="Money Master"
+        isProgressBar={true}
+        progress={2000}
+        status="silver"
+      />
+      <OmnisOptions
+        isLottie={false}
+        imageSource={require('../../assets/Icons/knowledge.png')}
+        title="Learning Hub"
+        isProgressBar={false}
+        subText="Improve financial literacy and earn rewards"
+      />
+      <OmnisOptions
+        isLottie={false}
+        imageSource={require('../../assets/Icons/award.png')}
+        title="Visit Reward Shop"
+        isProgressBar={false}
+        subText="Redeem Points by buying best rewards for your purpose"
       />
     </SafeAreaView>
   );

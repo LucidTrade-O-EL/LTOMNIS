@@ -1,20 +1,26 @@
 import React from 'react';
-import { View, Text as RNText, StyleSheet, Dimensions } from 'react-native';
-import Svg, { Path, Defs, LinearGradient, Stop } from 'react-native-svg';
-import { RFPercentage } from 'react-native-responsive-fontsize'; // Install this package
+import {
+  View,
+  Text as RNText,
+  StyleSheet,
+  Dimensions,
+  Image,
+} from 'react-native';
+import Svg, {Path, Defs, LinearGradient, Stop} from 'react-native-svg';
+import {RFPercentage} from 'react-native-responsive-fontsize'; // Install this package
 
-const { width } = Dimensions.get('window');
+const {width} = Dimensions.get('window');
 
 interface SmallCreditScoreBarProps {
   creditScore: number;
 }
 
-function SmallCreditScoreBar({ creditScore }: SmallCreditScoreBarProps) {
-    const svgWidth = width - 106; // Adjusted to be dependent on the screen width
-    const svgHeight = (svgWidth * 300) / 285; // Proportional height adjustment
-    const strokeWidth = (svgWidth * 25) / 285; // Proportional stroke width adjustment
-    const sidePadding = (svgWidth * 20) / 285; // Proportional side padding adjustment
-    const radius = svgWidth / 2 - sidePadding - strokeWidth / 2;
+function SmallCreditScoreBar({creditScore}: SmallCreditScoreBarProps) {
+  const svgWidth = width - 106; // Adjusted to be dependent on the screen width
+  const svgHeight = (svgWidth * 300) / 285; // Proportional height adjustment
+  const strokeWidth = (svgWidth * 25) / 285; // Proportional stroke width adjustment
+  const sidePadding = (svgWidth * 20) / 285; // Proportional side padding adjustment
+  const radius = svgWidth / 2 - sidePadding - strokeWidth / 2;
 
   const circumference = Math.PI * radius;
   const progress = Math.max(0, Math.min((creditScore - 300) / (850 - 300), 1));
@@ -55,6 +61,7 @@ function SmallCreditScoreBar({ creditScore }: SmallCreditScoreBarProps) {
           />
         </Svg>
       </View>
+      <View></View>
       <RNText style={styles.scoreText}>{creditScore}</RNText>
     </View>
   );
@@ -77,6 +84,26 @@ const styles = StyleSheet.create({
     color: 'black',
     fontSize: 16,
     fontWeight: '500',
+  },
+
+  colorCircle: {
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+    flexDirection: 'row', // to align red and green side by side
+    marginRight: 8, // optional, to give some space between circle and score
+  },
+  redHalfCircle: {
+    flex: 1,
+    backgroundColor: 'red',
+    borderTopLeftRadius: 12,
+    borderBottomLeftRadius: 12,
+  },
+  greenHalfCircle: {
+    flex: 1,
+    backgroundColor: 'green',
+    borderTopRightRadius: 12,
+    borderBottomRightRadius: 12,
   },
 });
 
