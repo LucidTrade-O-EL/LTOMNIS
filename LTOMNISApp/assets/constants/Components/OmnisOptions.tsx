@@ -150,7 +150,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   progressText: {
-    fontSize: 14,
+    fontSize: 12,
     textAlign: 'right', // align the text to the right
     marginTop: 4, // optional: add some margin at the top
   },

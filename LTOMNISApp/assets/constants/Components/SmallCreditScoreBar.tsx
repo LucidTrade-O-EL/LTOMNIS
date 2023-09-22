@@ -61,7 +61,6 @@ function SmallCreditScoreBar({creditScore}: SmallCreditScoreBarProps) {
           />
         </Svg>
       </View>
-      <View></View>
       <RNText style={styles.scoreText}>{creditScore}</RNText>
     </View>
   );
