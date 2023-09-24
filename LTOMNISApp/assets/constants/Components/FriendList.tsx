@@ -1,20 +1,43 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Pressable} from 'react-native';
 import {View, Text, StyleSheet, FlatList} from 'react-native';
 import {Avatar} from 'react-native-elements';
 import GlobalStyles from '../colors';
 
-interface Friend {
+export interface Friend {
   id: string;
   name: string;
   username: string;
   avatarImage?: string;
+  isFriend: boolean; // Add this line
+  friends?: Array<any>; // <-- use the optional modifier (?)
+}
+
+interface FriendListProps {
+  addFriendHandler: (friend: Friend) => void;
+  unfriendHandler: (friend: Friend) => void;
 }
 
 const friendsData: Friend[] = [
-  {id: '1', name: 'Zak Veasy', username: 'pablo', avatarImage: ''},
-  {id: '2', name: 'Friend Ns', username: 'pablo2'},
+  {
+    id: '1',
+    name: 'Zak Veasy',
+    username: 'pablo',
+    avatarImage: '',
+    isFriend: false,
+    friends: [], // <-- add this
+    // friends property is missing here
+  },
+  {
+    id: '2',
+    name: 'Friend Ns',
+    username: 'pablo2',
+    isFriend: true,
+    friends: [], // <-- add this
+    // friends property is missing here too
+  },
 ];
+
 
 const getInitials = (name: string) => {
   const parts = name.split(' ');
@@ -22,15 +45,47 @@ const getInitials = (name: string) => {
   return initials;
 };
 
-const FriendList = () => {
+const FriendList: React.FC<FriendListProps> = ({
+  addFriendHandler,
+  unfriendHandler,
+}) => {
+  const [friends, setFriends] = useState(friendsData);
+
+
   const renderFriendItem = ({item}: {item: Friend}) => {
-    const isFriend = true; // Replace this with your actual logic to determine if the user is a friend
+    const isFriend = item.isFriend;
 
     const buttonStyle = isFriend
-      ? {backgroundColor: GlobalStyles.Colors.primary200}
-      : {backgroundColor: GlobalStyles.Colors.primary600};
+      ? {backgroundColor: GlobalStyles.Colors.primary600}
+      : {backgroundColor: GlobalStyles.Colors.primary200};
 
-    const buttonText = isFriend ? 'Add' : 'Unfriend';
+    const buttonText = isFriend ? 'Unfriend' : 'Add';
+
+    const handleFriendAction = (friend: Friend) => {
+      if (friend.isFriend) {
+        unfriend(friend);
+      } else {
+        addFriend(friend);
+      }
+      // Toggle friend status in the friends state.
+      const updatedFriends = friends.map(f => {
+        if (f.id === friend.id) {
+          return {...f, isFriend: !f.isFriend}; // Toggle the isFriend flag.
+        }
+        return f;
+      });
+      setFriends(updatedFriends);
+    };
+
+    const addFriend = (friend: Friend) => {
+      addFriendHandler(friend);
+      console.log(`Add friend action for friend ID: ${friend.id}`);
+    };
+
+    const unfriend = (friend: Friend) => {
+      unfriendHandler(friend);
+      console.log(`Unfriend action for friend ID: ${friend.id}`);
+    };
 
     return (
       <View style={styles.friendContainer}>
@@ -51,7 +106,7 @@ const FriendList = () => {
           </View>
         </View>
         <Pressable
-          onPress={() => handleUnfriend(item.id)}
+          onPress={() => handleFriendAction(item)}
           style={[styles.buttonContainer, buttonStyle]}>
           <Text style={styles.buttonText}>{buttonText}</Text>
         </Pressable>
@@ -65,7 +120,7 @@ const FriendList = () => {
 
   return (
     <FlatList
-      data={friendsData}
+      data={friends} // Use the friends state here instead of friendsData
       renderItem={renderFriendItem}
       keyExtractor={item => item.id}
     />

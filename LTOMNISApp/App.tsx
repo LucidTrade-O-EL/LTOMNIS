@@ -117,7 +117,11 @@ function App(): JSX.Element {
                 {/* <Stack.Screen name="OMNISScoreScreen" component={OMNISScoreScreen} /> */}
 
                 {/* <Stack.Screen name="ScoreBreakDown" component={ScoreBreakDown} /> */}
-                <Stack.Screen name="LevelsScreen" component={LevelsScreen} />
+
+
+                {/* <Stack.Screen name="LevelsScreen" component={LevelsScreen} /> */}
+
+
         {/* <Stack.Screen name="PaymentStatus" component={PaymentStatus} /> */}
         {/* <Stack.Screen
           name="GroupDetailsHistoryScreen"
@@ -133,10 +137,10 @@ function App(): JSX.Element {
           name="MakeAGroupScreen"
           component={MakeAGroupScreen}
         /> */}
-        {/* <Stack.Screen
+        <Stack.Screen
           name="AddFriendScreen"
           component={AddFriendScreen}
-        /> */}
+        />
         {/* <Stack.Screen
           name="SpotlightNavOne"
           component={SpotlightNavOne}
