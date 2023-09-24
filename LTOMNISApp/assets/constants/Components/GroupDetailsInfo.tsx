@@ -1,62 +1,47 @@
-import {View, Text, StyleSheet} from 'react-native';
-import React from 'react';
+import { View, Text, StyleSheet } from 'react-native';
+import React, { useState } from 'react';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { LinearProgress } from '@rneui/base';
 import GlobalStyles from '../colors';
-import SmallOfferDetailsVFive from './SmallOfferDetailsVFive';
-import CompleteButton from './Buttons/CompleteButton';
 
-interface GroupDetailsInfoProps {
-  title?: string;
-  description?: string;
-}
-interface WordWithIcon {
-  text: string;
-  icon?: string;
-}
-
-export default function GroupDetailsInfo({
-  title = 'Chicago',
-  description = 'This is a fake description data to represent the information that might be displayed here. This could potentially span multiple lines if the content is long enough, demonstrating the wrapping behavior of this text component in the UI.',
-}: GroupDetailsInfoProps) {
-  // Fake data for demonstration purposes
-  const fakeData = {
-    title: 'Fake Group Details',
-    rightWords: [
-      {text: 'Fake User 1', icon: 'account'},
-      {text: 'Needed amount'},
-      {text: 'Visibility'},
-      {text: 'Exposure'},
-    ],
-    participants: [
-      {name: 'Alice', avatarUri: 'https://fake-avatar-uri.com/alice.jpg'},
-      {name: 'Bob', avatarUri: 'https://fake-avatar-uri.com/bob.jpg'},
-    ],
-  };
-
-  const viewStatement = true; // Set this to true or false based on your logic
-
-  const updatedRightWords: WordWithIcon[] = [
-    {text: 'Zak Veasy'},
-    {text: viewStatement ? 'Needed amount / Paid' : '$500.00'},
-    {text: 'Visibility'},
-    {text: 'Exposure'},
-  ];
+export default function PointsRow() {
+  const [Points, setPoints] = useState(5500);
 
   return (
     <View style={styles.container}>
-      <View style={styles.myRoleContainer}>
-        <Text style={styles.myRoleText}>{title}</Text>
-      </View>
-      {description && (
-        <View style={styles.descriptionContainer}>
-          <Text style={styles.descriptionText}>{description}</Text>
-        </View>
-      )}
-      <View style={styles.translucentBackground}>
-        <SmallOfferDetailsVFive
-          title={fakeData.title}
-          rightWords={updatedRightWords} // Pass the updated rightWords data
-          participants={fakeData.participants}
-        />
+      <LinearProgress
+        value={Points / 10000}
+        variant="determinate"
+        style={styles.progress}
+        color={GlobalStyles.Colors.primary210}
+      />
+
+      <View style={styles.pointsRow}>
+        {[100, 2500, 5000, 7500, 10000].map((point, index) => (
+          <View key={index} style={styles.pointWrapper}>
+            <View
+              style={[
+                styles.pointCircle,
+                {
+                  backgroundColor: Points >= point
+                    ? GlobalStyles.Colors.primary210
+                    : GlobalStyles.Colors.primary200,
+                },
+              ]}
+            >
+              <MaterialCommunityIcons
+                size={40} // Increased icon size
+                color={
+                  Points >= point
+                    ? GlobalStyles.Colors.primary600
+                    : GlobalStyles.Colors.primary210
+                }
+                name="star-four-points-outline"
+              />
+            </View>
+            <Text style={styles.pointText}>{point}</Text>
+          </View>
+        ))}
       </View>
     </View>
   );
@@ -64,36 +49,35 @@ export default function GroupDetailsInfo({
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: GlobalStyles.Colors.primary100,
+    width: '90%',
+    alignSelf: 'center',
+    marginVertical: 40,
+  },
+  progress: {
     width: '100%',
-    flex: 1,
-    borderTopRightRadius: 40,
-    borderTopLeftRadius: 40,
+    height: 3,
+    borderRadius: 30,
   },
-  myRoleContainer: {
-    marginTop: 20,
-    width: '90%',
+  pointsRow: {
     flexDirection: 'row',
+    justifyContent: 'space-between',
     alignSelf: 'center',
+    width: '105%',
+    top: -20,
   },
-  myRoleText: {
-    fontSize: 24,
-    fontWeight: '500',
-    color: GlobalStyles.Colors.primary800,
-  },
-  descriptionContainer: {
-    marginTop: 20,
-    width: '90%',
-    alignSelf: 'center',
-  },
-  descriptionText: {
-    fontSize: 14,
-    color: GlobalStyles.Colors.primary800,
-  },
-  translucentBackground: {
-    width: '98%',
-    alignSelf: 'center',
+  pointWrapper: {
     alignItems: 'center',
-    marginTop: 20,
+  },
+  pointCircle: {
+    height: 40,
+    width: 40,
+    borderRadius: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  pointText: {
+    textAlign: 'center',
+    fontFamily: 'Futura',
+    fontSize: 15,
   },
 });

@@ -4,6 +4,7 @@ export const GlobalStyles = {
     primary120: '#F6F4F4', // Gray (Mostly Profile)
     primary130: '#EADBC3', // Light OMNIS Main (Mostly OnBoarding)
     primary200: '#BDAE8D', // OMNIS Main
+    primary205: '#E7DCC6', // Rewards color
     primary210: '#B08766', // SubOMNIS Main
     primary300: '#EB0000', // Error
     primary400: '#00835F', // Success
