@@ -1,9 +1,9 @@
-import React from 'react';
 import {View, Text, Image, StyleSheet} from 'react-native';
 import LottieView from 'lottie-react-native';
 import GlobalStyles from '../../../../assets/constants/colors';
 import StarCircle from '../../../../assets/constants/Components/Buttons/StarCircle';
 import LinearGradient from 'react-native-linear-gradient';
+import React, { useEffect, useRef } from 'react';
 
 interface Props {
   status: 'gold' | 'silver' | 'bronze';
@@ -36,13 +36,13 @@ const ScoreName: React.FC<Props> = ({
   const getScore = () => {
     switch (status) {
       case 'gold':
-        return '5000+';
+        return 15000;
       case 'silver':
-        return '3000+';
+        return 7500;
       case 'bronze':
-        return '1500+';
+        return 1500;
       default:
-        return '';
+        return 0;
     }
   };
 
@@ -82,11 +82,30 @@ const ScoreName: React.FC<Props> = ({
     }
   };
 
+  const progressBarRef = useRef<View>(null);
+  const calculatedProgressBarWidth = (Number(progress) / Number(getScore())) * 100;
+
+  useEffect(() => {
+    if (progressBarRef.current) {
+      progressBarRef.current.setNativeProps({ style: { width: calculatedProgressBarWidth + '%' } });
+    }
+  }, [calculatedProgressBarWidth]);
+
+  // const determineStatus = (progress: number): 'gold' | 'silver' | 'bronze' => {
+  //   if (progress >= 3000) return 'gold';
+  //   if (progress >= 3000) return 'silver';
+  //   return 'bronze';
+  // };
+  
+  
   return (
     <LinearGradient
       colors={getGradientColors()}
       locations={getGradientLocations()}
-      style={styles.container}>
+      style={[
+        styles.container,
+        {height: statusVisible ? 182 : 162}, // inline style to dynamically set the height
+      ]}>
       <View style={styles.row}>
         <LottieView
           source={getLottieSource()}
@@ -123,25 +142,32 @@ const ScoreName: React.FC<Props> = ({
         </View>
       </View>
       {statusVisible && (
-        <View style={styles.progressBarContainer}>
-          <View
-            style={[
-              styles.progressBar,
-              {
-                backgroundColor: getProgressBarColor(),
-                width: `${progress ? progress : 10}%`, // Fallback width to 10% if progress is zero or null
-              },
-            ]}
-          />
+      <View>
+    <View style={styles.progressBarContainer}>
+      <View style={{ flexDirection: 'row', width: '100%' }}>
+      <View
+        ref={progressBarRef}
+        style={{
+          height: '100%',
+          backgroundColor: getProgressBarColor(),
+          borderRadius: 6,
+        }}
+      />
+            </View>
+    </View>
+        <View style={styles.progressNumbersContainer}>
+          <Text style={styles.progressNumbers}>
+            {`${progress}/${getScore()}`}
+          </Text>
         </View>
-      )}
+      </View>
+    )}
     </LinearGradient>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    height: 162,
     width: '90%',
     flexDirection: 'column', // Changed from 'row' to 'column'
     alignItems: 'center',
@@ -199,18 +225,27 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   progressBarContainer: {
+    flexDirection: 'row',
     height: 18,
     backgroundColor: 'rgba(256, 256, 256, 0.16)',
-    padding: 5,
+    padding: 5, // Padding around the progress bar
     borderRadius: 6,
     marginTop: 10,
-    width: '90%', // Changed to 100% to make it full-width
+    width: '100%', // Set the width of the progress bar container to 80%
+    alignSelf: 'center' // Center the progress bar container
   },
   progressBar: {
     height: '100%',
-    width: '60%', // Control the filled part here
-    backgroundColor: 'blue', // Add a default backgroundColor
     borderRadius: 6,
+  },
+  progressNumbersContainer: {
+    alignItems: 'flex-end', // to align the text to the right
+    paddingTop: 5, // or any other value to give some padding
+
+  },
+  progressNumbers: {
+    fontSize: 14, // or any other value
+    color: 'white', // or any other color
   },
 });
 

@@ -1,15 +1,20 @@
-import {StyleSheet, SafeAreaView} from 'react-native';
-import React, {useState} from 'react';
+import React, { useState } from 'react';
+import { StyleSheet, SafeAreaView, View } from 'react-native';
 import GlobalStyles from '../../../../assets/constants/colors';
 import ScreenTitle from '../../../../assets/constants/Components/ScreenTitle';
 import PointsRow from './PointsRow';
-import {View} from 'react-native';
 import ScoreName from './ScoreName';
 
 export default function LevelsScreen() {
-  const [Points, setPoints] = useState(5500);
-  const [expanded, setExpanded] = useState(false);
-  const [expandedPoints, setExpandedPoints] = useState(false);
+  const [Points, setPoints] = useState(1501);
+
+  const determineStatus = (points: number) => {
+    if (points >= 7501) return 'gold';
+    if (points >= 1501) return 'silver';
+    return 'bronze';
+  };
+
+  const currentStatus = determineStatus(Points);
 
   return (
     <SafeAreaView style={styles.background}>
@@ -26,27 +31,28 @@ export default function LevelsScreen() {
           status="gold"
           title="Gold Status"
           subtext="OMNIS Score Champion is someone who has successfully built and maintained a high OMNIS Score."
-          statusVisible={false}
-          progress={20}
+          statusVisible={currentStatus === 'gold'}
+          progress={Points}
         />
         <ScoreName
           status="silver"
           title="Silver Status"
           subtext="Money Master is an individual who makes informed decisions that lead to financial success and wealth creation."
-          statusVisible={false}
-          progress={50}
+          statusVisible={currentStatus === 'silver'}
+          progress={Points}
         />
         <ScoreName
           status="bronze"
           title="Budgeting Champion"
           subtext="Budgeting Champion is someone who has demonstrated skills in managing their finance."
-          statusVisible={true}
-          progress={80}
+          statusVisible={currentStatus === 'bronze'}
+          progress={Points}
         />
       </View>
     </SafeAreaView>
   );
 }
+
 
 const styles = StyleSheet.create({
   background: {
