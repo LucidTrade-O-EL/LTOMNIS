@@ -8,9 +8,42 @@ import CompleteButton from '../../../assets/constants/Components/Buttons/Complet
 import {Divider} from 'react-native-elements';
 import TextInputComponentWithAdd from '../../../assets/constants/Components/TextInputComponentWithAdd';
 import ToggleButton from '../../../assets/constants/Components/ToggleButton';
+import axios from 'axios';
 
 export default function MakeAGroupScreen() {
   const [isFeatured, setIsFeatured] = React.useState(false);
+  const [isPrivate, setIsPrivate] = React.useState(false);
+  const [groupTitle, setGroupTitle] = React.useState(''); // New State
+  const [groupDescription, setGroupDescription] = React.useState(''); // New State
+
+  const VisibilityExposure = async () => {
+    try {
+      const submissionData = {
+        title: groupTitle,
+        description: groupDescription,
+        isPrivate: isPrivate, // true if 'Private', false if 'Public'
+        isFeatured: isFeatured, // true if 'Featured', false if 'Regular'
+      };
+
+      console.log('Submitting the following data:', submissionData);
+
+      const options = {
+        method: 'POST',
+        url: 'https://api.lucidtrades.com/api/Group',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        data: submissionData,
+      };
+
+      const res = await axios(options);
+      console.log('Response from addFriend:', res.data);
+    } catch (error) {
+      console.error('An error occurred:', error);
+    }
+  };
+
 
   return (
     <SafeAreaView style={styles.background}>
@@ -25,13 +58,13 @@ export default function MakeAGroupScreen() {
         title="Title"
         placeholder="Your custom placeholder here"
         keyboardType="default"
-        onChangeText={text => console.log(text)}
+        onChangeText={text => setGroupTitle(text)} // Updated
       />
       <TextInputComponent
         title="Description"
         placeholder="Write a short description"
         keyboardType="default"
-        onChangeText={text => console.log(text)}
+        onChangeText={text => setGroupDescription(text)} // Updated
         inputHeight={110}
       />
       <TextInputComponentWithAdd
@@ -57,20 +90,24 @@ export default function MakeAGroupScreen() {
         title="Visibility"
         toggleTexts={['Private', 'Public']}
         onToggle={activeText => {
-          console.log('Toggled:', activeText);
+          setIsPrivate(activeText === 'Public');
+          console.log('Visibility:', activeText);
         }}
       />
+
       <ToggleButton
         title="Exposure"
         toggleTexts={['Regular', 'Featured']}
         onToggle={activeText => {
-          console.log('Toggled:', activeText);
+          setIsFeatured(activeText === 'Featured');
+          console.log('Exposure:', activeText);
         }}
       />
+
       <CompleteButton
         text="Submit"
         color={GlobalStyles.Colors.primary200}
-        onPress={() => console.log('Button pressed!')}
+        onPress={VisibilityExposure}
       />
     </SafeAreaView>
   );

@@ -133,14 +133,14 @@ function App(): JSX.Element {
           name="GroupDetailsScreen"
           component={GroupDetailsScreen}
         /> */}
-        {/* <Stack.Screen
+        <Stack.Screen
           name="MakeAGroupScreen"
           component={MakeAGroupScreen}
-        /> */}
-        <Stack.Screen
+        />
+        {/* <Stack.Screen
           name="AddFriendScreen"
           component={AddFriendScreen}
-        />
+        /> */}
         {/* <Stack.Screen
           name="SpotlightNavOne"
           component={SpotlightNavOne}
