@@ -26,23 +26,23 @@ export default function LevelsScreen() {
           status="gold"
           title="Gold Status"
           subtext="OMNIS Score Champion is someone who has successfully built and maintained a high OMNIS Score."
-          statusVisible={true}
+          statusVisible={false}
           progress={20}
         />
         <ScoreName
           status="silver"
           title="Silver Status"
-          subtext="Mid tier rewards"
-          statusVisible={true}
+          subtext="Money Master is an individual who makes informed decisions that lead to financial success and wealth creation."
+          statusVisible={false}
           progress={50}
         />
-<ScoreName
-  status="bronze"
-  title="Budgeting Champion"
-  subtext="Budgeting Champion is someone who has demonstrated skills in managing their finance."
-  statusVisible={true}
-  progress={80}
-/>
+        <ScoreName
+          status="bronze"
+          title="Budgeting Champion"
+          subtext="Budgeting Champion is someone who has demonstrated skills in managing their finance."
+          statusVisible={true}
+          progress={80}
+        />
       </View>
     </SafeAreaView>
   );

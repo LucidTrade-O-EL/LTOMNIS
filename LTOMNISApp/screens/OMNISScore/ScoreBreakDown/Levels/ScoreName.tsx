@@ -47,17 +47,18 @@ const ScoreName: React.FC<Props> = ({
   };
 
   const getGradientColors = () => {
-    if (!statusVisible) return ['#FFFFFF', '#FFFFFF']; // Default colors
+    if (!statusVisible)
+      return ['#F6F4F4', '#F6F4F4', '#F6F4F4', '#F6F4F4', '#F6F4F4']; // Default colors
 
     switch (status) {
       case 'gold':
-        return ['#E3C4AB','#DDAF7C','#D18A2A','#835726', '#513623']; // Gold colors
+        return ['#E3C4AB', '#DDAF7C', '#D18A2A', '#835726', '#513623']; // Gold colors
       case 'silver':
-        return ['#F6F4F4','#BFC0C1','#8B8E91','#535456', '#1E1E1E']; // Silver colors
+        return ['#F6F4F4', '#BFC0C1', '#8B8E91', '#535456', '#1E1E1E']; // Silver colors
       case 'bronze':
         return ['#B08766', '#B3794E', '#B7652C', '#714426', '#463122']; // Bronze colors
       default:
-        return ['#FFFFFF', '#FFFFFF']; // Default colors
+        return ['#F6F4F4', '#F6F4F4', '#F6F4F4', '#F6F4F4', '#F6F4F4']; // Default colors
     }
   };
 
@@ -67,7 +68,6 @@ const ScoreName: React.FC<Props> = ({
     }
     return undefined; // Default: equal spacing
   };
-  
 
   const getProgressBarColor = () => {
     switch (status) {
@@ -90,20 +90,35 @@ const ScoreName: React.FC<Props> = ({
       <View style={styles.row}>
         <LottieView
           source={getLottieSource()}
-          autoPlay
+          autoPlay={statusVisible} // Set autoPlay based on statusVisible prop
           loop
           style={styles.lottie}
         />
         <View style={styles.textContainer}>
-          <Text style={styles.title}>{title}</Text>
-          <Text style={styles.subtext}>{subtext}</Text>
+          <Text
+            style={[styles.title, {color: statusVisible ? 'white' : 'black'}]}>
+            {title}
+          </Text>
+          <Text
+            style={[
+              styles.subtext,
+              {color: statusVisible ? 'white' : 'black'},
+            ]}>
+            {subtext}
+          </Text>
           <View style={styles.pointsCircle}>
             <StarCircle
               iconName="star-four-points-outline"
               height={16}
               width={16}
             />
-            <Text style={styles.score}>{getScore()}</Text>
+            <Text
+              style={[
+                styles.score,
+                {color: statusVisible ? 'white' : 'black'},
+              ]}>
+              {getScore()}
+            </Text>
           </View>
         </View>
       </View>
@@ -163,7 +178,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 18,
-    fontWeight: '700',
+    fontWeight: '600',
     color: GlobalStyles.Colors.primary800,
     marginBottom: 5,
   },

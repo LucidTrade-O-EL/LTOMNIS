@@ -119,7 +119,7 @@ function App(): JSX.Element {
                 {/* <Stack.Screen name="ScoreBreakDown" component={ScoreBreakDown} /> */}
 
 
-                {/* <Stack.Screen name="LevelsScreen" component={LevelsScreen} /> */}
+                <Stack.Screen name="LevelsScreen" component={LevelsScreen} />
 
 
         {/* <Stack.Screen name="PaymentStatus" component={PaymentStatus} /> */}
@@ -133,10 +133,10 @@ function App(): JSX.Element {
           name="GroupDetailsScreen"
           component={GroupDetailsScreen}
         /> */}
-        <Stack.Screen
+        {/* <Stack.Screen
           name="MakeAGroupScreen"
           component={MakeAGroupScreen}
-        />
+        /> */}
         {/* <Stack.Screen
           name="AddFriendScreen"
           component={AddFriendScreen}
