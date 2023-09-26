@@ -13,10 +13,6 @@ const handleButtonPress = () => {
   console.log('Button Pressed');
 };
 
-const [group, setGroup] = useState([{title: 'Initial title'}]);
-const [featuredGroup, setFeaturedGroup] = useState([{}]);
-const [interestGroup, setInterestGroup] = useState([{}]);
-
 const GetMyGroup = async () => {
   try {
     const options = {
@@ -160,6 +156,19 @@ const images2 = [
 ];
 
 export default function GroupsScreen() {
+  const [group, setGroup] = useState([{title: 'Initial title'}]);
+  const [featuredGroup, setFeaturedGroup] = useState([{}]);
+  const [interestGroup, setInterestGroup] = useState([{}]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      await GetMyGroup();
+      await GetMyFeaturedGroup();
+      await GetMyInterestGroup();
+    };
+
+    fetchData();
+  }, []);
   return (
     <SafeAreaView style={styles.background}>
       <View style={{marginTop: 20, width: '100%', alignSelf: 'center'}}>

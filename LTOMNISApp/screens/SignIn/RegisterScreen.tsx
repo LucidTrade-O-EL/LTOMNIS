@@ -9,7 +9,6 @@ import {
 import React, {useState} from 'react';
 import {Divider} from '@rneui/themed';
 import axios from 'axios';
-import i18n from '../../assets/constants/Transaltion/i18n';
 
 export default function RegisterScreen() {
   const [name, setName] = useState('');
@@ -52,8 +51,8 @@ export default function RegisterScreen() {
 
   return (
     <View style={styles.background}>
-      <Text style={styles.text}>{i18n.t('letsGetStarted')}</Text>
-      <Text style={styles.smallText}>{i18n.t('createYourAccount')}</Text>
+      <Text style={styles.text}>letsGetStarted</Text>
+      <Text style={styles.smallText}>createYourAccount</Text>
       <View style={styles.view1}>
         {/* input boxes */}
         <Text
@@ -65,7 +64,7 @@ export default function RegisterScreen() {
             alignSelf: 'flex-start',
             paddingLeft: 20,
           }}>
-          {i18n.t('fullName')}
+          fullName
         </Text>
         <TextInput
           style={[styles.textImputBox, styles.smallText]}
@@ -84,7 +83,7 @@ export default function RegisterScreen() {
             alignSelf: 'flex-start',
             paddingLeft: 20,
           }}>
-          {i18n.t('email')}
+          email
         </Text>
         <TextInput
           style={[styles.textImputBox, styles.smallText]}
@@ -103,7 +102,7 @@ export default function RegisterScreen() {
             alignSelf: 'flex-start',
             paddingLeft: 20,
           }}>
-          {i18n.t('password')}
+          password
         </Text>
         <TextInput
           style={[styles.textImputBox, styles.smallText]}
@@ -123,7 +122,7 @@ export default function RegisterScreen() {
         />
         {invalidPassword ? (
           <Text style={[styles.smallText, {color: 'red'}]}>
-            {i18n.t('passwordLengthWarning')}
+            password Length Warning
           </Text>
         ) : (
           <Text> </Text>
@@ -137,7 +136,7 @@ export default function RegisterScreen() {
             alignSelf: 'flex-start',
             paddingLeft: 20,
           }}>
-          {i18n.t('confirmPassword')}
+          confirm Password
         </Text>
         <TextInput
           style={[styles.textImputBox, styles.smallText]}
@@ -152,7 +151,7 @@ export default function RegisterScreen() {
       {/* signup  */}
       <View style={styles.view2}>
         <Pressable style={styles.button} onPress={register}>
-          <Text style={styles.buttonText}>{i18n.t('signUp')}</Text>
+          <Text style={styles.buttonText}>sign Up</Text>
         </Pressable>
 
         {/* or Register with */}
@@ -174,7 +173,7 @@ export default function RegisterScreen() {
             }}>
             <Divider style={{flex: 1, height: 1, backgroundColor: '#fff'}} />
             <Text style={{marginHorizontal: 10, color: '#fff', fontSize: 12}}>
-              {i18n.t('orRegisterWith')}
+              or Register With
             </Text>
             <Divider style={{flex: 1, height: 1, backgroundColor: '#fff'}} />
           </View>
@@ -198,11 +197,10 @@ export default function RegisterScreen() {
 
         <Pressable style={styles.login} onPress={() => {}}>
           <Text style={{color: 'white', fontSize: 14}}>
-            {i18n.t('alreadyHaveAccount')}
+            already Have Account
           </Text>
           <Text style={{color: '#BDAE8D', fontSize: 14}}>
-            {' '}
-            {i18n.t('login')}
+            login
           </Text>
         </Pressable>
       </View>

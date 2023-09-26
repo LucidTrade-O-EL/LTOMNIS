@@ -4,7 +4,7 @@ import {View, Text, StyleSheet, Image} from 'react-native';
 export default function SplashScreen(): JSX.Element {
   return (
     <View style={styles.background}>
-      <Image style={styles.image} source={require('../assets/gradient9.png')} />
+      {/* <Image style={styles.image} source={require('/Users/omnisceo/Desktop/ZKJ/LTOMNIS/LTOMNISApp/assets/gradient9.png')} /> */}
     </View>
   );
 }

@@ -8,15 +8,17 @@ import {
 } from 'react-native';
 import React from 'react';
 import GlobalStyles from '../../assets/constants/colors';
+import { NavigationPropType, User } from '../../types';
 
-export default function OnboardingScreen1() {
+const OnboardingScreen1: React.FC<NavigationPropType> = ({ navigation }) => {
+
   return (
     <View style={styles.background}>
       <ImageBackground
         source={require('../../assets/Onboarding.png')}
         style={styles.image}>
         <View style={{height: '50%', marginTop: 75}}>
-          <Pressable style={styles.button} onPress={() => {}}>
+          <Pressable style={styles.button} onPress={() => {navigation.navigate('Onboarding2')}}>
             <Text style={{color: GlobalStyles.Colors.primary100}}>Skip</Text>
           </Pressable>
         </View>
@@ -78,3 +80,5 @@ const styles = StyleSheet.create({
     backgroundColor: GlobalStyles.Colors.primary900,
   },
 });
+
+export default OnboardingScreen1;

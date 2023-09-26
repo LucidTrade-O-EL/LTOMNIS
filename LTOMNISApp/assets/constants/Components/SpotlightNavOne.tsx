@@ -106,11 +106,11 @@ function CustomTabBar({ state, descriptors, navigation }: MaterialTopTabBarProps
 export default function SpotlightNavOne() {
     return (
       <Tab.Navigator tabBar={props => <CustomTabBar {...props} />}>
-        <Tab.Screen
+        {/* <Tab.Screen
           options={{title: 'Groups'}}
           name="GroupsScreen"
           component={GroupsScreen}
-        />        
+        />         */}
         <Tab.Screen
           options={{title: 'Friends'}}
           name="FriendsScreen"

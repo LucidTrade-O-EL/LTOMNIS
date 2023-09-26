@@ -70,22 +70,19 @@ export default function FriendsScreen() {
         <CustomTitle
           title="My friends"
           buttonText="Show all"
-          onButtonPress={handleButtonPress}
-        />
+          onButtonPress={handleButtonPress} data={[]}        />
         <ProfileCustomCarousel images={images} />
         <View style={{marginTop: 20}} />
         <CustomTitle
           title="People you may know"
           buttonText="Show all"
-          onButtonPress={handleButtonPress}
-        />
+          onButtonPress={handleButtonPress} data={[]}        />
         <ProfileCustomCarousel images={images2} />
         <View style={{marginTop: 20}}>
           <CustomTitle
             title="NFC friends"
             buttonText="Add Friend"
-            onButtonPress={handleButtonPress}
-          />
+            onButtonPress={handleButtonPress} data={[]}          />
           <View style={{height: 170, width: '90%', alignSelf: 'center'}}>
             <Image
               style={{width: '100%', height: '100%', borderRadius: 20}}

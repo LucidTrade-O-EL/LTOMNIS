@@ -1,26 +1,42 @@
-import {View, Text, Image} from 'react-native';
-import React, {useState} from 'react';
+import {View} from 'react-native';
+import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import HomeScreen from '../screens/HomeScreen';
 import GlobalStyles from '../assets/constants/colors';
 import {StyleSheet} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
-import {shadow} from 'react-native-paper';
 import RegisterScreen from '../screens/SignIn/RegisterScreen';
 import Octicons from 'react-native-vector-icons/Octicons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import SignInScreen from '../screens/SignIn/SignInScreen';
 import SignUpScreen from '../screens/SignUp/SignUpScreen';
 import Verification from '../screens/auth/Verification';
+import { GestureResponderEvent } from 'react-native';
+import Svg, { Path } from 'react-native-svg';
+import OMNISScoreScreen from '../screens/OMNISScore/OMNISScoreScreen';
+import SpotlightScreen from '../screens/Spotlight/SpotlightScreen';
 
-// import the other tabs for screens
-
-const Tab = createBottomTabNavigator();
 
 interface CustomTabBarButtonProps {
   children: React.ReactNode;
-  onPress: () => void;
+  onPress: (e?: GestureResponderEvent) => void;
 }
+
+const Tab = createBottomTabNavigator();
+
+const TabBarBackground = () => {
+  return (
+    <View style={styles.tabBarBackground}>
+      <Svg width="100%" height="100%" viewBox="0 0 500 80">
+        <Path
+          d="M0,0 L500,0 L500,50 Q250,70 0,50 L0,0"
+          fill="yourColorHere"
+        />
+      </Svg>
+    </View>
+  );
+};
+
 
 const CustomTabBarButton: React.FC<CustomTabBarButtonProps> = ({
   children,
@@ -32,7 +48,7 @@ const CustomTabBarButton: React.FC<CustomTabBarButtonProps> = ({
       top: -20,
       justifyContent: 'center',
       alignItems: 'center',
-      ...shadow,
+      ...styles.shadow, // change this line
     }}>
     <View
       style={{
@@ -46,9 +62,8 @@ const CustomTabBarButton: React.FC<CustomTabBarButtonProps> = ({
   </TouchableOpacity>
 );
 
-export default function Tabs() {
-  const [isImageClicked, setImageClicked] = useState(false);
 
+export default function Tabs() {
   return (
     <View style={{flex: 1}}>
       <Tab.Navigator
@@ -59,7 +74,7 @@ export default function Tabs() {
             position: 'absolute',
             backgroundColor: GlobalStyles.Colors.primary700,
             borderRadius: 10,
-            height: 90,
+            height: '8%',
             ...styles.shadow,
           },
         }}>
@@ -107,13 +122,15 @@ export default function Tabs() {
                 size={30}
                 color={GlobalStyles.Colors.primary900}
               />
-            ),
-            tabBarButton: props => <CustomTabBarButton {...props} />,
-          }}
+              ),
+              tabBarButton: props => (
+                <CustomTabBarButton {...props} onPress={() => {props.onPress}} /> 
+              ),
+            }}
         />
         <Tab.Screen
-          name="SignUp"
-          component={SignUpScreen}
+          name="OMNISScoreScreen"
+          component={OMNISScoreScreen}
           options={{
             tabBarIcon: ({focused}) => (
               <Ionicons
@@ -129,8 +146,8 @@ export default function Tabs() {
           }}
         />
         <Tab.Screen
-          name="Verification"
-          component={Verification}
+          name="SpotlightScreen"
+          component={SpotlightScreen}
           options={{
             tabBarIcon: ({focused}) => (
               <Ionicons
@@ -145,9 +162,6 @@ export default function Tabs() {
             ),
           }}
         />
-        {/* <Tab.Screen name='HomeScreen' component={OMNISScore}/> */}
-        {/* <Tab.Screen name='HomeScreen' component={Spotlight}/> */}
-        {/* <Tab.Screen name='HomeScreen' component={AddPost}/>  */}
       </Tab.Navigator>
     </View>
   );
@@ -155,7 +169,7 @@ export default function Tabs() {
 
 const styles = StyleSheet.create({
   shadow: {
-    shadowColor: '#7F5DF0',
+    shadowColor: '#000000', // Change Shadow
     shadowOffset: {
       width: 0,
       height: 10,
@@ -163,5 +177,14 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.5,
     elevation: 5,
+  },
+  tabBarBackground: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    height: 80,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
