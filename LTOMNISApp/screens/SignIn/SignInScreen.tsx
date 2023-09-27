@@ -13,11 +13,19 @@ import {Divider} from '@rneui/themed';
 import PasswordValidation from '../auth/passwordValidation';
 import axios from 'axios';
 
-export default function SignInScreen() {
-  // UseState
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+interface SignInScreenProps {
+  token: string;
+}
+
+const SignInScreen: React.FC<SignInScreenProps> = ({
+  token,
+}) => {
+  
+const [email, setEmail] = useState('');
+const [password, setPassword] = useState('');
+const [user, setUser] = useState<{ token?: string }>({});
+const [userToken, setUserToken] = useState('');
 
   const signIn = async () => {
     try {
@@ -34,22 +42,36 @@ export default function SignInScreen() {
           'Content-Type': 'application/json',
         },
       };
-
+      
       const res = await axios(options);
-
+      if (res.status !== 200) {
+        throw new Error('Non-OK status code: ' + res.status);
+      }
+      
       console.log('data payload ', res.data, res.headers);
 
-      const user = res.data; // I should be able to get bearer token.
+      const user = res.data;
+      const token = user.token;
+
+
 
       if (user == null) {
         console.log('No user data recieved');
       }
+
+            console.log(`this is the token ${userToken}`)
+      
+      setUserToken(user.token);
+      setUser(user)
 
       console.log('user: ', user);
     } catch (error: any) {
       console.error('An error occured:', error);
     }
   };
+  
+
+  
 
   return (
     <SafeAreaView style={styles.Background}>
@@ -135,8 +157,8 @@ export default function SignInScreen() {
       </View>
 
       {/* Sign In Button */}
-      <Pressable
-        style={[styles.SignButton, styles.SignButtonOutlined]} onPress={signIn} >
+      <Pressable onPress={async () => await signIn()}
+        style={[styles.SignButton, styles.SignButtonOutlined]}>
         <Text style={[styles.SignButtonText, styles.SignButtonTextOutlined]}>
           Sign In
         </Text>
@@ -230,7 +252,7 @@ export default function SignInScreen() {
       </Pressable>
     </SafeAreaView>
   );
-}
+          }
 
 const styles = StyleSheet.create({
   Background: {
@@ -342,3 +364,5 @@ const styles = StyleSheet.create({
     color: 'white', // color when there is input
   },
 });
+
+export default SignInScreen

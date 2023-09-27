@@ -3,6 +3,30 @@ import { View, TextInput, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import GlobalStyles from '../../colors';
 
+interface FriendListProps {
+  searchFriendHandler: (friend: Friend) => void;
+}
+
+const friendsData: Friend[] = [
+  {
+    id: '1',
+    name: 'Zak Veasy',
+    username: 'pablo',
+    avatarImage: '',
+    isFriend: false,
+    friends: [], // <-- add this
+    // friends property is missing here
+  },
+  {
+    id: '2',
+    name: 'Friend Ns',
+    username: 'pablo2',
+    isFriend: true,
+    friends: [], // <-- add this
+    // friends property is missing here too
+  },
+];
+
 const SearchTextBox = ({ placeholder = "Search", ...props }) => {
   return (
     <View style={styles.container}>

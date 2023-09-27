@@ -1,4 +1,4 @@
-import {View, Text, StyleSheet, SafeAreaView} from 'react-native';
+import {View, Text, StyleSheet, SafeAreaView, FlatList} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import GlobalStyles from '../../../assets/constants/colors';
 import ScreenTitle from '../../../assets/constants/Components/ScreenTitle';
@@ -14,7 +14,34 @@ export default function AddFriendScreen() {
     try {
       const options = {
         method: 'GET',
-        url: 'https://api.lucidtrades.com/api/FriendRequest',
+        url: 'https://api.lucidtrades.com/api/FriendRequest/friends',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+      };
+
+      const res = await axios(options);
+
+      console.log('data payload ', res.data, res.headers);
+
+      const user = res.data;
+
+      if (user) {
+        setFriendListData(user); // Assuming the data structure matches your Friend type
+      } else {
+        console.log('No user data received');
+      }
+    } catch (error: any) {
+      console.error('An error occurred:', error);
+    }
+  };
+
+  const searchFriendListData = async () => {
+    try {
+      const options = {
+        method: 'GET',
+        url: `https://api.lucidtrades.com/api/FriendRequest/${friends.email}`,
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
@@ -60,13 +87,12 @@ export default function AddFriendScreen() {
   const unfriend = async (friendData: Friend) => {
     try {
       const options = {
-        method: 'POST',
-        url: 'https://api.lucidtrades.com/api/Unfriend', // Make sure this is the correct endpoint
+        method: 'DELETE',
+        url: `https://api.lucidtrades.com/api/FriendRequest/${friendData.id}`,
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
         },
-        data: friendData,
       };
 
       const res = await axios(options);

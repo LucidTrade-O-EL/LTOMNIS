@@ -5,10 +5,12 @@ import {
   TextInput,
   Pressable,
   Image,
+  Alert,
 } from 'react-native';
 import React, {useState} from 'react';
 import {Divider} from '@rneui/themed';
 import axios from 'axios';
+
 
 export default function RegisterScreen() {
   const [name, setName] = useState('');
@@ -16,43 +18,67 @@ export default function RegisterScreen() {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [invalidPassword, setInvalidPassword] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const register = async () => {
+    // Regular expression to check if the password contains at least one digit and one special character.
+    const passwordRegex = /^(?=.*\d)(?=.*[\W_]).{8,}$/;
+
+    if (!passwordRegex.test(password)) {
+      console.log('Invalid password');
+      setErrorMessage(
+        'Password must be at least 8 characters, contain a number and a special character.',
+      );
+      setInvalidPassword(true);
+      return; // Exit the function early if password is invalid
+    } else {
+      setInvalidPassword(false);
+    }
+
+    // Check name length
+    if (name.length < 2) {
+      console.log('Name too short');
+      setErrorMessage('Name must be at least 2 characters long.');
+      return; // Exit the function early if name is too short
+    }
+
+    if (errorMessage) {
+    Alert.alert('Error', errorMessage);
+    return;
+  }
+
+    setErrorMessage(null);
+
     try {
       const options = {
         method: 'POST',
-
         url: 'https://api.lucidtrades.com/api/Account/register',
-
         data: {name, email, password, confirmPassword},
-
         headers: {
           Accept: 'application/json',
-
           'Content-Type': 'application/json',
         },
       };
 
       const res = await axios(options);
-
       console.log('data payload ', res.data, res.headers);
 
       const user = res.data;
 
       if (user == null) {
-        console.log('No user data recieved');
+        console.log('No user data received');
       }
 
       console.log('user: ', user);
     } catch (error: any) {
-      console.error('An error occured:', error);
+      console.error('An error occurred:', error);
     }
   };
 
   return (
     <View style={styles.background}>
-      <Text style={styles.text}>letsGetStarted</Text>
-      <Text style={styles.smallText}>createYourAccount</Text>
+      <Text style={styles.text}>lets Get Started</Text>
+      <Text style={styles.smallText}>create Your Account</Text>
       <View style={styles.view1}>
         {/* input boxes */}
         <Text
@@ -199,9 +225,7 @@ export default function RegisterScreen() {
           <Text style={{color: 'white', fontSize: 14}}>
             already Have Account
           </Text>
-          <Text style={{color: '#BDAE8D', fontSize: 14}}>
-            login
-          </Text>
+          <Text style={{color: '#BDAE8D', fontSize: 14}}>login</Text>
         </Pressable>
       </View>
     </View>

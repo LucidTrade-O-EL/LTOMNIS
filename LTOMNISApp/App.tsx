@@ -149,13 +149,15 @@ function AuthStackNavigator() {
 const OnboardingStack = () => {
   return (
     <Stack.Navigator
-      initialRouteName="Onboarding1"
+      initialRouteName="SignInScreen"
       screenOptions={{
         headerShown: false, 
       }}>
       <Stack.Screen name="Onboarding1" component={OnboardingScreen1} />
       <Stack.Screen name="Onboarding2" component={OnboardingScreen2} />
-      <Stack.Screen name="Onboarding3" component={OnboardingScreen3} />
+      <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
+      <Stack.Screen name="SignInScreen" component={SignInScreen} />
+      {/* <Stack.Screen name="AddFriendScreen" component={AddFriendScreen} /> */}
       <Stack.Screen name="Onboarding4" component={OnboardingScreen4} />
     </Stack.Navigator>
   );
@@ -203,6 +205,8 @@ export default function Root() {
 }
 
 export {App};
+
+
 
 // return (
 //   <NavigationContainer>
