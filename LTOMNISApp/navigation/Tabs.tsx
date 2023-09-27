@@ -74,7 +74,7 @@ export default function Tabs() {
             position: 'absolute',
             backgroundColor: GlobalStyles.Colors.primary700,
             borderRadius: 10,
-            height: '8%',
+            height: '9%',
             ...styles.shadow,
           },
         }}>

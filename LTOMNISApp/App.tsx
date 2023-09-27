@@ -97,7 +97,7 @@ function AppContent() {
   // Example usage: dispatch actions to update the state
   React.useEffect(() => {
     // For example, after checking AsyncStorage or some other logic
-    dispatch(setHasViewedOnboarding(true));
+    dispatch(setHasViewedOnboarding(false));
     dispatch(setIsSignedIn(true));
   }, [dispatch]);
 
@@ -148,7 +148,11 @@ function AuthStackNavigator() {
 
 const OnboardingStack = () => {
   return (
-    <Stack.Navigator initialRouteName="Onboarding1">
+    <Stack.Navigator
+      initialRouteName="Onboarding1"
+      screenOptions={{
+        headerShown: false, 
+      }}>
       <Stack.Screen name="Onboarding1" component={OnboardingScreen1} />
       <Stack.Screen name="Onboarding2" component={OnboardingScreen2} />
       <Stack.Screen name="Onboarding3" component={OnboardingScreen3} />
@@ -157,21 +161,19 @@ const OnboardingStack = () => {
   );
 };
 
-export default function App() {
-  const [isLoading, setIsLoading] = React.useState(true); // Initial state set to true to show the SplashScreen first
+function App() {
+  const [isLoading, setIsLoading] = React.useState(true);
 
   React.useEffect(() => {
-    // Replace this with actual loading and setup logic
     const initializeApp = async () => {
-      // let token = await checkForStoredToken();
-      // setIsSignedIn(!!token);
+      const token = await AsyncStorage.getItem('token');
+      const hasViewedOnboarding = await AsyncStorage.getItem(
+        'hasViewedOnboarding',
+      );
 
-      // Example:
-      // const token = await AsyncStorage.getItem('token');
-      // const hasViewedOnboarding = await AsyncStorage.getItem('hasViewedOnboarding');
-
-      // dispatch(setHasViewedOnboarding(hasViewedOnboarding));
-      // dispatch(setIsSignedIn(!!token));
+      // Here, avoid using dispatch if you're outside of Provider
+      store.dispatch(setHasViewedOnboarding(hasViewedOnboarding === 'true'));
+      store.dispatch(setIsSignedIn(!!token));
       setIsLoading(false);
     };
 
@@ -183,13 +185,20 @@ export default function App() {
   }
 
   return (
-    <GestureHandlerRootView style={{flex: 1}}>
-      <Provider store={store}>
-        <NavigationContainer>
-          <AppContent />
-        </NavigationContainer>
-      </Provider>
-    </GestureHandlerRootView>
+    <NavigationContainer>
+      <AppContent />
+    </NavigationContainer>
+  );
+}
+
+// This is the root component
+export default function Root() {
+  return (
+    <Provider store={store}>
+      <GestureHandlerRootView style={{flex: 1}}>
+        <App />
+      </GestureHandlerRootView>
+    </Provider>
   );
 }
 

@@ -39,7 +39,7 @@ export default function SignInScreen() {
 
       console.log('data payload ', res.data, res.headers);
 
-      const user = res.data;
+      const user = res.data; // I should be able to get bearer token.
 
       if (user == null) {
         console.log('No user data recieved');

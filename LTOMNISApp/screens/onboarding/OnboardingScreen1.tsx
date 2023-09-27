@@ -9,10 +9,35 @@ import {
 import React from 'react';
 import GlobalStyles from '../../assets/constants/colors';
 import { NavigationPropType, User } from '../../types';
+import Swiper from 'react-native-swiper';
+import { useDispatch, useSelector } from 'react-redux';
+import { setCurrentDot } from '../../actions';
+import { SetCurrentDotActionType } from '../../types';
+import { RootState, AppDispatch } from '../../store';import { assertString } from '../../types';
+
 
 const OnboardingScreen1: React.FC<NavigationPropType> = ({ navigation }) => {
+  let data: unknown;
+  if (typeof data === 'string') {
+    // data is treated as string within this block
+    console.log(data.toUpperCase());
+  }
+  
+  // Now TypeScript treats data as a string in this scope.
 
+  const dispatch = useDispatch<AppDispatch>();
+
+  const handleDotClick = (dotIndex: number) => {
+    dispatch(setCurrentDot(dotIndex));
+  };
   return (
+    <Swiper
+      showsButtons={false}
+      loop={false}
+      paginationStyle={styles.pagination}
+      dotColor="white"
+      activeDotColor="blue"
+    >
     <View style={styles.background}>
       <ImageBackground
         source={require('../../assets/Onboarding.png')}
@@ -32,6 +57,7 @@ const OnboardingScreen1: React.FC<NavigationPropType> = ({ navigation }) => {
         </View>
       </ImageBackground>
     </View>
+    </Swiper>
   );
 }
 
@@ -73,7 +99,9 @@ const styles = StyleSheet.create({
     fontWeight: 'normal',
     lineHeight: 30,
   },
-
+  pagination: {
+    bottom: 10,
+  },
   view: {
     padding: 20,
     height: '50%',
