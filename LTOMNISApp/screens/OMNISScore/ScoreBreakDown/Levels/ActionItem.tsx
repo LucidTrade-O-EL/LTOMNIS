@@ -8,8 +8,7 @@ import StarCircle from '../../../../assets/constants/Components/Buttons/StarCirc
 type Status = 'gold' | 'silver' | 'bronze';
 
 
-const ActionItem: React.FC<{ text: string, isCompleted: boolean, status: string }> = ({ text, isCompleted, status }) => {
-    const [isChecked, setChecked] = useState(isCompleted);
+const ActionItem: React.FC<{ text: string, isCompleted: boolean, status: Status }> = ({ text, isCompleted, status }) => {    const [isChecked, setChecked] = useState(isCompleted);
   
     // Conditionally change the text based on the status
     const statusText: Record<Status, string> = {
@@ -26,7 +25,7 @@ const ActionItem: React.FC<{ text: string, isCompleted: boolean, status: string 
                     <StarCircle iconName="star-four-points-outline" height={16} width={16} />
                     <Text style={{ left: 5, fontSize: 16, fontWeight: '500' }}>50</Text>
                 </View>
-                <Text style={styles.text}>{statusText[status]}{text}</Text>            
+                <Text style={styles.text}>{statusText[status]}{text}</Text>         
           </View>
 
         <CheckBox
@@ -65,12 +64,13 @@ const styles = StyleSheet.create({
 
 // Example usage with FlatList
 const ActionItemList: React.FC = () => {
-    const data = [
-      { text: 'Payback 10 loans on time', isCompleted: false, status: 'gold', key: '1' }, 
-      { text: 'Item 2', isCompleted: true, status: 'silver', key: '2' },
-      { text: 'Item 3', isCompleted: false, status: 'bronze', key: '3' },
-      { text: 'Item 4', isCompleted: true, status: 'gold', key: '4' },
-    ];
+    const data: { text: string, isCompleted: boolean, status: Status, key: string }[] = [
+        { text: 'Payback 10 loans on time', isCompleted: false, status: 'gold', key: '1' }, 
+        { text: 'Item 2', isCompleted: true, status: 'silver', key: '2' },
+        { text: 'Item 3', isCompleted: false, status: 'bronze', key: '3' },
+        { text: 'Item 4', isCompleted: true, status: 'gold', key: '4' },
+      ];
+      
   
     // Filter data to keep only items with bronze status
     const bronzeData = data.filter(item => item.status === 'bronze');
