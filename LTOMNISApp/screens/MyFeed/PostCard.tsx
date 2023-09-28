@@ -17,6 +17,7 @@ export type PostCardProps = {
   subtext?: string; // added subtext prop
   imageUrl?: string; // added imageUrl prop
   offerText?: string; 
+  id: string;
 };
 
 export const PostCard: React.FC<PostCardProps> = ({
@@ -30,7 +31,8 @@ export const PostCard: React.FC<PostCardProps> = ({
   totalAmount,
   progress,
   imageUrl,
-  offerText
+  offerText,
+  id
 }) => {
   const progressBarRef = useRef<View>(null);
   const calculatedProgressBarWidth =

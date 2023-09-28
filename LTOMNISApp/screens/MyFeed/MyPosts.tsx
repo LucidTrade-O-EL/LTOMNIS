@@ -1,38 +1,37 @@
-import React from 'react';
-import { View, Text, StyleSheet, FlatList } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, StyleSheet, FlatList } from 'react-native';
 import { PostCard, PostCardProps } from './PostCard';
 import GlobalStyles from '../../assets/constants/colors';
+import axios from 'axios';
 
 export default function MyPosts() {
-  // Data array
-  const postData = [
-    {
-      id: '1',
-      avatar: 'https://randomuser.me/api/portraits/men/41.jpg',
-      firstname: 'John',
-      lastname: 'Doe',
-      hours: 1,
-      number: 5000,
-      totalAmount: 100,
-      progress: 50,
-      title: 'This is a Post Title',
-      subtext: 'This is some subtext for the post. It provides more information about the post.',
-      imageUrl: 'https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8Y2FtcGluZ3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60',
-      offerText: 'Details',
-    },
-    {
-      id: '2',
-      firstname: 'Jane',
-      lastname: 'Smith',
-      hours: 2,
-      number: 3000,
-      totalAmount: 100,
-      progress: 80,
-      title: 'Another Post Title',
-      subtext: 'Here is more subtext for another post.',
-      offerText: 'Details',
-    },
-  ];
+  const [postData, setPostData] = useState<PostCardProps[]>([]);
+
+  const fetchMyPostFeedList = async () => {
+    try {
+      const options = {
+        method: 'GET',
+        url: 'https://api.lucidtrades.com/api/User/Feed',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+      };
+
+      const res = await axios(options);
+      if (res.data) {
+        setPostData(res.data); // Set the post data with the data from the API.
+      } else {
+        console.log('No user data received');
+      }
+    } catch (error: any) {
+      console.error('An error occurred:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchMyPostFeedList(); // Fetch data when the component mounts
+  }, []);
 
   // renderItem function
   const renderItem = ({ item }: { item: PostCardProps }) => (
@@ -48,13 +47,14 @@ export default function MyPosts() {
       subtext={item.subtext}
       imageUrl={item.imageUrl}
       offerText={item.offerText}
+      id={'1'}
     />
   );
 
   return (
     <View style={styles.container}>
       <FlatList
-        data={postData} // pass the data array
+        data={postData} // pass the postData state variable here
         renderItem={renderItem} // pass the renderItem function
         keyExtractor={item => item.id} // use id for keyExtractor
       />

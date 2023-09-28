@@ -48,6 +48,7 @@ export default function Featured() {
       subtext={item.subtext}
       imageUrl={item.imageUrl}
       offerText={item.offerText}
+      id={item.id}
     />
   );
 
