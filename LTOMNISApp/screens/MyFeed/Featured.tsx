@@ -12,6 +12,8 @@ export default function Featured() {
         lastname="Doe"
         hours={1}
         number={5000}
+        totalAmount={100} 
+        progress={50}
         title="This is a Post Title"
         subtext="This is some subtext for the post. It provides more information about the post."
         imageUrl="https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8Y2FtcGluZ3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60" // using a placeholder image URL
@@ -21,6 +23,8 @@ export default function Featured() {
         lastname="Smith"
         hours={2}
         number={3000}
+        totalAmount={100} 
+        progress={80}
         title="Another Post Title"
         subtext="Here is more subtext for another post."
       />
