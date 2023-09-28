@@ -6,6 +6,8 @@ import SplashScreen from '../SplashScreen/SplashScreen';
 import OnboardingScreen3 from '../onboarding/OnboardingScreen3';
 import OnboardingScreen4 from '../onboarding/OnboardingScreen4';
 import Featured from './Featured';
+import MyPosts from './MyPosts';
+import FriendsFeed from './FriendsFeed';
 
 
 
@@ -26,18 +28,18 @@ export default function FeedTopTabs() {
       }}>
       <Tab.Screen
         options={{title: 'Featured'}}
-        name="VerificaFeaturedtion"
+        name="Featured"
         component={Featured}
       />
       <Tab.Screen
         options={{title: 'My posts'}}
-        name="OnboardingScreen3"
-        component={OnboardingScreen3}
+        name="MyPosts"
+        component={MyPosts}
       />
       <Tab.Screen
         options={{title: 'Friends Feed'}}
-        name="OnboardingScreen4"
-        component={OnboardingScreen4}
+        name="FriendsFeed"
+        component={FriendsFeed}
       />
     </Tab.Navigator>
   );

@@ -1,9 +1,11 @@
+import {color} from '@rneui/base';
 import React, {useEffect, useRef} from 'react';
 import {View, Text, StyleSheet, Image} from 'react-native';
 import {Avatar} from 'react-native-elements';
 import GlobalStyles from '../../assets/constants/colors';
+import StarCircle from '../../assets/constants/Components/Buttons/StarCircle';
 
-type PostCardProps = {
+export type PostCardProps = {
   avatar?: string;
   firstname: string;
   lastname: string;
@@ -14,6 +16,7 @@ type PostCardProps = {
   title?: string; // added title prop
   subtext?: string; // added subtext prop
   imageUrl?: string; // added imageUrl prop
+  offerText?: string; 
 };
 
 export const PostCard: React.FC<PostCardProps> = ({
@@ -27,6 +30,7 @@ export const PostCard: React.FC<PostCardProps> = ({
   totalAmount,
   progress,
   imageUrl,
+  offerText
 }) => {
   const progressBarRef = useRef<View>(null);
   const calculatedProgressBarWidth =
@@ -50,10 +54,15 @@ export const PostCard: React.FC<PostCardProps> = ({
           title={`${firstname.charAt(0)}${lastname.charAt(0)}`}
           containerStyle={{backgroundColor: GlobalStyles.Colors.primary800}}
         />
-        <Text style={styles.text}>{`${firstname} ${lastname}`}</Text>
-        <Text style={styles.text}>{`${hours} hour ago`}</Text>
+        <Text style={styles.NameTitle}>{`${firstname} ${lastname}`}</Text>
+        <Text style={styles.TimeText}>{`${hours} hour ago`}</Text>
         <View style={styles.right}>
-          <Text style={styles.text}>{number}</Text>
+          <StarCircle
+            iconName="star-four-points-outline"
+            height={16}
+            width={16}
+          />
+          <Text style={styles.textNumber}>{number}</Text>
         </View>
       </View>
       {title && <Text style={styles.title}>{title}</Text>}
@@ -71,14 +80,19 @@ export const PostCard: React.FC<PostCardProps> = ({
           />
         </View>
       </View>
-      <View style={{flexDirection: 'row', justifyContent: 'space-between', marginTop: 10}}>
+      <View
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          marginTop: 10,
+        }}>
         <View style={styles.amountContainer}>
           <Text style={styles.progressText}>{`$${progress}`}</Text>
           <Text style={styles.totalAmountText}>{`/ $${totalAmount}`}</Text>
         </View>
         <View style={styles.offerContainer}>
-  <Text style={styles.offerText}>Offer</Text>
-</View>
+          <Text style={styles.offerText}>{offerText}</Text>
+        </View>
       </View>
     </View>
   );
@@ -100,21 +114,42 @@ const styles = StyleSheet.create({
   },
   text: {
     marginLeft: 10,
+    fontSize: 16,
+  },
+  textNumber: {
+    marginLeft: 10,
+    fontSize: 16,
+    fontWeight: '700',
+    color: GlobalStyles.Colors.primary510,
   },
   right: {
     marginLeft: 'auto',
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   title: {
     fontSize: 18,
     fontWeight: 'bold',
     marginLeft: 10,
-    marginBottom: 2,
+    marginVertical: 5,
+  },
+  NameTitle: {
+    fontSize: 14,
+    marginLeft: 10,
+    marginVertical: 5,
+    color: GlobalStyles.Colors.primary500,
+  },
+  TimeText: {
+    fontSize: 14,
+    marginLeft: 10,
+    marginVertical: 5,
+    color: GlobalStyles.Colors.accent120,
   },
   subtext: {
     fontSize: 14,
-    color: 'gray',
+    color: GlobalStyles.Colors.primary800,
     marginLeft: 10,
-    marginBottom: 10,
+    marginBottom: 20,
   },
   image: {
     width: '90%',

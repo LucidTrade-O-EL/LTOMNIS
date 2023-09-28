@@ -3,9 +3,9 @@ import { View, Text, StyleSheet, FlatList } from 'react-native';
 import { PostCard, PostCardProps } from './PostCard';
 import GlobalStyles from '../../assets/constants/colors';
 
-export default function Featured() {
+export default function FriendsFeed() {
   // Data array
-  const postData = [
+  const postData = [ 
     {
       id: '1',
       avatar: 'https://randomuser.me/api/portraits/men/41.jpg',
@@ -68,3 +68,4 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 });
+
