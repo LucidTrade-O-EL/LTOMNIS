@@ -84,39 +84,39 @@ import LevelDetails from './screens/OMNISScore/ScoreBreakDown/Levels/LevelDetail
 import {Provider, useDispatch, useSelector} from 'react-redux';
 import store, {setHasViewedOnboarding, setIsSignedIn} from './ReduxStore';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { RootState } from './rootReducer';
+
 
 function AppContent() {
   const dispatch = useDispatch();
-
-  // Get state from Redux store
-  const hasViewedOnboarding = useSelector(
-    (state: any) => state.hasViewedOnboarding,
-  );
-  const isSignedIn = useSelector((state: any) => state.isSignedIn);
-
-  // Example usage: dispatch actions to update the state
+  const token = useSelector((state: RootState) => state.token.token);
+  const hasViewedOnboarding = useSelector((state: RootState) => state.token.hasViewedOnboarding);
+  
   React.useEffect(() => {
-    // For example, after checking AsyncStorage or some other logic
-    dispatch(setHasViewedOnboarding(false));
-    dispatch(setIsSignedIn(true));
+    const checkTokenAndOnboarding = async () => {
+      const storedToken = await AsyncStorage.getItem('token');
+      const storedOnboardingStatus = await AsyncStorage.getItem('hasViewedOnboarding');
+      dispatch(setHasViewedOnboarding(storedOnboardingStatus === 'true'));
+      dispatch(setIsSignedIn(!!storedToken));
+    };
+    checkTokenAndOnboarding();
   }, [dispatch]);
 
-  // Your existing App code here, use `hasViewedOnboarding` and `isSignedIn` as needed
-  // ...
+  // if (!hasViewedOnboarding) {
+  //   return <OnboardingStack />;
+  // }
 
-  if (!hasViewedOnboarding) {
-    return <OnboardingStack />; // return OnboardingStack instead of OnboardingScreen1
-  }
-
-  if (!isSignedIn) {
-    return <SignInScreen />;
-  }
+  // if (!token) {
+  //   return <AuthStackNavigator />;
+  // }
 
   return <MainStackNavigator />;
 }
 
+
 const MainStack = createNativeStackNavigator();
 const AuthStack = createNativeStackNavigator();
+const OmnisScoreStack = createNativeStackNavigator();
 
 const Stack = createNativeStackNavigator();
 
@@ -136,27 +136,42 @@ function MainStackNavigator() {
 function AuthStackNavigator() {
   return (
     <AuthStack.Navigator
+    initialRouteName="SignInScreen"
       screenOptions={{
         headerShown: false, // this line hides the header
       }}>
-      <AuthStack.Screen name="SignIn" component={SignInScreen} />
+      <AuthStack.Screen name="SignInScreen" component={SignInScreen} />
       <AuthStack.Screen name="Register" component={RegisterScreen} />
       {/* other screens that should not have the bottom tabs */}
     </AuthStack.Navigator>
   );
 }
 
+export function OmnisScoreStackNavigator() {
+  return (
+    <OmnisScoreStack.Navigator
+    initialRouteName="OMNISScoreScreen"
+      screenOptions={{
+        headerShown: false, // this line hides the header
+      }}>      
+      <OmnisScoreStack.Screen name="OMNISScoreScreen" component={OMNISScoreScreen} />
+      <OmnisScoreStack.Screen name="LevelDetails" component={LevelDetails} />
+
+    </OmnisScoreStack.Navigator>
+  );
+}
+
 const OnboardingStack = () => {
   return (
     <Stack.Navigator
-      initialRouteName="SignInScreen"
+      initialRouteName="Onboarding1"
       screenOptions={{
         headerShown: false, 
       }}>
       <Stack.Screen name="Onboarding1" component={OnboardingScreen1} />
       <Stack.Screen name="Onboarding2" component={OnboardingScreen2} />
       <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
-      <Stack.Screen name="SignInScreen" component={SignInScreen} />
+      <Stack.Screen name="OMNISScoreScreen" component={OMNISScoreScreen} />
       {/* <Stack.Screen name="AddFriendScreen" component={AddFriendScreen} /> */}
       <Stack.Screen name="Onboarding4" component={OnboardingScreen4} />
     </Stack.Navigator>

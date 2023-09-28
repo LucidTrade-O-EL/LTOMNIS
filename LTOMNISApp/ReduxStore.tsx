@@ -1,7 +1,7 @@
-import { createStore } from 'redux';
+import { createStore, combineReducers } from 'redux';
 
-// Initial State
-const initialState = {
+// Initial State for appReducer
+const appInitialState = {
   hasViewedOnboarding: false,
   isSignedIn: false,
 };
@@ -17,8 +17,8 @@ export const setIsSignedIn = (value: boolean) => ({
   payload: value,
 });
 
-// Reducer
-const appReducer = (state = initialState, action: any) => {
+// appReducer
+const appReducer = (state = appInitialState, action: any) => {
   switch (action.type) {
     case 'SET_HAS_VIEWED_ONBOARDING':
       return { ...state, hasViewedOnboarding: action.payload };
@@ -29,7 +29,39 @@ const appReducer = (state = initialState, action: any) => {
   }
 };
 
+// Initial State for tokenReducer
+const tokenInitialState = {
+  token: null,
+};
+
+// Redux action
+export const setToken = (token: string) => {
+  return {
+    type: 'SET_TOKEN',
+    payload: token,
+  };
+};
+
+// tokenReducer
+const tokenReducer = (state = tokenInitialState, action: any) => {
+  switch (action.type) {
+    case 'SET_TOKEN':
+      return {
+        ...state,
+        token: action.payload,
+      };
+    default:
+      return state;
+  }
+};
+
+// Combine the reducers
+const rootReducer = combineReducers({
+  app: appReducer,
+  token: tokenReducer,
+});
+
 // Store
-const store = createStore(appReducer);
+const store = createStore(rootReducer);
 
 export default store;

@@ -14,8 +14,14 @@ import CreditScoreBar from '../../assets/constants/Components/CreditScoreBar';
 import SmallCreditScoreBar from '../../assets/constants/Components/SmallCreditScoreBar';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import OmnisOptions from '../../assets/constants/Components/OmnisOptions';
+import {useNavigation} from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
+import LevelDetails from './ScoreBreakDown/Levels/LevelDetails';
+
 
 export default function OMNISScoreScreen() {
+
+  const navigation = useNavigation<StackNavigationProp<any, any>>();
   const refRBSheet = useRef<RBSheet>(null);
 
   const handleIconPress = () => {
@@ -67,6 +73,7 @@ export default function OMNISScoreScreen() {
           },
         }}
       />
+      <Pressable onPress={() => navigation.navigate('LevelDetails')}>
       <OmnisOptions
         isLottie={true}
         title="Money Master"
@@ -74,6 +81,7 @@ export default function OMNISScoreScreen() {
         progress={2000}
         status="silver"
       />
+      </Pressable>
       <OmnisOptions
         isLottie={false}
         imageSource={require('../../assets/Icons/knowledge.png')}

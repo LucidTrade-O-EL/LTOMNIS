@@ -12,20 +12,25 @@ import IonIcon from 'react-native-vector-icons/Ionicons';
 import {Divider} from '@rneui/themed';
 import PasswordValidation from '../auth/passwordValidation';
 import axios from 'axios';
+import {useDispatch} from 'react-redux';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {setToken} from '../../actions';
+import {useNavigation} from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
+
 
 
 interface SignInScreenProps {
   token: string;
 }
 
-const SignInScreen: React.FC<SignInScreenProps> = ({
-  token,
-}) => {
-  
-const [email, setEmail] = useState('');
-const [password, setPassword] = useState('');
-const [user, setUser] = useState<{ token?: string }>({});
-const [userToken, setUserToken] = useState('');
+const SignInScreen: React.FC = () => {
+
+  const navigation = useNavigation<StackNavigationProp<any, any>>();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [user, setUser] = useState<{token?: string}>({});
+  const [userToken, setUserToken] = useState('');
 
   const signIn = async () => {
     try {
@@ -42,36 +47,53 @@ const [userToken, setUserToken] = useState('');
           'Content-Type': 'application/json',
         },
       };
-      
+
       const res = await axios(options);
       if (res.status !== 200) {
         throw new Error('Non-OK status code: ' + res.status);
       }
-      
+
       console.log('data payload ', res.data, res.headers);
 
       const user = res.data;
       const token = user.token;
 
-
-
-      if (user == null) {
-        console.log('No user data recieved');
+      if (user != null) {
+        setUserToken(user.token);
+        setUser(user);
+        return user.token;
       }
 
-            console.log(`this is the token ${userToken}`)
-      
+      console.log(`this is the token ${userToken}`);
+
       setUserToken(user.token);
-      setUser(user)
+      setUser(user);
 
       console.log('user: ', user);
     } catch (error: any) {
       console.error('An error occured:', error);
     }
   };
-  
 
-  
+  // In your SignInScreen component
+  const dispatch = useDispatch();
+
+  const handleSignIn = async () => {
+    const token = await signIn();
+    if (token) {
+      dispatch(setToken(token));
+    }
+  };
+
+  // In your App component
+  React.useEffect(() => {
+    const loadToken = async () => {
+      const storedToken = await AsyncStorage.getItem('token');
+      dispatch(setToken(storedToken!));
+    };
+
+    loadToken();
+  }, [dispatch]);
 
   return (
     <SafeAreaView style={styles.Background}>
@@ -157,14 +179,16 @@ const [userToken, setUserToken] = useState('');
       </View>
 
       {/* Sign In Button */}
-      <Pressable onPress={async () => await signIn()}
+      <Pressable
+        onPress={async () => await handleSignIn()}
         style={[styles.SignButton, styles.SignButtonOutlined]}>
         <Text style={[styles.SignButtonText, styles.SignButtonTextOutlined]}>
           Sign In
         </Text>
       </Pressable>
 
-      {/* Or log in with */}
+{/* navigation.navigate('SomeOtherScreen') */}
+      {/* Or log in with */} 
 
       <View
         style={{
@@ -244,15 +268,13 @@ const [userToken, setUserToken] = useState('');
         </View>
       </View>
 
-      {/*  */}
-
-      <Pressable style={styles.newToOmnisContainer} onPress={() => {}}>
+      <Pressable style={styles.newToOmnisContainer} onPress={() => navigation.navigate('RegisterScreen')}>
         <Text style={{color: 'white', fontSize: 14}}>New to OMNIS?</Text>
         <Text style={{color: '#BDAE8D', fontSize: 14}}> Register</Text>
       </Pressable>
     </SafeAreaView>
   );
-          }
+};
 
 const styles = StyleSheet.create({
   Background: {
@@ -334,7 +356,7 @@ const styles = StyleSheet.create({
   },
   SignButtonOutlined: {
     borderWidth: 2,
-    backgroundColor: '#BDAE8D',
+    borderColor: '#BDAE8D',
   },
   SignButtonText: {
     color: 'white',
@@ -365,4 +387,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SignInScreen
+export default SignInScreen;

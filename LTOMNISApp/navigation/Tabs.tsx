@@ -15,7 +15,8 @@ import { GestureResponderEvent } from 'react-native';
 import Svg, { Path } from 'react-native-svg';
 import OMNISScoreScreen from '../screens/OMNISScore/OMNISScoreScreen';
 import SpotlightScreen from '../screens/Spotlight/SpotlightScreen';
-
+import AddPostScreen from '../screens/add_post/AddPostScreen';
+import { OmnisScoreStackNavigator } from '../App';
 
 interface CustomTabBarButtonProps {
   children: React.ReactNode;
@@ -113,8 +114,8 @@ export default function Tabs() {
           }}
         />
         <Tab.Screen
-          name="SignIn"
-          component={SignInScreen}
+          name="AddPostScreen"
+          component={AddPostScreen}
           options={{
             tabBarIcon: () => (
               <Ionicons
@@ -129,8 +130,8 @@ export default function Tabs() {
             }}
         />
         <Tab.Screen
-          name="OMNISScoreScreen"
-          component={OMNISScoreScreen}
+          name="OmnisScoreStackNavigator"
+          component={OmnisScoreStackNavigator}
           options={{
             tabBarIcon: ({focused}) => (
               <Ionicons
