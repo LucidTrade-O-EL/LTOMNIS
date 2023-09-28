@@ -17,6 +17,7 @@ import OMNISScoreScreen from '../screens/OMNISScore/OMNISScoreScreen';
 import SpotlightScreen from '../screens/Spotlight/SpotlightScreen';
 import AddPostScreen from '../screens/add_post/AddPostScreen';
 import { OmnisScoreStackNavigator } from '../App';
+import MyFeedScreen from '../screens/MyFeed/MyFeedScreen';
 
 interface CustomTabBarButtonProps {
   children: React.ReactNode;
@@ -97,8 +98,8 @@ export default function Tabs() {
           }}
         />
         <Tab.Screen
-          name="Register"
-          component={RegisterScreen}
+          name="MyFeedScreen"
+          component={MyFeedScreen}
           options={{
             tabBarIcon: ({focused}) => (
               <Ionicons
