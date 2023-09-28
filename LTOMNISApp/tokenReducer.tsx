@@ -1,20 +1,26 @@
 // tokenReducer.ts
-import { AnyAction } from 'redux';
+import { SET_TOKEN, REMOVE_TOKEN } from './actions';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-// Initial state
-const initialState = {
-  hasViewedOnboarding: false,
-  token: '',
-};
+export interface TokenState {
+  token: string;
+}
 
-// State type
-export type TokenState = typeof initialState;
-
-// Reducer function
-export default function tokenReducer(state = initialState, action: AnyAction): TokenState {
+const tokenReducer = (state: TokenState, action: any): TokenState => {
   switch (action.type) {
-    // handle your actions here
+    case SET_TOKEN:
+      AsyncStorage.setItem('token', action.payload);
+      return { ...state, token: action.payload };
+    case REMOVE_TOKEN:
+      AsyncStorage.removeItem('token');
+      return { ...state, token: '' };
     default:
       return state;
   }
+};
+
+export interface TokenState {
+  token: string;
 }
+
+export default tokenReducer;

@@ -1,11 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, FlatList } from 'react-native';
-import { PostCard, PostCardProps } from './PostCard';
+import React, {useState, useEffect} from 'react';
+import {View, StyleSheet, FlatList} from 'react-native';
+import {PostCard, PostCardProps} from './PostCard';
 import GlobalStyles from '../../assets/constants/colors';
 import axios from 'axios';
+import {useSelector} from 'react-redux';
+import {RootState} from '../../rootReducer';
 
 export default function MyPosts() {
   const [postData, setPostData] = useState<PostCardProps[]>([]);
+  const token = useSelector((state: RootState) => state.token.token);
 
   const fetchMyPostFeedList = async () => {
     try {
@@ -13,10 +16,12 @@ export default function MyPosts() {
         method: 'GET',
         url: 'https://api.lucidtrades.com/api/User/Feed',
         headers: {
+          Authorization: `Bearer ${token}`,
           Accept: 'application/json',
           'Content-Type': 'application/json',
         },
       };
+      console.log(`Bearer ${token}`);
 
       const res = await axios(options);
       if (res.data) {
@@ -31,10 +36,10 @@ export default function MyPosts() {
 
   useEffect(() => {
     fetchMyPostFeedList(); // Fetch data when the component mounts
-  }, []);
+  }, [token]);
 
   // renderItem function
-  const renderItem = ({ item }: { item: PostCardProps }) => (
+  const renderItem = ({item}: {item: PostCardProps}) => (
     <PostCard
       avatar={item.avatar}
       firstname={item.firstname}

@@ -1,4 +1,5 @@
 import { createStore, combineReducers } from 'redux';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Initial State for appReducer
 const appInitialState = {
@@ -36,11 +37,21 @@ const tokenInitialState = {
 
 // Redux action
 export const setToken = (token: string) => {
+  AsyncStorage.setItem('token', token); // Add this line to store the token in AsyncStorage
   return {
     type: 'SET_TOKEN',
     payload: token,
   };
 };
+
+//Remove Token
+export const removeToken = () => {
+  AsyncStorage.removeItem('token'); // Add this line to remove the token from AsyncStorage
+  return {
+    type: 'REMOVE_TOKEN',
+  };
+};
+
 
 // tokenReducer
 const tokenReducer = (state = tokenInitialState, action: any) => {

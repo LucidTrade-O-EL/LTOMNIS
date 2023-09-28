@@ -90,8 +90,8 @@ import { RootState } from './rootReducer';
 function AppContent() {
   const dispatch = useDispatch();
   const token = useSelector((state: RootState) => state.token.token);
-  const hasViewedOnboarding = useSelector((state: RootState) => state.token.hasViewedOnboarding);
-  
+  const hasViewedOnboarding = useSelector((state: RootState) => state.app.hasViewedOnboarding);
+    
   React.useEffect(() => {
     const checkTokenAndOnboarding = async () => {
       const storedToken = await AsyncStorage.getItem('token');
@@ -106,9 +106,9 @@ function AppContent() {
   //   return <OnboardingStack />;
   // }
 
-  // if (!token) {
-  //   return <AuthStackNavigator />;
-  // }
+  if (!token) {
+    return <AuthStackNavigator />;
+  }
 
   return <MainStackNavigator />;
 }

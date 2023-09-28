@@ -36,44 +36,46 @@ const SignInScreen: React.FC = () => {
     try {
       const options = {
         method: 'POST',
-
         url: 'https://api.lucidtrades.com/api/Account/login',
-
-        data: {email, password},
-
+        data: { email, password },
         headers: {
           Accept: 'application/json',
-
           'Content-Type': 'application/json',
         },
       };
-
+  
       const res = await axios(options);
       if (res.status !== 200) {
         throw new Error('Non-OK status code: ' + res.status);
       }
-
+  
       console.log('data payload ', res.data, res.headers);
-
+  
       const user = res.data;
       const token = user.token;
-
-      if (user != null) {
-        setUserToken(user.token);
-        setUser(user);
-        return user.token;
+  
+      // Save token to AsyncStorage
+      if (token) {
+        await AsyncStorage.setItem('token', token);
       }
-
+  
+      if (user != null) {
+        setUserToken(token);
+        setUser(user);
+        return token;
+      }
+  
       console.log(`this is the token ${userToken}`);
-
-      setUserToken(user.token);
+  
+      setUserToken(token);
       setUser(user);
-
+  
       console.log('user: ', user);
     } catch (error: any) {
       console.error('An error occured:', error);
     }
   };
+  
 
   // In your SignInScreen component
   const dispatch = useDispatch();
