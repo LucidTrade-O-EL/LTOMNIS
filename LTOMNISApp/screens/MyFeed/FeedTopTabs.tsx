@@ -5,6 +5,7 @@ import Verification from '../auth/Verification';
 import SplashScreen from '../SplashScreen/SplashScreen';
 import OnboardingScreen3 from '../onboarding/OnboardingScreen3';
 import OnboardingScreen4 from '../onboarding/OnboardingScreen4';
+import Featured from './Featured';
 
 
 
@@ -21,11 +22,12 @@ export default function FeedTopTabs() {
           height: 2,
           alignSelf: 'center',
         },
+        
       }}>
       <Tab.Screen
         options={{title: 'Featured'}}
-        name="Verification"
-        component={Verification}
+        name="VerificaFeaturedtion"
+        component={Featured}
       />
       <Tab.Screen
         options={{title: 'My posts'}}
