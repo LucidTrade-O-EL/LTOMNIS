@@ -52,7 +52,7 @@ export default function MyPosts() {
       subtext={item.subtext}
       imageUrl={item.imageUrl}
       offerText={item.offerText}
-      id={'1'}
+      id={item.id}
     />
   );
 
