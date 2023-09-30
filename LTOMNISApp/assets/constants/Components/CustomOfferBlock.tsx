@@ -48,13 +48,13 @@ const CustomOfferBlock: React.FC<CustomOfferBlockProps> = ({data}) => {
 
 const styles = StyleSheet.create({
   container: {
-    height: 160,
+    height: 140,
     width: '90%',
     backgroundColor: GlobalStyles.Colors.primary120,
     borderRadius: 20,
-    padding: 10, // This is to prevent words touching the sides
+    padding: 20, // This is to prevent words touching the sides
     justifyContent: 'space-around', // This brings the rows closer together
-    marginVertical: 5,
+    marginVertical: 10,
     alignSelf: 'center'
   },
   row: {

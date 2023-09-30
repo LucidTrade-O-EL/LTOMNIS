@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
   participantContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginVertical: 20,
+    marginTop: 10,
     justifyContent: 'space-between',
     width: '90%',
     alignSelf: 'center'

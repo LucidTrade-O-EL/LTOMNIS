@@ -1,5 +1,5 @@
 import React, {useEffect, useRef} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, Pressable} from 'react-native';
 import {Avatar} from 'react-native-elements';
 import GlobalStyles from '../../../assets/constants/colors';
 import StarCircle from '../../../assets/constants/Components/Buttons/StarCircle';
@@ -22,6 +22,8 @@ type PostOfferHeaderProps = {
   totalAmount: number;
   progress: number;
   participants: Participant[]; // add this line
+  subtext?: string
+  buttonText: string;
 };
 
 // Pass the props to the function
@@ -34,6 +36,8 @@ export default function PostOfferHeader({
   progress,
   totalAmount,
   participants,
+  subtext,
+  buttonText,
 }: PostOfferHeaderProps) {
   const progressBarRef = useRef<View>(null);
   const calculatedProgressBarWidth =
@@ -63,12 +67,8 @@ export default function PostOfferHeader({
         />
         <Text style={styles.NameTitle}>{`${firstname} ${lastname}`}</Text>
         <View style={styles.right}>
-          <StarCircle
-            iconName="star-four-points-outline"
-            height={16}
-            width={16}
-          />
           <Text style={styles.textNumber}>{number}</Text>
+          <Text style={styles.textScore}>Score</Text>
         </View>
       </View>
       <View style={styles.titleAmountRow}>
@@ -97,6 +97,17 @@ export default function PostOfferHeader({
           {leftText: 'Remaining', rightText: `$${375}`},
         ]}
       />
+      <View style={{ flexDirection: 'row', width: '90%', alignSelf: 'center', marginTop: 5, flexWrap: 'wrap' }} >
+          <Text>"{subtext}"</Text>
+      </View>
+      <Pressable
+            style={[
+              styles.SignButton,
+              {backgroundColor: GlobalStyles.Colors.primary200},
+            ]}
+            onPress={() => {}}>
+            <Text style={styles.SignButtonText}>{buttonText}</Text>
+          </Pressable>
     </View>
   );
 }
@@ -113,15 +124,22 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   textNumber: {
-    marginLeft: 10,
-    fontSize: 16,
-    fontWeight: '700',
-    color: GlobalStyles.Colors.primary510,
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: GlobalStyles.Colors.primary100,
+  },
+  textScore: {
+    fontSize: 12,
+    color: GlobalStyles.Colors.primary100,
   },
   right: {
     marginLeft: 'auto',
-    flexDirection: 'row',
+    flexDirection: 'column',
     alignItems: 'center',
+    borderRadius: 10,
+    backgroundColor: GlobalStyles.Colors.primary200,
+    paddingVertical: 4,
+    paddingHorizontal: 8,
   },
   NameTitle: {
     fontSize: 14,
@@ -170,6 +188,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between', // separate title and amount
     alignItems: 'center', // center align items vertically
     padding: 10, // add some padding
+    width: '90%', 
+    alignSelf: 'center'
   },
   titleText: {
     fontSize: 22, // set font size to 22 as specified
@@ -180,5 +200,22 @@ const styles = StyleSheet.create({
     fontSize: 22, // set font size to 22 as specified
     color: GlobalStyles.Colors.primary800, // set the color
     fontWeight: '600',
+  },
+  SignButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: '90%',
+    height: 48,
+    backgroundColor: '#BDAE8D',
+    justifyContent: 'center',
+    borderRadius: 16,
+    marginTop: 20,
+    alignSelf: 'center',
+  },
+  SignButtonText: {
+    color: 'white',
+    textAlign: 'center',
+    fontSize: 18,
+    fontWeight: 'bold',
   },
 });
