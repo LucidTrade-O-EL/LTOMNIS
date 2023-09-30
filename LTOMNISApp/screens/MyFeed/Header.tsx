@@ -1,6 +1,5 @@
-// Header.tsx
 import React from 'react';
-import { View } from 'react-native';
+import { View, useWindowDimensions } from 'react-native';
 import { Avatar } from 'react-native-elements';
 import Feather from 'react-native-vector-icons/Feather';
 import GlobalStyles from '../../assets/constants/colors';
@@ -9,11 +8,23 @@ type HeaderProps = {
   firstname: string;
   lastname: string;
   avatarImage?: string;
+  avatarSize?: number;
+  avatarBackgroundColor?: string;
+  avatarTextColor?: string;
 };
 
-const Header: React.FC<HeaderProps> = ({ firstname, lastname, avatarImage }) => {
+const Header: React.FC<HeaderProps> = ({
+  firstname,
+  lastname,
+  avatarImage,
+  avatarSize = 25,
+  avatarBackgroundColor = GlobalStyles.Colors.primary100,
+  avatarTextColor = GlobalStyles.Colors.primary800,
+}) => {
+  const { width } = useWindowDimensions();
   const firstNameLetter = firstname ? firstname.charAt(0) : '';
   const lastNameLetter = lastname ? lastname.charAt(0) : '';
+  const iconSize = width <= 320 ? 15 : 20;
 
   return (
     <View
@@ -25,22 +36,22 @@ const Header: React.FC<HeaderProps> = ({ firstname, lastname, avatarImage }) => 
         padding: 20,
       }}>
       {avatarImage ? (
-        <Avatar size={25} rounded source={{ uri: avatarImage }} />
+        <Avatar size={avatarSize} rounded source={{ uri: avatarImage }} />
       ) : (
         <Avatar
-          size={25}
+          size={avatarSize}
           rounded
           title={`${firstNameLetter}${lastNameLetter}`}
-          containerStyle={{ backgroundColor: GlobalStyles.Colors.primary100 }}
+          containerStyle={{ backgroundColor: avatarBackgroundColor }}
           titleStyle={{
-            color: GlobalStyles.Colors.primary800,
+            color: avatarTextColor,
             fontWeight: 'bold',
           }}
         />
       )}
       <Feather
         name={'filter'}
-        size={20}
+        size={iconSize}
         color={GlobalStyles.Colors.primary100}
       />
     </View>

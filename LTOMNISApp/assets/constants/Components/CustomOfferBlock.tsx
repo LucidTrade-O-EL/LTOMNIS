@@ -3,20 +3,20 @@ import {View, Text, StyleSheet} from 'react-native';
 import GlobalStyles from '../colors';
 
 type RowProps = {
-  leftText: string;
-  rightText: string;
+  leftText: string | number; // Updated type here
+  rightText: string | number; // Updated type here
 };
 
 const Row: React.FC<RowProps> = ({leftText, rightText}) => (
   <View style={styles.row}>
-    <Text style={styles.leftText}>{leftText}</Text>
-    <Text style={styles.rightText}>{rightText}</Text>
+    <Text style={styles.leftText}>{leftText.toString()}</Text>
+    <Text style={styles.rightText}>{rightText.toString()}</Text> 
   </View>
 );
 
 type RowData = {
-  leftText: string;
-  rightText: string;
+  leftText: string | number; // Updated type here
+  rightText: string | number; // Updated type here
 };
 
 type DividerData = {
@@ -54,7 +54,8 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     padding: 10, // This is to prevent words touching the sides
     justifyContent: 'space-around', // This brings the rows closer together
-    marginVertical: 32,
+    marginVertical: 5,
+    alignSelf: 'center'
   },
   row: {
     flexDirection: 'row',
