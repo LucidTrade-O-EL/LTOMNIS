@@ -20,6 +20,7 @@ import { OmnisScoreStackNavigator } from '../App';
 import MyFeedScreen from '../screens/MyFeed/MyFeedScreen';
 import PostOffer from '../screens/MyFeed/Lender/PostOffer';
 import FeedSummary from '../screens/MyFeed/Borrower/FeedSummary';
+import PostDetails from '../screens/MyFeed/Lender/PostDetails';
 
 interface CustomTabBarButtonProps {
   children: React.ReactNode;
@@ -100,8 +101,8 @@ export default function Tabs() {
           }}
         />
         <Tab.Screen
-          name="FeedSummary"
-          component={FeedSummary}
+          name="PostDetails"
+          component={PostDetails}
           options={{
             tabBarIcon: ({focused}) => (
               <Ionicons
