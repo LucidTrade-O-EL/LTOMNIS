@@ -17,10 +17,10 @@ import OMNISScoreScreen from '../screens/OMNISScore/OMNISScoreScreen';
 import SpotlightScreen from '../screens/Spotlight/SpotlightScreen';
 import AddPostScreen from '../screens/add_post/AddPostScreen';
 import { OmnisScoreStackNavigator } from '../App';
-import MyFeedScreen from '../screens/MyFeed/MyFeedScreen';
 import PostOffer from '../screens/MyFeed/Lender/PostOffer';
 import FeedSummary from '../screens/MyFeed/Borrower/FeedSummary';
 import PostDetails from '../screens/MyFeed/Lender/PostDetails';
+import MyFeedScreen from '../screens/MyFeed/MyFeedScreen';
 
 interface CustomTabBarButtonProps {
   children: React.ReactNode;

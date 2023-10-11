@@ -33,6 +33,7 @@ const styles = StyleSheet.create({
       fontWeight: 'bold',
       textAlign: 'left', // Align text to the left
       marginBottom: 5, // Space between title and box
+      color: GlobalStyles.Colors.primary100,
     },
     box: {
       width: '96%',
