@@ -34,4 +34,3 @@ export const setIsSignedIn = (value: boolean) => ({
   type: 'SET_IS_SIGNED_IN',
   payload: value,
 });
-

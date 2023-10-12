@@ -2,7 +2,7 @@ import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import {Avatar, Divider} from 'react-native-elements';
 import GlobalStyles from '../colors';
-import StarCircle from './Buttons/StarCircle';
+
 
 type RowProps = {
   leftText: string;
