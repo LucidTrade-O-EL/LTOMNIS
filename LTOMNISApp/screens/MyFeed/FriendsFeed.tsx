@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, Text, StyleSheet, FlatList} from 'react-native';
-import {PostCard, PostCardProps} from './';
+import { PostCard, PostCardProps } from './PostCard';
 import GlobalStyles from '../../assets/constants/colors';
 
 export default function FriendsFeed() {

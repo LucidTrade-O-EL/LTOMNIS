@@ -47,7 +47,7 @@ import Tabs from './navigation/Tabs';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 
 import NFCAcceptFriend from './screens/NFC/NFCAcceptFriend';
-
+import MyFeedScreen from './screens/MyFeed/MyFeedScreen';
 import ChoosePaymentPlanScreen from './screens/NewOffers/Borrower/NewOffersBorrower/ChoosePaymentPlanScreen';
 
 import ActiveOffers from './screens/NewOffers/Borrower/ActiveOffers/ActiveOffers';
@@ -84,18 +84,21 @@ import LevelDetails from './screens/OMNISScore/ScoreBreakDown/Levels/LevelDetail
 import {Provider, useDispatch, useSelector} from 'react-redux';
 import store, {setHasViewedOnboarding, setIsSignedIn} from './ReduxStore';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { RootState } from './rootReducer';
-
+import {RootState} from './rootReducer';
 
 function AppContent() {
   const dispatch = useDispatch();
   const token = useSelector((state: RootState) => state.token.token);
-  const hasViewedOnboarding = useSelector((state: RootState) => state.app.hasViewedOnboarding);
-    
+  const hasViewedOnboarding = useSelector(
+    (state: RootState) => state.app.hasViewedOnboarding,
+  );
+
   React.useEffect(() => {
     const checkTokenAndOnboarding = async () => {
       const storedToken = await AsyncStorage.getItem('token');
-      const storedOnboardingStatus = await AsyncStorage.getItem('hasViewedOnboarding');
+      const storedOnboardingStatus = await AsyncStorage.getItem(
+        'hasViewedOnboarding',
+      );
       dispatch(setHasViewedOnboarding(storedOnboardingStatus === 'true'));
       dispatch(setIsSignedIn(!!storedToken));
     };
@@ -112,7 +115,6 @@ function AppContent() {
 
   return <MainStackNavigator />;
 }
-
 
 const MainStack = createNativeStackNavigator();
 const AuthStack = createNativeStackNavigator();
@@ -136,7 +138,7 @@ function MainStackNavigator() {
 function AuthStackNavigator() {
   return (
     <AuthStack.Navigator
-    initialRouteName="SignInScreen"
+      initialRouteName="SignInScreen"
       screenOptions={{
         headerShown: false, // this line hides the header
       }}>
@@ -150,13 +152,15 @@ function AuthStackNavigator() {
 export function OmnisScoreStackNavigator() {
   return (
     <OmnisScoreStack.Navigator
-    initialRouteName="OMNISScoreScreen"
+      initialRouteName="OMNISScoreScreen"
       screenOptions={{
         headerShown: false, // this line hides the header
-      }}>      
-      <OmnisScoreStack.Screen name="OMNISScoreScreen" component={OMNISScoreScreen} />
+      }}>
+      <OmnisScoreStack.Screen
+        name="OMNISScoreScreen"
+        component={OMNISScoreScreen}
+      />
       <OmnisScoreStack.Screen name="LevelDetails" component={LevelDetails} />
-
     </OmnisScoreStack.Navigator>
   );
 }
@@ -166,7 +170,7 @@ const OnboardingStack = () => {
     <Stack.Navigator
       initialRouteName="Onboarding1"
       screenOptions={{
-        headerShown: false, 
+        headerShown: false,
       }}>
       <Stack.Screen name="Onboarding1" component={OnboardingScreen1} />
       <Stack.Screen name="Onboarding2" component={OnboardingScreen2} />
@@ -220,8 +224,6 @@ export default function Root() {
 }
 
 export {App};
-
-
 
 // return (
 //   <NavigationContainer>

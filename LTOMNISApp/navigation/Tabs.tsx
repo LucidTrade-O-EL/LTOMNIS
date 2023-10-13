@@ -101,8 +101,8 @@ export default function Tabs() {
           }}
         />
         <Tab.Screen
-          name="PostDetails"
-          component={PostDetails}
+          name="MyFeedScreen"
+          component={MyFeedScreen}
           options={{
             tabBarIcon: ({focused}) => (
               <Ionicons
