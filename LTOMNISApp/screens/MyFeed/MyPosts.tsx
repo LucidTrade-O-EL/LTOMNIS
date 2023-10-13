@@ -14,7 +14,7 @@ export default function MyPosts() {
     try {
       const options = {
         method: 'GET',
-        url: 'https://api.lucidtrades.com/api/User/Feed',
+        url: 'https://api.lucidtrades.com/api/Posts/MyPost',
         headers: {
           Authorization: `Bearer ${token}`,
           Accept: 'application/json',
