@@ -102,7 +102,7 @@ export default function Tabs() {
         />
         <Tab.Screen
           name="MyFeedScreen"
-          component={MyFeedScreen}
+          component={MyFeedScreen as any}
           options={{
             tabBarIcon: ({focused}) => (
               <Ionicons
