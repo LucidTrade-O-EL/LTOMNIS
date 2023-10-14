@@ -85,6 +85,7 @@ import {Provider, useDispatch, useSelector} from 'react-redux';
 import store, {setHasViewedOnboarding, setIsSignedIn} from './ReduxStore';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {RootState} from './rootReducer';
+import OfferSent from './screens/MyFeed/Lender/OfferSent';
 
 function AppContent() {
   const dispatch = useDispatch();

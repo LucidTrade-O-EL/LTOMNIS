@@ -21,6 +21,8 @@ import PostOffer from '../screens/MyFeed/Lender/PostOffer';
 import FeedSummary from '../screens/MyFeed/Borrower/FeedSummary';
 import PostDetails from '../screens/MyFeed/Lender/PostDetails';
 import MyFeedScreen from '../screens/MyFeed/MyFeedScreen';
+import OfferSent from '../screens/MyFeed/Lender/OfferSent';
+import OfferSentSuccessful from '../screens/MyFeed/OfferSentSuccessful';
 
 interface CustomTabBarButtonProps {
   children: React.ReactNode;

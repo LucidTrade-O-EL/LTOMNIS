@@ -48,7 +48,7 @@ const CustomOfferBlock: React.FC<CustomOfferBlockProps> = ({data}) => {
 
 const styles = StyleSheet.create({
   container: {
-    height: 140,
+    height: 120,
     width: '90%',
     backgroundColor: GlobalStyles.Colors.primary120,
     borderRadius: 20,
