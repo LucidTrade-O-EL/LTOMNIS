@@ -23,6 +23,7 @@ import PostDetails from '../screens/MyFeed/Lender/PostDetails';
 import MyFeedScreen from '../screens/MyFeed/MyFeedScreen';
 import OfferSent from '../screens/MyFeed/Lender/OfferSent';
 import OfferSentSuccessful from '../screens/MyFeed/OfferSentSuccessful';
+import MyProfile from '../screens/MyProfile/MyProfile';
 
 interface CustomTabBarButtonProps {
   children: React.ReactNode;
@@ -86,8 +87,8 @@ export default function Tabs() {
           },
         }}>
         <Tab.Screen
-          name="HomeScreen"
-          component={HomeScreen}
+          name="MyProfile"
+          component={MyProfile}
           options={{
             tabBarIcon: ({focused}) => (
               <Octicons
