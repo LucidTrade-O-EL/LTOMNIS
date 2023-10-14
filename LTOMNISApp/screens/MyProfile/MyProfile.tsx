@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet, SafeAreaView} from 'react-native';
+import {View, Text, StyleSheet, SafeAreaView, Alert} from 'react-native';
 import ScreenTitle from '../../assets/constants/Components/ScreenTitle';
 import {Avatar, Divider, Icon} from 'react-native-elements';
 import {user as importedUser} from '../../assets/constants/user'; // Renamed to avoid naming conflicts
@@ -7,7 +7,18 @@ import GlobalStyles from '../../assets/constants/colors';
 import StatisticItem from './StatisticItem';
 import ButtonsRow from './ButtonsRow';
 import GrayBox from './GrayBox';
-
+import ImagePicker from 'react-native-image-picker';
+import {
+    launchCamera,
+    launchImageLibrary,
+    ImagePickerResponse
+  } from 'react-native-image-picker';
+  
+  type ImagePickerMethod = (
+    options: any,  // Here you can replace 'any' with the correct type if known
+    callback: (response: ImagePickerResponse) => void
+  ) => void;  // This is the return type of the function, which is void in this case  
+  
 export default function MyProfile() {
   const firstUser = importedUser[0];
 
@@ -17,6 +28,64 @@ export default function MyProfile() {
         .map(word => word[0])
         .join('')
     : 'ZV';
+    
+    const handleEditAvatar = () => {
+        const options: any = {
+          mediaType: 'photo',
+          includeBase64: false,
+          maxHeight: 200,
+          maxWidth: 200,
+        };
+    
+        const selectMethod = (method: ImagePickerMethod) => {
+            const options = {
+                mediaType: 'photo',
+                includeBase64: false,
+                maxHeight: 200,
+                maxWidth: 200,
+            };
+        
+            method(options, (response) => {
+                if (response.didCancel) {
+                    console.log('User cancelled image picker');
+                } else if (response.errorMessage) {  // Check for errorMessage instead of error
+                    console.log('ImagePicker Error: ', response.errorMessage);
+                } else {
+                    const uri = response.assets?.[0]?.uri;
+if (uri) {
+    const source = { uri };
+    // Here you can set the selected image to state and display or upload as needed
+} else {
+    console.log('No image uri found');
+}
+
+                }
+            });
+        };
+        
+    
+      // You can use any UI element or approach to ask the user
+      // Here's a simple way using an Alert for demonstration
+      Alert.alert(
+        "Select Avatar",
+        "Choose the source of the image",
+        [
+          {
+            text: "Camera",
+            onPress: () => selectMethod(launchCamera)
+          },
+          {
+            text: "Gallery",
+            onPress: () => selectMethod(launchImageLibrary)
+          },
+          {
+            text: "Cancel",
+            style: "cancel"
+          }
+        ]
+      );
+    };
+    
 
   return (
     <SafeAreaView style={styles.Background}>
@@ -42,6 +111,7 @@ export default function MyProfile() {
           color={GlobalStyles.Colors.primary200}
           size={10}
           containerStyle={styles.editIcon}
+          onPress={handleEditAvatar}
         />
       </View>
       <View
