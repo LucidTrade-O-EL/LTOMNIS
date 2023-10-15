@@ -28,6 +28,7 @@ import EditProfile from '../screens/MyProfile/EditProfile';
 import Settings from '../screens/MyProfile/Settings';
 import LanguagesSettings from '../screens/MyProfile/LanguagesSettings';
 import PrivacyPolicy from '../screens/MyProfile/PrivacyPolicy';
+import NotificationScreen from '../screens/Notification/NotificationScreen';
 
 interface CustomTabBarButtonProps {
   children: React.ReactNode;
@@ -91,8 +92,8 @@ export default function Tabs() {
           },
         }}>
         <Tab.Screen
-          name="PrivacyPolicy"
-          component={PrivacyPolicy}
+          name="NotificationScreen"
+          component={NotificationScreen}
           options={{
             tabBarIcon: ({focused}) => (
               <Octicons
