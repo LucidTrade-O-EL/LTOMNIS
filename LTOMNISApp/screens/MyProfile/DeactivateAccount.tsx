@@ -1,11 +1,14 @@
 import {View, Text, SafeAreaView, StyleSheet} from 'react-native';
-import React from 'react';
+import React, { useState } from 'react';
 import ScreenTitle from '../../assets/constants/Components/ScreenTitle';
 import GlobalStyles from '../../assets/constants/colors';
 import {Image} from 'react-native';
 import IconWithText from './IconWithText';
+import CompleteButton from '../../assets/constants/Components/Buttons/CompleteButton';
+import BottomSheet from './BottomSheet';
 
 export default function DeactivateAccount() {
+  const [isSheetVisible, setSheetVisible] = useState(false);
   const [userData, setUserData] = React.useState({
     omnisPoints: 2354,
     omnisScore: '',
@@ -15,7 +18,7 @@ export default function DeactivateAccount() {
     borrowedAmount: 11111,
   });
 
-  function formatNumber(num) {
+  function formatNumber(num: number) {
     return new Intl.NumberFormat('en-US', {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
@@ -87,12 +90,44 @@ export default function DeactivateAccount() {
           </View>
         </View>
       </View>
+      <View style={{height: '33%'}}>
+        <CompleteButton
+          text="Back to Feed"
+          icon="return-up-back"
+          iconSet="Ionicons"
+          iconColor={GlobalStyles.Colors.primary100}
+          color={GlobalStyles.Colors.primary600}
+          onPress={() => setSheetVisible(true)}
+        />
+      </View>
+      <View style={{height: '10%'}}>
+        <CompleteButton
+          text="Visit Spotlight"
+          iconColor={GlobalStyles.Colors.primary100}
+          color={GlobalStyles.Colors.primary200}
+          onPress={() => console.log('Button pressed!')}
+        />
+      </View>
+      <BottomSheet
+        isVisible={isSheetVisible}
+        title="OOPS..."
+        subText="Unfortunately you can not deactivate your account before paying off your loans."
+        button1Text="Okay"
+        button1Color={GlobalStyles.Colors.primary200}
+        button2Text="Contact Support"
+        button2Color={GlobalStyles.Colors.primary600}
+        onButton1Press={() => {
+          console.log('Button 1 pressed');
+          setSheetVisible(false);
+        }}
+        onButton2Press={() => {
+          console.log('Button 2 pressed');
+          setSheetVisible(false);
+        }}
+      />
     </SafeAreaView>
   );
 }
-
-// account-cash-outline
-// star-four-points-outline
 
 const styles = StyleSheet.create({
   Background: {

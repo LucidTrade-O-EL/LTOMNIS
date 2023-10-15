@@ -70,7 +70,7 @@ const OfferSent: React.FC<OfferSentProps> = ({receivedAmount = '$399.78'}) => {
         />
       </View>
       <CompleteButton
-        text="Done"
+        text="Visit Spotlight"
         iconColor={GlobalStyles.Colors.primary100}
         color={GlobalStyles.Colors.primary200}
         onPress={() => console.log('Button pressed!')}
