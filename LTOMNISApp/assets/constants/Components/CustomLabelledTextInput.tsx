@@ -1,5 +1,6 @@
 import React from 'react';
 import {View, Text, TextInput, StyleSheet} from 'react-native';
+import GlobalStyles from '../colors';
 
 interface Props {
   label: string;
@@ -20,56 +21,76 @@ interface Props {
     | 'twitter'
     | 'web-search'
     | 'visible-password';
+    autoCorrect?: boolean;
+    autoCapitalize?: 'none' | 'sentences' | 'words' | 'characters';
+    error?: string; // for validation errors
 }
 
+
 const CustomLabelledTextInput: React.FC<Props> = ({
-  label,
-  placeholder,
-  onChangeText,
-  value,
-  keyboardType = 'default',
-}) => (
-  <View style={styles.buttonContainer}>
-    <View style={styles.labelContainer}>
-      <Text style={styles.labelText}>{label}</Text>
-    </View>
-    <View style={styles.textInputContainer}>
+    label,
+    placeholder,
+    onChangeText,
+    value,
+    keyboardType = 'default',
+    autoCorrect = false,
+    autoCapitalize = 'sentences',
+    error,
+  }) => (
+    <View style={styles.buttonContainer}>
+      <View style={styles.labelContainer}>
+        <Text style={styles.labelText}>{label}</Text>
+      </View>
       <TextInput
-        style={[styles.textInput, value ? styles.textActive : null]}
+        style={[styles.textInput, value ? styles.textActive : null, error ? styles.errorBorder : null]}
         placeholder={placeholder}
-        placeholderTextColor="rgba(255,255,255, 0.6)"
+        placeholderTextColor={GlobalStyles.Colors.primary100}
         keyboardType={keyboardType}
         onChangeText={onChangeText}
         value={value}
+        autoCorrect={autoCorrect}
+        autoCapitalize={autoCapitalize}
       />
+      {error && <Text style={styles.errorText}>{error}</Text>}
     </View>
-  </View>
-);
+  );
 
-const styles = StyleSheet.create({
-  buttonContainer: {
-    // Any shared styles for buttonContainer
-  },
-  labelContainer: {
-    marginBottom: 8,
-    alignSelf: 'center',
-    width: '90%',
-  },
-  labelText: {
-    color: 'white',
-    fontSize: 12,
-    opacity: 0.6,
-    textAlign: 'left',
-  },
-  textInputContainer: {
-    // Styles for emailButton, though you might want to rename this for clarity now
-  },
-  textInput: {
-    // Shared styles for textInput
-  },
-  textActive: {
-    // Styles for when text is active
-  },
-});
+  const styles = StyleSheet.create({
+    buttonContainer: {
+      flexDirection: 'column',
+      marginVertical: 8,
+      width: '90%',
+    },
+    labelContainer: {
+      marginBottom: 4,
+    },
+    labelText: {
+      color: GlobalStyles.Colors.primary100,
+      fontSize: 13,
+      opacity: 0.6,
+    },
+    textInput: {
+      borderColor: GlobalStyles.Colors.primary100,
+      borderWidth: 1,
+      borderRadius: 8,
+      paddingVertical: 8,
+      paddingHorizontal: 12,
+      color: GlobalStyles.Colors.primary100,
+      fontSize: 16,
+    },
+    textActive: {
+      // Styles for when text is active
+    },
+    errorBorder: {
+      borderColor: GlobalStyles.Colors.primary300,
+    },
+    errorText: {
+      color: GlobalStyles.Colors.primary300,
+      marginTop: 4,
+      fontSize: 12,
+    },
+  });
+  
+  
 
 export default CustomLabelledTextInput;
