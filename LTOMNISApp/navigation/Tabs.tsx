@@ -29,6 +29,7 @@ import Settings from '../screens/MyProfile/Settings';
 import LanguagesSettings from '../screens/MyProfile/LanguagesSettings';
 import PrivacyPolicy from '../screens/MyProfile/PrivacyPolicy';
 import AppFeedBack from '../screens/MyProfile/AppFeedBack';
+import DeactivateAccount from '../screens/MyProfile/DeactivateAccount';
 
 interface CustomTabBarButtonProps {
   children: React.ReactNode;
@@ -92,8 +93,8 @@ export default function Tabs() {
           },
         }}>
         <Tab.Screen
-          name="AppFeedBack"
-          component={AppFeedBack}
+          name="DeactivateAccount"
+          component={DeactivateAccount}
           options={{
             tabBarIcon: ({focused}) => (
               <Octicons
