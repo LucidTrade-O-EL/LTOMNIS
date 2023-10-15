@@ -29,6 +29,11 @@ import Settings from '../screens/MyProfile/Settings';
 import LanguagesSettings from '../screens/MyProfile/LanguagesSettings';
 import PrivacyPolicy from '../screens/MyProfile/PrivacyPolicy';
 import NotificationScreen from '../screens/Notification/NotificationScreen';
+import AppFeedBack from '../screens/MyProfile/AppFeedBack';
+import DeactivateAccount from '../screens/MyProfile/DeactivateAccount';
+import BeforeYouGo from '../screens/DeactivateAccount/BeforeYouGo';
+import BeforeYouGoAgain from '../screens/DeactivateAccount/BeforeYouGoAgain';
+import FAQ from '../screens/HelpCenter/FAQ';
 
 interface CustomTabBarButtonProps {
   children: React.ReactNode;
@@ -94,6 +99,8 @@ export default function Tabs() {
         <Tab.Screen
           name="NotificationScreen"
           component={NotificationScreen}
+          name="FAQ"
+          component={FAQ}
           options={{
             tabBarIcon: ({focused}) => (
               <Octicons
