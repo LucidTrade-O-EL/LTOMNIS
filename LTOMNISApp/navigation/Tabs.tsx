@@ -28,6 +28,7 @@ import EditProfile from '../screens/MyProfile/EditProfile';
 import Settings from '../screens/MyProfile/Settings';
 import LanguagesSettings from '../screens/MyProfile/LanguagesSettings';
 import PrivacyPolicy from '../screens/MyProfile/PrivacyPolicy';
+import NotificationScreen from '../screens/Notification/NotificationScreen';
 import AppFeedBack from '../screens/MyProfile/AppFeedBack';
 import DeactivateAccount from '../screens/MyProfile/DeactivateAccount';
 import BeforeYouGo from '../screens/DeactivateAccount/BeforeYouGo';

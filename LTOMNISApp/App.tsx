@@ -87,6 +87,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {RootState} from './rootReducer';
 import OfferSent from './screens/MyFeed/Lender/OfferSent';
 import TransactionHistoryDetails from './screens/TransactionHistory/TransactionHistoryDetails';
+import PlaidLinkComponent from './screens/Plaid/PlaidLinkComponent';
 
 function AppContent() {
   const dispatch = useDispatch();
@@ -122,8 +123,6 @@ const MainStack = createNativeStackNavigator();
 const AuthStack = createNativeStackNavigator();
 const OmnisScoreStack = createNativeStackNavigator();
 const HomeStackNavigator = createNativeStackNavigator();
-
-
 
 const Stack = createNativeStackNavigator();
 
@@ -185,7 +184,6 @@ const OnboardingStack = () => {
   );
 };
 
-
 // HomeStack Navigation
 export const HomeStack = () => {
   return (
@@ -195,12 +193,13 @@ export const HomeStack = () => {
         headerShown: false,
       }}>
       <Stack.Screen name="HomeScreen" component={HomeScreen} />
-      <Stack.Screen name="TransactionHistoryDetails" component={TransactionHistoryDetails} />
+      <Stack.Screen
+        name="TransactionHistoryDetails"
+        component={TransactionHistoryDetails}
+      />
     </Stack.Navigator>
   );
 };
-
-
 
 function App() {
   const [isLoading, setIsLoading] = React.useState(true);
