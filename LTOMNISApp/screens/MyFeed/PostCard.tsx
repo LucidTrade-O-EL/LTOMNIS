@@ -1,9 +1,10 @@
 import {color} from '@rneui/base';
 import React, {useEffect, useRef} from 'react';
-import {View, Text, StyleSheet, Image} from 'react-native';
+import {View, Text, StyleSheet, Image, Pressable} from 'react-native';
 import {Avatar} from 'react-native-elements';
 import GlobalStyles from '../../assets/constants/colors';
 import StarCircle from '../../assets/constants/Components/Buttons/StarCircle';
+import {useNavigation} from '@react-navigation/native';
 
 export type PostCardProps = {
   avatar?: string;
@@ -16,7 +17,7 @@ export type PostCardProps = {
   title?: string; // added title prop
   subtext?: string; // added subtext prop
   imageUrl?: string; // added imageUrl prop
-  offerText?: string; 
+  offerText?: string;
   id: string;
 };
 
@@ -32,8 +33,9 @@ export const PostCard: React.FC<PostCardProps> = ({
   progress,
   imageUrl,
   offerText,
-  id
+  id,
 }) => {
+  const navigation = useNavigation();
   const progressBarRef = useRef<View>(null);
   const calculatedProgressBarWidth =
     (Number(progress) / Number(totalAmount)) * 100;
@@ -92,9 +94,26 @@ export const PostCard: React.FC<PostCardProps> = ({
           <Text style={styles.progressText}>{`$${progress}`}</Text>
           <Text style={styles.totalAmountText}>{`/ $${totalAmount}`}</Text>
         </View>
-        <View style={styles.offerContainer}>
+        <Pressable
+          style={styles.offerContainer}
+          onPress={() => {
+            navigation.navigate('PostDetails', {
+              avatar: avatar,
+              firstname: firstname,
+              lastname: lastname,
+              hours: hours,
+              number: number,
+              title: title,
+              subtext: subtext,
+              totalAmount: totalAmount,
+              progress: progress,
+              imageUrl: imageUrl,
+              offerText: offerText,
+              id: id,
+            });
+          }}>
           <Text style={styles.offerText}>{offerText}</Text>
-        </View>
+        </Pressable>
       </View>
     </View>
   );

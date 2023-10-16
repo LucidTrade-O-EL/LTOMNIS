@@ -11,12 +11,12 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import SignInScreen from '../screens/SignIn/SignInScreen';
 import SignUpScreen from '../screens/SignUp/SignUpScreen';
 import Verification from '../screens/auth/Verification';
-import { GestureResponderEvent } from 'react-native';
-import Svg, { Path } from 'react-native-svg';
+import {GestureResponderEvent} from 'react-native';
+import Svg, {Path} from 'react-native-svg';
 import OMNISScoreScreen from '../screens/OMNISScore/OMNISScoreScreen';
 import SpotlightScreen from '../screens/Spotlight/SpotlightScreen';
 import AddPostScreen from '../screens/add_post/AddPostScreen';
-import { OmnisScoreStackNavigator } from '../App';
+import {OmnisScoreStackNavigator} from '../App';
 import PostOffer from '../screens/MyFeed/Lender/PostOffer';
 import FeedSummary from '../screens/MyFeed/Borrower/FeedSummary';
 import PostDetails from '../screens/MyFeed/Lender/PostDetails';
@@ -33,6 +33,9 @@ import DeactivateAccount from '../screens/MyProfile/DeactivateAccount';
 import BeforeYouGo from '../screens/DeactivateAccount/BeforeYouGo';
 import BeforeYouGoAgain from '../screens/DeactivateAccount/BeforeYouGoAgain';
 import FAQ from '../screens/HelpCenter/FAQ';
+import {createStackNavigator} from '@react-navigation/stack';
+import {StackScreenProps} from '@react-navigation/stack';
+import {MyFeedScreenProps} from '../screens/MyFeed/MyFeedScreen';
 
 interface CustomTabBarButtonProps {
   children: React.ReactNode;
@@ -41,19 +44,45 @@ interface CustomTabBarButtonProps {
 
 const Tab = createBottomTabNavigator();
 
+const MyFeedStack = createStackNavigator();
+
+export function MyFeedStackNavigator() {
+  return (
+    <MyFeedStack.Navigator
+      initialRouteName="FeedSummary"
+      screenOptions={{
+        headerShown: false,
+      }}>
+      <MyFeedStack.Screen name="MyFeedScreen" component={MyFeedScreen} />
+      <MyFeedStack.Screen name="PostDetails" component={PostDetails} />
+      <MyFeedStack.Screen name="PostOffer" component={PostOffer} />
+      <MyFeedStack.Screen name="FeedSummary" component={FeedSummary} />
+      <MyFeedStack.Screen name="OfferSent" component={OfferSent} />
+      <MyFeedStack.Screen
+        name="OfferSentSuccessful"
+        component={OfferSentSuccessful}
+      />
+    </MyFeedStack.Navigator>
+  );
+}
+
+type CombinedProps = MyFeedScreenProps &
+  StackScreenProps<MyFeedStackParamList, 'MyFeedScreen'>;
+
+type MyFeedStackParamList = {
+  MyFeedScreen: undefined; // or your specific screen params if any
+  // Add other screens if you have params for them
+};
+
 const TabBarBackground = () => {
   return (
     <View style={styles.tabBarBackground}>
       <Svg width="100%" height="100%" viewBox="0 0 500 80">
-        <Path
-          d="M0,0 L500,0 L500,50 Q250,70 0,50 L0,0"
-          fill="yourColorHere"
-        />
+        <Path d="M0,0 L500,0 L500,50 Q250,70 0,50 L0,0" fill="yourColorHere" />
       </Svg>
     </View>
   );
 };
-
 
 const CustomTabBarButton: React.FC<CustomTabBarButtonProps> = ({
   children,
@@ -78,7 +107,6 @@ const CustomTabBarButton: React.FC<CustomTabBarButtonProps> = ({
     </View>
   </TouchableOpacity>
 );
-
 
 export default function Tabs() {
   return (
@@ -114,7 +142,7 @@ export default function Tabs() {
         />
         <Tab.Screen
           name="MyFeedScreen"
-          component={MyFeedScreen as any}
+          component={MyFeedStackNavigator}
           options={{
             tabBarIcon: ({focused}) => (
               <Ionicons
@@ -139,11 +167,16 @@ export default function Tabs() {
                 size={30}
                 color={GlobalStyles.Colors.primary900}
               />
-              ),
-              tabBarButton: props => (
-                <CustomTabBarButton {...props} onPress={() => {props.onPress}} /> 
-              ),
-            }}
+            ),
+            tabBarButton: props => (
+              <CustomTabBarButton
+                {...props}
+                onPress={() => {
+                  props.onPress;
+                }}
+              />
+            ),
+          }}
         />
         <Tab.Screen
           name="OmnisScoreStackNavigator"
