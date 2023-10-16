@@ -12,9 +12,36 @@ import IonIcon from 'react-native-vector-icons/Ionicons';
 import GlobalStyles from '../assets/constants/colors';
 import GlobalFonts from '../assets/constants/fonts';
 import TransactionHistory from '../assets/constants/Components/CustomTransactionButton';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RouteProp } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 
-export default function HomeScreen() {
-  // UseState
+
+type HomeScreenRouteProp = RouteProp<RootStackParamList, 'HomeScreen'>;
+
+type RootStackParamList = {
+  HomeScreen: undefined;
+  TransactionHistoryDetails: { transactionId: string };
+  // Add other screens and their respective parameter definitions here.
+};
+
+type Props = {
+  route: HomeScreenRouteProp;
+  navigation: HomeScreenNavigationProp;
+};
+
+type TransactionNavigationProp = StackNavigationProp<
+  RootStackParamList,
+  'TransactionHistoryDetails'
+>;
+
+type HomeScreenNavigationProp = StackNavigationProp<RootStackParamList, 'HomeScreen'>;
+
+export default function HomeScreen({ navigation }: { navigation: HomeScreenNavigationProp }) {
+  // ... rest of your HomeScreen component code
+
+
+
   const [userName, setUserName] = useState('Zak Veasy');
   const [balance, setBalance] = useState('$124.56');
   const [OfferSent, setOfferSent] = useState(25);
@@ -34,8 +61,9 @@ export default function HomeScreen() {
 
   const handleTransaction = () => {
     console.log('Transaction button pressed');
-    // Insert logic for withdraw functionality here
-  };
+    navigation.navigate('TransactionHistoryDetails', { transactionId: "YOUR_TRANSACTION_ID" });
+  };  
+  
 
   return (
     <SafeAreaView style={styles.Background}>

@@ -7,8 +7,13 @@ import ListItemWithRadial, {
   ListItemProps,
 } from '../../assets/constants/Components/ListItemWithRadial';
 import ScreenTitle from '../../assets/constants/Components/ScreenTitle';
+import { useNavigation } from '@react-navigation/native';
+
+
 
 const TransactionHistoryDetails: React.FC = () => {
+  const navigation = useNavigation();
+
   const formatCurrency = (value: string) => {
     const sign = ['+', '-'].includes(value[0]) ? value[0] : '';
     const amountValue = value.replace('$', '').trim(); // remove dollar sign if it exists
@@ -84,7 +89,8 @@ const TransactionHistoryDetails: React.FC = () => {
         title="Offer Transaction History"
         showBackArrow={true}
         onBackPress={() => {
-          // Handle the back button press, e.g., navigate back
+          console.log("Back button pressed"); // Add this
+          navigation.goBack();
         }}
         showRightIcon={true}
         rightIconType="Feather" // Either 'Ionicons' or 'Feather'

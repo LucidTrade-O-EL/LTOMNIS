@@ -16,7 +16,7 @@ import Svg, {Path} from 'react-native-svg';
 import OMNISScoreScreen from '../screens/OMNISScore/OMNISScoreScreen';
 import SpotlightScreen from '../screens/Spotlight/SpotlightScreen';
 import AddPostScreen from '../screens/add_post/AddPostScreen';
-import {OmnisScoreStackNavigator} from '../App';
+import {HomeStack, OmnisScoreStackNavigator} from '../App';
 import PostOffer from '../screens/MyFeed/Lender/PostOffer';
 import FeedSummary from '../screens/MyFeed/Borrower/FeedSummary';
 import PostDetails from '../screens/MyFeed/Lender/PostDetails';
@@ -124,8 +124,8 @@ export default function Tabs() {
           },
         }}>
         <Tab.Screen
-          name="FAQ"
-          component={FAQ}
+          name="HomeStack"
+          component={HomeStack}
           options={{
             tabBarIcon: ({focused}) => (
               <Octicons

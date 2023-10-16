@@ -86,6 +86,7 @@ import store, {setHasViewedOnboarding, setIsSignedIn} from './ReduxStore';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {RootState} from './rootReducer';
 import OfferSent from './screens/MyFeed/Lender/OfferSent';
+import TransactionHistoryDetails from './screens/TransactionHistory/TransactionHistoryDetails';
 
 function AppContent() {
   const dispatch = useDispatch();
@@ -120,10 +121,11 @@ function AppContent() {
 const MainStack = createNativeStackNavigator();
 const AuthStack = createNativeStackNavigator();
 const OmnisScoreStack = createNativeStackNavigator();
+const HomeStackNavigator = createNativeStackNavigator();
+
+
 
 const Stack = createNativeStackNavigator();
-
-const Tab = createBottomTabNavigator();
 
 function MainStackNavigator() {
   return (
@@ -182,6 +184,23 @@ const OnboardingStack = () => {
     </Stack.Navigator>
   );
 };
+
+
+// HomeStack Navigation
+export const HomeStack = () => {
+  return (
+    <Stack.Navigator
+      initialRouteName="HomeScreen"
+      screenOptions={{
+        headerShown: false,
+      }}>
+      <Stack.Screen name="HomeScreen" component={HomeScreen} />
+      <Stack.Screen name="TransactionHistoryDetails" component={TransactionHistoryDetails} />
+    </Stack.Navigator>
+  );
+};
+
+
 
 function App() {
   const [isLoading, setIsLoading] = React.useState(true);
