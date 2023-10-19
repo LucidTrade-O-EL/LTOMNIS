@@ -3,6 +3,8 @@ import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Feather from 'react-native-vector-icons/Feather';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { useNavigation } from '@react-navigation/native';
+
 
 type ScreenTitleProps = {
   title?: string;
@@ -25,30 +27,38 @@ const ScreenTitle: React.FC<ScreenTitleProps> = ({
   rightIconName,
   onRightIconPress,
 }) => {
+
+  const navigation = useNavigation();
   return (
     <View style={styles.container}>
-      {showBackArrow && (
-        <TouchableOpacity onPress={onBackPress} style={styles.backButton}>
-          <Icon name="chevron-back" size={24} color="white" />
-        </TouchableOpacity>
-      )}
+      <TouchableOpacity onPress={() => {
+        if (showBackArrow) {
+          console.log("Back button touched");
+          navigation.goBack();
+        }
+      }} style={styles.backButton}>
+        {showBackArrow && <Icon name="chevron-back" size={24} color="white" />}
+      </TouchableOpacity>
+  
       <View style={styles.textContainer}>
         {title && <Text style={styles.headerText}>{title}</Text>}
         {subtitle && <Text style={styles.subheaderText}>{subtitle}</Text>}
       </View>
-      {showRightIcon && rightIconName && (
-        <TouchableOpacity onPress={onRightIconPress} style={styles.rightButton}>
-          {rightIconType === 'Ionicons' ? (
+  
+      <TouchableOpacity onPress={onRightIconPress} style={styles.rightButton}>
+        {showRightIcon && rightIconName && (
+          rightIconType === 'Ionicons' ? (
             <Icon name={rightIconName} size={24} color="white" />
           ) : rightIconType === 'Feather' ? (
             <Feather name={rightIconName} size={24} color="white" />
           ) : (
             <MaterialCommunityIcons name={rightIconName} size={24} color="white" />
-          )}
-        </TouchableOpacity>
-      )}
+          )
+        )}
+      </TouchableOpacity>
     </View>
   );
+  
 };
 
 const styles = StyleSheet.create({
@@ -58,19 +68,25 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginBottom: 10,
     width: '100%',
+    paddingTop: 30,
   },
   textContainer: {
-    flex: 1,
-    alignItems: 'center',
+    flex: 8,
+    flexDirection: 'column',
     justifyContent: 'center',
-  },
+    alignItems: 'center',
+},
   backButton: {
-    position: 'absolute',
-    left: 10,
+    flex: 1,
+    alignItems: 'flex-start',
+    justifyContent: 'center',
+    paddingHorizontal: 10, // for some space from the edges
   },
   rightButton: {
-    position: 'absolute',
-    right: 10,
+    flex: 1,
+    alignItems: 'flex-end',
+    justifyContent: 'center',
+    paddingHorizontal: 10, // for some space from the edges
   },
   headerText: {
     color: 'white',
@@ -85,5 +101,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
 });
+
 
 export default ScreenTitle;

@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, SafeAreaView, StyleSheet, FlatList} from 'react-native';
+import {View, Text, SafeAreaView, StyleSheet, FlatList, Touchable} from 'react-native';
 import {Divider} from 'react-native-elements';
 import GlobalStyles from '../../assets/constants/colors';
 import CompleteButton from '../../assets/constants/Components/Buttons/CompleteButton';
@@ -8,11 +8,21 @@ import ListItemWithRadial, {
 } from '../../assets/constants/Components/ListItemWithRadial';
 import ScreenTitle from '../../assets/constants/Components/ScreenTitle';
 import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
+import HomeScreen from '../HomeScreen';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
+type RootStackParamList = {
+  HomeStack: undefined;
+  TransactionHistoryDetails: undefined;
+};
+
+type NavigationProp = StackNavigationProp<RootStackParamList, 'TransactionHistoryDetails'>;
 
 
 const TransactionHistoryDetails: React.FC = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<NavigationProp>();
+
 
   const formatCurrency = (value: string) => {
     const sign = ['+', '-'].includes(value[0]) ? value[0] : '';
@@ -83,15 +93,13 @@ const TransactionHistoryDetails: React.FC = () => {
     topTextRight: formatCurrency(item.topTextRight),
   }));
 
+  
+
   return (
     <SafeAreaView style={styles.Background}>
       <ScreenTitle
-        title="Offer Transaction History"
+        title="Transaction Detail"
         showBackArrow={true}
-        onBackPress={() => {
-          console.log("Back button pressed"); // Add this
-          navigation.goBack();
-        }}
         showRightIcon={true}
         rightIconType="Feather" // Either 'Ionicons' or 'Feather'
         rightIconName="share-2" // replace with actual Feather icon name

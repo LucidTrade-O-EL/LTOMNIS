@@ -22,6 +22,7 @@ type HomeScreenRouteProp = RouteProp<RootStackParamList, 'HomeScreen'>;
 type RootStackParamList = {
   HomeScreen: undefined;
   TransactionHistoryDetails: { transactionId: string };
+  TransactionHistoryTax: { transactionId: string };
   // Add other screens and their respective parameter definitions here.
 };
 
@@ -32,7 +33,7 @@ type Props = {
 
 type TransactionNavigationProp = StackNavigationProp<
   RootStackParamList,
-  'TransactionHistoryDetails'
+  'TransactionHistoryTax'
 >;
 
 type HomeScreenNavigationProp = StackNavigationProp<RootStackParamList, 'HomeScreen'>;
@@ -61,7 +62,7 @@ export default function HomeScreen({ navigation }: { navigation: HomeScreenNavig
 
   const handleTransaction = () => {
     console.log('Transaction button pressed');
-    navigation.navigate('TransactionHistoryDetails', { transactionId: "YOUR_TRANSACTION_ID" });
+    navigation.navigate('TransactionHistoryTax', { transactionId: "YOUR_TRANSACTION_ID" });
   };  
   
 

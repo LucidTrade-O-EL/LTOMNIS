@@ -88,6 +88,33 @@ import {RootState} from './rootReducer';
 import OfferSent from './screens/MyFeed/Lender/OfferSent';
 import TransactionHistoryDetails from './screens/TransactionHistory/TransactionHistoryDetails';
 import PlaidLinkComponent from './screens/Plaid/PlaidLinkComponent';
+import { ParamListBase } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import TransactionHistoryTax from './screens/TransactionHistory/TransactionHistoryTax';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RouteProp } from '@react-navigation/native';
+
+type MainStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
+
+type RootStackParamList = {
+  Tabs: undefined;
+  SignInScreen: undefined;
+  Register: undefined;
+  OMNISScoreScreen: undefined;
+  LevelDetails: undefined;
+  Onboarding1: undefined;
+  Onboarding2: undefined;
+  HomeScreen: undefined;
+
+  // ... and so on for each screen
+};
+
+// Stack Imports
+
+const MainStack = createNativeStackNavigator();
+const AuthStack = createNativeStackNavigator();
+const OnboardingStack = createNativeStackNavigator();
+
 
 function AppContent() {
   const dispatch = useDispatch();
@@ -119,86 +146,74 @@ function AppContent() {
   return <MainStackNavigator />;
 }
 
-const MainStack = createNativeStackNavigator();
-const AuthStack = createNativeStackNavigator();
-const OmnisScoreStack = createNativeStackNavigator();
-const HomeStackNavigator = createNativeStackNavigator();
-
 const Stack = createNativeStackNavigator();
 
 function MainStackNavigator() {
   return (
-    <MainStack.Navigator
-      screenOptions={{
-        headerShown: false, // this line hides the header
-      }}>
+    <MainStack.Navigator screenOptions={{ headerShown: false }}>
       <MainStack.Screen name="Tabs" component={Tabs} />
+      {/* You can add more screens here that should be part of the MainStack */}
     </MainStack.Navigator>
   );
 }
 
 function AuthStackNavigator() {
   return (
-    <AuthStack.Navigator
-      initialRouteName="SignInScreen"
-      screenOptions={{
-        headerShown: false, // this line hides the header
-      }}>
+    <AuthStack.Navigator initialRouteName="SignInScreen" screenOptions={{ headerShown: false }}>
       <AuthStack.Screen name="SignInScreen" component={SignInScreen} />
       <AuthStack.Screen name="Register" component={RegisterScreen} />
-      {/* other screens that should not have the bottom tabs */}
+      {/* other auth screens */}
     </AuthStack.Navigator>
   );
 }
 
-export function OmnisScoreStackNavigator() {
+export function OnboardingStackNavigator() {
   return (
-    <OmnisScoreStack.Navigator
-      initialRouteName="OMNISScoreScreen"
-      screenOptions={{
-        headerShown: false, // this line hides the header
-      }}>
-      <OmnisScoreStack.Screen
-        name="OMNISScoreScreen"
-        component={OMNISScoreScreen}
-      />
-      <OmnisScoreStack.Screen name="LevelDetails" component={LevelDetails} />
-    </OmnisScoreStack.Navigator>
+    <OnboardingStack.Navigator initialRouteName="Onboarding1" screenOptions={{ headerShown: false }}>
+      <OnboardingStack.Screen name="Onboarding1" component={OnboardingScreen1} />
+      <OnboardingStack.Screen name="Onboarding2" component={OnboardingScreen2} />
+      {/* other onboarding screens */}
+    </OnboardingStack.Navigator>
   );
 }
 
-const OnboardingStack = () => {
-  return (
-    <Stack.Navigator
-      initialRouteName="Onboarding1"
-      screenOptions={{
-        headerShown: false,
-      }}>
-      <Stack.Screen name="Onboarding1" component={OnboardingScreen1} />
-      <Stack.Screen name="Onboarding2" component={OnboardingScreen2} />
-      <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
-      <Stack.Screen name="OMNISScoreScreen" component={OMNISScoreScreen} />
-      {/* <Stack.Screen name="AddFriendScreen" component={AddFriendScreen} /> */}
-      <Stack.Screen name="Onboarding4" component={OnboardingScreen4} />
-    </Stack.Navigator>
-  );
+type HomeStackParamList = {
+  HomeScreen: undefined;
+  TransactionHistoryDetails: undefined;
+  TransactionHistoryTax: undefined;
 };
 
-// HomeStack Navigation
-export const HomeStack = () => {
+const HomeStack = createNativeStackNavigator<HomeStackParamList>();
+
+type HomeStackNavigatorProps = {
+  navigation: StackNavigationProp<HomeStackParamList>;
+  route: RouteProp<HomeStackParamList, keyof HomeStackParamList>;
+};
+
+export function HomeStackNavigator({ navigation, route }: HomeStackNavigatorProps) {
+  React.useEffect(() => {
+    const routeName = getFocusedRouteNameFromRoute(route);
+    if (routeName !== "HomeScreen") {
+      navigation.setOptions({ tabBarVisible: false });
+    } else {
+      navigation.setOptions({ tabBarVisible: true });
+    }
+  }, [navigation, route]);
+
   return (
-    <Stack.Navigator
-      initialRouteName="HomeScreen"
-      screenOptions={{
-        headerShown: false,
-      }}>
-      <Stack.Screen name="HomeScreen" component={HomeScreen} />
-      <Stack.Screen
-        name="TransactionHistoryDetails"
-        component={TransactionHistoryDetails}
-      />
-    </Stack.Navigator>
+    <HomeStack.Navigator initialRouteName="HomeScreen" screenOptions={{ headerShown: false }}>
+      <HomeStack.Screen name="HomeScreen" component={HomeScreen} />
+      <HomeStack.Screen name="TransactionHistoryDetails" component={TransactionHistoryDetails} />
+      <HomeStack.Screen name="TransactionHistoryTax" component={TransactionHistoryTax} />
+    </HomeStack.Navigator>
   );
+}
+
+const getFocusedRouteNameFromRoute = (route: any): string => {
+  const routeName = route.state
+    ? route.state.routes[route.state.index].name
+    : route.params?.screen || 'HomeScreen';
+  return routeName;
 };
 
 function App() {

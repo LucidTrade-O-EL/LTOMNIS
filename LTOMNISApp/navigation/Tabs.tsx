@@ -1,132 +1,90 @@
-import {View} from 'react-native';
-import React from 'react';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import HomeScreen from '../screens/HomeScreen';
-import GlobalStyles from '../assets/constants/colors';
-import {StyleSheet} from 'react-native';
-import {TouchableOpacity} from 'react-native-gesture-handler';
-import RegisterScreen from '../screens/SignIn/RegisterScreen';
+import React, { ReactNode } from 'react';
+import { View, StyleSheet, GestureResponderEvent } from 'react-native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createStackNavigator } from '@react-navigation/stack';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import Octicons from 'react-native-vector-icons/Octicons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import SignInScreen from '../screens/SignIn/SignInScreen';
-import SignUpScreen from '../screens/SignUp/SignUpScreen';
-import Verification from '../screens/auth/Verification';
-import {GestureResponderEvent} from 'react-native';
-import Svg, {Path} from 'react-native-svg';
-import OMNISScoreScreen from '../screens/OMNISScore/OMNISScoreScreen';
-import SpotlightScreen from '../screens/Spotlight/SpotlightScreen';
-import AddPostScreen from '../screens/add_post/AddPostScreen';
-import {HomeStack, OmnisScoreStackNavigator} from '../App';
+
+// Local Imports
+import GlobalStyles from '../assets/constants/colors';
+import HomeScreen from '../screens/HomeScreen';
+import MyFeedScreen from '../screens/MyFeed/MyFeedScreen';
+import PostDetails from '../screens/MyFeed/Lender/PostDetails';
 import PostOffer from '../screens/MyFeed/Lender/PostOffer';
 import FeedSummary from '../screens/MyFeed/Borrower/FeedSummary';
-import PostDetails from '../screens/MyFeed/Lender/PostDetails';
-import MyFeedScreen from '../screens/MyFeed/MyFeedScreen';
 import OfferSent from '../screens/MyFeed/Lender/OfferSent';
 import OfferSentSuccessful from '../screens/MyFeed/OfferSentSuccessful';
-import MyProfile from '../screens/MyProfile/MyProfile';
-import EditProfile from '../screens/MyProfile/EditProfile';
-import Settings from '../screens/MyProfile/Settings';
-import LanguagesSettings from '../screens/MyProfile/LanguagesSettings';
-import PrivacyPolicy from '../screens/MyProfile/PrivacyPolicy';
-import NotificationScreen from '../screens/Notification/NotificationScreen';
-import AppFeedBack from '../screens/MyProfile/AppFeedBack';
-import DeactivateAccount from '../screens/MyProfile/DeactivateAccount';
-import BeforeYouGo from '../screens/DeactivateAccount/BeforeYouGo';
-import BeforeYouGoAgain from '../screens/DeactivateAccount/BeforeYouGoAgain';
-import FAQ from '../screens/HelpCenter/FAQ';
-import {createStackNavigator} from '@react-navigation/stack';
-import {StackScreenProps} from '@react-navigation/stack';
-import {MyFeedScreenProps} from '../screens/MyFeed/MyFeedScreen';
+import AddPostScreen from '../screens/add_post/AddPostScreen';
+import OMNISScoreScreen from '../screens/OMNISScore/OMNISScoreScreen';
+import SpotlightScreen from '../screens/Spotlight/SpotlightScreen';
+import { HomeStackNavigator } from '../App';
+import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
+
 
 interface CustomTabBarButtonProps {
   children: React.ReactNode;
-  onPress: (e?: GestureResponderEvent) => void;
+  onPress?: (e: GestureResponderEvent) => void;
 }
 
 const Tab = createBottomTabNavigator();
-
 const MyFeedStack = createStackNavigator();
 
 export function MyFeedStackNavigator() {
   return (
     <MyFeedStack.Navigator
-      initialRouteName="FeedSummary"
-      screenOptions={{
-        headerShown: false,
-      }}>
+      initialRouteName="MyFeedScreen"
+      screenOptions={{ headerShown: false }}>
       <MyFeedStack.Screen name="MyFeedScreen" component={MyFeedScreen} />
       <MyFeedStack.Screen name="PostDetails" component={PostDetails} />
       <MyFeedStack.Screen name="PostOffer" component={PostOffer} />
       <MyFeedStack.Screen name="FeedSummary" component={FeedSummary} />
       <MyFeedStack.Screen name="OfferSent" component={OfferSent} />
-      <MyFeedStack.Screen
-        name="OfferSentSuccessful"
-        component={OfferSentSuccessful}
-      />
+      <MyFeedStack.Screen name="OfferSentSuccessful" component={OfferSentSuccessful} />
     </MyFeedStack.Navigator>
   );
 }
 
-type CombinedProps = MyFeedScreenProps &
-  StackScreenProps<MyFeedStackParamList, 'MyFeedScreen'>;
 
-type MyFeedStackParamList = {
-  MyFeedScreen: undefined; // or your specific screen params if any
-  // Add other screens if you have params for them
-};
-
-const TabBarBackground = () => {
-  return (
-    <View style={styles.tabBarBackground}>
-      <Svg width="100%" height="100%" viewBox="0 0 500 80">
-        <Path d="M0,0 L500,0 L500,50 Q250,70 0,50 L0,0" fill="yourColorHere" />
-      </Svg>
-    </View>
-  );
-};
-
-const CustomTabBarButton: React.FC<CustomTabBarButtonProps> = ({
-  children,
-  onPress,
-}) => (
-  <TouchableOpacity
-    onPress={onPress}
-    style={{
-      top: -20,
-      justifyContent: 'center',
-      alignItems: 'center',
-      ...styles.shadow, // change this line
-    }}>
-    <View
-      style={{
-        width: 54,
-        height: 54,
-        borderRadius: 54,
-        backgroundColor: GlobalStyles.Colors.primary200,
-      }}>
-      {children}
-    </View>
+const CustomTabBarButton = ({ children, onPress }) => {
+  <TouchableOpacity onPress={onPress} style={[styles.shadow, { top: -20, justifyContent: 'center', alignItems: 'center' }]}>
+    <View style={{ width: 54, height: 54, borderRadius: 54, backgroundColor: GlobalStyles.Colors.primary200 }}>{children}</View>
   </TouchableOpacity>
-);
+}
+
+// type TabParamList = {
+//   HomeStackNavigator: undefined;
+//   MyFeedScreen: undefined;
+//   // ... other tabs ...
+// };
+
 
 export default function Tabs() {
   return (
     <View style={{flex: 1}}>
       <Tab.Navigator
-        screenOptions={{
-          tabBarShowLabel: false,
-          headerShown: false,
-          tabBarStyle: {
-            position: 'absolute',
-            backgroundColor: GlobalStyles.Colors.primary700,
-            borderRadius: 10,
-            height: '9%',
-            ...styles.shadow,
-          },
+        screenOptions={({ route }) => {
+          // Use the utility to get the current screen's name
+          const routeName = getFocusedRouteNameFromRoute(route) ?? 'HomeScreen';
+
+          const showTabBar = routeName !== 'PostDetails' && routeName !== 'PostOffer'; // Add other screens as needed
+
+          return {
+            tabBarVisible: showTabBar,
+            tabBarShowLabel: false,
+            headerShown: false,
+            tabBarStyle: {
+              position: 'absolute',
+              backgroundColor: GlobalStyles.Colors.primary700,
+              borderRadius: 10,
+              height: '9%',
+              ...styles.shadow,
+            },
+          };
         }}>
         <Tab.Screen
-          name="HomeStack"
-          component={HomeStack}
+          name="HomeStackNavigator"
+          component={HomeStackNavigator}
           options={{
             tabBarIcon: ({focused}) => (
               <Octicons
@@ -170,18 +128,13 @@ export default function Tabs() {
               />
             ),
             tabBarButton: props => (
-              <CustomTabBarButton
-                {...props}
-                onPress={() => {
-                  props.onPress;
-                }}
-              />
+              <CustomTabBarButton {...props} onPress={props.onPress as any} />
             ),
           }}
         />
         <Tab.Screen
-          name="OmnisScoreStackNavigator"
-          component={OmnisScoreStackNavigator}
+          name="OMNISScoreScreen"
+          component={OMNISScoreScreen}
           options={{
             tabBarIcon: ({focused}) => (
               <Ionicons

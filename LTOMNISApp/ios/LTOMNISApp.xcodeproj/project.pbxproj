@@ -14,6 +14,8 @@
 		153175736D5CC29CA52C57BB /* libPods-LTOMNISApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1973E0E58BD7E7B2B4BB0ADF /* libPods-LTOMNISApp.a */; };
 		3D35CF48AB5449502AEDD03E /* libPods-LTOMNISApp-LTOMNISAppTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 30EB1EE5E8EC932F69371489 /* libPods-LTOMNISApp-LTOMNISAppTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		EBEDBDAC2AE0AB3B007901AA /* RNLinksdk.xcworkspace in Resources */ = {isa = PBXBuildFile; fileRef = EBEDBDAB2AE0AB3B007901AA /* RNLinksdk.xcworkspace */; };
+		EBEDBDB12AE0AD87007901AA /* libreact-native-plaid-link-sdk.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EBEDBDB02AE0AD87007901AA /* libreact-native-plaid-link-sdk.a */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,6 +64,8 @@
 		EB35CE8F2A9AF20D005CFC2D /* FontAwesome6_Brands.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = FontAwesome6_Brands.ttf; sourceTree = "<group>"; };
 		EB35CE902A9AF20D005CFC2D /* MaterialIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = MaterialIcons.ttf; sourceTree = "<group>"; };
 		EB3F46B41EEDA865580C1ED4 /* Pods-LTOMNISApp-LTOMNISAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LTOMNISApp-LTOMNISAppTests.debug.xcconfig"; path = "Target Support Files/Pods-LTOMNISApp-LTOMNISAppTests/Pods-LTOMNISApp-LTOMNISAppTests.debug.xcconfig"; sourceTree = "<group>"; };
+		EBEDBDAB2AE0AB3B007901AA /* RNLinksdk.xcworkspace */ = {isa = PBXFileReference; lastKnownFileType = wrapper.workspace; name = RNLinksdk.xcworkspace; path = "../node_modules/react-native-plaid-link-sdk/ios/RNLinksdk.xcworkspace"; sourceTree = "<group>"; };
+		EBEDBDB02AE0AD87007901AA /* libreact-native-plaid-link-sdk.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = "libreact-native-plaid-link-sdk.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -78,6 +82,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EBEDBDB12AE0AD87007901AA /* libreact-native-plaid-link-sdk.a in Frameworks */,
 				153175736D5CC29CA52C57BB /* libPods-LTOMNISApp.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -119,6 +124,7 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				EBEDBDB02AE0AD87007901AA /* libreact-native-plaid-link-sdk.a */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				1973E0E58BD7E7B2B4BB0ADF /* libPods-LTOMNISApp.a */,
 				30EB1EE5E8EC932F69371489 /* libPods-LTOMNISApp-LTOMNISAppTests.a */,
@@ -129,6 +135,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				EBEDBDAB2AE0AB3B007901AA /* RNLinksdk.xcworkspace */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -290,6 +297,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
+				EBEDBDAC2AE0AB3B007901AA /* RNLinksdk.xcworkspace in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
