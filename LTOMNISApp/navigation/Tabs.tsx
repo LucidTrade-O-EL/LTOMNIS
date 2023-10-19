@@ -20,6 +20,7 @@ import OMNISScoreScreen from '../screens/OMNISScore/OMNISScoreScreen';
 import SpotlightScreen from '../screens/Spotlight/SpotlightScreen';
 import { HomeStackNavigator } from '../App';
 import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
+import Plaid from '../PlaidFrontend/Plaid';
 
 
 interface CustomTabBarButtonProps {
@@ -133,8 +134,8 @@ export default function Tabs() {
           }}
         />
         <Tab.Screen
-          name="OMNISScoreScreen"
-          component={OMNISScoreScreen}
+          name="Plaid"
+          component={Plaid}
           options={{
             tabBarIcon: ({focused}) => (
               <Ionicons
