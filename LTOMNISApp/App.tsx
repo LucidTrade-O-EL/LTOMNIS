@@ -87,7 +87,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {RootState} from './rootReducer';
 import OfferSent from './screens/MyFeed/Lender/OfferSent';
 import TransactionHistoryDetails from './screens/TransactionHistory/TransactionHistoryDetails';
-import PlaidLinkComponent from './screens/Plaid/PlaidLinkComponent';
 import { ParamListBase } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import TransactionHistoryTax from './screens/TransactionHistory/TransactionHistoryTax';
@@ -139,9 +138,9 @@ function AppContent() {
   //   return <OnboardingStack />;
   // }
 
-  if (!token) {
-    return <AuthStackNavigator />;
-  }
+  // if (!token) {
+  //   return <AuthStackNavigator />;
+  // }
 
   return <MainStackNavigator />;
 }
