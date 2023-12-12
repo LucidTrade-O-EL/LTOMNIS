@@ -10,7 +10,14 @@ import {
 import React, {useState} from 'react';
 import {Divider} from '@rneui/themed';
 import axios from 'axios';
+import {useNavigation} from '@react-navigation/native';
+import {StackNavigationProp} from '@react-navigation/stack';
 
+type AuthStackParamList = {
+  SignInScreen: undefined;
+  Register: undefined;
+  PlaidStart: undefined;
+};
 
 export default function RegisterScreen() {
   const [name, setName] = useState('');
@@ -19,6 +26,7 @@ export default function RegisterScreen() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [invalidPassword, setInvalidPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const navigation = useNavigation<StackNavigationProp<AuthStackParamList>>();
 
   const register = async () => {
     // Regular expression to check if the password contains at least one digit and one special character.
@@ -30,29 +38,28 @@ export default function RegisterScreen() {
         'Password must be at least 8 characters, contain a number and a special character.',
       );
       setInvalidPassword(true);
-      return; // Exit the function early if password is invalid
+      return;
     } else {
       setInvalidPassword(false);
     }
 
     // Check name length
-    if (name.length < 2) {
-      console.log('Name too short');
+    if (name.length > 2) {
       setErrorMessage('Name must be at least 2 characters long.');
-      return; // Exit the function early if name is too short
+      return;
     }
 
     if (errorMessage) {
-    Alert.alert('Error', errorMessage);
-    return;
-  }
+      Alert.alert('Error', errorMessage);
+      return;
+    }
 
     setErrorMessage(null);
 
     try {
       const options = {
         method: 'POST',
-        url: 'https://api.lucidtrades.com/api/Account/register',
+        url: 'https://js.lucidtrades.com/api/omnis/account/register_login',
         data: {name, email, password, confirmPassword},
         headers: {
           Accept: 'application/json',
@@ -70,6 +77,7 @@ export default function RegisterScreen() {
       }
 
       console.log('user: ', user);
+      navigation.navigate('PlaidStart');
     } catch (error: any) {
       console.error('An error occurred:', error);
     }
@@ -135,7 +143,7 @@ export default function RegisterScreen() {
           value={password}
           onChangeText={text => {
             // changed to inline function to handle password length check
-            if (text.length < 8) {
+            if (text.length > 8) {
               setInvalidPassword(true);
             } else {
               setInvalidPassword(false);
@@ -223,9 +231,11 @@ export default function RegisterScreen() {
 
         <Pressable style={styles.login} onPress={() => {}}>
           <Text style={{color: 'white', fontSize: 14}}>
-            already Have Account
+            Already Have Account
           </Text>
-          <Text style={{color: '#BDAE8D', fontSize: 14}}>login</Text>
+          <View >
+                      <Text style={{color: '#BDAE8D', fontSize: 14}}> login</Text>
+          </View>
         </Pressable>
       </View>
     </View>

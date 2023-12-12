@@ -87,11 +87,15 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {RootState} from './rootReducer';
 import OfferSent from './screens/MyFeed/Lender/OfferSent';
 import TransactionHistoryDetails from './screens/TransactionHistory/TransactionHistoryDetails';
-import { ParamListBase } from '@react-navigation/native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import {ParamListBase} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import TransactionHistoryTax from './screens/TransactionHistory/TransactionHistoryTax';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { RouteProp } from '@react-navigation/native';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {RouteProp} from '@react-navigation/native';
+import IdVerify from './PlaidAPI/IdVerify';
+import PlaidLinkButton from './PlaidAPI/PlaidLinkButton';
+import CreateLinkToken from './PlaidAPI/CreateLinkToken';
+import CreditScoreDisplay from './PlaidAPI/creditScoreDisplay';
 
 type MainStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
@@ -113,7 +117,6 @@ type RootStackParamList = {
 const MainStack = createNativeStackNavigator();
 const AuthStack = createNativeStackNavigator();
 const OnboardingStack = createNativeStackNavigator();
-
 
 function AppContent() {
   const dispatch = useDispatch();
@@ -138,9 +141,9 @@ function AppContent() {
   //   return <OnboardingStack />;
   // }
 
-  // if (!token) {
-  //   return <AuthStackNavigator />;
-  // }
+  if (!token) {
+    return <AuthStackNavigator />;
+  }
 
   return <MainStackNavigator />;
 }
@@ -149,7 +152,7 @@ const Stack = createNativeStackNavigator();
 
 function MainStackNavigator() {
   return (
-    <MainStack.Navigator screenOptions={{ headerShown: false }}>
+    <MainStack.Navigator screenOptions={{headerShown: false}}>
       <MainStack.Screen name="Tabs" component={Tabs} />
       {/* You can add more screens here that should be part of the MainStack */}
     </MainStack.Navigator>
@@ -158,20 +161,35 @@ function MainStackNavigator() {
 
 function AuthStackNavigator() {
   return (
-    <AuthStack.Navigator initialRouteName="SignInScreen" screenOptions={{ headerShown: false }}>
-      <AuthStack.Screen name="SignInScreen" component={SignInScreen} />
-      <AuthStack.Screen name="Register" component={RegisterScreen} />
-      {/* other auth screens */}
+    <AuthStack.Navigator
+      initialRouteName="SignInScreen"
+      screenOptions={{headerShown: false}}>
+      {/* <AuthStack.Screen name="SignInScreen" component={SignInScreen} /> */}
+      {/* <AuthStack.Screen name="Register" component={RegisterScreen} /> */}
+      {/* <AuthStack.Screen name="IdVerify" component={IdVerify} /> */}
+      <AuthStack.Screen name="PlaidLink" component={PlaidLinkButton} />
+      <AuthStack.Screen name="CreateLinkToken" component={CreateLinkToken} />
+      <AuthStack.Screen
+        name="CreditScoreDisplay"
+        component={CreditScoreDisplay}
+      />
     </AuthStack.Navigator>
   );
 }
 
 export function OnboardingStackNavigator() {
   return (
-    <OnboardingStack.Navigator initialRouteName="Onboarding1" screenOptions={{ headerShown: false }}>
-      <OnboardingStack.Screen name="Onboarding1" component={OnboardingScreen1} />
-      <OnboardingStack.Screen name="Onboarding2" component={OnboardingScreen2} />
-      {/* other onboarding screens */}
+    <OnboardingStack.Navigator
+      initialRouteName="Onboarding1"
+      screenOptions={{headerShown: false}}>
+      <OnboardingStack.Screen
+        name="Onboarding1"
+        component={OnboardingScreen1}
+      />
+      <OnboardingStack.Screen
+        name="Onboarding2"
+        component={OnboardingScreen2}
+      />
     </OnboardingStack.Navigator>
   );
 }
@@ -189,21 +207,32 @@ type HomeStackNavigatorProps = {
   route: RouteProp<HomeStackParamList, keyof HomeStackParamList>;
 };
 
-export function HomeStackNavigator({ navigation, route }: HomeStackNavigatorProps) {
+export function HomeStackNavigator({
+  navigation,
+  route,
+}: HomeStackNavigatorProps) {
   React.useEffect(() => {
     const routeName = getFocusedRouteNameFromRoute(route);
-    if (routeName !== "HomeScreen") {
-      navigation.setOptions({ tabBarVisible: false });
+    if (routeName !== 'HomeScreen') {
+      navigation.setOptions({tabBarVisible: false});
     } else {
-      navigation.setOptions({ tabBarVisible: true });
+      navigation.setOptions({tabBarVisible: true});
     }
   }, [navigation, route]);
 
   return (
-    <HomeStack.Navigator initialRouteName="HomeScreen" screenOptions={{ headerShown: false }}>
+    <HomeStack.Navigator
+      initialRouteName="HomeScreen"
+      screenOptions={{headerShown: false}}>
       <HomeStack.Screen name="HomeScreen" component={HomeScreen} />
-      <HomeStack.Screen name="TransactionHistoryDetails" component={TransactionHistoryDetails} />
-      <HomeStack.Screen name="TransactionHistoryTax" component={TransactionHistoryTax} />
+      <HomeStack.Screen
+        name="TransactionHistoryDetails"
+        component={TransactionHistoryDetails}
+      />
+      <HomeStack.Screen
+        name="TransactionHistoryTax"
+        component={TransactionHistoryTax}
+      />
     </HomeStack.Navigator>
   );
 }
