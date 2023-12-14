@@ -2,33 +2,34 @@ import {View, Text, StyleSheet, ImageBackground, Pressable} from 'react-native';
 import React from 'react';
 import GlobalStyles from '../../assets/constants/colors';
 
-export default function OnboardingScreen4() {
+interface OnboardingScreen4Props {
+  onStartNow: () => void; // Function to handle the "Start Now" action
+}
+
+const OnboardingScreen4: React.FC<{onStartNow: () => void}> = ({
+  onStartNow,
+}) => {
   return (
     <View style={styles.background}>
       <ImageBackground
         source={require('../../assets/Onboarding.png')}
         style={styles.image}>
-        <View style={{height: '50%', marginTop: 75}}>
-          <Pressable style={styles.button1} onPress={() => {}}>
-            <Text style={{color: '#fff'}}>Skip</Text>
-          </Pressable>
-        </View>
-
+        <View style={{height: '50%', marginTop: 75}}></View>
         <View style={styles.view}>
           <Text style={styles.text}>Traditional Banking Integration</Text>
           <Text style={styles.smallText}>
             Smooth deposit, withdrawal, and overall financial management.
           </Text>
           <View style={styles.view2}>
-            <Pressable style={styles.button2} onPress={() => {}}>
-              <Text style={styles.buttonText}>Start Now</Text>
+            <Pressable style={styles.startNowButton} onPress={onStartNow}>
+              <Text style={styles.startNowButtonText}>Start Now</Text>
             </Pressable>
           </View>
         </View>
       </ImageBackground>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   background: {
@@ -51,7 +52,7 @@ const styles = StyleSheet.create({
     opacity: 7,
   },
 
-  button2: {
+  startNowButton: {
     width: '100%',
     height: 56,
     backgroundColor: '#BDAE8D',
@@ -60,7 +61,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
 
-  buttonText: {
+  startNowButtonText: {
     color: 'white',
     alignSelf: 'center',
     textAlign: 'center',
@@ -102,3 +103,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
+
+export default OnboardingScreen4;

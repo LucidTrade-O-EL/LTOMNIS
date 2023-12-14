@@ -12,17 +12,16 @@ import IonIcon from 'react-native-vector-icons/Ionicons';
 import GlobalStyles from '../assets/constants/colors';
 import GlobalFonts from '../assets/constants/fonts';
 import TransactionHistory from '../assets/constants/Components/CustomTransactionButton';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { RouteProp } from '@react-navigation/native';
-import { useNavigation } from '@react-navigation/native';
-
+import {StackNavigationProp} from '@react-navigation/stack';
+import {RouteProp} from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 
 type HomeScreenRouteProp = RouteProp<RootStackParamList, 'HomeScreen'>;
 
 type RootStackParamList = {
   HomeScreen: undefined;
-  TransactionHistoryDetails: { transactionId: string };
-  TransactionHistoryTax: { transactionId: string };
+  TransactionHistoryDetails: {transactionId: string};
+  TransactionHistoryTax: {transactionId: string};
   // Add other screens and their respective parameter definitions here.
 };
 
@@ -36,12 +35,22 @@ type TransactionNavigationProp = StackNavigationProp<
   'TransactionHistoryTax'
 >;
 
-type HomeScreenNavigationProp = StackNavigationProp<RootStackParamList, 'HomeScreen'>;
+type HomeScreenNavigationProp = StackNavigationProp<
+  RootStackParamList,
+  'HomeScreen'
+>;
 
-export default function HomeScreen({ navigation }: { navigation: HomeScreenNavigationProp }) {
+type WithdrawMoneyScreenProp = StackNavigationProp<
+  RootStackParamList,
+  'WithdrawMoneyScreen'
+>;
+
+export default function HomeScreen({
+  navigation,
+}: {
+  navigation: HomeScreenNavigationProp;
+}) {
   // ... rest of your HomeScreen component code
-
-
 
   const [userName, setUserName] = useState('Zak Veasy');
   const [balance, setBalance] = useState('$124.56');
@@ -57,14 +66,29 @@ export default function HomeScreen({ navigation }: { navigation: HomeScreenNavig
 
   const handleWithdraw = () => {
     console.log('Withdraw button pressed');
-    // Insert logic for withdraw functionality here
+    navigation.navigate('WithdrawMoneyScreen');
   };
 
   const handleTransaction = () => {
     console.log('Transaction button pressed');
-    navigation.navigate('TransactionHistoryTax', { transactionId: "YOUR_TRANSACTION_ID" });
-  };  
-  
+    navigation.navigate('TransactionHistoryTax', {
+      transactionId: 'YOUR_TRANSACTION_ID',
+    });
+  };
+
+  const handleLender = () => {
+    console.log('Transaction button pressed');
+    navigation.navigate('TransactionHistoryTax', {
+      transactionId: 'YOUR_TRANSACTION_ID',
+    });
+  };
+
+  const handleBorrower = () => {
+    console.log('Transaction button pressed');
+    navigation.navigate('TransactionHistoryTax', {
+      transactionId: 'YOUR_TRANSACTION_ID',
+    });
+  };
 
   return (
     <SafeAreaView style={styles.Background}>
@@ -161,7 +185,8 @@ export default function HomeScreen({ navigation }: { navigation: HomeScreenNavig
             </View>
           </View>
           <View style={styles.RoleButtonContainer}>
-            <View
+            <Pressable
+              onPress={handleLender}
               style={{
                 width: '40%',
                 height: 40,
@@ -173,7 +198,7 @@ export default function HomeScreen({ navigation }: { navigation: HomeScreenNavig
                 marginLeft: 60,
               }}>
               <Text style={styles.ViewButton}>View</Text>
-            </View>
+            </Pressable>
           </View>
         </View>
 
@@ -194,7 +219,8 @@ export default function HomeScreen({ navigation }: { navigation: HomeScreenNavig
             </View>
           </View>
           <View style={styles.RoleButtonContainer}>
-            <View
+            <Pressable
+              onPress={handleBorrower}
               style={{
                 width: '40%',
                 height: 40,
@@ -206,7 +232,7 @@ export default function HomeScreen({ navigation }: { navigation: HomeScreenNavig
                 marginLeft: 60,
               }}>
               <Text style={styles.ViewButton}>View</Text>
-            </View>
+            </Pressable>
           </View>
         </View>
       </View>

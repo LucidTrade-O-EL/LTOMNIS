@@ -514,7 +514,8 @@ PODS:
     - React-Core
   - RNDateTimePicker (7.5.0):
     - React-Core
-  - RNGestureHandler (2.12.1):
+  - RNGestureHandler (2.14.0):
+    - RCT-Folly (= 2021.07.22.00)
     - React-Core
   - RNLocalize (3.0.2):
     - React-Core
@@ -805,7 +806,7 @@ SPEC CHECKSUMS:
   RNCAsyncStorage: c913ede1fa163a71cea118ed4670bbaaa4b511bb
   RNCCheckbox: 75255b03e604bbcc26411eb31c4cbe3e3865f538
   RNDateTimePicker: b722c23030b744763cf51d80fc22f354653f65e0
-  RNGestureHandler: c0d04458598fcb26052494ae23dda8f8f5162b13
+  RNGestureHandler: 32a01c29ecc9bb0b5bf7bc0a33547f61b4dc2741
   RNLocalize: dbea38dcb344bf80ff18a1757b1becf11f70cae4
   RNScreens: b21dc57dfa2b710c30ec600786a3fc223b1b92e7
   RNSVG: d00c8f91c3cbf6d476451313a18f04d220d4f396

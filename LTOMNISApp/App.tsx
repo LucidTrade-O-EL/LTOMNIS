@@ -5,7 +5,7 @@
  * @format
  */
 
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import type {PropsWithChildren} from 'react';
 import {
   SafeAreaView,
@@ -96,6 +96,8 @@ import IdVerify from './PlaidAPI/IdVerify';
 import PlaidLinkButton from './PlaidAPI/PlaidLinkButton';
 import CreateLinkToken from './PlaidAPI/CreateLinkToken';
 import CreditScoreDisplay from './PlaidAPI/creditScoreDisplay';
+import WithdrawMoneyScreen from './screens/WithdrawMoney/WithdrawMoneyScreen';
+import OnboardingManager from './screens/onboarding/OnboardingManager';
 
 type MainStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
@@ -119,33 +121,28 @@ const AuthStack = createNativeStackNavigator();
 const OnboardingStack = createNativeStackNavigator();
 
 function AppContent() {
-  const dispatch = useDispatch();
-  const token = useSelector((state: RootState) => state.token.token);
+  const token = useSelector((state: AppState) => state.token.token);
   const hasViewedOnboarding = useSelector(
-    (state: RootState) => state.app.hasViewedOnboarding,
+    (state: AppState) => state.app.hasViewedOnboarding,
   );
 
-  React.useEffect(() => {
-    const checkTokenAndOnboarding = async () => {
+  useEffect(() => {
+    const initializeApp = async () => {
       const storedToken = await AsyncStorage.getItem('token');
       const storedOnboardingStatus = await AsyncStorage.getItem(
         'hasViewedOnboarding',
       );
-      dispatch(setHasViewedOnboarding(storedOnboardingStatus === 'true'));
-      dispatch(setIsSignedIn(!!storedToken));
+      store.dispatch(setHasViewedOnboarding(storedOnboardingStatus === 'true'));
+      store.dispatch(setIsSignedIn(!!storedToken));
     };
-    checkTokenAndOnboarding();
-  }, [dispatch]);
+    initializeApp();
+  }, []);
 
-  // if (!hasViewedOnboarding) {
-  //   return <OnboardingStack />;
-  // }
-
-  if (!token) {
-    return <AuthStackNavigator />;
+  if (!hasViewedOnboarding) {
+    return <OnboardingStackNavigator />;
   }
 
-  return <MainStackNavigator />;
+  return token ? <MainStackNavigator /> : <AuthStackNavigator />;
 }
 
 const Stack = createNativeStackNavigator();
@@ -153,8 +150,16 @@ const Stack = createNativeStackNavigator();
 function MainStackNavigator() {
   return (
     <MainStack.Navigator screenOptions={{headerShown: false}}>
-      <MainStack.Screen name="Tabs" component={Tabs} />
-      {/* You can add more screens here that should be part of the MainStack */}
+      <NavigationContainer>
+        <MainStack.Navigator screenOptions={{headerShown: false}}>
+          <MainStack.Screen
+            name="OnboardingStack"
+            component={OnboardingStackNavigator}
+          />
+          <MainStack.Screen name="Auth" component={AuthStackNavigator} />
+          <MainStack.Screen name="Tabs" component={Tabs} />
+        </MainStack.Navigator>
+      </NavigationContainer>
     </MainStack.Navigator>
   );
 }
@@ -164,9 +169,8 @@ function AuthStackNavigator() {
     <AuthStack.Navigator
       initialRouteName="SignInScreen"
       screenOptions={{headerShown: false}}>
-      {/* <AuthStack.Screen name="SignInScreen" component={SignInScreen} /> */}
-      {/* <AuthStack.Screen name="Register" component={RegisterScreen} /> */}
-      {/* <AuthStack.Screen name="IdVerify" component={IdVerify} /> */}
+      <AuthStack.Screen name="SignInScreen" component={SignInScreen} />
+      <AuthStack.Screen name="Register" component={RegisterScreen} />
       <AuthStack.Screen name="PlaidLink" component={PlaidLinkButton} />
       <AuthStack.Screen name="CreateLinkToken" component={CreateLinkToken} />
       <AuthStack.Screen
@@ -177,11 +181,16 @@ function AuthStackNavigator() {
   );
 }
 
-export function OnboardingStackNavigator() {
+
+function OnboardingStackNavigator() {
   return (
     <OnboardingStack.Navigator
-      initialRouteName="Onboarding1"
+      initialRouteName="OnboardingManager"
       screenOptions={{headerShown: false}}>
+      <OnboardingStack.Screen
+        name="OnboardingManager"
+        component={OnboardingManager}
+      />
       <OnboardingStack.Screen
         name="Onboarding1"
         component={OnboardingScreen1}
@@ -189,6 +198,14 @@ export function OnboardingStackNavigator() {
       <OnboardingStack.Screen
         name="Onboarding2"
         component={OnboardingScreen2}
+      />
+      <OnboardingStack.Screen
+        name="Onboarding3"
+        component={OnboardingScreen3}
+      />
+      <OnboardingStack.Screen
+        name="Onboarding4"
+        component={OnboardingScreen4}
       />
     </OnboardingStack.Navigator>
   );
@@ -226,6 +243,10 @@ export function HomeStackNavigator({
       screenOptions={{headerShown: false}}>
       <HomeStack.Screen name="HomeScreen" component={HomeScreen} />
       <HomeStack.Screen
+        name="WithdrawMoneyScreen"
+        component={WithdrawMoneyScreen}
+      />
+      <HomeStack.Screen
         name="TransactionHistoryDetails"
         component={TransactionHistoryDetails}
       />
@@ -245,22 +266,13 @@ const getFocusedRouteNameFromRoute = (route: any): string => {
 };
 
 function App() {
-  const [isLoading, setIsLoading] = React.useState(true);
+  const [isLoading, setIsLoading] = useState(true);
 
-  React.useEffect(() => {
-    const initializeApp = async () => {
-      const token = await AsyncStorage.getItem('token');
-      const hasViewedOnboarding = await AsyncStorage.getItem(
-        'hasViewedOnboarding',
-      );
-
-      // Here, avoid using dispatch if you're outside of Provider
-      store.dispatch(setHasViewedOnboarding(hasViewedOnboarding === 'true'));
-      store.dispatch(setIsSignedIn(!!token));
+  useEffect(() => {
+    // Delayed loading can be replaced with actual initialization logic
+    setTimeout(() => {
       setIsLoading(false);
-    };
-
-    initializeApp();
+    }, 1000);
   }, []);
 
   if (isLoading) {
@@ -286,110 +298,3 @@ export default function Root() {
 }
 
 export {App};
-
-// return (
-//   <NavigationContainer>
-//     <Stack.Navigator screenOptions={{headerShown: false}}>
-//       {/* <GestureHandlerRootView style={{ flex: 1 }}>
-//       <Tabs  />
-//     </GestureHandlerRootView> */}
-//       {/* <Stack.Screen name="SplashScreen" component={SplashScreen} /> */}
-//       {/* <Stack.Screen name="SignUp" component={SignUpScreen} /> */}
-//       {/*  */}
-//       {/* <Stack.Screen name="Register" component={RegisterScreen} /> */}
-//       {/* <Stack.Screen
-//         name="InternationalCreditReportAccess"
-//         component={InternationalCreditReportAccess}
-//       /> */}
-//       {/* <Stack.Screen
-//         name="AddPostScreen"
-//         component={AddPostScreen}
-//       /> */}
-//       {/* <Stack.Screen
-//         name="SpotlightScreen"
-//         component={SpotlightScreen}
-//       /> */}
-
-//       {/* <Stack.Screen name="OMNISScoreScreen" component={OMNISScoreScreen} /> */}
-
-//       {/* <Stack.Screen name="ScoreBreakDown" component={ScoreBreakDown} /> */}
-
-//       <Stack.Screen name="LevelDetails" component={LevelDetails} />
-//       {/* <Stack.Screen name="LevelsScreen" component={LevelsScreen} /> */}
-
-//       {/* <Stack.Screen name="PaymentStatus" component={PaymentStatus} /> */}
-//       {/* <Stack.Screen
-//         name="GroupDetailsHistoryScreen"
-//         component={GroupDetailsHistoryScreen}
-//       /> */}
-//       {/* <Stack.Screen name="ChooseFriends" component={ChooseFriends} /> */}
-//       {/* <Stack.Screen name="GroupBill" component={GroupBill} /> */}
-//       {/* <Stack.Screen
-//         name="GroupDetailsScreen"
-//         component={GroupDetailsScreen}
-//       /> */}
-//       {/* <Stack.Screen
-//         name="MakeAGroupScreen"
-//         component={MakeAGroupScreen}
-//       /> */}
-//       {/* <Stack.Screen
-//         name="AddFriendScreen"
-//         component={AddFriendScreen}
-//       /> */}
-//       {/* <Stack.Screen
-//         name="SpotlightNavOne"
-//         component={SpotlightNavOne}
-//       /> */}
-//       {/* <Stack.Screen name="OfferScreenTopTabs" component={OfferScreenTopTabs} /> */}
-//       {/* <Stack.Screen name="NewOffersScreen" component={NewOffersScreen} /> */}
-//       {/* <Stack.Screen name="Register" component={RegisterScreen} /> */}
-//       {/* <Stack.Screen name="HomeScreen" component={HomeScreen} /> */}
-//       {/* <Stack.Screen name="NewOffersScreen" component={NewOffersScreen} /> */}
-//       {/* <Stack.Screen name="SignIn" component={SignInScreen} /> */}
-//       {/* <Stack.Screen name="Onboarding1" component={OnboardingScreen1} /> */}
-{
-  /* <Stack.Screen name="Onboarding2" component={OnboardingScreen2} /> */
-}
-//       {/* <Stack.Screen name="Onboarding3" component={OnboardingScreen3} /> */}
-//       {/* <Stack.Screen name="Onboarding4" component={OnboardingScreen4} /> */}
-//       {/* <Stack.Screen name="CreateNewPassword" component={CreateNewPassword} /> */}
-//       {/* <Stack.Screen name="TransactionHistoryFilter" component={TransactionHistoryFilter} /> */}
-
-//       {/* <Stack.Screen name="DepositSuccessful" component={DepositSuccessful} /> */}
-//       {/* <Stack.Screen name="DepositMoneyScreen" component={DepositMoneyScreen} /> */}
-
-//       {/* <Stack.Screen name="Verification" component={Verification} /> */}
-//       {/* <Stack.Screen name="ForgotPassword" component={ForgotPassword} /> */}
-//       {/* <Stack.Screen name="SuccessOffer" component={SuccessOffer} /> */}
-//       {/* <Stack.Screen name="PaymentChosenScreen" component={PaymentChosenScreen} /> */}
-//       {/* <Stack.Screen name="ChoosePaymentPlanScreen" component={ChoosePaymentPlanScreen} /> */}
-//       {/* <Stack.Screen name="NewOfferDetails" component={NewOfferDetails} />  */}
-//       {/* <Stack.Screen name="OfferDetailsAccepted" component={OfferDetailsAccepted} /> */}
-//       {/* <Stack.Screen name="OfferTransactionHistory" component={OfferTransactionHistory} /> */}
-//       {/* <Stack.Screen name="LoanDetailsScreen" component={LoanDetailsScreen} /> */}
-//       {/* <Stack.Screen name="ActiveOfferMakePayment" component={ActiveOfferMakePayment} /> */}
-//       {/* <Stack.Screen name="OfferScreenLender" component={OfferScreenLender} /> */}
-//       {/* <Stack.Screen name="OfferScreen" component={OfferScreen} /> */}
-//       {/* <Stack.Screen name="ActiveOffers" component={ActiveOffers} /> */}
-//       {/* <Stack.Screen name="NFCFaceId" component={NFCFaceId} /> */}
-//       {/* <Stack.Screen name="NFCHoldNearReader" component={NFCHoldNearReader} /> */}
-//       {/* <Stack.Screen name="NFCDone" component={NFCDone} /> */}
-//       {/* <Stack.Screen
-//         name="ActiveOfferLenderDetails"
-//         component={ActiveOfferLenderDetails}
-//       /> */}
-//       {/* <Stack.Screen
-//         name="ClosedOfferGiftAccepted"
-//         component={ClosedOfferGiftAccepted}
-//       /> */}
-//       {/* <Stack.Screen
-//         name="ActiveOfferDetails"
-//         component={ActiveOfferDetails}
-//       /> */}
-//       {/* </Stack.Navigator> */}
-//       {/*
-//       <Stack.Screen name="NFCAcceptFriend" component={NFCAcceptFriend} /> */}
-//     </Stack.Navigator>
-//   </NavigationContainer>
-// );
-// }

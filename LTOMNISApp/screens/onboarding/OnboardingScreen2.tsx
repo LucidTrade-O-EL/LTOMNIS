@@ -8,16 +8,30 @@ import {
 } from 'react-native';
 import React from 'react';
 import GlobalStyles from '../../assets/constants/colors';
-import { NavigationPropType } from '../../types';
+import {StackNavigationProp} from '@react-navigation/stack';
 
-const OnboardingScreen2: React.FC<NavigationPropType> = ({ navigation }) => {
+// Define the types for your navigation stack
+type OnboardingStackParamList = {
+  Onboarding3: undefined; // Add other screens as necessary
+  // ... other screens in the stack
+};
+
+interface OnboardingScreen2Props {
+  onNext: () => void;
+  onSkip: () => void;
+}
+
+const OnboardingScreen2: React.FC<OnboardingScreen2Props> = ({
+  onNext,
+  onSkip,
+}) => {
   return (
     <View style={styles.background}>
       <ImageBackground
         source={require('../../assets/Onboarding.png')}
         style={styles.image}>
         <View style={{height: '50%', marginTop: 75}}>
-          <Pressable style={styles.button} onPress={() => {navigation.navigate('Onboarding3')}}>
+          <Pressable style={styles.button} onPress={onSkip}>
             <Text style={{color: '#fff'}}>Skip</Text>
           </Pressable>
         </View>
@@ -32,7 +46,7 @@ const OnboardingScreen2: React.FC<NavigationPropType> = ({ navigation }) => {
       </ImageBackground>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   background: {
@@ -78,6 +92,5 @@ const styles = StyleSheet.create({
     backgroundColor: '#000',
   },
 });
-
 
 export default OnboardingScreen2;

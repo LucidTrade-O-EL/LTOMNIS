@@ -1,23 +1,11 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  TextInput,
-  Pressable,
-  Image,
-  Alert,
-} from 'react-native';
-import React, {useState} from 'react';
-import {Divider} from '@rneui/themed';
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, TextInput, Pressable, Image, Alert } from 'react-native';
+import { Divider } from '@rneui/themed';
 import axios from 'axios';
-import {useNavigation} from '@react-navigation/native';
-import {StackNavigationProp} from '@react-navigation/stack';
+import { useNavigation } from '@react-navigation/native';
+import { useDispatch } from 'react-redux';
+// import { setLinkToken } from './redux/actions/linkTokenActions';
 
-type AuthStackParamList = {
-  SignInScreen: undefined;
-  Register: undefined;
-  PlaidStart: undefined;
-};
 
 export default function RegisterScreen() {
   const [name, setName] = useState('');
@@ -26,14 +14,13 @@ export default function RegisterScreen() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [invalidPassword, setInvalidPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const navigation = useNavigation<StackNavigationProp<AuthStackParamList>>();
+  const navigation = useNavigation();
+  const dispatch = useDispatch();
 
   const register = async () => {
-    // Regular expression to check if the password contains at least one digit and one special character.
     const passwordRegex = /^(?=.*\d)(?=.*[\W_]).{8,}$/;
 
     if (!passwordRegex.test(password)) {
-      console.log('Invalid password');
       setErrorMessage(
         'Password must be at least 8 characters, contain a number and a special character.',
       );
@@ -43,8 +30,7 @@ export default function RegisterScreen() {
       setInvalidPassword(false);
     }
 
-    // Check name length
-    if (name.length > 2) {
+    if (name.length < 2) {
       setErrorMessage('Name must be at least 2 characters long.');
       return;
     }
@@ -57,31 +43,43 @@ export default function RegisterScreen() {
     setErrorMessage(null);
 
     try {
-      const options = {
-        method: 'POST',
-        url: 'https://js.lucidtrades.com/api/omnis/account/register_login',
-        data: {name, email, password, confirmPassword},
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-      };
-
-      const res = await axios(options);
-      console.log('data payload ', res.data, res.headers);
+      const res = await axios.post('https://js.lucidtrades.com/api/omnis/account/register_login', {
+        name, email, password, confirmPassword
+      });
 
       const user = res.data;
-
-      if (user == null) {
+      if (user) {
+        createLinkToken(user.id);
+      } else {
         console.log('No user data received');
       }
-
-      console.log('user: ', user);
-      navigation.navigate('PlaidStart');
-    } catch (error: any) {
+    } catch (error) {
       console.error('An error occurred:', error);
     }
   };
+
+  const createLinkToken = async (userId: string) => {
+    try {
+      const response = await fetch('https://js.lucidtrades.com/api/omnis/token/create', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ id: userId })
+      });
+
+      const data = await response.json();
+      if (data) {
+        dispatch(setLinkToken(data.link_token));
+        navigation.navigate('PlaidLinkButton');
+      } else {
+        console.error('No link token received');
+      }
+    } catch (error) {
+      console.error('Error creating link token:', error);
+    }
+  };
+
 
   return (
     <View style={styles.background}>
@@ -142,14 +140,13 @@ export default function RegisterScreen() {
           style={[styles.textImputBox, styles.smallText]}
           value={password}
           onChangeText={text => {
-            // changed to inline function to handle password length check
-            if (text.length > 8) {
+            if (text.length < 8) {
               setInvalidPassword(true);
             } else {
               setInvalidPassword(false);
             }
             setPassword(text);
-          }}
+          }}          
           aria-label="Password"
           placeholder="password"
           placeholderTextColor={'#fff'}

@@ -1,6 +1,7 @@
 export const GlobalStyles = {
   Colors: {
     primary100: '#ffffff', // White
+    primary110: '#E4E4E4', // Dot gray
     primary120: '#F6F4F4', // Gray (Mostly Profile)
     primary130: '#EADBC3', // Light OMNIS Main (Mostly OnBoarding)
     primary200: '#BDAE8D', // OMNIS Main
