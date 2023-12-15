@@ -84,7 +84,8 @@ import LevelDetails from './screens/OMNISScore/ScoreBreakDown/Levels/LevelDetail
 import {Provider, useDispatch, useSelector} from 'react-redux';
 import store, {setHasViewedOnboarding, setIsSignedIn} from './ReduxStore';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {RootState} from './rootReducer';
+import i18n from './screens/SelectLanguage/i18n'; // Adjust the import path based on your project structure
+import { RootState } from './rootReducer'; // Ensure this is correctly imported
 import OfferSent from './screens/MyFeed/Lender/OfferSent';
 import TransactionHistoryDetails from './screens/TransactionHistory/TransactionHistoryDetails';
 import {ParamListBase} from '@react-navigation/native';
@@ -100,6 +101,7 @@ import WithdrawMoneyScreen from './screens/WithdrawMoney/WithdrawMoneyScreen';
 import OnboardingManager from './screens/onboarding/OnboardingManager';
 import LanguagesSettings from './screens/MyProfile/LanguagesSettings';
 import SelectLang from './screens/onboarding/SelectLang';
+import { RootStackParamList, HomeStackNavigatorProps } from './path-to/types.tsx'; // Adjust import path
 
 type MainStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
@@ -112,8 +114,6 @@ type RootStackParamList = {
   Onboarding1: undefined;
   Onboarding2: undefined;
   HomeScreen: undefined;
-
-  // ... and so on for each screen
 };
 
 // Stack Imports
@@ -274,8 +274,18 @@ const getFocusedRouteNameFromRoute = (route: any): string => {
   return routeName;
 };
 
-function App() {
+
+
+const App: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
+
+  // Access the current language from Redux store
+  const language = useSelector((state: RootState) => state.language.language);
+
+  // Update the language in i18n whenever the Redux store language changes
+  useEffect(() => {
+    i18n.changeLanguage(language);
+  }, [language]);
 
   useEffect(() => {
     // Delayed loading can be replaced with actual initialization logic
@@ -293,7 +303,7 @@ function App() {
       <AppContent />
     </NavigationContainer>
   );
-}
+};
 
 // This is the root component
 export default function Root() {

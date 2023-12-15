@@ -1,12 +1,8 @@
+// SplashScreen.tsx
 import React, {useEffect} from 'react';
-import {StackNavigationProp} from '@react-navigation/stack';
 import {View, Image, StyleSheet} from 'react-native';
 import GlobalStyles from '../../assets/constants/colors';
-
-type SplashScreenNavigationProp = StackNavigationProp<
-  Record<string, never>,
-  'SplashScreen'
->;
+import {SplashScreenNavigationProp} from '../../navigationTypes';
 
 type SplashScreenProps = {
   navigation: SplashScreenNavigationProp;

@@ -1,12 +1,20 @@
-import {View, Text, SafeAreaView, StyleSheet} from 'react-native';
 import React, {useState} from 'react';
+import {View, Text, SafeAreaView, StyleSheet} from 'react-native';
 import ScreenTitle from '../../assets/constants/Components/ScreenTitle';
 import RowWithRadioButton from './RowWithRadioButton';
 import {Divider} from 'react-native-elements';
 import GlobalStyles from '../../assets/constants/colors';
+import {useDispatch} from 'react-redux';
+import {setLanguage} from '../../screens/SelectLanguage/LanguageActions'; // Update the path to where your action is defined
 
 export default function LanguagesSettings() {
+  const dispatch = useDispatch();
   const [selectedIndex, setIndex] = useState<number | null>(null);
+
+  const handleLanguageChange = (language: string, index: number) => {
+    setIndex(index);
+    dispatch(setLanguage(language));
+  };
 
   return (
     <SafeAreaView style={styles.Background}>
@@ -18,7 +26,17 @@ export default function LanguagesSettings() {
         <RowWithRadioButton
           title="English (US)"
           isSelected={selectedIndex === 0}
-          onSelected={() => setIndex(0)}
+          onSelected={() => handleLanguageChange('English (US)', 0)}
+        />
+        <RowWithRadioButton
+          title="English (UK)"
+          isSelected={selectedIndex === 1}
+          onSelected={() => handleLanguageChange('English (UK)', 1)}
+        />
+        <RowWithRadioButton
+          title="Spanish"
+          isSelected={selectedIndex === 2}
+          onSelected={() => handleLanguageChange('Spanish', 2)}
         />
         <Divider
           width={1}
@@ -29,44 +47,39 @@ export default function LanguagesSettings() {
           <Text style={styles.title}>Others</Text>
         </View>
         <RowWithRadioButton
-          title="Spanish"
-          isSelected={selectedIndex === 1}
-          onSelected={() => setIndex(1)}
-        />
-        <RowWithRadioButton
           title="Mandarin"
-          isSelected={selectedIndex === 2}
-          onSelected={() => setIndex(2)}
+          isSelected={selectedIndex === 3}
+          onSelected={() => handleLanguageChange('Mandarin', 3)}
         />
         <RowWithRadioButton
           title="Hindi"
-          isSelected={selectedIndex === 3}
-          onSelected={() => setIndex(3)}
+          isSelected={selectedIndex === 4}
+          onSelected={() => handleLanguageChange('Hindi', 4)}
         />
         <RowWithRadioButton
           title="French"
-          isSelected={selectedIndex === 4}
-          onSelected={() => setIndex(4)}
+          isSelected={selectedIndex === 5}
+          onSelected={() => handleLanguageChange('French', 5)}
         />
         <RowWithRadioButton
           title="Arabic"
-          isSelected={selectedIndex === 5}
-          onSelected={() => setIndex(5)}
+          isSelected={selectedIndex === 6}
+          onSelected={() => handleLanguageChange('Arabic', 6)}
         />
         <RowWithRadioButton
           title="Russian"
-          isSelected={selectedIndex === 6}
-          onSelected={() => setIndex(6)}
+          isSelected={selectedIndex === 7}
+          onSelected={() => handleLanguageChange('Russian', 7)}
         />
         <RowWithRadioButton
           title="Indonesia"
-          isSelected={selectedIndex === 7}
-          onSelected={() => setIndex(7)}
+          isSelected={selectedIndex === 8}
+          onSelected={() => handleLanguageChange('Indonesia', 8)}
         />
         <RowWithRadioButton
           title="Vietnamese"
-          isSelected={selectedIndex === 8}
-          onSelected={() => setIndex(8)}
+          isSelected={selectedIndex === 9}
+          onSelected={() => handleLanguageChange('Vietnamese', 9)}
         />
       </View>
     </SafeAreaView>

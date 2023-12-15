@@ -1,13 +1,24 @@
-import {View, Text, SafeAreaView, StyleSheet} from 'react-native';
+// SelectLang.tsx
 import React, {useState} from 'react';
+import {View, Text, SafeAreaView, StyleSheet} from 'react-native';
 import ScreenTitle from '../../assets/constants/Components/ScreenTitle';
 import {Divider} from 'react-native-elements';
 import GlobalStyles from '../../assets/constants/colors';
 import RowWithRadioButton from '../MyProfile/RowWithRadioButton';
 import CompleteButton from '../../assets/constants/Components/Buttons/CompleteButton';
+import {useDispatch, useSelector} from 'react-redux';
+import {RootState} from '../../rootReducer'; // Adjust the import path
+import { setLanguage } from '../SelectLanguage/LanguageActions';
 
 export default function SelectLang() {
+  const dispatch = useDispatch();
+  const language = useSelector((state: RootState) => state.language.language);
   const [selectedIndex, setIndex] = useState<number | null>(null);
+
+  const handleLanguageChange = (newLanguage: string, index: number) => {
+    setIndex(index);
+    dispatch(setLanguage(newLanguage));
+  };
 
   return (
     <SafeAreaView style={styles.Background}>
@@ -23,18 +34,18 @@ export default function SelectLang() {
       <View style={{width: '98%'}}>
         <RowWithRadioButton
           title="English (US)"
-          isSelected={selectedIndex === -1}
-          onSelected={() => setIndex(-1)}
+          isSelected={selectedIndex === 0}
+          onSelected={() => handleLanguageChange('English (US)', 0)}
         />
         <RowWithRadioButton
           title="English (UK)"
-          isSelected={selectedIndex === 0}
-          onSelected={() => setIndex(0)}
+          isSelected={selectedIndex === 1}
+          onSelected={() => handleLanguageChange('English (UK)', 1)}
         />
         <RowWithRadioButton
           title="Spanish"
-          isSelected={selectedIndex === 1}
-          onSelected={() => setIndex(1)}
+          isSelected={selectedIndex === 2}
+          onSelected={() => handleLanguageChange('Spanish', 2)}
         />
         <Divider
           width={1}
@@ -46,41 +57,41 @@ export default function SelectLang() {
         </View>
         <RowWithRadioButton
           title="Mandarin"
-          isSelected={selectedIndex === 2}
-          onSelected={() => setIndex(2)}
+          isSelected={selectedIndex === 3}
+          onSelected={() => handleLanguageChange('Mandarin', 3)}
         />
         <RowWithRadioButton
           title="Hindi"
-          isSelected={selectedIndex === 3}
-          onSelected={() => setIndex(3)}
+          isSelected={selectedIndex === 4}
+          onSelected={() => handleLanguageChange('Hindi', 4)}
         />
         <RowWithRadioButton
           title="French"
-          isSelected={selectedIndex === 4}
-          onSelected={() => setIndex(4)}
+          isSelected={selectedIndex === 5}
+          onSelected={() => handleLanguageChange('French', 5)}
         />
         <RowWithRadioButton
           title="Arabic"
-          isSelected={selectedIndex === 5}
-          onSelected={() => setIndex(5)}
+          isSelected={selectedIndex === 6}
+          onSelected={() => handleLanguageChange('Arabic', 6)}
         />
         <RowWithRadioButton
           title="Russian"
-          isSelected={selectedIndex === 6}
-          onSelected={() => setIndex(6)}
+          isSelected={selectedIndex === 7}
+          onSelected={() => handleLanguageChange('Russian', 7)}
         />
         <RowWithRadioButton
           title="Indonesia"
-          isSelected={selectedIndex === 7}
-          onSelected={() => setIndex(7)}
+          isSelected={selectedIndex === 8}
+          onSelected={() => handleLanguageChange('Indonesia', 8)}
         />
         <RowWithRadioButton
           title="Vietnamese"
-          isSelected={selectedIndex === 8}
-          onSelected={() => setIndex(8)}
+          isSelected={selectedIndex === 9}
+          onSelected={() => handleLanguageChange('Vietnamese', 9)}
         />
       </View>
-      <CompleteButton text="Submit" onPress={() => {}}  />
+      <CompleteButton text="Submit" onPress={() => {}} />
     </SafeAreaView>
   );
 }
