@@ -192,12 +192,10 @@ function AuthStackNavigator() {
 function OnboardingStackNavigator() {
   return (
     <OnboardingStack.Navigator
-      initialRouteName="SelectLang"
+      initialRouteName="SplashScreen"
       screenOptions={{headerShown: false}}>
-      <OnboardingStack.Screen
-        name="SelectLang"
-        component={SelectLang}
-      />
+      <OnboardingStack.Screen name="SplashScreen" component={SplashScreen} />
+      <OnboardingStack.Screen name="SelectLang" component={SelectLang} />
       <OnboardingStack.Screen
         name="OnboardingManager"
         component={OnboardingManager}

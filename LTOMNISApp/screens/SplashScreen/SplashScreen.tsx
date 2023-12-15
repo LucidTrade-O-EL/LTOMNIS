@@ -1,31 +1,48 @@
-import React from 'react';
-import {View, Text, StyleSheet, Image} from 'react-native';
+import React, {useEffect} from 'react';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {View, Image, StyleSheet} from 'react-native';
+import GlobalStyles from '../../assets/constants/colors';
 
-export default function SplashScreen(): JSX.Element {
+type SplashScreenNavigationProp = StackNavigationProp<
+  Record<string, never>,
+  'SplashScreen'
+>;
+
+type SplashScreenProps = {
+  navigation: SplashScreenNavigationProp;
+};
+
+const SplashScreen: React.FC<SplashScreenProps> = ({navigation}) => {
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      navigation.navigate('SelectLang');
+    }, 1500);
+
+    return () => clearTimeout(timer);
+  }, [navigation]);
+
   return (
-    <View style={styles.background}>
-      {/* <Image style={styles.image} source={require('/Users/omnisceo/Desktop/ZKJ/LTOMNIS/LTOMNISApp/assets/gradient9.png')} /> */}
+    <View style={styles.container}>
+      <Image
+        source={require('../../assets/transparent.png')}
+        style={styles.logo}
+      />
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
-  background: {
-    display: 'flex',
+  container: {
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    height: '100%',
-    backgroundColor: '#1E1E1E',
+    backgroundColor: GlobalStyles.Colors.primary800,
   },
-
-  text: {
-    color: '#fff',
-  },
-
-  image: {
-    margin: 10,
-    resizeMode: 'contain',
-    width: 300,
-    height: 300,
+  logo: {
+    width: 240, // Set the width and height as needed
+    height: 240,
+    resizeMode: 'contain', // or 'cover' depending on your requirement
   },
 });
+
+export default SplashScreen;
