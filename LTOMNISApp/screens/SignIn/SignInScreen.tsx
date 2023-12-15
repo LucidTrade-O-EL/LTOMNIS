@@ -16,16 +16,30 @@ import {useDispatch} from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {setToken} from '../../actions';
 import {useNavigation} from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {
+  GoogleSignin,
+  GoogleSigninButton,
+  statusCodes,
+} from '@react-native-google-signin/google-signin';
+import {
+  appleAuth,
+  AppleButton,
+} from '@invertase/react-native-apple-authentication';
 
-
+GoogleSignin.configure({
+  // You can find the webClientId in your Google Developer Console project
+  webClientId:
+    '812122915742-6i3lotl64fsunk78ka9f2rfupupal8mk.apps.googleusercontent.com',
+  iosClientId:
+    '812122915742-3docgp9krobbp8dm3e80vo33k9vroeud.apps.googleusercontent.com', // Your iOS client ID
+});
 
 interface SignInScreenProps {
   token: string;
 }
 
 const SignInScreen: React.FC = () => {
-
   const navigation = useNavigation<StackNavigationProp<any, any>>();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -37,45 +51,44 @@ const SignInScreen: React.FC = () => {
       const options = {
         method: 'POST',
         url: 'https://api.lucidtrades.com/api/Account/login',
-        data: { email, password },
+        data: {email, password},
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
         },
       };
-  
+
       const res = await axios(options);
       if (res.status !== 200) {
         throw new Error('Non-OK status code: ' + res.status);
       }
-  
+
       console.log('data payload ', res.data, res.headers);
-  
+
       const user = res.data;
       const token = user.token;
-  
+
       // Save token to AsyncStorage
       if (token) {
         await AsyncStorage.setItem('token', token);
       }
-  
+
       if (user != null) {
         setUserToken(token);
         setUser(user);
         return token;
       }
-  
+
       console.log(`this is the token ${userToken}`);
-  
+
       setUserToken(token);
       setUser(user);
-  
+
       console.log('user: ', user);
     } catch (error: any) {
       console.error('An error occured:', error);
     }
   };
-  
 
   // In your SignInScreen component
   const dispatch = useDispatch();
@@ -96,6 +109,56 @@ const SignInScreen: React.FC = () => {
 
     loadToken();
   }, [dispatch]);
+
+  const googleSignIn = async () => {
+    try {
+      await GoogleSignin.hasPlayServices();
+      const userInfo = await GoogleSignin.signIn();
+      const idToken = userInfo.idToken;
+
+      // Send the ID token to your backend via HTTPS
+      sendTokenToBackend(idToken);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const sendTokenToBackend = async idToken => {
+    try {
+      const response = await fetch('YOUR_BACKEND_URL/api/verify-google-token', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({token: idToken}),
+      });
+
+      if (!response.ok) {
+        throw new Error('Response not ok');
+      }
+
+      const data = await response.json();
+      console.log(data); // Handle the response data as needed
+    } catch (error) {
+      console.log('Error sending token to backend', error);
+    }
+  };
+
+// APPLE AUTH
+
+async function onAppleButtonPress() {
+  // Start the sign-in request
+  const appleAuthRequestResponse = await appleAuth.performRequest({
+    requestedOperation: appleAuth.Operation.LOGIN,
+    requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
+  });
+
+  // Get the user's identity token
+  const identityToken = appleAuthRequestResponse.identityToken;
+
+  // Send the identity token to your server for verification and sign-in
+  sendTokenToYourServer(identityToken);
+}
 
   return (
     <SafeAreaView style={styles.Background}>
@@ -166,7 +229,7 @@ const SignInScreen: React.FC = () => {
         </View>
 
         <Pressable
-          onPress={() => {}}
+          onPress={() => navigation.navigate('ForgotPassword')}
           style={{marginTop: 8, alignSelf: 'center', width: '90%'}}>
           <Text
             style={{
@@ -189,8 +252,8 @@ const SignInScreen: React.FC = () => {
         </Text>
       </Pressable>
 
-{/* navigation.navigate('SomeOtherScreen') */}
-      {/* Or log in with */} 
+      {/* navigation.navigate('SomeOtherScreen') */}
+      {/* Or log in with */}
 
       <View
         style={{
@@ -221,7 +284,7 @@ const SignInScreen: React.FC = () => {
           justifyContent: 'space-between',
           width: '90%',
         }}>
-        <View
+        <Pressable
           style={{
             width: '46%',
             height: 56,
@@ -231,7 +294,8 @@ const SignInScreen: React.FC = () => {
             justifyContent: 'center',
             flexDirection: 'row',
             alignSelf: 'center',
-          }}>
+          }}
+          onPress={googleSignIn}>
           <View
             style={{
               justifyContent: 'space-between',
@@ -245,8 +309,8 @@ const SignInScreen: React.FC = () => {
             />
             <Text style={{color: 'white', fontSize: 18}}>Google</Text>
           </View>
-        </View>
-        <View
+        </Pressable>
+        <Pressable
           style={{
             width: '46%',
             height: 56,
@@ -266,11 +330,21 @@ const SignInScreen: React.FC = () => {
             }}>
             <IonIcon name="logo-apple" size={24} color="#fff" />
             <Text style={{color: 'white', fontSize: 18}}>Apple</Text>
+            {appleAuth.isSupported && (
+              <AppleButton
+                style={{width: 200, height: 60}}
+                buttonStyle={AppleButton.Style.WHITE}
+                buttonType={AppleButton.Type.SIGN_IN}
+                onPress={() => onAppleButtonPress()}
+              />
+            )}
           </View>
-        </View>
+        </Pressable>
       </View>
 
-      <Pressable style={styles.newToOmnisContainer} onPress={() => navigation.navigate('RegisterScreen')}>
+      <Pressable
+        style={styles.newToOmnisContainer}
+        onPress={() => navigation.navigate('RegisterScreen')}>
         <Text style={{color: 'white', fontSize: 14}}>New to OMNIS?</Text>
         <Text style={{color: '#BDAE8D', fontSize: 14}}> Register</Text>
       </Pressable>

@@ -10,7 +10,63 @@ import React, {useState} from 'react';
 
 export default function Verification() {
   // UseState
-  const [email, setEmail] = useState('');
+  const [digit1, setDigit1] = useState('');
+  const [digit2, setDigit2] = useState('');
+  const [digit3, setDigit3] = useState('');
+  const [digit4, setDigit4] = useState('');
+  const ref_input2 = React.createRef();
+  const ref_input3 = React.createRef();
+  const ref_input4 = React.createRef();
+
+  const handleNextPress = async () => {
+    const verificationCode = digit1 + digit2 + digit3 + digit4;
+
+    try {
+      const response = await fetch('YOUR_BACKEND_URL/api/verify-code', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({email: userEmail, code: verificationCode}), // userEmail should be the user's email
+      });
+
+      const data = await response.json();
+      if (data.success) {
+        console.log('Verification successful.');
+        // Handle successful verification (e.g., navigate to next screen)
+      } else {
+        console.log('Invalid verification code.');
+        // Handle invalid code (e.g., show an error message)
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      // Handle network errors (e.g., show an error message)
+    }
+  };
+
+  const handleResendCode = async () => {
+    try {
+      const response = await fetch(
+        'YOUR_BACKEND_URL/api/resend-verification-code',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({email: userEmail}), // userEmail should be the email address of the user
+        },
+      );
+
+      const data = await response.json();
+      if (data.success) {
+        console.log('Verification code resent.');
+      } else {
+        console.log('Failed to resend verification code.');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
 
   return (
     <SafeAreaView style={styles.Background}>
@@ -30,33 +86,67 @@ export default function Verification() {
             flexDirection: 'row',
             justifyContent: 'space-around',
           }}>
-          {/* 1st block */}
           <View style={styles.VerificationBox}>
-            <TextInput></TextInput>
+            <TextInput
+              style={styles.textInput}
+              keyboardType="numeric"
+              onChangeText={text => {
+                setDigit1(text);
+                text && ref_input2.current.focus();
+              }}
+              value={digit1}
+              maxLength={1}
+            />
           </View>
-
-          {/* 2nd block */}
           <View style={styles.VerificationBox}>
-            <TextInput></TextInput>
+            <TextInput
+              ref={ref_input2}
+              style={styles.textInput}
+              keyboardType="numeric"
+              onChangeText={text => {
+                setDigit2(text);
+                text ? ref_input3.current.focus() : ref_input1.current.focus();
+              }}
+              value={digit2}
+              maxLength={1}
+            />
           </View>
-
-          {/* 3rd block */}
           <View style={styles.VerificationBox}>
-            <TextInput></TextInput>
+            <TextInput
+              ref={ref_input3}
+              style={styles.textInput}
+              keyboardType="numeric"
+              onChangeText={text => {
+                setDigit3(text);
+                text ? ref_input4.current.focus() : ref_input2.current.focus();
+              }}
+              value={digit3}
+              maxLength={1}
+            />
           </View>
-
-          {/* 4th block */}
           <View style={styles.VerificationBox}>
-            <TextInput></TextInput>
+            <TextInput
+              ref={ref_input4}
+              style={styles.textInput}
+              keyboardType="numeric"
+              onChangeText={text => {
+                setDigit4(text);
+                !text && ref_input3.current.focus();
+              }}
+              value={digit4}
+              maxLength={1}
+            />
           </View>
         </View>
-        <Text style={styles.resendSubheaderText}>Resend code</Text>
+        <Text style={styles.resendSubheaderText} onPress={handleResendCode}>
+          Resend code
+        </Text>
       </View>
 
       {/* Next */}
       <Pressable
         style={[styles.SignButton, styles.SignButtonOutlined]}
-        onPress={() => {}}>
+        onPress={handleNextPress}>
         <Text style={styles.SignButtonText}>Next</Text>
       </Pressable>
     </SafeAreaView>
@@ -70,6 +160,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#1E1E1E',
     paddingVertical: 40,
+  },
+  textInput: {
+    color: 'white',
+    textAlign: 'center',
+    fontSize: 22,
+    // Any additional styling
   },
   headerContainer: {
     alignItems: 'center',

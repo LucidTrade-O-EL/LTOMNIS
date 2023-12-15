@@ -138,9 +138,9 @@ function AppContent() {
     initializeApp();
   }, []);
 
-  if (!hasViewedOnboarding) {
-    return <OnboardingStackNavigator />;
-  }
+  // if (!hasViewedOnboarding) {
+  //   return <OnboardingStackNavigator />;
+  // }
 
   return token ? <MainStackNavigator /> : <AuthStackNavigator />;
 }
@@ -166,11 +166,12 @@ function MainStackNavigator() {
 
 function AuthStackNavigator() {
   return (
-    <AuthStack.Navigator
+    <AuthStack.Navigator 
       initialRouteName="SignInScreen"
       screenOptions={{headerShown: false}}>
       <AuthStack.Screen name="SignInScreen" component={SignInScreen} />
-      <AuthStack.Screen name="Register" component={RegisterScreen} />
+      <AuthStack.Screen name="RegisterScreen" component={RegisterScreen} />
+      <AuthStack.Screen name="ForgotPassword" component={ForgotPassword} />
       <AuthStack.Screen name="PlaidLink" component={PlaidLinkButton} />
       <AuthStack.Screen name="CreateLinkToken" component={CreateLinkToken} />
       <AuthStack.Screen

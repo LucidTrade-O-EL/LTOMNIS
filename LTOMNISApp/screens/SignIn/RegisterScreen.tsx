@@ -5,7 +5,7 @@ import axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
 // import { setLinkToken } from './redux/actions/linkTokenActions';
-
+import { StackNavigationProp } from '@react-navigation/stack';
 
 export default function RegisterScreen() {
   const [name, setName] = useState('');
@@ -14,7 +14,7 @@ export default function RegisterScreen() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [invalidPassword, setInvalidPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const navigation = useNavigation();
+  const navigation = useNavigation<StackNavigationProp<any>>();
   const dispatch = useDispatch();
 
   const register = async () => {
@@ -226,7 +226,7 @@ export default function RegisterScreen() {
           </Pressable>
         </View>
 
-        <Pressable style={styles.login} onPress={() => {}}>
+        <Pressable style={styles.login} onPress={() => navigation.navigate('SignInScreen')}>
           <Text style={{color: 'white', fontSize: 14}}>
             Already Have Account
           </Text>

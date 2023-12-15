@@ -8,10 +8,13 @@ import {
 } from 'react-native';
 import React, {useState} from 'react';
 import ScreenTitle from '../../assets/constants/Components/ScreenTitle';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { useNavigation } from '@react-navigation/native';
 
 export default function ForgotPassword() {
   // UseState
   const [email, setEmail] = useState('');
+  const navigation = useNavigation<StackNavigationProp<any>>();
 
   return (
     <SafeAreaView style={styles.Background}>
@@ -53,7 +56,7 @@ export default function ForgotPassword() {
       {/* Reset Password */}
       <Pressable
         style={[styles.SignButton, styles.SignButtonOutlined]}
-        onPress={() => {}}>
+        onPress={() => navigation.navigate('ForgotPassword')}>
         <Text style={styles.SignButtonText}>Reset Password</Text>
       </Pressable>
     </SafeAreaView>
