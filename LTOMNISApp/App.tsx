@@ -98,6 +98,8 @@ import CreateLinkToken from './PlaidAPI/CreateLinkToken';
 import CreditScoreDisplay from './PlaidAPI/creditScoreDisplay';
 import WithdrawMoneyScreen from './screens/WithdrawMoney/WithdrawMoneyScreen';
 import OnboardingManager from './screens/onboarding/OnboardingManager';
+import LanguagesSettings from './screens/MyProfile/LanguagesSettings';
+import SelectLang from './screens/onboarding/SelectLang';
 
 type MainStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
@@ -138,9 +140,9 @@ function AppContent() {
     initializeApp();
   }, []);
 
-  // if (!hasViewedOnboarding) {
-  //   return <OnboardingStackNavigator />;
-  // }
+  if (!hasViewedOnboarding) {
+    return <OnboardingStackNavigator />;
+  }
 
   return token ? <MainStackNavigator /> : <AuthStackNavigator />;
 }
@@ -173,7 +175,10 @@ function AuthStackNavigator() {
       <AuthStack.Screen name="RegisterScreen" component={RegisterScreen} />
       <AuthStack.Screen name="ForgotPassword" component={ForgotPassword} />
       <AuthStack.Screen name="Verification" component={Verification} />
-      <AuthStack.Screen name="CreateNewPassword" component={CreateNewPassword} />
+      <AuthStack.Screen
+        name="CreateNewPassword"
+        component={CreateNewPassword}
+      />
       <AuthStack.Screen name="PlaidLink" component={PlaidLinkButton} />
       <AuthStack.Screen name="CreateLinkToken" component={CreateLinkToken} />
       <AuthStack.Screen
@@ -187,8 +192,12 @@ function AuthStackNavigator() {
 function OnboardingStackNavigator() {
   return (
     <OnboardingStack.Navigator
-      initialRouteName="OnboardingManager"
+      initialRouteName="SelectLang"
       screenOptions={{headerShown: false}}>
+      <OnboardingStack.Screen
+        name="SelectLang"
+        component={SelectLang}
+      />
       <OnboardingStack.Screen
         name="OnboardingManager"
         component={OnboardingManager}

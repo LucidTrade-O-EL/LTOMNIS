@@ -1,11 +1,19 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, TextInput, Pressable, Image, Alert } from 'react-native';
-import { Divider } from '@rneui/themed';
+import React, {useState} from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TextInput,
+  Pressable,
+  Image,
+  Alert,
+} from 'react-native';
+import {Divider} from '@rneui/themed';
 import axios from 'axios';
-import { useNavigation } from '@react-navigation/native';
-import { useDispatch } from 'react-redux';
+import {useNavigation} from '@react-navigation/native';
+import {useDispatch} from 'react-redux';
 // import { setLinkToken } from './redux/actions/linkTokenActions';
-import { StackNavigationProp } from '@react-navigation/stack';
+import {StackNavigationProp} from '@react-navigation/stack';
 
 export default function RegisterScreen() {
   const [name, setName] = useState('');
@@ -43,9 +51,15 @@ export default function RegisterScreen() {
     setErrorMessage(null);
 
     try {
-      const res = await axios.post('https://js.lucidtrades.com/api/omnis/account/register_login', {
-        name, email, password, confirmPassword
-      });
+      const res = await axios.post(
+        'https://js.lucidtrades.com/api/omnis/account/register_login',
+        {
+          name,
+          email,
+          password,
+          confirmPassword,
+        },
+      );
 
       const user = res.data;
       if (user) {
@@ -60,13 +74,16 @@ export default function RegisterScreen() {
 
   const createLinkToken = async (userId: string) => {
     try {
-      const response = await fetch('https://js.lucidtrades.com/api/omnis/token/create', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
+      const response = await fetch(
+        'https://js.lucidtrades.com/api/omnis/token/create',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({id: userId}),
         },
-        body: JSON.stringify({ id: userId })
-      });
+      );
 
       const data = await response.json();
       if (data) {
@@ -79,7 +96,6 @@ export default function RegisterScreen() {
       console.error('Error creating link token:', error);
     }
   };
-
 
   return (
     <View style={styles.background}>
@@ -146,7 +162,7 @@ export default function RegisterScreen() {
               setInvalidPassword(false);
             }
             setPassword(text);
-          }}          
+          }}
           aria-label="Password"
           placeholder="password"
           placeholderTextColor={'#fff'}
@@ -226,12 +242,14 @@ export default function RegisterScreen() {
           </Pressable>
         </View>
 
-        <Pressable style={styles.login} onPress={() => navigation.navigate('SignInScreen')}>
+        <Pressable
+          style={styles.login}
+          onPress={() => navigation.navigate('SignInScreen')}>
           <Text style={{color: 'white', fontSize: 14}}>
             Already Have Account
           </Text>
-          <View >
-                      <Text style={{color: '#BDAE8D', fontSize: 14}}> login</Text>
+          <View>
+            <Text style={{color: '#BDAE8D', fontSize: 14}}> login</Text>
           </View>
         </Pressable>
       </View>

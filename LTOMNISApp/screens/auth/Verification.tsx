@@ -165,7 +165,6 @@ const styles = StyleSheet.create({
     color: 'white',
     textAlign: 'center',
     fontSize: 22,
-    // Any additional styling
   },
   headerContainer: {
     alignItems: 'center',
