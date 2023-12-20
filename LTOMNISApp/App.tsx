@@ -40,52 +40,12 @@ import CreateNewPassword from './screens/auth/CreateNewPassword';
 import OnboardingScreen4 from './screens/onboarding/OnboardingScreen4';
 import OnboardingScreen3 from './screens/onboarding/OnboardingScreen3';
 import OnboardingScreen2 from './screens/onboarding/OnboardingScreen2';
-import InternationalCreditReportAccess from './screens/add_post/InternationalCreditReportAccess';
-import NFCHoldNearReader from './screens/NFC/NFCHoldNearReader';
-import SignUpScreen from './screens/SignUp/SignUpScreen';
 import Tabs from './navigation/Tabs';
-import {GestureHandlerRootView} from 'react-native-gesture-handler';
-
-import NFCAcceptFriend from './screens/NFC/NFCAcceptFriend';
-import MyFeedScreen from './screens/MyFeed/MyFeedScreen';
-import ChoosePaymentPlanScreen from './screens/NewOffers/Borrower/NewOffersBorrower/ChoosePaymentPlanScreen';
-
-import ActiveOffers from './screens/NewOffers/Borrower/ActiveOffers/ActiveOffers';
-import ActiveOfferMakePayment from './screens/NewOffers/Borrower/ActiveOffers/ActiveOfferMakePayment';
-import LoanDetailsScreen from './screens/NewOffers/Borrower/ActiveOffers/LoanDetailsScreen';
-import TransactionHistory from './assets/constants/Components/CustomTransactionButton';
-import OfferTransactionHistory from './screens/NewOffers/Borrower/ClosedOffers/OfferTransactionHistory';
-import OfferDetailsAccepted from './screens/NewOffers/Borrower/ClosedOffers/OfferDetailsAccepted';
-import BorrowerClosedOffers from './screens/NewOffers/Borrower/ClosedOffers/BorrowerClosedOffers';
-import OfferScreen from './screens/NewOffers/Borrower/NewOffersBorrower/OfferScreen';
-import NewOfferDetails from './screens/NewOffers/Borrower/NewOffersBorrower/NewOfferDetails';
-import OfferScreenLender from './screens/NewOffers/Lender/OfferScreenLender';
-import ActiveOfferDetails from './screens/NewOffers/Lender/SentOffers/ActiveOfferDetails';
-import ActiveOfferLenderDetails from './screens/NewOffers/Lender/ActiveOffersLenders/ActiveOfferLenderDetails';
-import ClosedOfferGiftAccepted from './screens/NewOffers/Lender/ClosedOfferLenders/ClosedOfferGiftAccepted';
-import OfferScreenTopTabs from './screens/NewOffers/Borrower/NewOffersBorrower/OfferScreenTopTabs';
-import TransactionHistoryFilter from './screens/TransactionHistory/TransactionHistoryFilter';
-import DepositMoneyScreen from './screens/DepositMoney/DepositMoneyScreen';
-import DepositSuccessful from './screens/DepositMoney/DepositSuccessful';
-import AddPostScreen from './screens/add_post/AddPostScreen';
-import SpotlightScreen from './screens/Spotlight/SpotlightScreen';
-import SpotlightNavOne from './assets/constants/Components/SpotlightNavOne';
-import AddFriendScreen from './screens/Spotlight/Friends/AddFriendScreen';
-import MakeAGroupScreen from './screens/Spotlight/Groups/MakeAGroupScreen';
-import GroupDetailsScreen from './screens/Spotlight/Groups/GroupDetailsScreen';
-import GroupBill from './screens/Spotlight/Groups/GroupBill';
-import ChooseFriends from './screens/Spotlight/Friends/ChooseFriends';
-import GroupDetailsHistoryScreen from './screens/Spotlight/Groups/GroupDetailsHistoryScreen';
-import PaymentStatus from './screens/Spotlight/PaymentStatus';
-import OMNISScoreScreen from './screens/OMNISScore/OMNISScoreScreen';
-import ScoreBreakDown from './screens/OMNISScore/ScoreBreakDown/ScoreBreakDown';
-import LevelsScreen from './screens/OMNISScore/ScoreBreakDown/Levels/LevelsScreen';
-import LevelDetails from './screens/OMNISScore/ScoreBreakDown/Levels/LevelDetails';
 import {Provider, useDispatch, useSelector} from 'react-redux';
 import store, {setHasViewedOnboarding, setIsSignedIn} from './ReduxStore';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import i18n from './screens/SelectLanguage/i18n'; // Adjust the import path based on your project structure
-import { RootState } from './rootReducer'; // Ensure this is correctly imported
+import {AppState} from './rootReducer'; // Ensure this is correctly imported
 import OfferSent from './screens/MyFeed/Lender/OfferSent';
 import TransactionHistoryDetails from './screens/TransactionHistory/TransactionHistoryDetails';
 import {ParamListBase} from '@react-navigation/native';
@@ -101,124 +61,138 @@ import WithdrawMoneyScreen from './screens/WithdrawMoney/WithdrawMoneyScreen';
 import OnboardingManager from './screens/onboarding/OnboardingManager';
 import LanguagesSettings from './screens/MyProfile/LanguagesSettings';
 import SelectLang from './screens/onboarding/SelectLang';
-import { RootStackParamList, HomeStackNavigatorProps } from './path-to/types.tsx'; // Adjust import path
+import {RootStackParamList, HomeStackNavigatorProps} from './types';
+import {SplashScreenProps} from './types';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
+import {PanGestureHandler, State} from 'react-native-gesture-handler';
+import './screens/SelectLanguage/i18n';
+import {getFocusedRouteNameFromRoute} from '@react-navigation/native';
+import OfferTransactionHistory from './screens/NewOffers/Borrower/ClosedOffers/OfferTransactionHistory';
 
 type MainStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
-type RootStackParamList = {
-  Tabs: undefined;
-  SignInScreen: undefined;
-  Register: undefined;
-  OMNISScoreScreen: undefined;
-  LevelDetails: undefined;
-  Onboarding1: undefined;
-  Onboarding2: undefined;
-  HomeScreen: undefined;
-};
-
-// Stack Imports
-
+const RootStack = createNativeStackNavigator();
 const MainStack = createNativeStackNavigator();
-const AuthStack = createNativeStackNavigator();
-const OnboardingStack = createNativeStackNavigator();
 
-function AppContent() {
-  const token = useSelector((state: AppState) => state.token.token);
-  const hasViewedOnboarding = useSelector(
-    (state: AppState) => state.app.hasViewedOnboarding,
+// Define a combined stack
+const CombinedStack = createNativeStackNavigator();
+
+let value: unknown;
+// If you are sure value is a string
+let stringValue = value as string;
+
+// Combined Stack Navigator
+function CombinedStackNavigator() {
+  return (
+    <CombinedStack.Navigator screenOptions={{headerShown: false}}>
+      {/* Onboarding Screens */}
+      <CombinedStack.Screen name="SplashScreen" component={SplashScreen} />
+      <CombinedStack.Screen name="SelectLang" component={SelectLang} />
+      <CombinedStack.Screen
+        name="OnboardingManager"
+        component={OnboardingManager}
+      />
+      <CombinedStack.Screen
+        name="OnboardingScreen1"
+        component={OnboardingScreen1}
+      />
+      <CombinedStack.Screen
+        name="OnboardingScreen2"
+        component={OnboardingScreen2}
+      />
+      <CombinedStack.Screen
+        name="OnboardingScreen3"
+        component={OnboardingScreen3}
+      />
+      <CombinedStack.Screen
+        name="OnboardingScreen4"
+        component={OnboardingScreen4}
+      />
+
+      {/* Auth Screens */}
+      <CombinedStack.Screen name="SignInScreen" component={SignInScreen} />
+      <CombinedStack.Screen name="RegisterScreen" component={RegisterScreen} />
+      <CombinedStack.Screen name="ForgotPassword" component={ForgotPassword} />
+      <CombinedStack.Screen name="Verification" component={Verification} />
+      <CombinedStack.Screen
+        name="CreateNewPassword"
+        component={CreateNewPassword}
+      />
+      <CombinedStack.Screen name="PlaidLink" component={PlaidLinkButton} />
+      <CombinedStack.Screen
+        name="CreateLinkToken"
+        component={CreateLinkToken}
+      />
+      <CombinedStack.Screen
+        name="CreditScoreDisplay"
+        component={CreditScoreDisplay}
+      />
+    </CombinedStack.Navigator>
   );
-
-  useEffect(() => {
-    const initializeApp = async () => {
-      const storedToken = await AsyncStorage.getItem('token');
-      const storedOnboardingStatus = await AsyncStorage.getItem(
-        'hasViewedOnboarding',
-      );
-      store.dispatch(setHasViewedOnboarding(storedOnboardingStatus === 'true'));
-      store.dispatch(setIsSignedIn(!!storedToken));
-    };
-    initializeApp();
-  }, []);
-
-  if (!hasViewedOnboarding) {
-    return <OnboardingStackNavigator />;
-  }
-
-  return token ? <MainStackNavigator /> : <AuthStackNavigator />;
 }
-
-const Stack = createNativeStackNavigator();
 
 function MainStackNavigator() {
   return (
     <MainStack.Navigator screenOptions={{headerShown: false}}>
-      <NavigationContainer>
-        <MainStack.Navigator screenOptions={{headerShown: false}}>
-          <MainStack.Screen
-            name="OnboardingStack"
-            component={OnboardingStackNavigator}
-          />
-          <MainStack.Screen name="Auth" component={AuthStackNavigator} />
-          <MainStack.Screen name="Tabs" component={Tabs} />
-        </MainStack.Navigator>
-      </NavigationContainer>
+      <MainStack.Screen name="Tabs" component={Tabs} />
     </MainStack.Navigator>
   );
 }
 
-function AuthStackNavigator() {
+const App = () => {
+  const [hasViewedOnboarding, setHasViewedOnboarding] = useState(false);
+  const token = useSelector(state => state.token.token);
+
+  useEffect(() => {
+    const checkOnboarding = async () => {
+      const viewedOnboarding = await AsyncStorage.getItem(
+        'hasViewedOnboarding',
+      );
+      if (viewedOnboarding !== null) {
+        setHasViewedOnboarding(viewedOnboarding === 'true');
+      }
+    };
+
+    checkOnboarding();
+  }, []);
+
+  const onOnboardingFinish = async () => {
+    await AsyncStorage.setItem('hasViewedOnboarding', 'true');
+    setHasViewedOnboarding(true);
+  };
+
   return (
-    <AuthStack.Navigator
-      initialRouteName="SignInScreen"
-      screenOptions={{headerShown: false}}>
-      <AuthStack.Screen name="SignInScreen" component={SignInScreen} />
-      <AuthStack.Screen name="RegisterScreen" component={RegisterScreen} />
-      <AuthStack.Screen name="ForgotPassword" component={ForgotPassword} />
-      <AuthStack.Screen name="Verification" component={Verification} />
-      <AuthStack.Screen
-        name="CreateNewPassword"
-        component={CreateNewPassword}
-      />
-      <AuthStack.Screen name="PlaidLink" component={PlaidLinkButton} />
-      <AuthStack.Screen name="CreateLinkToken" component={CreateLinkToken} />
-      <AuthStack.Screen
-        name="CreditScoreDisplay"
-        component={CreditScoreDisplay}
-      />
-    </AuthStack.Navigator>
+    <NavigationContainer>
+      <RootStack.Navigator screenOptions={{headerShown: false}}>
+        {hasViewedOnboarding ? (
+          // {!hasViewedOnboarding && !token ? (
+          // Use CombinedStackNavigator here
+          <RootStack.Screen
+            name="CombinedStack"
+            component={CombinedStackNavigator}
+          />
+        ) : (
+          <RootStack.Screen
+            name="MainStackNavigator"
+            component={MainStackNavigator}
+          />
+        )}
+      </RootStack.Navigator>
+    </NavigationContainer>
+  );
+};
+
+export default function Root() {
+  return (
+    <Provider store={store}>
+      <GestureHandlerRootView style={{flex: 1}}>
+        <App />
+      </GestureHandlerRootView>
+    </Provider>
   );
 }
 
-function OnboardingStackNavigator() {
-  return (
-    <OnboardingStack.Navigator
-      initialRouteName="SplashScreen"
-      screenOptions={{headerShown: false}}>
-      <OnboardingStack.Screen name="SplashScreen" component={SplashScreen} />
-      <OnboardingStack.Screen name="SelectLang" component={SelectLang} />
-      <OnboardingStack.Screen
-        name="OnboardingManager"
-        component={OnboardingManager}
-      />
-      <OnboardingStack.Screen
-        name="Onboarding1"
-        component={OnboardingScreen1}
-      />
-      <OnboardingStack.Screen
-        name="Onboarding2"
-        component={OnboardingScreen2}
-      />
-      <OnboardingStack.Screen
-        name="Onboarding3"
-        component={OnboardingScreen3}
-      />
-      <OnboardingStack.Screen
-        name="Onboarding4"
-        component={OnboardingScreen4}
-      />
-    </OnboardingStack.Navigator>
-  );
-}
+export {App};
 
 type HomeStackParamList = {
   HomeScreen: undefined;
@@ -228,23 +202,18 @@ type HomeStackParamList = {
 
 const HomeStack = createNativeStackNavigator<HomeStackParamList>();
 
-type HomeStackNavigatorProps = {
-  navigation: StackNavigationProp<HomeStackParamList>;
-  route: RouteProp<HomeStackParamList, keyof HomeStackParamList>;
-};
-
 export function HomeStackNavigator({
   navigation,
   route,
 }: HomeStackNavigatorProps) {
   React.useEffect(() => {
-    const routeName = getFocusedRouteNameFromRoute(route);
-    if (routeName !== 'HomeScreen') {
-      navigation.setOptions({tabBarVisible: false});
-    } else {
-      navigation.setOptions({tabBarVisible: true});
-    }
+    const routeName = getFocusedRouteNameFromRoute(route) ?? 'HomeScreen';
+    const hideTabBarScreens = ['OfferTransactionHistory']; // Add other screen names as needed
+    const tabBarVisible = !hideTabBarScreens.includes(routeName);
+
+    navigation.getParent()?.setOptions({ tabBarVisible });
   }, [navigation, route]);
+
 
   return (
     <HomeStack.Navigator
@@ -254,6 +223,10 @@ export function HomeStackNavigator({
       <HomeStack.Screen
         name="WithdrawMoneyScreen"
         component={WithdrawMoneyScreen}
+      />
+      <HomeStack.Screen
+        name="OfferTransactionHistory"
+        component={OfferTransactionHistory}
       />
       <HomeStack.Screen
         name="TransactionHistoryDetails"
@@ -266,54 +239,3 @@ export function HomeStackNavigator({
     </HomeStack.Navigator>
   );
 }
-
-const getFocusedRouteNameFromRoute = (route: any): string => {
-  const routeName = route.state
-    ? route.state.routes[route.state.index].name
-    : route.params?.screen || 'HomeScreen';
-  return routeName;
-};
-
-
-
-const App: React.FC = () => {
-  const [isLoading, setIsLoading] = useState(true);
-
-  // Access the current language from Redux store
-  const language = useSelector((state: RootState) => state.language.language);
-
-  // Update the language in i18n whenever the Redux store language changes
-  useEffect(() => {
-    i18n.changeLanguage(language);
-  }, [language]);
-
-  useEffect(() => {
-    // Delayed loading can be replaced with actual initialization logic
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 1000);
-  }, []);
-
-  if (isLoading) {
-    return <SplashScreen />;
-  }
-
-  return (
-    <NavigationContainer>
-      <AppContent />
-    </NavigationContainer>
-  );
-};
-
-// This is the root component
-export default function Root() {
-  return (
-    <Provider store={store}>
-      <GestureHandlerRootView style={{flex: 1}}>
-        <App />
-      </GestureHandlerRootView>
-    </Provider>
-  );
-}
-
-export {App};

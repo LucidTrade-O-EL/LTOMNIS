@@ -9,6 +9,7 @@ import {
 import React from 'react';
 import GlobalStyles from '../../assets/constants/colors';
 import {StackNavigationProp} from '@react-navigation/stack';
+import {t} from 'i18next';
 
 // Define the types for your navigation stack
 type OnboardingStackParamList = {
@@ -32,16 +33,13 @@ const OnboardingScreen2: React.FC<OnboardingScreen2Props> = ({
         style={styles.image}>
         <View style={{height: '50%', marginTop: 75}}>
           <Pressable style={styles.button} onPress={onSkip}>
-            <Text style={{color: '#fff'}}>Skip</Text>
+            <Text style={{color: '#fff'}}>{t('skip')}</Text>
           </Pressable>
         </View>
 
         <View style={styles.view}>
-          <Text style={styles.text}>Peer-to Peer Lending Circles</Text>
-          <Text style={styles.smallText}>
-            Create, join and manage lending circles, enabling community-based,
-            trust-oriented financial transactions
-          </Text>
+          <Text style={styles.text}>{t('onboardingTitle2')}</Text>
+          <Text style={styles.smallText}>{t('description2')}</Text>
         </View>
       </ImageBackground>
     </View>

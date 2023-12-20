@@ -8,16 +8,24 @@ import {
 } from 'react-native';
 import React, {useState} from 'react';
 import GlobalStyles from '../../assets/constants/colors';
-import {NavigationPropType, User} from '../../types';
+import {NavigationPropType, RootStackParamList, User} from '../../types';
+import {t} from 'i18next';
+import IonIcon from 'react-native-vector-icons/Ionicons';
+import {NavigationContainer} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
-interface OnboardingScreenProps {
+interface OnboardingScreen1Props {
   onNext: () => void;
   onSkip: () => void;
+  onBack: () => void;
+  // navigation: NativeStackNavigationProp<RootStackParamList>;
 }
 
-const OnboardingScreen1: React.FC<OnboardingScreenProps> = ({
+const OnboardingScreen1: React.FC<OnboardingScreen1Props> = ({
   onNext,
   onSkip,
+  onBack,
+  // navigation,
 }) => {
   return (
     <View style={styles.screenContainer}>
@@ -25,17 +33,24 @@ const OnboardingScreen1: React.FC<OnboardingScreenProps> = ({
         source={require('../../assets/Onboarding.png')}
         style={styles.image}>
         <View style={{height: '50%', marginTop: 75}}>
+          <Pressable
+            style={styles.backButton}
+            onPress={onBack}>
+            <IonIcon
+              name="chevron-back"
+              size={24}
+              color={GlobalStyles.Colors.primary100}
+            />
+          </Pressable>
           <Pressable style={styles.button} onPress={onSkip}>
-            <Text style={{color: GlobalStyles.Colors.primary100}}>Skip</Text>
+            <Text style={{color: GlobalStyles.Colors.primary100}}>
+              {t('skip')}
+            </Text>
           </Pressable>
         </View>
-
         <View style={styles.view}>
-          <Text style={styles.text}>Financial Inclusivity and Mobility</Text>
-          <Text style={styles.smallText}>
-            OMNIS is tailored to serve the needs of the immigrants, unbanked,
-            and underbanked population.
-          </Text>
+          <Text style={styles.text}>{t('onboardingTitle1')}</Text>
+          <Text style={styles.smallText}>{t('description1')}</Text>
         </View>
       </ImageBackground>
     </View>
@@ -70,7 +85,7 @@ const styles = StyleSheet.create({
   },
 
   image: {
-    flex: 1
+    flex: 1,
   },
 
   text: {
@@ -93,6 +108,11 @@ const styles = StyleSheet.create({
     padding: 20,
     height: '50%',
     backgroundColor: GlobalStyles.Colors.primary900,
+  },
+  backButton: {
+    position: 'absolute', // Positioning the button
+    left: 20, // Adjust the position as needed
+    padding: 10, // Adding some padding to make it easier to press
   },
 });
 

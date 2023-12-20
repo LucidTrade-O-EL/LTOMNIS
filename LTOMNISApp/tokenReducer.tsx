@@ -19,8 +19,4 @@ const tokenReducer = (state: TokenState, action: any): TokenState => {
   }
 };
 
-export interface TokenState {
-  token: string;
-}
-
 export default tokenReducer;

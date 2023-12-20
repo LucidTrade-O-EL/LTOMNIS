@@ -26,14 +26,7 @@ import {
   appleAuth,
   AppleButton,
 } from '@invertase/react-native-apple-authentication';
-
-GoogleSignin.configure({
-  // You can find the webClientId in your Google Developer Console project
-  webClientId:
-    '812122915742-6i3lotl64fsunk78ka9f2rfupupal8mk.apps.googleusercontent.com',
-  iosClientId:
-    '812122915742-3docgp9krobbp8dm3e80vo33k9vroeud.apps.googleusercontent.com', // Your iOS client ID
-});
+import { t } from 'i18next';
 
 interface SignInScreenProps {
   token: string;
@@ -45,6 +38,12 @@ const SignInScreen: React.FC = () => {
   const [password, setPassword] = useState('');
   const [user, setUser] = useState<{token?: string}>({});
   const [userToken, setUserToken] = useState('');
+
+  GoogleSignin.configure({
+    iosClientId:
+      '<812122915742-3docgp9krobbp8dm3e80vo33k9vroeud.apps.googleusercontent.com', // [iOS] if you want to specify the client ID of type iOS (otherwise, it is taken from GoogleService-Info.plist)
+    profileImageSize: 120, // [iOS] The desired height (and width) of the profile image. Defaults to 120px
+  });
 
   const signIn = async () => {
     try {
@@ -111,59 +110,71 @@ const SignInScreen: React.FC = () => {
   }, [dispatch]);
 
   const googleSignIn = async () => {
+    console.log('We are in googleSignIn');
     try {
+      console.log('We are in googleSignIn try');
       await GoogleSignin.hasPlayServices();
+      console.log('We are in googleSignIn try2');
       const userInfo = await GoogleSignin.signIn();
+      console.log('We are in googleSignIn try3', userInfo);
       const idToken = userInfo.idToken;
 
-      // Send the ID token to your backend via HTTPS
-      sendTokenToBackend(idToken);
-    } catch (error) {
-      console.log(error);
+      // Send the ID token to your backend via HTTPS using Axios
+      await sendTokenToBackend(idToken);
+    } catch (error: any) {
+      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+        console.log('User cancelled the sign-in process');
+      } else if (error.code === statusCodes.IN_PROGRESS) {
+        console.log('Operation (e.g., sign-in) is in progress already');
+      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+        console.log('Play services not available or outdated');
+      } else {
+        console.log('Google SignIn Error', error);
+      }
     }
   };
 
-  const sendTokenToBackend = async idToken => {
+  const sendTokenToBackend = async (idToken: any) => {
     try {
-      const response = await fetch('YOUR_BACKEND_URL/api/verify-google-token', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
+      console.log('We are in googleSignIn sendTokenToBackend');
+      const response = await axios.post(
+        'http://localhost:8080/api/omnis/google_sign_in',
+        {
+          token: idToken,
         },
-        body: JSON.stringify({token: idToken}),
-      });
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
+      );
 
-      if (!response.ok) {
-        throw new Error('Response not ok');
-      }
-
-      const data = await response.json();
-      console.log(data); // Handle the response data as needed
+      console.log(response.data); // Handle the response data as needed
     } catch (error) {
       console.log('Error sending token to backend', error);
     }
   };
 
-// APPLE AUTH
+  // APPLE AUTH
 
-async function onAppleButtonPress() {
-  // Start the sign-in request
-  const appleAuthRequestResponse = await appleAuth.performRequest({
-    requestedOperation: appleAuth.Operation.LOGIN,
-    requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
-  });
+  async function onAppleButtonPress() {
+    // Start the sign-in request
+    const appleAuthRequestResponse = await appleAuth.performRequest({
+      requestedOperation: appleAuth.Operation.LOGIN,
+      requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
+    });
 
-  // Get the user's identity token
-  const identityToken = appleAuthRequestResponse.identityToken;
+    // Get the user's identity token
+    const identityToken = appleAuthRequestResponse.identityToken;
 
-  // Send the identity token to your server for verification and sign-in
-  sendTokenToYourServer(identityToken);
-}
+    // Send the identity token to your server for verification and sign-in
+    sendTokenToYourServer(identityToken);
+  }
 
   return (
     <SafeAreaView style={styles.Background}>
       <Text style={{color: 'white', fontSize: 20, marginBottom: 168}}>
-        Log In
+      {t('signInTitle')}
       </Text>
 
       {/* Email */}
@@ -176,13 +187,13 @@ async function onAppleButtonPress() {
               opacity: 0.6,
               textAlign: 'left',
             }}>
-            Email
+            {t('emailLabel')}
           </Text>
         </View>
         <View style={styles.emailButton}>
           <TextInput
             style={[styles.textInput, email ? styles.textActive : null]}
-            placeholder="Enter your email"
+            placeholder={t('enterYourEmail')}
             placeholderTextColor="rgba(255,255,255, 0.6)"
             keyboardType="email-address"
             onChangeText={text => setEmail(text)}
@@ -202,7 +213,7 @@ async function onAppleButtonPress() {
               opacity: 0.6,
               textAlign: 'left',
             }}>
-            Password
+            {t('passwordLabel')}
           </Text>
         </View>
         <View style={styles.passwordButton}>
@@ -215,9 +226,9 @@ async function onAppleButtonPress() {
             }}>
             <TextInput
               style={[styles.textInput, password ? styles.textActive : null]}
-              placeholder="Enter your email"
+              placeholder={t('enterYourPassword')}
               placeholderTextColor="rgba(255,255,255, 0.6)"
-              keyboardType="email-address"
+              keyboardType="visible-password"
               onChangeText={text => setPassword(text)}
               value={password}
               // autoCompleteType="email"
@@ -238,7 +249,7 @@ async function onAppleButtonPress() {
               opacity: 0.6,
               textAlign: 'right',
             }}>
-            Forgot Password?
+            {t('forgotPassword')}
           </Text>
         </Pressable>
       </View>
@@ -248,7 +259,7 @@ async function onAppleButtonPress() {
         onPress={async () => await handleSignIn()}
         style={[styles.SignButton, styles.SignButtonOutlined]}>
         <Text style={[styles.SignButtonText, styles.SignButtonTextOutlined]}>
-          Sign In
+        {t('signInButton')}
         </Text>
       </Pressable>
 
@@ -270,7 +281,7 @@ async function onAppleButtonPress() {
           }}>
           <Divider style={{flex: 1, height: 1, backgroundColor: 'black'}} />
           <Text style={{marginHorizontal: 10, color: 'white'}}>
-            Or login with
+          {t('orLoginWith')}
           </Text>
           <Divider style={{flex: 1, height: 1, backgroundColor: 'black'}} />
         </View>
@@ -307,7 +318,7 @@ async function onAppleButtonPress() {
               source={require('../../assets/google.png')}
               style={{height: 24, width: 24}}
             />
-            <Text style={{color: 'white', fontSize: 18}}>Google</Text>
+            <Text style={{color: 'white', fontSize: 18}}>{t('google')}</Text>
           </View>
         </Pressable>
         <Pressable
@@ -321,32 +332,33 @@ async function onAppleButtonPress() {
             flexDirection: 'row',
             alignSelf: 'center',
           }}>
-          <View
+          {/* <View
             style={{
               justifyContent: 'space-between',
               flexDirection: 'row',
               width: '50%',
               alignSelf: 'center',
-            }}>
-            <IonIcon name="logo-apple" size={24} color="#fff" />
-            <Text style={{color: 'white', fontSize: 18}}>Apple</Text>
-            {appleAuth.isSupported && (
-              <AppleButton
-                style={{width: 200, height: 60}}
-                buttonStyle={AppleButton.Style.WHITE}
-                buttonType={AppleButton.Type.SIGN_IN}
-                onPress={() => onAppleButtonPress()}
-              />
-            )}
-          </View>
+            }}> */}
+          {/* <IonIcon name="logo-apple" size={24} color="#fff" />
+            <Text style={{color: 'white', fontSize: 18}}>Apple</Text> */}
+          {appleAuth.isSupported && (
+            <AppleButton
+              style={{width: '100%', height: 56, }}
+              buttonStyle={AppleButton.Style.WHITE}
+              buttonType={AppleButton.Type.SIGN_IN}
+              onPress={() => onAppleButtonPress()}
+            />
+          )}
+          {/* </View> */}
         </Pressable>
       </View>
 
       <Pressable
         style={styles.newToOmnisContainer}
         onPress={() => navigation.navigate('RegisterScreen')}>
-        <Text style={{color: 'white', fontSize: 14}}>New to OMNIS?</Text>
-        <Text style={{color: '#BDAE8D', fontSize: 14}}> Register</Text>
+        <Text style={{color: 'white', fontSize: 14}}>{t('newToOmnis')}</Text>
+        <Text>{' '}</Text>
+        <Text style={{color: '#BDAE8D', fontSize: 14}}>{t('register')}</Text>
       </Pressable>
     </SafeAreaView>
   );
@@ -460,6 +472,13 @@ const styles = StyleSheet.create({
   },
   textActive: {
     color: 'white', // color when there is input
+  },
+
+  googleSignInButton: {
+    width: '80%', // Adjust the width as needed
+    height: 48, // Adjust the height as needed
+    marginTop: 10, // Adjust the margin as needed
+    alignSelf: 'center', // Center the button
   },
 });
 

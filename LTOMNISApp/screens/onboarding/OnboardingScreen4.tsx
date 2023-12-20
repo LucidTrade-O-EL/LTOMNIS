@@ -1,14 +1,30 @@
 import {View, Text, StyleSheet, ImageBackground, Pressable} from 'react-native';
 import React from 'react';
 import GlobalStyles from '../../assets/constants/colors';
+import {useNavigation} from '@react-navigation/native';
+import {OnboardingScreen4NavigationProp, RootStackParamList} from '../../types';
+import {useSelector} from 'react-redux';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {t} from 'i18next';
 
 interface OnboardingScreen4Props {
-  onStartNow: () => void; // Function to handle the "Start Now" action
+  navigation: NativeStackNavigationProp<RootStackParamList>;
+}
+interface OnboardingScreen4Props {
+  onStartNow: () => void;
 }
 
-const OnboardingScreen4: React.FC<{onStartNow: () => void}> = ({
-  onStartNow,
-}) => {
+const OnboardingScreen4: React.FC<OnboardingScreen4Props> = ({navigation}) => {
+  const token = useSelector(state => state.auth?.token);
+
+  const handleStartNow = () => {
+    if (token) {
+      navigation.navigate('HomeScreen');
+    } else {
+      navigation.navigate('SignInScreen');
+    }
+  };
+
   return (
     <View style={styles.background}>
       <ImageBackground
@@ -16,13 +32,11 @@ const OnboardingScreen4: React.FC<{onStartNow: () => void}> = ({
         style={styles.image}>
         <View style={{height: '50%', marginTop: 75}}></View>
         <View style={styles.view}>
-          <Text style={styles.text}>Traditional Banking Integration</Text>
-          <Text style={styles.smallText}>
-            Smooth deposit, withdrawal, and overall financial management.
-          </Text>
+          <Text style={styles.text}>{t('onboardingTitle4')}</Text>
+          <Text style={styles.smallText}>{t('description4')}</Text>
           <View style={styles.view2}>
-            <Pressable style={styles.startNowButton} onPress={onStartNow}>
-              <Text style={styles.startNowButtonText}>Start Now</Text>
+            <Pressable style={styles.startNowButton} onPress={handleStartNow}>
+              <Text style={styles.startNowButtonText}>{t('startNow')}</Text>
             </Pressable>
           </View>
         </View>

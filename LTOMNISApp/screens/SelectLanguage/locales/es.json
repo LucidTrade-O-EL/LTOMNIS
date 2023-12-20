@@ -1,6 +1,49 @@
 {
     "welcome": "Bienvenido a Nuestra Aplicación",
     "home": "Inicio",
-    "settings": "Configuraciones"
+    "settings": "Configuraciones",
+
+
+    "languages": "Idiomas",
+    "choose_language": "Elija el idioma preferido para usar OMNIS",
+    "suggested": "Sugeridos",
+    "others": "Otros",
+    "submit": "Enviar",
+    "englishUS": "Inglés (EE. UU.)",
+    "spanish": "Español",
+    "mandarin": "Mandarín",
+    "hindi": "Hindi",
+    "french": "Francés",
+    "arabic": "Árabe",
+    "russian": "Ruso",
+    "indonesian": "Indonesio",
+    "vietnamese": "Vietnamita",
+
+    "onboardingTitle1": "Inclusión y Movilidad Financiera",
+    "description1": "OMNIS está diseñado para atender las necesidades de los inmigrantes, no bancarizados y sub-bancarizados.",
+    "skip": "Omitir",
+
+    "onboardingTitle2": "Círculos de Préstamo Entre Pares",
+    "description2": "Crea, únete y gestiona círculos de préstamo, permitiendo transacciones financieras basadas en la comunidad y la confianza.",
+
+    "onboardingTitle3": "Programa de Recompensas",
+    "description3": "Un esquema de incentivos para fomentar la interacción en la plataforma y un comportamiento financiero responsable.",
+
+    "onboardingTitle4": "Integración Bancaria Tradicional",
+    "description4": "Depósito suave, retiro y gestión financiera general.",
+    "startNow": "Comenzar Ahora",
+
+    "signInTitle": "Iniciar sesión",
+    "emailLabel": "Correo electrónico",
+    "passwordLabel": "Contraseña",
+    "forgotPassword": "¿Olvidaste tu contraseña?",
+    "signInButton": "Iniciar sesión",
+    "orLoginWith": "O inicia sesión con",
+    "google": "Google",
+    "apple": "Apple",
+    "newToOmnis": "¿Nuevo en OMNIS?",
+    "register": "Registrarse",
+    "enterYourEmail": "Introduce tu correo electrónico",
+    "enterYourPassword": "Introduce tu contraseña"
   }
   

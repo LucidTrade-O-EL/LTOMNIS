@@ -3,7 +3,6 @@ import {SET_TOKEN, REMOVE_TOKEN} from './actions';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const initialState = {
-  currentDot: 0,
   token: '',
 };
 

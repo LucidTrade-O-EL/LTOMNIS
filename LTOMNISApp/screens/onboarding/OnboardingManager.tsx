@@ -11,20 +11,21 @@ import {
   State,
   PanGestureHandlerStateChangeEvent,
 } from 'react-native-gesture-handler';
+import { RootStackParamList } from '../../types';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 interface OnboardingManagerProps {
-  navigation: NavigationProp<any>;
+  navigation: NativeStackNavigationProp<RootStackParamList>;
 }
 
 const OnboardingManager: React.FC<OnboardingManagerProps> = ({navigation}) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const handleStartNow = () => {
-    // Reset the navigation stack and navigate to the AuthStackNavigator
-    navigation.reset({
-      index: 0,
-      routes: [{name: 'Auth'}],
-    });
+    // In a component within your navigation structure
+    navigation.navigate('SignInScreen');
+
+    // navigation.navigate('AuthStack', { screen: 'SignInScreen' });
   };
 
   const handleNext = () => {
@@ -59,7 +60,7 @@ const OnboardingManager: React.FC<OnboardingManagerProps> = ({navigation}) => {
       <PanGestureHandler onHandlerStateChange={onSwipe}>
         <View style={{flex: 1}}>
           {currentIndex === 0 && (
-            <OnboardingScreen1 onNext={handleNext} onSkip={handleSkip} />
+            <OnboardingScreen1 onNext={handleNext} onSkip={handleSkip} onBack={() => navigation.navigate('SelectLang')} />
           )}
           {currentIndex === 1 && (
             <OnboardingScreen2 onNext={handleNext} onSkip={handleSkip} />
@@ -68,7 +69,7 @@ const OnboardingManager: React.FC<OnboardingManagerProps> = ({navigation}) => {
             <OnboardingScreen3 onNext={handleNext} onSkip={handleSkip} />
           )}
           {currentIndex === 3 && (
-            <OnboardingScreen4 onStartNow={handleStartNow} />
+            <OnboardingScreen4 navigation={navigation} />
           )}
         </View>
       </PanGestureHandler>

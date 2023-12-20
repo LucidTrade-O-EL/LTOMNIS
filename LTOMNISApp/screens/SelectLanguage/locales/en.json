@@ -1,6 +1,48 @@
 {
     "welcome": "Welcome to Our App",
     "home": "Home",
-    "settings": "Settings"
+    "settings": "Settings",
+
+    "languages": "Languages",
+    "choose_language": "Choose preferred language for using OMNIS",
+    "suggested": "Suggested",
+    "others": "Others",
+    "submit": "Submit",
+    "englishUS": "English (US)",
+    "spanish": "Spanish",
+    "mandarin": "Mandarin",
+    "hindi": "Hindi",
+    "french": "French",
+    "arabic": "Arabic",
+    "russian": "Russian",
+    "indonesian": "Indonesian",
+    "vietnamese": "Vietnamese",
+
+    "onboardingTitle1": "Financial Inclusivity and Mobility",
+    "description1": "OMNIS is tailored to serve the needs of the immigrants, unbanked, and underbanked population.",
+    "skip": "Skip",
+
+    "onboardingTitle2": "Peer-to Peer Lending Circles",
+    "description2": "Create, join and manage lending circles, enabling community-based, trust-oriented financial transactions.",
+
+    "onboardingTitle3": "Rewards Program",
+    "description3": "An incentive scheme to encourage platform interaction and responsible financial behavior.",
+
+    "onboardingTitle4": "Traditional Banking Integration",
+    "description4": "Smooth deposit, withdrawal, and overall financial management.",
+    "startNow": "Start Now",
+
+    "signInTitle": "Log In",
+    "emailLabel": "Email",
+    "passwordLabel": "Password",
+    "forgotPassword": "Forgot Password?",
+    "signInButton": "Sign In",
+    "orLoginWith": "Or login with",
+    "google": "Google",
+    "apple": "Apple",
+    "newToOmnis": "New to OMNIS?",
+    "register": "Register",
+    "enterYourEmail": "Enter your email",
+    "enterYourPassword": "Enter your password"
   }
   

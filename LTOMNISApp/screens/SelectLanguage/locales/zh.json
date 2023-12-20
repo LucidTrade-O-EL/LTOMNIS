@@ -1,0 +1,44 @@
+{
+    "languages": "语言",
+    "choose_language": "选择使用 OMNIS 的首选语言",
+    "suggested": "建议",
+    "others": "其他",
+    "submit": "提交",
+    "englishUS": "美式英语",
+    "spanish": "西班牙语",
+    "mandarin": "普通话",
+    "hindi": "印地语",
+    "french": "法语",
+    "arabic": "阿拉伯语",
+    "russian": "俄语",
+    "indonesian": "印度尼西亚语",
+    "vietnamese": "越南语",
+
+    "onboardingTitle1": "金融包容性和流动性",
+    "description1": "OMNIS 旨在满足移民、无银行账户和银行服务不足人群的需求。",
+    "skip": "跳过",
+
+    "onboardingTitle2": "点对点借贷圈",
+    "description2": "创建、加入和管理借贷圈，实现基于社区的、信任导向的金融交易。",
+
+    "onboardingTitle3": "奖励计划",
+    "description3": "一种激励机制，鼓励平台互动和负责任的财务行为。",
+
+    "onboardingTitle4": "传统银行整合",
+    "description4": "顺畅的存款、提款和整体财务管理。",
+    "startNow": "立即开始",
+
+    "signInTitle": "登录",
+    "emailLabel": "电子邮箱",
+    "passwordLabel": "密码",
+    "forgotPassword": "忘记密码？",
+    "signInButton": "登录",
+    "orLoginWith": "或使用以下方式登录",
+    "google": "谷歌",
+    "apple": "苹果",
+    "newToOmnis": "OMNIS新用户？",
+    "register": "注册",
+    "enterYourEmail": "输入您的电子邮箱",
+    "enterYourPassword": "输入您的密码"
+  }
+  

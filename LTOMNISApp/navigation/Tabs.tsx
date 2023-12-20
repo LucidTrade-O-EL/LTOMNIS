@@ -20,8 +20,8 @@ import OMNISScoreScreen from '../screens/OMNISScore/OMNISScoreScreen';
 import SpotlightScreen from '../screens/Spotlight/SpotlightScreen';
 import { HomeStackNavigator } from '../App';
 import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
-import Plaid from '../PlaidFrontend/Plaid';
 import ScoreBreakDown from '../screens/OMNISScore/ScoreBreakDown/ScoreBreakDown';
+import OfferTransactionHistory from '../screens/NewOffers/Borrower/ClosedOffers/OfferTransactionHistory';
 
 
 interface CustomTabBarButtonProps {
@@ -54,12 +54,6 @@ const CustomTabBarButton = ({ children, onPress }) => {
   </TouchableOpacity>
 }
 
-// type TabParamList = {
-//   HomeStackNavigator: undefined;
-//   MyFeedScreen: undefined;
-//   // ... other tabs ...
-// };
-
 
 export default function Tabs() {
   return (
@@ -69,10 +63,13 @@ export default function Tabs() {
           // Use the utility to get the current screen's name
           const routeName = getFocusedRouteNameFromRoute(route) ?? 'HomeScreen';
 
-          const showTabBar = routeName !== 'PostDetails' && routeName !== 'PostOffer'; // Add other screens as needed
+          const hideTabBarScreens = ['OfferTransactionHistory'];
+          const tabBarVisible = !hideTabBarScreens.includes(routeName);
+
+          // const showTabBar = routeName !== 'PostDetails' && routeName !== 'PostOffer'; // Add other screens as needed
 
           return {
-            tabBarVisible: showTabBar,
+            tabBarVisible, // Set this dynamically
             tabBarShowLabel: false,
             headerShown: false,
             tabBarStyle: {

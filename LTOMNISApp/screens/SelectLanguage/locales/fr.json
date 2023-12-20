@@ -1,0 +1,44 @@
+{
+    "languages": "Langues",
+    "choose_language": "Choisissez la langue préférée pour utiliser OMNIS",
+    "suggested": "Suggéré",
+    "others": "Autres",
+    "submit": "Soumettre",
+    "englishUS": "Anglais (US)",
+    "spanish": "Espagnol",
+    "mandarin": "Mandarin",
+    "hindi": "Hindi",
+    "french": "Français",
+    "arabic": "Arabe",
+    "russian": "Russe",
+    "indonesian": "Indonésien",
+    "vietnamese": "Vietnamien",
+
+    "onboardingTitle1": "Inclusion Financière et Mobilité",
+    "description1": "OMNIS est conçu pour répondre aux besoins des immigrants, des non-bancarisés et des sous-bancarisés.",
+    "skip": "Passer",
+
+    "onboardingTitle2": "Cercles de Prêt Entre Pairs",
+    "description2": "Créez, rejoignez et gérez des cercles de prêt, permettant des transactions financières basées sur la communauté et la confiance.",
+
+    "onboardingTitle3": "Programme de Récompenses",
+    "description3": "Un système d'incitation pour encourager l'interaction sur la plateforme et un comportement financier responsable.",
+
+    "onboardingTitle4": "Intégration Bancaire Traditionnelle",
+    "description4": "Dépôt en douceur, retrait et gestion financière globale.",
+    "startNow": "Commencer Maintenant",
+
+    "signInTitle": "Connexion",
+    "emailLabel": "E-mail",
+    "passwordLabel": "Mot de passe",
+    "forgotPassword": "Mot de passe oublié ?",
+    "signInButton": "Se connecter",
+    "orLoginWith": "Ou se connecter avec",
+    "google": "Google",
+    "apple": "Apple",
+    "newToOmnis": "Nouveau sur OMNIS ?",
+    "register": "S'inscrire",
+    "enterYourEmail": "Entrez votre e-mail",
+    "enterYourPassword": "Entrez votre mot de passe"
+  }
+  

@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import React from 'react';
 import GlobalStyles from '../../assets/constants/colors';
+import { t } from 'i18next';
 
 interface OnboardingScreen3Props {
   onNext: () => void;
@@ -25,14 +26,13 @@ const OnboardingScreen3: React.FC<OnboardingScreen3Props> = ({
         style={styles.image}>
         <View style={{height: '50%', marginTop: 75}}>
         <Pressable style={styles.button} onPress={onSkip}>
-            <Text style={{color: '#fff'}}>Skip</Text>
+            <Text style={{color: '#fff'}}>{t('skip')}</Text>
           </Pressable>
         </View>
         <View style={styles.view}>
-          <Text style={styles.text}>Rewards Program</Text>
+          <Text style={styles.text}>{t('onboardingTitle3')}</Text>
           <Text style={styles.smallText}>
-            An incentive scheme to encourage platform interaction and
-            responsible financial behavior
+          {t('description3')}
           </Text>
         </View>
       </ImageBackground>
