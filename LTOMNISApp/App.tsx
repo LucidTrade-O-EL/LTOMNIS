@@ -55,7 +55,6 @@ import {StackNavigationProp} from '@react-navigation/stack';
 import {RouteProp} from '@react-navigation/native';
 import IdVerify from './PlaidAPI/IdVerify';
 import PlaidLinkButton from './PlaidAPI/PlaidLinkButton';
-import CreateLinkToken from './PlaidAPI/CreateLinkToken';
 import CreditScoreDisplay from './PlaidAPI/creditScoreDisplay';
 import WithdrawMoneyScreen from './screens/WithdrawMoney/WithdrawMoneyScreen';
 import OnboardingManager from './screens/onboarding/OnboardingManager';
@@ -68,6 +67,8 @@ import {PanGestureHandler, State} from 'react-native-gesture-handler';
 import './screens/SelectLanguage/i18n';
 import {getFocusedRouteNameFromRoute} from '@react-navigation/native';
 import OfferTransactionHistory from './screens/NewOffers/Borrower/ClosedOffers/OfferTransactionHistory';
+import IdentityVerificationScreen from './screens/SignUp/IdentityVerificationScreen';
+import CreateLinkToken from './screens/SignUp/CreateLinkToken';
 
 type MainStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
@@ -86,7 +87,7 @@ function CombinedStackNavigator() {
   return (
     <CombinedStack.Navigator screenOptions={{headerShown: false}}>
       {/* Onboarding Screens */}
-      <CombinedStack.Screen name="SplashScreen" component={SplashScreen} />
+      {/* <CombinedStack.Screen name="SplashScreen" component={SplashScreen} />
       <CombinedStack.Screen name="SelectLang" component={SelectLang} />
       <CombinedStack.Screen
         name="OnboardingManager"
@@ -107,26 +108,24 @@ function CombinedStackNavigator() {
       <CombinedStack.Screen
         name="OnboardingScreen4"
         component={OnboardingScreen4}
-      />
+      /> */}
 
-      {/* Auth Screens */}
-      <CombinedStack.Screen name="SignInScreen" component={SignInScreen} />
+
+      {/* <CombinedStack.Screen name="SignInScreen" component={SignInScreen} /> */}
       <CombinedStack.Screen name="RegisterScreen" component={RegisterScreen} />
-      <CombinedStack.Screen name="ForgotPassword" component={ForgotPassword} />
-      <CombinedStack.Screen name="Verification" component={Verification} />
+      <CombinedStack.Screen name="CreateLinkToken" component={CreateLinkToken} />
+      {/* <CombinedStack.Screen name="ForgotPassword" component={ForgotPassword} /> */}
+      {/* <CombinedStack.Screen name="Verification" component={Verification} />
       <CombinedStack.Screen
         name="CreateNewPassword"
         component={CreateNewPassword}
       />
-      <CombinedStack.Screen name="PlaidLink" component={PlaidLinkButton} />
-      <CombinedStack.Screen
-        name="CreateLinkToken"
-        component={CreateLinkToken}
-      />
-      <CombinedStack.Screen
+      <CombinedStack.Screen name="PlaidLink" component={PlaidLinkButton} /> */}
+      {/* <CombinedStack.Screen name="IdentityVerificationScreen" component={IdentityVerificationScreen} /> */}
+      {/* <CombinedStack.Screen
         name="CreditScoreDisplay"
         component={CreditScoreDisplay}
-      />
+      /> */}
     </CombinedStack.Navigator>
   );
 }
@@ -141,7 +140,8 @@ function MainStackNavigator() {
 
 const App = () => {
   const [hasViewedOnboarding, setHasViewedOnboarding] = useState(false);
-  const token = useSelector(state => state.token.token);
+
+  // const hasCompletedVerify = useSelector(state => state.verify.hasCompletedOnboarding);
 
   useEffect(() => {
     const checkOnboarding = async () => {
@@ -164,7 +164,7 @@ const App = () => {
   return (
     <NavigationContainer>
       <RootStack.Navigator screenOptions={{headerShown: false}}>
-        {hasViewedOnboarding ? (
+        {!hasViewedOnboarding ? (
           // {!hasViewedOnboarding && !token ? (
           // Use CombinedStackNavigator here
           <RootStack.Screen

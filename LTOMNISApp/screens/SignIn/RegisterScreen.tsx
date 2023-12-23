@@ -11,9 +11,10 @@ import {
 import {Divider} from '@rneui/themed';
 import axios from 'axios';
 import {useNavigation} from '@react-navigation/native';
-import {useDispatch} from 'react-redux';
-// import { setLinkToken } from './redux/actions/linkTokenActions';
 import {StackNavigationProp} from '@react-navigation/stack';
+import { useDispatch } from 'react-redux';
+import { setId } from '../../Redux/actions/idActions';
+
 
 export default function RegisterScreen() {
   const [name, setName] = useState('');
@@ -24,6 +25,11 @@ export default function RegisterScreen() {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const navigation = useNavigation<StackNavigationProp<any>>();
   const dispatch = useDispatch();
+  // const dispatch = useDispatch();
+  // const [isLoading, setIsLoading] = useState(true); // State to track loading status
+  // const id = useSelector((state) => state.id.id);
+  // const linkToken = useSelector(state => state.linkToken.linkToken);
+  // const dispatch = useDispatch();
 
   const register = async () => {
     const passwordRegex = /^(?=.*\d)(?=.*[\W_]).{8,}$/;
@@ -52,50 +58,29 @@ export default function RegisterScreen() {
 
     try {
       const res = await axios.post(
-        'https://js.lucidtrades.com/api/omnis/account/register_login',
+        'http://localhost:8080/api/omnis/account/register_login',
         {
           name,
           email,
           password,
-          confirmPassword,
         },
       );
-
-      const user = res.data;
+    
+      const user = res.data; // Use `res.data` to access the response data
+      console.log("This is our response data", user);
+    
       if (user) {
-        createLinkToken(user.id);
+        navigation.navigate('CreateLinkToken', {userId: user.userId});
+        dispatch(setId(user.userId));
+        console.log('User ID', user.userId)
+        // Navigate to CreateLinkToken screen with the user ID
       } else {
         console.log('No user data received');
       }
     } catch (error) {
       console.error('An error occurred:', error);
     }
-  };
-
-  const createLinkToken = async (userId: string) => {
-    try {
-      const response = await fetch(
-        'https://js.lucidtrades.com/api/omnis/token/create',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({id: userId}),
-        },
-      );
-
-      const data = await response.json();
-      if (data) {
-        dispatch(setLinkToken(data.link_token));
-        navigation.navigate('PlaidLinkButton');
-      } else {
-        console.error('No link token received');
-      }
-    } catch (error) {
-      console.error('Error creating link token:', error);
-    }
-  };
+  }    
 
   return (
     <View style={styles.background}>
@@ -198,7 +183,7 @@ export default function RegisterScreen() {
       {/* signup  */}
       <View style={styles.view2}>
         <Pressable style={styles.button} onPress={register}>
-          <Text style={styles.buttonText}>sign Up</Text>
+          <Text style={styles.buttonText}>Sign Up</Text>
         </Pressable>
 
         {/* or Register with */}
@@ -342,3 +327,4 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
   },
 });
+

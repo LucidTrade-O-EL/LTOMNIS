@@ -22,6 +22,7 @@ import { HomeStackNavigator } from '../App';
 import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 import ScoreBreakDown from '../screens/OMNISScore/ScoreBreakDown/ScoreBreakDown';
 import OfferTransactionHistory from '../screens/NewOffers/Borrower/ClosedOffers/OfferTransactionHistory';
+import { useSelector } from 'react-redux';
 
 
 interface CustomTabBarButtonProps {
@@ -31,6 +32,7 @@ interface CustomTabBarButtonProps {
 
 const Tab = createBottomTabNavigator();
 const MyFeedStack = createStackNavigator();
+
 
 export function MyFeedStackNavigator() {
   return (
@@ -56,20 +58,20 @@ const CustomTabBarButton = ({ children, onPress }) => {
 
 
 export default function Tabs() {
+  // const isTabBarVisible = useSelector(state => state.tabBar.isVisible);
+
   return (
-    <View style={{flex: 1}}>
+    <View style={{ flex: 1 }}>
       <Tab.Navigator
         screenOptions={({ route }) => {
           // Use the utility to get the current screen's name
-          const routeName = getFocusedRouteNameFromRoute(route) ?? 'HomeScreen';
 
-          const hideTabBarScreens = ['OfferTransactionHistory'];
-          const tabBarVisible = !hideTabBarScreens.includes(routeName);
+          // const hideTabBarScreens = ['OfferTransactionHistory'];
+          // const tabBarVisible = !hideTabBarScreens.includes(routeName);
 
           // const showTabBar = routeName !== 'PostDetails' && routeName !== 'PostOffer'; // Add other screens as needed
 
           return {
-            tabBarVisible, // Set this dynamically
             tabBarShowLabel: false,
             headerShown: false,
             tabBarStyle: {
@@ -78,6 +80,7 @@ export default function Tabs() {
               borderRadius: 10,
               height: '9%',
               ...styles.shadow,
+              // display: isTabBarVisible ? 'flex' : 'none'
             },
           };
         }}>

@@ -6,41 +6,91 @@ import {
   Pressable,
   TextInput,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
+import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { useDispatch } from 'react-redux';
+import { setHasCompletedOnboarding } from '../../actions';
 
 export default function Verification() {
-  // UseState
+  const dispatch = useDispatch();
+
+  // State definitions
   const [digit1, setDigit1] = useState('');
   const [digit2, setDigit2] = useState('');
   const [digit3, setDigit3] = useState('');
   const [digit4, setDigit4] = useState('');
-  const ref_input2 = React.createRef();
-  const ref_input3 = React.createRef();
-  const ref_input4 = React.createRef();
+
+  // Correctly typed refs for TextInput components
+  const ref_input1 = useRef<TextInput>(null);
+  const ref_input2 = useRef<TextInput>(null);
+  const ref_input3 = useRef<TextInput>(null);
+  const ref_input4 = useRef<TextInput>(null);
+
+  const navigation = useNavigation<StackNavigationProp<any>>();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          'http://localhost:8080/api/omnis/verification_code',
+          {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            // Uncomment and modify if needed
+            // body: JSON.stringify({email: 'zveasy327@gmail.com', code: verificationCode}),
+          },
+        );
+
+        const data = await response.json();
+        if (data) {
+          console.log('Verification successful.', data);
+          // Handle successful verification (e.g., navigate to next screen)
+        } else {
+          console.log('Invalid verification code.');
+          // Handle invalid code (e.g., show an error message)
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        // Handle network errors (e.g., show an error message)
+      }
+    };
+
+    fetchData();
+  }, []); // Add dependencies to the dependency array if needed
 
   const handleNextPress = async () => {
     const verificationCode = digit1 + digit2 + digit3 + digit4;
+    // Make sure to define userEmail or fetch it from state or props
+
 
     try {
-      const response = await fetch('YOUR_BACKEND_URL/api/verify-code', {
+      const response = await fetch('http://localhost:8080/api/omnis/verify/code', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({email: userEmail, code: verificationCode}), // userEmail should be the user's email
+        body: JSON.stringify({code: verificationCode }),
       });
-
+  
       const data = await response.json();
       if (data.success) {
-        console.log('Verification successful.');
-        // Handle successful verification (e.g., navigate to next screen)
+      console.log('Verification successful.', data);
+      dispatch(setHasCompletedOnboarding(true));
+        // Handle successful verification
       } else {
         console.log('Invalid verification code.');
-        // Handle invalid code (e.g., show an error message)
+        // Handle invalid code
       }
     } catch (error) {
-      console.error('Error:', error);
-      // Handle network errors (e.g., show an error message)
+      if (error instanceof Error) {
+        // Now TypeScript knows error is an Error object, not unknown
+        console.error('Error:', error.message);
+      } else {
+        console.error('An unexpected error occurred');
+      }
     }
   };
 
@@ -49,7 +99,7 @@ export default function Verification() {
       const response = await fetch(
         'YOUR_BACKEND_URL/api/resend-verification-code',
         {
-          method: 'POST',
+          method: 'GET',
           headers: {
             'Content-Type': 'application/json',
           },
@@ -213,9 +263,11 @@ const styles = StyleSheet.create({
 
   VerificationBox: {
     width: '20%',
+    height: 'auto',
+    paddingVertical: 20,
     borderRadius: 16,
     borderColor: '#BDAE8D',
-    height: 50,
+    // height: 50,
     borderWidth: 1,
   },
 });

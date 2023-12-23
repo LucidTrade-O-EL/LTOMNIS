@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {View, Text, SafeAreaView, StyleSheet, FlatList} from 'react-native';
 import ScreenTitle from '../../../../assets/constants/Components/ScreenTitle';
 import GlobalStyles from '../../../../assets/constants/colors';
@@ -6,6 +6,9 @@ import ListItemWithRadial, {
   ListItemProps,
 } from '../../../../assets/constants/Components/ListItemWithRadial';
 import CompleteButton from '../../../../assets/constants/Components/Buttons/CompleteButton';
+import { useDispatch, useSelector } from 'react-redux';
+import { setTabBarVisibility } from '../../../../tabBarSlice';
+import { RootState } from '../../../../reduxTypes';
 
 const OfferTransactionHistory: React.FC = () => {
   const formatCurrency = (value: string) => {
@@ -13,6 +16,15 @@ const OfferTransactionHistory: React.FC = () => {
     const amountValue = value.replace('$', '').trim(); // remove dollar sign if it exists
     const numericalValue = sign ? amountValue.slice(1) : amountValue;
     const amount = parseFloat(numericalValue);
+    const dispatch = useDispatch();
+    const tabBarVisible = useSelector((state: RootState) => state.tabBar.isVisible);
+  
+    useEffect(() => {
+      dispatch(setTabBarVisibility(false)); // Hide tab bar
+      return () => {
+        dispatch(setTabBarVisibility(true)); // Show tab bar on unmount
+      };
+    }, [dispatch]);
 
     if (isNaN(amount)) {
       console.error(`Invalid currency value: ${value}`);

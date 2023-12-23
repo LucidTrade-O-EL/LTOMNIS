@@ -1,5 +1,6 @@
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RouteProp } from '@react-navigation/native';
+import { REMOVE_TOKEN } from './actions';
 
 // Navigation Prop Type
 export type NavigationPropType = {
@@ -14,13 +15,6 @@ export type User = {
   name: string;
   email: string;
 };
-
-// Action Types Constants
-export const SET_LANGUAGE = 'SET_LANGUAGE';
-export const SET_TOKEN = 'SET_TOKEN';
-export const REMOVE_TOKEN = 'REMOVE_TOKEN';
-export const SET_IS_SIGNED_IN = 'SET_IS_SIGNED_IN';
-export const SET_HAS_VIEWED_ONBOARDING = 'SET_HAS_VIEWED_ONBOARDING';
 
 // Action Interfaces
 export interface SetLanguageAction {
@@ -61,6 +55,8 @@ export type LanguageActionTypes = SetLanguageAction;
 export type TokenActionTypes = SetTokenAction | RemoveTokenAction;
 export type AppActionTypes = SetHasViewedOnboardingAction | SetIsSignedInAction;
 export type OnboardingScreen4NavigationProp = NativeStackNavigationProp<AuthStackParamList, 'SignInScreen'>;
+export const SET_LANGUAGE = 'SET_LANGUAGE';
+export const SET_TOKEN = 'SET_TOKEN';
 
 // Root Stack Param List Type
 export type RootStackParamList = {
@@ -90,4 +86,20 @@ export type OnboardingStackParamList = {
   OnboardingScreen3: OnboardingScreen3Props;
   OnboardingScreen4: OnboardingScreen4Props;
   // Add other screens if needed
+};
+
+export type OnboardingScreen1Props = {
+  // Define props for OnboardingScreen1 here
+};
+
+export type OnboardingScreen2Props = {
+  // Define props for OnboardingScreen2 here
+};
+
+export type OnboardingScreen3Props = {
+  // Define props for OnboardingScreen3 here
+};
+
+export type OnboardingScreen4Props = {
+  // Define props for OnboardingScreen4 here
 };
