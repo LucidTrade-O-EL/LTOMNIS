@@ -3,12 +3,13 @@ import {View, Text, ActivityIndicator} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import { setLinkToken } from '../../actions';
+import { AppState } from '../../appReducer';
 
 const CreateLinkToken = () => {
   const [isLoading, setIsLoading] = useState(true);
   const navigation = useNavigation();
-  const id = useSelector((state) => state.id.id);
-  const linkToken = useSelector(state => state.linkToken.linkToken);
+  const id = useSelector((state: AppState) => state.id);
+  const linkToken = useSelector((state: AppState) => state.linkToken);
   const dispatch = useDispatch();
   const route = useRoute();
 

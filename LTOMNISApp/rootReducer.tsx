@@ -7,8 +7,8 @@ import verifyReducer from './verifyReducer';
 export interface AppState {
   token: TokenState;
   app: ReturnType<typeof appReducer>;
-  language: LanguageData;
-  tabBar: tabBarReducer;
+  language: ReturnType<typeof languageReducer>;
+  tabBar: ReturnType<typeof tabBarReducer>;
   verify: ReturnType<typeof verifyReducer>; // Add this line
   // Include other slices of state...
 }

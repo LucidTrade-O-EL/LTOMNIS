@@ -12,9 +12,13 @@ import {Divider} from '@rneui/themed';
 import axios from 'axios';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
-import { useDispatch } from 'react-redux';
-import { setId } from '../../Redux/actions/idActions';
-
+import {useDispatch} from 'react-redux';
+import {setId} from '../../Redux/actions/idActions';
+import appleAuth, {
+  AppleButton,
+  AppleAuthRequestScope,
+  AppleAuthRequestOperation,
+} from '@invertase/react-native-apple-authentication';
 
 export default function RegisterScreen() {
   const [name, setName] = useState('');
@@ -65,14 +69,14 @@ export default function RegisterScreen() {
           password,
         },
       );
-    
+
       const user = res.data; // Use `res.data` to access the response data
-      console.log("This is our response data", user);
-    
+      console.log('This is our response data', user);
+
       if (user) {
         navigation.navigate('CreateLinkToken', {userId: user.userId});
         dispatch(setId(user.userId));
-        console.log('User ID', user.userId)
+        console.log('User ID', user.userId);
         // Navigate to CreateLinkToken screen with the user ID
       } else {
         console.log('No user data received');
@@ -80,12 +84,35 @@ export default function RegisterScreen() {
     } catch (error) {
       console.error('An error occurred:', error);
     }
-  }    
+  };
+
+  const onAppleButtonPress = async () => {
+    // performs login request
+    const appleAuthRequestResponse = await appleAuth.performRequest({
+      requestedOperation: AppleAuthRequestOperation.LOGIN,
+      requestedScopes: [
+        AppleAuthRequestScope.EMAIL,
+        AppleAuthRequestScope.FULL_NAME,
+      ],
+    });
+
+    // get current authentication state for user
+    // /!\ This method must be tested on a real device. On the iOS simulator it always throws an error.
+    const credentialState = await appleAuth.getCredentialStateForUser(
+      appleAuthRequestResponse.user,
+    );
+
+    // use credentialState response to ensure the user is authenticated
+    if (credentialState === appleAuth.State.AUTHORIZED) {
+      // user is authenticated
+      // Handle the response (e.g., store user data, navigate)
+    }
+  };
 
   return (
     <View style={styles.background}>
-      <Text style={styles.text}>lets Get Started</Text>
-      <Text style={styles.smallText}>create Your Account</Text>
+      <Text style={styles.text}>Lets Get Started</Text>
+      <Text style={styles.smallText}>Create Your Account</Text>
       <View style={styles.view1}>
         {/* input boxes */}
         <Text
@@ -220,10 +247,16 @@ export default function RegisterScreen() {
             />
           </Pressable>
           <Pressable style={styles.googleAndApple}>
-            <Image
-              source={require('../../assets/apple.png')}
-              style={styles.image}
-            />
+            <View style={styles.image}>
+              {appleAuth.isSupported && (
+                <AppleButton
+                  style={styles.imageApple}
+                  buttonStyle={AppleButton.Style.BLACK}
+                  buttonType={AppleButton.Type.SIGN_IN}
+                  onPress={() => onAppleButtonPress()}
+                />
+              )}
+            </View>
           </Pressable>
         </View>
 
@@ -279,6 +312,12 @@ const styles = StyleSheet.create({
     height: 'auto',
   },
 
+  imageApple: {
+    width: '95%',
+    height: 60,
+    marginTop: 52,
+  },
+
   login: {
     flexDirection: 'row',
   },
@@ -327,4 +366,3 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
   },
 });
-

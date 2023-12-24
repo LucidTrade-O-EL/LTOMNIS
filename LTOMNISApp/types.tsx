@@ -57,6 +57,8 @@ export type AppActionTypes = SetHasViewedOnboardingAction | SetIsSignedInAction;
 export type OnboardingScreen4NavigationProp = NativeStackNavigationProp<AuthStackParamList, 'SignInScreen'>;
 export const SET_LANGUAGE = 'SET_LANGUAGE';
 export const SET_TOKEN = 'SET_TOKEN';
+export const SET_HAS_VIEWED_ONBOARDING = 'SET_HAS_VIEWED_ONBOARDING';
+export const SET_IS_SIGNED_IN = 'SET_IS_SIGNED_IN';0
 
 // Root Stack Param List Type
 export type RootStackParamList = {
