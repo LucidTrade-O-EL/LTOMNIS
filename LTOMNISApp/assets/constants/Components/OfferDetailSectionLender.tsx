@@ -3,7 +3,9 @@ import React, {useState} from 'react';
 import {Avatar, Divider} from 'react-native-elements';
 import GlobalStyles from '../colors';
 import {StyleSheet} from 'react-native';
-
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {HomeStackParamList} from '../../../App';
 
 interface OfferDetail {
   firstNameLetter: string;
@@ -16,13 +18,18 @@ interface OfferDetail {
 
 interface OfferDetailSectionLenderProps {
   offers: OfferDetail[];
+  targetScreen: string;
 }
 
-export default function OfferDetailSectionLender({ offers }: OfferDetailSectionLenderProps) {
+const OfferDetailSectionLender: React.FC<OfferDetailSectionLenderProps> = ({
+  offers, targetScreen
+}) => {
+  const navigation =
+    useNavigation<NativeStackNavigationProp<HomeStackParamList>>();
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{flex: 1}}>
       {offers.map((offer, index) => (
-        <View key={index} style={{ height: 81 }}>
+        <View key={index} style={{height: 81}}>
           <View
             style={{
               flexDirection: 'row',
@@ -37,7 +44,9 @@ export default function OfferDetailSectionLender({ offers }: OfferDetailSectionL
                 size={25}
                 rounded
                 title={`${offer.firstNameLetter}${offer.lastNameLetter}`}
-                containerStyle={{backgroundColor: GlobalStyles.Colors.primary100}}
+                containerStyle={{
+                  backgroundColor: GlobalStyles.Colors.primary100,
+                }}
                 titleStyle={{
                   color: GlobalStyles.Colors.primary500,
                   fontWeight: 'bold',
@@ -58,8 +67,12 @@ export default function OfferDetailSectionLender({ offers }: OfferDetailSectionL
             <Text style={styles.Subtext}>30 mins ago</Text>
           </View>
 
-          <View style={{flexDirection: 'row', marginTop: 18, alignItems: 'center'}}>
-            <Text style={styles.NumberInRoles}>{`$${offer.amount.toLocaleString()}`}</Text>
+          <View
+            style={{flexDirection: 'row', marginTop: 18, alignItems: 'center'}}>
+            <Text
+              style={
+                styles.NumberInRoles
+              }>{`$${offer.amount.toLocaleString()}`}</Text>
             <View
               style={{
                 height: 15,
@@ -70,10 +83,17 @@ export default function OfferDetailSectionLender({ offers }: OfferDetailSectionL
               }}>
               <Divider orientation="vertical" width={1} />
             </View>
-            <Text style={styles.TextInRoles}>{`${offer.interest.toLocaleString()}% interest`}</Text>
+            <Text
+              style={
+                styles.TextInRoles
+              }>{`${offer.interest.toLocaleString()}% interest`}</Text>
           </View>
           <View style={styles.RoleButtonContainer}>
-            <Pressable style={styles.ViewButtonContainer}>
+            <Pressable
+              onPress={() => {
+                navigation.navigate(targetScreen);
+              }}
+              style={styles.ViewButtonContainer}>
               <Text style={styles.ViewButton}>Details</Text>
             </Pressable>
           </View>
@@ -81,8 +101,7 @@ export default function OfferDetailSectionLender({ offers }: OfferDetailSectionL
       ))}
     </View>
   );
-}
-
+};
 
 const styles = StyleSheet.create({
   TextInRoles: {
@@ -144,3 +163,5 @@ const styles = StyleSheet.create({
     color: GlobalStyles.Colors.accent300,
   },
 });
+
+export default OfferDetailSectionLender;

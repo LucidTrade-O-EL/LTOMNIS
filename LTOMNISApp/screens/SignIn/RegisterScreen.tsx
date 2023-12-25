@@ -87,27 +87,35 @@ export default function RegisterScreen() {
   };
 
   const onAppleButtonPress = async () => {
-    // performs login request
-    const appleAuthRequestResponse = await appleAuth.performRequest({
-      requestedOperation: AppleAuthRequestOperation.LOGIN,
-      requestedScopes: [
-        AppleAuthRequestScope.EMAIL,
-        AppleAuthRequestScope.FULL_NAME,
-      ],
-    });
-
-    // get current authentication state for user
-    // /!\ This method must be tested on a real device. On the iOS simulator it always throws an error.
-    const credentialState = await appleAuth.getCredentialStateForUser(
-      appleAuthRequestResponse.user,
-    );
-
-    // use credentialState response to ensure the user is authenticated
-    if (credentialState === appleAuth.State.AUTHORIZED) {
-      // user is authenticated
-      // Handle the response (e.g., store user data, navigate)
+    try {
+      const appleAuthRequestResponse = await appleAuth.performRequest({
+        requestedOperation: AppleAuthRequestOperation.LOGIN,
+        requestedScopes: [AppleAuthRequestScope.EMAIL, AppleAuthRequestScope.FULL_NAME],
+      });
+  
+      const credentialState = await appleAuth.getCredentialStateForUser(appleAuthRequestResponse.user);
+  
+      if (credentialState === appleAuth.State.AUTHORIZED) {
+        // Extract user data
+        const { email, fullName } = appleAuthRequestResponse;
+        const userData = {
+          email,
+          fullName,
+          appleIdToken: appleAuthRequestResponse.identityToken, // This is important for backend verification
+        };
+  
+        // Send data to backend for verification and user record creation/updation
+        const res = await axios.post('http://localhost:8080/api/omnis/account/register_login', userData);
+        const { sessionToken } = res.data;
+  
+        // Store sessionToken securely, e.g., in AsyncStorage
+        // Handle navigation or other logic
+      }
+    } catch (error) {
+      console.error('Apple Sign-In error:', error);
     }
   };
+  
 
   return (
     <View style={styles.background}>

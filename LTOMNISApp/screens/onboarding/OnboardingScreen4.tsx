@@ -15,14 +15,9 @@ interface OnboardingScreen4Props {
 }
 
 const OnboardingScreen4: React.FC<OnboardingScreen4Props> = ({navigation}) => {
-  const token = useSelector(state => state.auth?.token);
 
   const handleStartNow = () => {
-    if (token) {
-      navigation.navigate('HomeScreen');
-    } else {
       navigation.navigate('SignInScreen');
-    }
   };
 
   return (

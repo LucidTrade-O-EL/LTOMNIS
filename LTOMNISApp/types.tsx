@@ -69,10 +69,18 @@ export type RootStackParamList = {
   OnboardingManager: undefined; // Add this line if it's missing
   SelectLang: undefined; // Add this line if it's missing
   OnboardingScreen1: OnboardingScreen1Props;
+  FeedStackNavigator: undefined;
+  HomeStackNavigator: undefined;
 };
 
 // Home Stack Navigator Props Type
 export type HomeStackNavigatorProps = {
+  navigation: NativeStackNavigationProp<RootStackParamList, keyof RootStackParamList>;
+  route: RouteProp<RootStackParamList, keyof RootStackParamList>;
+};
+
+// Home Stack Navigator Props Type
+export type FeedStackNavigatorProps = {
   navigation: NativeStackNavigationProp<RootStackParamList, keyof RootStackParamList>;
   route: RouteProp<RootStackParamList, keyof RootStackParamList>;
 };

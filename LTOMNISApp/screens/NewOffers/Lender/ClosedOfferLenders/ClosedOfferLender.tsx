@@ -10,7 +10,7 @@ const ClosedOfferLender = () => {
       style={{backgroundColor: GlobalStyles.Colors.primary100}}
       data={offersDataLender}
       renderItem={({item}) => (
-        <MediumBigContainerTwo
+        <MediumBigContainerTwo targetScreen="ActiveOfferLenderDetails"
           title={item.title}
           firstNameLetter={item.firstNameLetter}
           lastNameLetter={item.lastNameLetter}

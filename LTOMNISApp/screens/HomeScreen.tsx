@@ -15,6 +15,8 @@ import TransactionHistory from '../assets/constants/Components/CustomTransaction
 import {StackNavigationProp} from '@react-navigation/stack';
 import {RouteProp} from '@react-navigation/native';
 import {useNavigation} from '@react-navigation/native';
+import {HomeStackParamList} from '../App'
+
 
 type HomeScreenRouteProp = RouteProp<RootStackParamList, 'HomeScreen'>;
 
@@ -38,11 +40,6 @@ type TransactionNavigationProp = StackNavigationProp<
 type HomeScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
   'HomeScreen'
->;
-
-type WithdrawMoneyScreenProp = StackNavigationProp<
-  RootStackParamList,
-  'WithdrawMoneyScreen'
 >;
 
 export default function HomeScreen({
@@ -78,9 +75,7 @@ export default function HomeScreen({
 
   const handleLender = () => {
     console.log('Transaction button pressed');
-    navigation.navigate('TransactionHistoryTax', {
-      transactionId: 'YOUR_TRANSACTION_ID',
-    });
+    navigation.navigate('OfferScreenLender');
   };
 
   const handleBorrower = () => {

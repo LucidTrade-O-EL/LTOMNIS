@@ -18,7 +18,7 @@ import OfferSentSuccessful from '../screens/MyFeed/OfferSentSuccessful';
 import AddPostScreen from '../screens/add_post/AddPostScreen';
 import OMNISScoreScreen from '../screens/OMNISScore/OMNISScoreScreen';
 import SpotlightScreen from '../screens/Spotlight/SpotlightScreen';
-import { HomeStackNavigator } from '../App';
+import { FeedStackNavigator, HomeStackNavigator } from '../App';
 import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 import ScoreBreakDown from '../screens/OMNISScore/ScoreBreakDown/ScoreBreakDown';
 import OfferTransactionHistory from '../screens/NewOffers/Borrower/ClosedOffers/OfferTransactionHistory';
@@ -31,23 +31,9 @@ interface CustomTabBarButtonProps {
 }
 
 const Tab = createBottomTabNavigator();
-const MyFeedStack = createStackNavigator();
 
 
-export function MyFeedStackNavigator() {
-  return (
-    <MyFeedStack.Navigator
-      initialRouteName="MyFeedScreen"
-      screenOptions={{ headerShown: false }}>
-      <MyFeedStack.Screen name="MyFeedScreen" component={MyFeedScreen} />
-      <MyFeedStack.Screen name="PostDetails" component={PostDetails} />
-      <MyFeedStack.Screen name="PostOffer" component={PostOffer} />
-      <MyFeedStack.Screen name="FeedSummary" component={FeedSummary} />
-      <MyFeedStack.Screen name="OfferSent" component={OfferSent} />
-      <MyFeedStack.Screen name="OfferSentSuccessful" component={OfferSentSuccessful} />
-    </MyFeedStack.Navigator>
-  );
-}
+
 
 
 const CustomTabBarButton = ({ children, onPress }) => {
@@ -102,8 +88,8 @@ export default function Tabs() {
           }}
         />
         <Tab.Screen
-          name="MyFeedScreen"
-          component={MyFeedStackNavigator}
+          name="FeedStackNavigator"
+          component={FeedStackNavigator}
           options={{
             tabBarIcon: ({focused}) => (
               <Ionicons

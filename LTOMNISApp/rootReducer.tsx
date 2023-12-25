@@ -5,7 +5,7 @@ import languageReducer from './Redux/Reducers/languageReducer';
 import tabBarReducer from './tabBarSlice';
 import verifyReducer from './verifyReducer';
 export interface AppState {
-  token: TokenState;
+  token: ReturnType<typeof tokenReducer>
   app: ReturnType<typeof appReducer>;
   language: ReturnType<typeof languageReducer>;
   tabBar: ReturnType<typeof tabBarReducer>;

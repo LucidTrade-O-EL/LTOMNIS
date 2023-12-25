@@ -4,13 +4,15 @@ import GlobalStyles from '../../../../assets/constants/colors';
 import {offersDataLender} from '../../../../assets/constants/offersDataLender';
 import MediumBigContainer from '../../../../assets/constants/Components/MediumBigContainer';
 
+
+
 const ActiveOffersLender = () => {
   return (
     <FlatList
       style={{backgroundColor: GlobalStyles.Colors.primary100}}
       data={offersDataLender}
       renderItem={({item}) => (
-        <MediumBigContainer
+        <MediumBigContainer targetScreen="ActiveOfferLenderDetails"
           title={item.title}
           firstNameLetter={item.firstNameLetter}
           lastNameLetter={item.lastNameLetter}

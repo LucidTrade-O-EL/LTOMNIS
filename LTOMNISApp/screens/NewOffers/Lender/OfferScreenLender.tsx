@@ -25,12 +25,15 @@ import OfferScreenTopTabsLender from '../../../assets/constants/Components/Offer
               width: '100%',
               borderRadius: 24,
             }}>
-            <OfferScreenTopTabsLender />
+            <OfferScreenTopTabsLender   />
           </View>
         </SafeAreaView>
       );
     };
     
+    // navigation={navigation} 
+    // 
+
     export default OfferScreenLender;
     
     const styles = StyleSheet.create({

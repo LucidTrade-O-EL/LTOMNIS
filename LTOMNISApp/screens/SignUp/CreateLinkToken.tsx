@@ -4,10 +4,15 @@ import {useSelector, useDispatch} from 'react-redux';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import { setLinkToken } from '../../actions';
 import { AppState } from '../../appReducer';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../../types';
 
-const CreateLinkToken = () => {
+interface CreateLinkTokenProps {
+  navigation: NativeStackNavigationProp<RootStackParamList>;
+}
+
+const CreateLinkToken: React.FC <CreateLinkTokenProps> = ({navigation}) => {
   const [isLoading, setIsLoading] = useState(true);
-  const navigation = useNavigation();
   const id = useSelector((state: AppState) => state.id);
   const linkToken = useSelector((state: AppState) => state.linkToken);
   const dispatch = useDispatch();

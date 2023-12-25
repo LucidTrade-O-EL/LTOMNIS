@@ -7,12 +7,14 @@ import GlobalStyles from '../../../../assets/constants/colors';
 import TransactionHistory from '../../../../assets/constants/Components/CustomTransactionButton';
 import ProgressWithLabel from '../../../../assets/constants/Components/ProgressWithLabel';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { HomeStackParamList } from '../../../../App';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { useNavigation } from '@react-navigation/native';
 
-function handleTransaction() {
-  console.log('Transaction History Button Pressed');
-}
 
 export default function ClosedOfferGiftAccepted() {
+  const navigation =
+  useNavigation<NativeStackNavigationProp<HomeStackParamList>>();
   return (
     <SafeAreaView style={styles.Background}>
       <ScreenTitle
@@ -47,7 +49,7 @@ export default function ClosedOfferGiftAccepted() {
       </View>
       <TransactionHistory
         buttonText="View Offer Transaction History"
-        onPress={handleTransaction}
+        onPress={() => navigation.navigate('LoanDetailsScreen')}
       />
       <SmallOfferDetailsVFour
         title="Offer Details"

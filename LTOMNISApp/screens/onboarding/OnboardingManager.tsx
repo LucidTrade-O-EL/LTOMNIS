@@ -69,7 +69,7 @@ const OnboardingManager: React.FC<OnboardingManagerProps> = ({navigation}) => {
             <OnboardingScreen3 onNext={handleNext} onSkip={handleSkip} />
           )}
           {currentIndex === 3 && (
-            <OnboardingScreen4 navigation={navigation} />
+            <OnboardingScreen4 navigation={navigation} onStartNow={handleStartNow} />
           )}
         </View>
       </PanGestureHandler>

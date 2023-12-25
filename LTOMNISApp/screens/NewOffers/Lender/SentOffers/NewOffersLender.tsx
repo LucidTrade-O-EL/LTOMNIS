@@ -11,6 +11,7 @@ const NewOffersLender = () => {
       data={offersDataLender}
       renderItem={({item}) => (
         <MediumBigContainer
+          targetScreen="ActiveOfferDetails"
           title={item.title}
           firstNameLetter={item.firstNameLetter}
           lastNameLetter={item.lastNameLetter}

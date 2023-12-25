@@ -60,7 +60,7 @@ import WithdrawMoneyScreen from './screens/WithdrawMoney/WithdrawMoneyScreen';
 import OnboardingManager from './screens/onboarding/OnboardingManager';
 import LanguagesSettings from './screens/MyProfile/LanguagesSettings';
 import SelectLang from './screens/onboarding/SelectLang';
-import {RootStackParamList, HomeStackNavigatorProps} from './types';
+import {RootStackParamList, HomeStackNavigatorProps, FeedStackNavigatorProps} from './types';
 import {SplashScreenProps} from './types';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {PanGestureHandler, State} from 'react-native-gesture-handler';
@@ -69,14 +69,26 @@ import {getFocusedRouteNameFromRoute} from '@react-navigation/native';
 import OfferTransactionHistory from './screens/NewOffers/Borrower/ClosedOffers/OfferTransactionHistory';
 import IdentityVerificationScreen from './screens/SignUp/IdentityVerificationScreen';
 import CreateLinkToken from './screens/SignUp/CreateLinkToken';
+import OfferScreenLender from './screens/NewOffers/Lender/OfferScreenLender';
+import ActiveOfferDetails from './screens/NewOffers/Lender/SentOffers/ActiveOfferDetails';
+import ActiveOfferLenderDetails from './screens/NewOffers/Lender/ActiveOffersLenders/ActiveOfferLenderDetails';
+import ClosedOfferGiftAccepted from './screens/NewOffers/Lender/ClosedOfferLenders/ClosedOfferGiftAccepted';
+import LoanDetailsScreen from './screens/NewOffers/Borrower/ActiveOffers/LoanDetailsScreen';
+import MyFeedScreen from './screens/MyFeed/MyFeedScreen';
+import PostDetails from './screens/MyFeed/Lender/PostDetails';
+import PostOffer from './screens/MyFeed/Lender/PostOffer';
+import FeedSummary from './screens/MyFeed/Borrower/FeedSummary';
+import OfferSentSuccessful from './screens/MyFeed/OfferSentSuccessful';
 
 type MainStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
 const RootStack = createNativeStackNavigator();
 const MainStack = createNativeStackNavigator();
+const FeedStack = createNativeStackNavigator();
+const CombinedStack = createNativeStackNavigator();
 
 // Define a combined stack
-const CombinedStack = createNativeStackNavigator();
+
 
 let value: unknown;
 // If you are sure value is a string
@@ -110,10 +122,12 @@ function CombinedStackNavigator() {
         component={OnboardingScreen4}
       /> */}
 
-
-      {/* <CombinedStack.Screen name="SignInScreen" component={SignInScreen} /> */}
-      <CombinedStack.Screen name="RegisterScreen" component={RegisterScreen} />
-      <CombinedStack.Screen name="CreateLinkToken" component={CreateLinkToken} />
+      {/* <CombinedStack.Screen name="SignInScreen" component={SignInScreen} />
+      <CombinedStack.Screen name="RegisterScreen" component={RegisterScreen} /> */}
+      <CombinedStack.Screen
+        name="CreateLinkToken"
+        component={CreateLinkToken}
+      />
       {/* <CombinedStack.Screen name="ForgotPassword" component={ForgotPassword} /> */}
       {/* <CombinedStack.Screen name="Verification" component={Verification} />
       <CombinedStack.Screen
@@ -121,7 +135,10 @@ function CombinedStackNavigator() {
         component={CreateNewPassword}
       />
       <CombinedStack.Screen name="PlaidLink" component={PlaidLinkButton} /> */}
-      {/* <CombinedStack.Screen name="IdentityVerificationScreen" component={IdentityVerificationScreen} /> */}
+      <CombinedStack.Screen
+        name="IdentityVerificationScreen"
+        component={IdentityVerificationScreen}
+      />
       {/* <CombinedStack.Screen
         name="CreditScoreDisplay"
         component={CreditScoreDisplay}
@@ -164,7 +181,7 @@ const App = () => {
   return (
     <NavigationContainer>
       <RootStack.Navigator screenOptions={{headerShown: false}}>
-        {!hasViewedOnboarding ? (
+        {hasViewedOnboarding ? (
           // {!hasViewedOnboarding && !token ? (
           // Use CombinedStackNavigator here
           <RootStack.Screen
@@ -194,10 +211,17 @@ export default function Root() {
 
 export {App};
 
-type HomeStackParamList = {
+export type HomeStackParamList = {
   HomeScreen: undefined;
   TransactionHistoryDetails: undefined;
   TransactionHistoryTax: undefined;
+  OfferScreenLender: undefined;
+  OfferTransactionHistory: undefined;
+  WithdrawMoneyScreen: undefined;
+  ActiveOfferDetails: undefined;
+  ActiveOfferLenderDetails: undefined;
+  ClosedOfferGiftAccepted: undefined;
+  LoanDetailsScreen: undefined;
 };
 
 const HomeStack = createNativeStackNavigator<HomeStackParamList>();
@@ -207,16 +231,15 @@ export function HomeStackNavigator({
   route,
 }: HomeStackNavigatorProps) {
   React.useEffect(() => {
-    const routeName = getFocusedRouteNameFromRoute(route) ?? 'HomeScreen';
+    const routeName = getFocusedRouteNameFromRoute(route) ?? 'FeedScreen';
     const hideTabBarScreens = ['OfferTransactionHistory']; // Add other screen names as needed
     const tabBarVisible = !hideTabBarScreens.includes(routeName);
 
-    navigation.getParent()?.setOptions({ tabBarVisible });
+    navigation.getParent()?.setOptions({tabBarVisible});
   }, [navigation, route]);
 
-
   return (
-    <HomeStack.Navigator
+    <FeedStack.Navigator
       initialRouteName="HomeScreen"
       screenOptions={{headerShown: false}}>
       <HomeStack.Screen name="HomeScreen" component={HomeScreen} />
@@ -229,6 +252,22 @@ export function HomeStackNavigator({
         component={OfferTransactionHistory}
       />
       <HomeStack.Screen
+        name="OfferScreenLender"
+        component={OfferScreenLender}
+      />
+      <HomeStack.Screen
+        name="ActiveOfferDetails"
+        component={ActiveOfferDetails}
+      />
+      <HomeStack.Screen
+        name="ActiveOfferLenderDetails"
+        component={ActiveOfferLenderDetails}
+      />
+      <HomeStack.Screen
+        name="ClosedOfferGiftAccepted"
+        component={ClosedOfferGiftAccepted}
+      />
+      <HomeStack.Screen
         name="TransactionHistoryDetails"
         component={TransactionHistoryDetails}
       />
@@ -236,6 +275,46 @@ export function HomeStackNavigator({
         name="TransactionHistoryTax"
         component={TransactionHistoryTax}
       />
-    </HomeStack.Navigator>
+      <HomeStack.Screen
+        name="LoanDetailsScreen"
+        component={LoanDetailsScreen}
+      />
+    </FeedStack.Navigator>
+  );
+}
+
+
+export type FeedStackParamList = {
+  MyFeedScreen: undefined;
+  PostDetails: undefined;
+  PostOffer: undefined;
+  FeedSummary: undefined;
+  OfferSent: undefined;
+  OfferSentSuccessful: undefined;
+};
+
+export function FeedStackNavigator({
+  navigation,
+  route,
+}: FeedStackNavigatorProps) {
+  React.useEffect(() => {
+    const routeName = getFocusedRouteNameFromRoute(route) ?? 'HomeScreen';
+    const hideTabBarScreens = ['OfferTransactionHistory']; // Add other screen names as needed
+    const tabBarVisible = !hideTabBarScreens.includes(routeName);
+
+    navigation.getParent()?.setOptions({tabBarVisible});
+  }, [navigation, route]);
+
+  return (
+    <FeedStack.Navigator
+      initialRouteName="MyFeedScreen"
+      screenOptions={{ headerShown: false }}>
+      <FeedStack.Screen name="MyFeedScreen" component={MyFeedScreen} />
+      <FeedStack.Screen name="PostDetails" component={PostDetails} />
+      <FeedStack.Screen name="PostOffer" component={PostOffer} />
+      <FeedStack.Screen name="FeedSummary" component={FeedSummary} />
+      <FeedStack.Screen name="OfferSent" component={OfferSent} />
+      <FeedStack.Screen name="OfferSentSuccessful" component={OfferSentSuccessful} />
+    </FeedStack.Navigator>
   );
 }

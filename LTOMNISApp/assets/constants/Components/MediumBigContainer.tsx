@@ -5,7 +5,8 @@ import OfferDetailSectionLender from './OfferDetailSectionLender';
 import StarCircle from './Buttons/StarCircle';
 
 
-type MediumBigContainerProps = {
+
+interface MediumBigContainerProps {
     title: string;
     firstNameLetter: string;
     lastNameLetter: string;
@@ -13,6 +14,7 @@ type MediumBigContainerProps = {
     userName: string;
     amount: number;
     interest: number;
+    targetScreen: string;
 };
 
 const MediumBigContainer: React.FC<MediumBigContainerProps> = ({
@@ -23,6 +25,7 @@ const MediumBigContainer: React.FC<MediumBigContainerProps> = ({
     userName,
     amount,
     interest,
+    targetScreen,
   }) => {
 
     const formattedAmount = amount?.toLocaleString() || '0';
@@ -39,7 +42,7 @@ const MediumBigContainer: React.FC<MediumBigContainerProps> = ({
         </View>
   
         <View style={{ width: '100%', alignSelf: 'center' }}>
-          <OfferDetailSectionLender
+          <OfferDetailSectionLender targetScreen={targetScreen}
             offers={[
               {
                 firstNameLetter: firstNameLetter,

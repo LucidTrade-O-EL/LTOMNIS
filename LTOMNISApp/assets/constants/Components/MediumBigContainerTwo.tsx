@@ -5,8 +5,11 @@ import OfferDetailSectionLender from './OfferDetailSectionLender';
 import {OfferStatus, getStatusStyle} from './ClosedOfferBigContainer';
 import CustomRow from './CustomRow';
 import StarCircle from './Buttons/StarCircle';
+import { HomeStackParamList } from '../../../App';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { useNavigation } from '@react-navigation/native';
 
-type MediumBigContainerTwoProps = {
+interface MediumBigContainerTwoProps {
   title: string;
   firstNameLetter: string;
   lastNameLetter: string;
@@ -15,14 +18,18 @@ type MediumBigContainerTwoProps = {
   amount: number;
   interest: number;
   status: OfferStatus;
+  targetScreen: string;
 };
 
 const MediumBigContainerTwo: React.FC<MediumBigContainerTwoProps> = ({
   title,
   amount,
   status,
+  targetScreen,
 }) => {
   const formattedAmount = amount?.toLocaleString() || '0';
+  const navigation =
+  useNavigation<NativeStackNavigationProp<HomeStackParamList>>();
 
   return (
     <View style={styles.container}>
@@ -57,8 +64,7 @@ const MediumBigContainerTwo: React.FC<MediumBigContainerTwoProps> = ({
           />
           <TouchableOpacity
             style={styles.detailButton}
-            onPress={() => {
-              // Handle the button press here
+            onPress={() => { navigation.navigate('ClosedOfferGiftAccepted')
             }}>
             <Text style={styles.detailButtonText}>Details</Text>
           </TouchableOpacity>
