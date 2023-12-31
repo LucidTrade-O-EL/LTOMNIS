@@ -71,6 +71,15 @@ export type RootStackParamList = {
   OnboardingScreen1: OnboardingScreen1Props;
   FeedStackNavigator: undefined;
   HomeStackNavigator: undefined;
+  SpotlightStackNavigator: undefined;
+  OfferSent: undefined;
+};
+
+// Tabs Stack Navigator Props Type
+export type TabsStackNavigatorProps = {
+  navigation: NativeStackNavigationProp<RootStackParamList, keyof RootStackParamList>;
+  route: RouteProp<RootStackParamList, keyof RootStackParamList>;
+  activeScreenName: string;
 };
 
 // Home Stack Navigator Props Type
@@ -79,8 +88,14 @@ export type HomeStackNavigatorProps = {
   route: RouteProp<RootStackParamList, keyof RootStackParamList>;
 };
 
-// Home Stack Navigator Props Type
+// Feed Stack Navigator Props Type
 export type FeedStackNavigatorProps = {
+  navigation: NativeStackNavigationProp<RootStackParamList, keyof RootStackParamList>;
+  route: RouteProp<RootStackParamList, keyof RootStackParamList>;
+};
+
+// Spotlight Stack Navigator Props Type
+export type SpotlightStackNavigatorProps = {
   navigation: NativeStackNavigationProp<RootStackParamList, keyof RootStackParamList>;
   route: RouteProp<RootStackParamList, keyof RootStackParamList>;
 };

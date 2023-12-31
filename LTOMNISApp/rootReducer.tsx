@@ -2,15 +2,14 @@ import {combineReducers} from 'redux';
 import tokenReducer, {TokenState} from './tokenReducer';
 import appReducer from './appReducer';
 import languageReducer from './Redux/Reducers/languageReducer';
-import tabBarReducer from './tabBarSlice';
 import verifyReducer from './verifyReducer';
+import tabBarReducer from './tabBarSlice';
 export interface AppState {
   token: ReturnType<typeof tokenReducer>
   app: ReturnType<typeof appReducer>;
   language: ReturnType<typeof languageReducer>;
   tabBar: ReturnType<typeof tabBarReducer>;
   verify: ReturnType<typeof verifyReducer>; // Add this line
-  // Include other slices of state...
 }
 
 const rootReducer = combineReducers({

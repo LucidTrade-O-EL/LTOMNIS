@@ -14,6 +14,7 @@ export default function NewOffersScreen() {
       data={offersData}
       renderItem={({item}) => (
         <OfferBigContainer
+        targetScreen="ActiveOfferDetails"
           title={item.title}
           offerNumber={item.offerNumber}
           raiseNumber={item.raiseNumber}

@@ -60,7 +60,12 @@ import WithdrawMoneyScreen from './screens/WithdrawMoney/WithdrawMoneyScreen';
 import OnboardingManager from './screens/onboarding/OnboardingManager';
 import LanguagesSettings from './screens/MyProfile/LanguagesSettings';
 import SelectLang from './screens/onboarding/SelectLang';
-import {RootStackParamList, HomeStackNavigatorProps, FeedStackNavigatorProps} from './types';
+import {
+  RootStackParamList,
+  HomeStackNavigatorProps,
+  FeedStackNavigatorProps,
+  SpotlightStackNavigatorProps,
+} from './types';
 import {SplashScreenProps} from './types';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {PanGestureHandler, State} from 'react-native-gesture-handler';
@@ -79,6 +84,13 @@ import PostDetails from './screens/MyFeed/Lender/PostDetails';
 import PostOffer from './screens/MyFeed/Lender/PostOffer';
 import FeedSummary from './screens/MyFeed/Borrower/FeedSummary';
 import OfferSentSuccessful from './screens/MyFeed/OfferSentSuccessful';
+import FriendsProfile from './screens/FriendsProfile/FriendsProfile';
+import LevelsScreen from './screens/OMNISScore/ScoreBreakDown/Levels/LevelsScreen';
+import SpotlightScreen from './screens/Spotlight/SpotlightScreen';
+import OfferScreen from './screens/NewOffers/Borrower/NewOffersBorrower/OfferScreen';
+import NewOfferDetails from './screens/NewOffers/Borrower/NewOffersBorrower/NewOfferDetails';
+import ChoosePaymentPlanScreen from './screens/NewOffers/Borrower/NewOffersBorrower/ChoosePaymentPlanScreen';
+import PaymentChosenScreen from './screens/NewOffers/Borrower/NewOffersBorrower/PaymentChosenScreen';
 
 type MainStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
@@ -86,9 +98,9 @@ const RootStack = createNativeStackNavigator();
 const MainStack = createNativeStackNavigator();
 const FeedStack = createNativeStackNavigator();
 const CombinedStack = createNativeStackNavigator();
+const SpotlightStack = createNativeStackNavigator();
 
 // Define a combined stack
-
 
 let value: unknown;
 // If you are sure value is a string
@@ -158,6 +170,9 @@ function MainStackNavigator() {
 const App = () => {
   const [hasViewedOnboarding, setHasViewedOnboarding] = useState(false);
 
+  const isTabBarVisible = useSelector((state: AppState) => state.tabBar?.isVisible);
+
+
   // const hasCompletedVerify = useSelector(state => state.verify.hasCompletedOnboarding);
 
   useEffect(() => {
@@ -181,7 +196,7 @@ const App = () => {
   return (
     <NavigationContainer>
       <RootStack.Navigator screenOptions={{headerShown: false}}>
-        {hasViewedOnboarding ? (
+        {hasViewedOnboarding && isTabBarVisible ? (
           // {!hasViewedOnboarding && !token ? (
           // Use CombinedStackNavigator here
           <RootStack.Screen
@@ -222,6 +237,11 @@ export type HomeStackParamList = {
   ActiveOfferLenderDetails: undefined;
   ClosedOfferGiftAccepted: undefined;
   LoanDetailsScreen: undefined;
+  OfferScreen: undefined;
+  NewOfferDetails: undefined;
+  ChoosePaymentPlanScreen: undefined;
+  PaymentChosenScreen: undefined;
+  OfferSentSuccessful: undefined;
 };
 
 const HomeStack = createNativeStackNavigator<HomeStackParamList>();
@@ -232,20 +252,21 @@ export function HomeStackNavigator({
 }: HomeStackNavigatorProps) {
   React.useEffect(() => {
     const routeName = getFocusedRouteNameFromRoute(route) ?? 'FeedScreen';
-    const hideTabBarScreens = ['OfferTransactionHistory']; // Add other screen names as needed
+    const hideTabBarScreens = ['OfferTransactionHistory',]; // Add other screen names as needed
     const tabBarVisible = !hideTabBarScreens.includes(routeName);
 
     navigation.getParent()?.setOptions({tabBarVisible});
   }, [navigation, route]);
 
   return (
-    <FeedStack.Navigator
+    <HomeStack.Navigator
       initialRouteName="HomeScreen"
       screenOptions={{headerShown: false}}>
       <HomeStack.Screen name="HomeScreen" component={HomeScreen} />
       <HomeStack.Screen
         name="WithdrawMoneyScreen"
         component={WithdrawMoneyScreen}
+
       />
       <HomeStack.Screen
         name="OfferTransactionHistory"
@@ -274,15 +295,31 @@ export function HomeStackNavigator({
       <HomeStack.Screen
         name="TransactionHistoryTax"
         component={TransactionHistoryTax}
+        options={{ tabBarVisible: false }}
       />
       <HomeStack.Screen
         name="LoanDetailsScreen"
         component={LoanDetailsScreen}
       />
-    </FeedStack.Navigator>
+      <HomeStack.Screen name="OfferScreen" component={OfferScreen} />
+      <HomeStack.Screen name="NewOfferDetails" component={NewOfferDetails} />
+      <HomeStack.Screen
+        name="ChoosePaymentPlanScreen"
+        component={ChoosePaymentPlanScreen}
+      />
+      <HomeStack.Screen
+        name="PaymentChosenScreen"
+        component={PaymentChosenScreen}
+      />
+      <HomeStack.Screen
+        name="OfferSentSuccessful"
+        component={OfferSentSuccessful}
+      />
+    </HomeStack.Navigator>
   );
 }
 
+//  Feed Screen
 
 export type FeedStackParamList = {
   MyFeedScreen: undefined;
@@ -291,6 +328,10 @@ export type FeedStackParamList = {
   FeedSummary: undefined;
   OfferSent: undefined;
   OfferSentSuccessful: undefined;
+  FriendsProfile: undefined;
+  LevelsScreen: undefined;
+  SpotlightScreen: undefined;
+  SpotlightStackNavigator: undefined;
 };
 
 export function FeedStackNavigator({
@@ -298,7 +339,7 @@ export function FeedStackNavigator({
   route,
 }: FeedStackNavigatorProps) {
   React.useEffect(() => {
-    const routeName = getFocusedRouteNameFromRoute(route) ?? 'HomeScreen';
+    const routeName = getFocusedRouteNameFromRoute(route) ?? 'MyFeedScreen';
     const hideTabBarScreens = ['OfferTransactionHistory']; // Add other screen names as needed
     const tabBarVisible = !hideTabBarScreens.includes(routeName);
 
@@ -308,13 +349,70 @@ export function FeedStackNavigator({
   return (
     <FeedStack.Navigator
       initialRouteName="MyFeedScreen"
-      screenOptions={{ headerShown: false }}>
+      screenOptions={{headerShown: false}}>
       <FeedStack.Screen name="MyFeedScreen" component={MyFeedScreen} />
       <FeedStack.Screen name="PostDetails" component={PostDetails} />
       <FeedStack.Screen name="PostOffer" component={PostOffer} />
       <FeedStack.Screen name="FeedSummary" component={FeedSummary} />
       <FeedStack.Screen name="OfferSent" component={OfferSent} />
-      <FeedStack.Screen name="OfferSentSuccessful" component={OfferSentSuccessful} />
+      <FeedStack.Screen name="FriendsProfile" component={FriendsProfile} />
+      <FeedStack.Screen name="LevelsScreen" component={LevelsScreen} />
+      <FeedStack.Screen
+        name="SpotlightStackNavigator"
+        component={SpotlightStackNavigator}
+      />
+      <FeedStack.Screen
+        name="OfferSentSuccessful"
+        component={OfferSentSuccessful}
+      />
     </FeedStack.Navigator>
+  );
+}
+
+// Spotlight
+
+export type SpotlightStackParamList = {
+  SpotlightStackNavigator: undefined;
+  PostDetails: undefined;
+  PostOffer: undefined;
+  FeedSummary: undefined;
+  OfferSent: undefined;
+  OfferSentSuccessful: undefined;
+  FriendsProfile: undefined;
+  LevelsScreen: undefined;
+  SpotlightScreen: undefined;
+};
+
+export function SpotlightStackNavigator({
+  navigation,
+  route,
+}: SpotlightStackNavigatorProps) {
+  React.useEffect(() => {
+    const routeName = getFocusedRouteNameFromRoute(route) ?? 'MyFeedScreen';
+    const hideTabBarScreens = ['OfferTransactionHistory']; // Add other screen names as needed
+    const tabBarVisible = !hideTabBarScreens.includes(routeName);
+
+    navigation.getParent()?.setOptions({tabBarVisible});
+  }, [navigation, route]);
+
+  return (
+    <SpotlightStack.Navigator
+      initialRouteName="SpotlightScreen"
+      screenOptions={{headerShown: false}}>
+      <SpotlightStack.Screen
+        name="SpotlightScreen"
+        component={SpotlightScreen}
+      />
+      <SpotlightStack.Screen name="PostDetails" component={PostDetails} />
+      <SpotlightStack.Screen name="PostOffer" component={PostOffer} />
+      <SpotlightStack.Screen name="FeedSummary" component={FeedSummary} />
+      <SpotlightStack.Screen name="OfferSent" component={OfferSent} />
+      <SpotlightStack.Screen name="FriendsProfile" component={FriendsProfile} />
+      <SpotlightStack.Screen name="LevelsScreen" component={LevelsScreen} />
+      <SpotlightStack.Screen
+        name="OfferSentSuccessful"
+        component={OfferSentSuccessful}
+      />
+    </SpotlightStack.Navigator>
   );
 }

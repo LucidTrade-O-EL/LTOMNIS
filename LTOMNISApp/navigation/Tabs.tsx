@@ -1,8 +1,8 @@
-import React, { ReactNode } from 'react';
-import { View, StyleSheet, GestureResponderEvent } from 'react-native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { createStackNavigator } from '@react-navigation/stack';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import React, {ReactNode, useEffect} from 'react';
+import {View, StyleSheet, GestureResponderEvent} from 'react-native';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {createStackNavigator} from '@react-navigation/stack';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 import Octicons from 'react-native-vector-icons/Octicons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
@@ -18,12 +18,16 @@ import OfferSentSuccessful from '../screens/MyFeed/OfferSentSuccessful';
 import AddPostScreen from '../screens/add_post/AddPostScreen';
 import OMNISScoreScreen from '../screens/OMNISScore/OMNISScoreScreen';
 import SpotlightScreen from '../screens/Spotlight/SpotlightScreen';
-import { FeedStackNavigator, HomeStackNavigator } from '../App';
-import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
+import {
+  FeedStackNavigator,
+  HomeStackNavigator,
+  SpotlightStackNavigator,
+} from '../App';
+import {getFocusedRouteNameFromRoute, useNavigation} from '@react-navigation/native';
 import ScoreBreakDown from '../screens/OMNISScore/ScoreBreakDown/ScoreBreakDown';
 import OfferTransactionHistory from '../screens/NewOffers/Borrower/ClosedOffers/OfferTransactionHistory';
-import { useSelector } from 'react-redux';
-
+import {useDispatch, useSelector} from 'react-redux';
+import {AppState, hideTabBar, showTabBar} from '../appReducer';
 
 interface CustomTabBarButtonProps {
   children: React.ReactNode;
@@ -32,43 +36,95 @@ interface CustomTabBarButtonProps {
 
 const Tab = createBottomTabNavigator();
 
+// const CustomTabBarButton = ({children, onPress}) => {
+//   <TouchableOpacity
+//     onPress={onPress}
+//     style={[
+//       styles.shadow,
+//       {top: -20, justifyContent: 'center', alignItems: 'center'},
+//     ]}>
+//     <View
+//       style={{
+//         width: 54,
+//         height: 54,
+//         borderRadius: 54,
+//         backgroundColor: GlobalStyles.Colors.primary200,
+//       }}>
+//       {children}
+//     </View>
+//   </TouchableOpacity>;
+// };
 
+const CustomTabBarButton = ({children, onPress}) => {
+  return (
+    <TouchableOpacity
+      onPress={onPress}
+      style={[
+        styles.shadow,
+        {top: -20, justifyContent: 'center', alignItems: 'center'},
+      ]}>
+      <View
+        style={{
+          width: 54,
+          height: 54,
+          borderRadius: 54,
+          backgroundColor: GlobalStyles.Colors.primary200,
+        }}>
+        {children}
+      </View>
+    </TouchableOpacity>
+  );
+};
 
+const findDeepRouteName = (state) => {
+  const route = state.routes[state.index];
+  if (route.state) {
+    // Nested navigator detected
+    return findDeepRouteName(route.state);
+  }
+  return route.name; // The name of the current screen
+};
 
+const screensWithTabs = ['HomeStackNavigator']; // List of screen names with tabs
 
-const CustomTabBarButton = ({ children, onPress }) => {
-  <TouchableOpacity onPress={onPress} style={[styles.shadow, { top: -20, justifyContent: 'center', alignItems: 'center' }]}>
-    <View style={{ width: 54, height: 54, borderRadius: 54, backgroundColor: GlobalStyles.Colors.primary200 }}>{children}</View>
-  </TouchableOpacity>
-}
+export default function Tabs({ route }) {
 
+  const navigation = useNavigation();
+  const currentRouteName = findDeepRouteName(navigation.getState());
+  console.log(`Current Route Name ${currentRouteName}`)
+  
+  const tabBarVisible = useSelector((state: AppState) => state.isTabBarVisible);
+  console.log(`this is tab bar visbale ${tabBarVisible}`)
+  const dispatch = useDispatch();
 
-export default function Tabs() {
-  // const isTabBarVisible = useSelector(state => state.tabBar.isVisible);
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('state', (e) => {
+      const routeName = getFocusedRouteNameFromRoute(e.data.state) ?? 'DefaultScreen';
+      console.log(`This is route name ${routeName}, ${JSON.stringify(e.data.state)}`)
+      if (screensWithTabs.includes(routeName)) {
+        dispatch(showTabBar());
+      } else {
+        dispatch(hideTabBar());
+      }
+    });
+
+    return unsubscribe;
+  }, [navigation, dispatch]);
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{flex: 1}}>
       <Tab.Navigator
-        screenOptions={({ route }) => {
-          // Use the utility to get the current screen's name
-
-          // const hideTabBarScreens = ['OfferTransactionHistory'];
-          // const tabBarVisible = !hideTabBarScreens.includes(routeName);
-
-          // const showTabBar = routeName !== 'PostDetails' && routeName !== 'PostOffer'; // Add other screens as needed
-
-          return {
-            tabBarShowLabel: false,
-            headerShown: false,
-            tabBarStyle: {
-              position: 'absolute',
-              backgroundColor: GlobalStyles.Colors.primary700,
-              borderRadius: 10,
-              height: '9%',
-              ...styles.shadow,
-              // display: isTabBarVisible ? 'flex' : 'none'
-            },
-          };
+        screenOptions={{
+          tabBarShowLabel: false,
+          headerShown: false,
+          tabBarStyle: {
+            display: tabBarVisible ? 'flex' : 'none',
+            position: 'absolute',
+            backgroundColor: GlobalStyles.Colors.primary700,
+            borderRadius: 10,
+            height: '9%',
+            ...styles.shadow,
+          },
         }}>
         <Tab.Screen
           name="HomeStackNavigator"
@@ -85,6 +141,10 @@ export default function Tabs() {
                 }
               />
             ),
+            tabBarStyle: {
+              display: tabBarVisible ? 'flex' : 'none',
+              backgroundColor: GlobalStyles.Colors.primary700
+            },
           }}
         />
         <Tab.Screen
@@ -138,8 +198,8 @@ export default function Tabs() {
           }}
         />
         <Tab.Screen
-          name="SpotlightScreen"
-          component={SpotlightScreen}
+          name="SpotlightStackNavigator"
+          component={SpotlightStackNavigator}
           options={{
             tabBarIcon: ({focused}) => (
               <Ionicons

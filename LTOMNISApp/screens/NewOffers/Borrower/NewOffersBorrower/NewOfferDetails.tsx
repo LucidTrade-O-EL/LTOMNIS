@@ -1,10 +1,14 @@
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React from 'react';
 import {View, Text, SafeAreaView, StyleSheet} from 'react-native';
-import ScreenTitle from '../../assets/constants/Components/ScreenTitle';
-import ProgressWithLabel from '../../assets/constants/Components/ProgressWithLabel';
-import CustomOfferBlock from '../../assets/constants/Components/CustomOfferBlock';
-import GlobalStyles from '../../assets/constants/colors';
-import CompleteButton from '../../assets/constants/Components/Buttons/CompleteButton';
+import { HomeStackParamList } from '../../../../App';
+import GlobalStyles from '../../../../assets/constants/colors';
+import CompleteButton from '../../../../assets/constants/Components/Buttons/CompleteButton';
+import CustomOfferBlock from '../../../../assets/constants/Components/CustomOfferBlock';
+import ProgressWithLabel from '../../../../assets/constants/Components/ProgressWithLabel';
+import ScreenTitle from '../../../../assets/constants/Components/ScreenTitle';
+
 
 type NewOfferDetailsProps = {
   initialRaiseNumber?: number;
@@ -17,6 +21,8 @@ export default function NewOfferDetails({
 }: NewOfferDetailsProps) {
   const [raiseNumber, setRaiseNumber] = React.useState(initialRaiseNumber);
   const [fullNumber, setFullNumber] = React.useState(initialFullNumber);
+  const navigation =
+    useNavigation<NativeStackNavigationProp<HomeStackParamList>>();
 
   return (
     <SafeAreaView style={styles.Background}>
@@ -38,7 +44,7 @@ export default function NewOfferDetails({
       <ProgressWithLabel collected={raiseNumber} goal={fullNumber} />
       <CompleteButton
         onPress={() => {
-          console.log('Button pressed!');
+         navigation.navigate('ChoosePaymentPlanScreen')
         }}
         text="Complete"
       />

@@ -5,9 +5,14 @@ import {StyleSheet} from 'react-native';
 import GlobalStyles from '../../../../assets/constants/colors';
 import CompleteButton from '../../../../assets/constants/Components/Buttons/CompleteButton';
 import PaymentPlanBox from '../../../../assets/constants/Components/PaymentPlanBox';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { HomeStackParamList } from '../../../../App';
 
 export default function ChoosePaymentPlanScreen() {
   const paymentPlans = ['3 months', '6 months', '12 months'];
+  const navigation =
+  useNavigation<NativeStackNavigationProp<HomeStackParamList>>();
 
   return (
     <View style={styles.Background}>
@@ -47,7 +52,7 @@ export default function ChoosePaymentPlanScreen() {
       </View>
       <CompleteButton
         onPress={() => {
-          console.log('Button pressed!');
+          navigation.navigate('PaymentChosenScreen');
         }}
         text="Complete"
       />

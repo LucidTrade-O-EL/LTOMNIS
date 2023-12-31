@@ -6,6 +6,7 @@ export interface AppState {
   isSignedIn: boolean;
   id: string;
   linkToken: string;
+  isTabBarVisible: boolean;
 }
 
 // Initial state
@@ -14,11 +15,14 @@ const initialState: AppState = {
   isSignedIn: false,
   id: 'string',
   linkToken: 'string',
+  isTabBarVisible: true,
 };
 
 // Action types
 const SET_HAS_VIEWED_ONBOARDING = 'SET_HAS_VIEWED_ONBOARDING';
 const SET_IS_SIGNED_IN = 'SET_IS_SIGNED_IN';
+const SHOW_TAB_BAR = 'SHOW_TAB_BAR';
+const HIDE_TAB_BAR = 'HIDE_TAB_BAR';
 
 // Reducer function
 const appReducer = (state = initialState, action: any): AppState => {
@@ -37,9 +41,17 @@ const appReducer = (state = initialState, action: any): AppState => {
         ...state,
         linkToken: action.payload, // Ensure this expects a string
       };
+    case SHOW_TAB_BAR:
+      return {...state, isTabBarVisible: true};
+    case HIDE_TAB_BAR:
+      return {...state, isTabBarVisible: false};
     default:
       return state;
   }
 };
+
+export const showTabBar = () => ({ type: SHOW_TAB_BAR });
+export const hideTabBar = () => ({ type: HIDE_TAB_BAR });
+
 
 export default appReducer;

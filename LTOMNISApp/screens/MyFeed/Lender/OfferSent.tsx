@@ -6,12 +6,18 @@ import ScreenTitle from '../../../assets/constants/Components/ScreenTitle';
 import SmallOfferDetailsVFour from '../../../assets/constants/Components/SmallOfferDetailsVFour';
 import CompleteButton from '../../../assets/constants/Components/Buttons/CompleteButton';
 import CustomOfferBlock from '../../../assets/constants/Components/CustomOfferBlock';
+import { NavigationContainer, useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RootStackParamList } from '../../../types';
 
 type OfferSentProps = {
   receivedAmount?: string;
+  navigation: StackNavigationProp<RootStackParamList, 'OfferSent'>;
 };
 
 const OfferSent: React.FC<OfferSentProps> = ({receivedAmount = '$399.78'}) => {
+  const navigation = useNavigation<StackNavigationProp<RootStackParamList, 'OfferSent'>>();
+
   return (
     <SafeAreaView style={styles.Background}>
       <ScreenTitle
@@ -20,7 +26,7 @@ const OfferSent: React.FC<OfferSentProps> = ({receivedAmount = '$399.78'}) => {
         rightIconName="upload" // replace with actual Feather icon name
         onRightIconPress={() => {}}
       />
-      <View style={{marginTop: 50}}>
+      <View>
         <Icon
           name="checkmark-circle-outline"
           size={60}
@@ -29,7 +35,7 @@ const OfferSent: React.FC<OfferSentProps> = ({receivedAmount = '$399.78'}) => {
         />
         <View style={styles.AlignItems}>
           <Text style={{fontSize: 16, color: 'rgba(256,256,256, 0.4)'}}>
-            You just received
+            Offer Sent Successfully!
           </Text>
         </View>
       </View>
@@ -48,7 +54,7 @@ const OfferSent: React.FC<OfferSentProps> = ({receivedAmount = '$399.78'}) => {
       <View
         style={{marginTop: 40, width: '100%', flex: 1, alignItems: 'center'}}>
         <SmallOfferDetailsVFour
-          title="Deposit Details"
+          title="Transaction Details"
           words={[
             {
               leftText: 'Transaction number',
@@ -66,14 +72,16 @@ const OfferSent: React.FC<OfferSentProps> = ({receivedAmount = '$399.78'}) => {
           iconSet="Ionicons"
           iconColor={GlobalStyles.Colors.primary100}
           color={GlobalStyles.Colors.primary600}
-          onPress={() => console.log('Button pressed!')}
+          onPress={() => {
+            navigation.pop(2); // Go back 2 screens
+          }}
         />
       </View>
       <CompleteButton
         text="Visit Spotlight"
         iconColor={GlobalStyles.Colors.primary100}
         color={GlobalStyles.Colors.primary200}
-        onPress={() => console.log('Button pressed!')}
+        onPress={() => navigation.navigate('SpotlightStackNavigator')}
       />
     </SafeAreaView>
   );

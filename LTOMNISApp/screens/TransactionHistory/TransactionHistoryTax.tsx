@@ -1,12 +1,25 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {View, Text, SafeAreaView, StyleSheet, FlatList} from 'react-native';
+import { useDispatch } from 'react-redux';
 import GlobalStyles from '../../assets/constants/colors';
 import CompleteButton from '../../assets/constants/Components/Buttons/CompleteButton';
 import ListItemWithRadial, { ListItemProps } from '../../assets/constants/Components/ListItemWithRadial';
 import ScreenTitle from '../../assets/constants/Components/ScreenTitle';
+import { hideTabBar, showTabBar } from '../../appReducer';
 
 
 const TransactionHistoryTax: React.FC = () => {
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(hideTabBar()); // Hide the tab bar
+    console.log('hide the bar')
+    return () => {
+      dispatch(showTabBar()); // Show the tab bar when leaving the screen
+    };
+  }, [dispatch]);
+
   const formatCurrency = (value: string) => {
     const sign = ['+', '-'].includes(value[0]) ? value[0] : '';
     const amountValue = value.replace('$', '').trim(); // remove dollar sign if it exists

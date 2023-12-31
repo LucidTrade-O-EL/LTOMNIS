@@ -11,6 +11,7 @@ import AmountChips from '../../../assets/constants/Components/AmountChips';
 import ResetSubmit from '../../../assets/constants/Components/ResetSubmit';
 import StarCircle from '../../../assets/constants/Components/Buttons/StarCircle';
 import {calculateRewardPoints} from '../../../assets/constants/RewardsData/calculateRewardPoints';
+import { useNavigation } from '@react-navigation/native';
 
 export default function PostDetails() {
   const [selectedChip, setSelectedChip] = useState<string | null>(null);
@@ -20,7 +21,9 @@ export default function PostDetails() {
   const [loanAmountInput, setLoanAmountInput] = useState<string>('0');
   const [interestRateInput, setInterestRateInput] = useState<string>('0');
   const [rewardPoints, setRewardPoints] = useState<number>(0);
+  const navigation = useNavigation();
 
+  
   useEffect(() => {
     setRewardPoints(calculateRewardPoints(loanAmount));
   }, [loanAmount]);
@@ -80,6 +83,7 @@ export default function PostDetails() {
 
   const renderAmountDisplay = () => {
     const amount = calculateTotalAmount();
+
 
     // Check if amount is "Gift" first
     if (amount === 'Gift') {
@@ -219,7 +223,7 @@ export default function PostDetails() {
       <ResetSubmit
         onResetPress={resetValues} // Passing the reset function here
         onSubmitPress={() => {
-          // Handle the submit action here
+          navigation.navigate('OfferSent');
         }}
       />
     </SafeAreaView>

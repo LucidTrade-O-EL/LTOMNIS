@@ -51,6 +51,7 @@ export const PostCard: React.FC<PostCardProps> = ({
   return (
     <View style={styles.container}>
       <View style={styles.header}>
+        <Pressable style={styles.header} onPress={() => {navigation.navigate('FriendsProfile')}}>
         <Avatar
           size={25}
           rounded
@@ -60,14 +61,15 @@ export const PostCard: React.FC<PostCardProps> = ({
         />
         <Text style={styles.NameTitle}>{`${firstname} ${lastname}`}</Text>
         <Text style={styles.TimeText}>{`${hours} hour ago`}</Text>
-        <View style={styles.right}>
+        </Pressable>
+        <Pressable onPress={() => {navigation.navigate('LevelsScreen')}} style={styles.right}>
           <StarCircle
             iconName="star-four-points-outline"
             height={16}
             width={16}
           />
           <Text style={styles.textNumber}>{number}</Text>
-        </View>
+        </Pressable>
       </View>
       {title && <Text style={styles.title}>{title}</Text>}
       {subtext && <Text style={styles.subtext}>{subtext}</Text>}

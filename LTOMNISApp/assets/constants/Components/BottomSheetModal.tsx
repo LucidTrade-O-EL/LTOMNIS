@@ -27,7 +27,7 @@ const BottomSheetModal: React.FC<BottomSheetModalProps> = ({
           This offer covers the rest of the amount, so other
         </Text>
         <Text style={styles.subText}>
-          offersfor this post will be rejected.
+          offers for this post will be rejected.
         </Text>
         <AcceptAndDecline onAccept={onAccept} onDecline={onDecline} />
       </View>

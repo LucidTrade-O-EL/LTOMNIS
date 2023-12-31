@@ -4,16 +4,32 @@ import {Avatar, Divider} from 'react-native-elements';
 import GlobalStyles from '../colors';
 import {StyleSheet} from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { HomeStackParamList } from '../../../App';
 
-export default function OfferDetailSection({
+interface OfferDetailSectionProps {
+  targetScreen: string;
+  firstNameLetter: string;
+  lastNameLetter: string;
+  userName: string;
+  amount: number;
+  avatarImage: undefined;
+  interest: number;
+};
+
+const OfferDetailSection: React.FC<OfferDetailSectionProps> = ({
     firstNameLetter = 'Z',
     lastNameLetter = 'V',
     avatarImage = null,
     userName = 'Easy 438',
     amount = 1000,
     interest = 25,
-  }) {
+    targetScreen
+  }) => {
     const title = `${firstNameLetter}${lastNameLetter}`;
+    const navigation =
+    useNavigation<NativeStackNavigationProp<HomeStackParamList>>();
 
   return (
     <View
@@ -71,7 +87,7 @@ export default function OfferDetailSection({
           }>{`${interest.toLocaleString()}% interest`}</Text>
       </View>
       <View style={styles.RoleButtonContainer}>
-        <Pressable
+        <Pressable onPress={() => navigation.navigate('NewOfferDetails')}
           style={styles.ViewButtonContainer}>
           <Text style={styles.ViewButton}>Details</Text>
         </Pressable>
@@ -134,3 +150,6 @@ const styles = StyleSheet.create({
     marginLeft: 60,
   }
 });
+
+
+export default OfferDetailSection

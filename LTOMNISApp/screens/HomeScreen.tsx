@@ -6,7 +6,7 @@ import {
   Pressable,
   TextInput,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Avatar, Divider} from 'react-native-elements';
 import IonIcon from 'react-native-vector-icons/Ionicons';
 import GlobalStyles from '../assets/constants/colors';
@@ -16,6 +16,8 @@ import {StackNavigationProp} from '@react-navigation/stack';
 import {RouteProp} from '@react-navigation/native';
 import {useNavigation} from '@react-navigation/native';
 import {HomeStackParamList} from '../App'
+import { useDispatch, useSelector } from 'react-redux';
+import { AppState, hideTabBar, showTabBar } from '../appReducer';
 
 
 type HomeScreenRouteProp = RouteProp<RootStackParamList, 'HomeScreen'>;
@@ -27,15 +29,7 @@ type RootStackParamList = {
   // Add other screens and their respective parameter definitions here.
 };
 
-type Props = {
-  route: HomeScreenRouteProp;
-  navigation: HomeScreenNavigationProp;
-};
 
-type TransactionNavigationProp = StackNavigationProp<
-  RootStackParamList,
-  'TransactionHistoryTax'
->;
 
 type HomeScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
@@ -47,7 +41,18 @@ export default function HomeScreen({
 }: {
   navigation: HomeScreenNavigationProp;
 }) {
+
+  const tabBarVisible = useSelector((state: AppState) => state.isTabBarVisible);
+  const dispatch = useDispatch();
+
+  
   // ... rest of your HomeScreen component code
+
+
+  useEffect(() => {
+        dispatch(showTabBar());
+        console.log(`The tab bar is visiable ${tabBarVisible}`)
+  }, []);
 
   const [userName, setUserName] = useState('Zak Veasy');
   const [balance, setBalance] = useState('$124.56');
@@ -80,9 +85,7 @@ export default function HomeScreen({
 
   const handleBorrower = () => {
     console.log('Transaction button pressed');
-    navigation.navigate('TransactionHistoryTax', {
-      transactionId: 'YOUR_TRANSACTION_ID',
-    });
+    navigation.navigate('OfferScreen');
   };
 
   return (

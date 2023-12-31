@@ -10,6 +10,7 @@ type OfferBigContainerProps = {
   offerNumber: number;
   raiseNumber: number;
   fullNumber: number;
+  targetScreen: string;
   users: {
     firstNameLetter: string;
     lastNameLetter: string;
@@ -25,6 +26,7 @@ const OfferBigContainer: React.FC<OfferBigContainerProps> = ({
   raiseNumber,
   fullNumber,
   users,
+  targetScreen,
 }) => {
   const progress = raiseNumber / fullNumber;
 
@@ -74,6 +76,7 @@ const OfferBigContainer: React.FC<OfferBigContainerProps> = ({
       <View style={{width: '90%', alignSelf: 'center'}}>
         {users.map((user, index) => (
           <OfferDetailSection
+            targetScreen={targetScreen}
             key={index}
             firstNameLetter={user.firstNameLetter}
             lastNameLetter={user.lastNameLetter}

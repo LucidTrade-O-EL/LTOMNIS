@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import {View, Text, SafeAreaView, StyleSheet} from 'react-native';
 
-
 import CheckBox from '@react-native-community/checkbox';
 import ScreenTitle from '../../../../assets/constants/Components/ScreenTitle';
 import CustomOfferBlock from '../../../../assets/constants/Components/CustomOfferBlock';
@@ -10,6 +9,9 @@ import GlobalStyles from '../../../../assets/constants/colors';
 import PaymentPlanBoxChangePlan from '../../../../assets/constants/Components/PaymentPlanBoxChangePlan';
 import AcceptAndDecline from '../../../../assets/constants/Components/Buttons/AcceptAndDecline';
 import BottomSheetModal from '../../../../assets/constants/Components/BottomSheetModal';
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {HomeStackParamList} from '../../../../App';
 
 type NewOfferDetailsProps = {
   initialRaiseNumber?: number;
@@ -27,6 +29,34 @@ export default function PaymentChosenScreen({
   const [isModalVisible, setModalVisible] = useState(false);
   const [isChecked, setChecked] = useState(false);
   const [interestRate, setInterestRate] = React.useState<string>('Gift'); // set default as '3%'
+
+  const AcceptAndDeclineStyles = StyleSheet.create({
+    acceptButtonActive: {},
+    acceptButtonInactive: {
+      // Define your styles for the inactive accept button here
+    },
+    // You can add more styles as needed
+  });
+
+  const navigation =
+    useNavigation<NativeStackNavigationProp<HomeStackParamList>>();
+
+  const handleAccept = () => {
+    setModalVisible(true);
+  };
+
+  const handleDecline = () => {
+    navigation.goBack();
+  };
+
+  const handleAcceptModal = () => {
+    setModalVisible(false);
+    navigation.navigate('OfferSentSuccessful'); // Adjust as needed
+  };
+
+  const handleDeclineModal = () => {
+    setModalVisible(false);
+  };
 
   return (
     <SafeAreaView style={styles.Background}>
@@ -103,23 +133,24 @@ export default function PaymentChosenScreen({
         </View>
       )}
       <View style={styles.acceptDeclineContainer}>
-      <AcceptAndDecline
-  onAccept={() => setModalVisible(true)}
-  onDecline={() => console.log('Declined!')}
-  acceptButtonStyle={(interestRate === 'Gift' && isChecked) ? AcceptAndDeclineStyles.acceptButtonActive : AcceptAndDeclineStyles.acceptButtonInactive}
-/>
-
+        <AcceptAndDecline
+          onAccept={handleAccept}
+          onDecline={handleDecline}
+          acceptButtonStyle={
+            interestRate === 'Gift' && isChecked
+              ? AcceptAndDeclineStyles.acceptButtonActive
+              : AcceptAndDeclineStyles.acceptButtonInactive
+          }
+        />
       </View>
       <BottomSheetModal
         isVisible={isModalVisible}
         onClose={() => setModalVisible(false)}
         onAccept={() => {
-          console.log('Accepted');
-          setModalVisible(false);
+          handleAcceptModal();
         }}
         onDecline={() => {
-          console.log('Declined');
-          setModalVisible(false);
+          handleDeclineModal();
         }}
       />
     </SafeAreaView>

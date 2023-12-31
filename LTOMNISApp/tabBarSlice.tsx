@@ -1,25 +1,21 @@
-// tabBarSlice.ts
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 
-interface TabBarState {
-  isVisible: boolean;
-}
-
-const initialState: TabBarState = {
+const initialState = {
   isVisible: true,
 };
 
-export const tabBarSlice = createSlice({
+const tabBarSlice = createSlice({
   name: 'tabBar',
   initialState,
   reducers: {
-    setTabBarVisibility: (state, action: PayloadAction<boolean>) => {
-      state.isVisible = action.payload;
+    showTabBar: (state) => {
+      state.isVisible = true;
+    },
+    hideTabBar: (state) => {
+      state.isVisible = false;
     },
   },
 });
 
-
-export const { setTabBarVisibility } = tabBarSlice.actions;
-
+export const { showTabBar, hideTabBar } = tabBarSlice.actions;
 export default tabBarSlice.reducer;
