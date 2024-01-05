@@ -51,7 +51,7 @@ export default function PaymentChosenScreen({
 
   const handleAcceptModal = () => {
     setModalVisible(false);
-    navigation.navigate('OfferSentSuccessful'); // Adjust as needed
+    navigation.navigate('SuccessOffer'); // Adjust as needed
   };
 
   const handleDeclineModal = () => {

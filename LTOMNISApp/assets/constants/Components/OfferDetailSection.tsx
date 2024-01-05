@@ -28,8 +28,9 @@ const OfferDetailSection: React.FC<OfferDetailSectionProps> = ({
     targetScreen
   }) => {
     const title = `${firstNameLetter}${lastNameLetter}`;
-    const navigation =
-    useNavigation<NativeStackNavigationProp<HomeStackParamList>>();
+  const navigation =
+  useNavigation<NativeStackNavigationProp<HomeStackParamList>>();
+
 
   return (
     <View
@@ -87,7 +88,7 @@ const OfferDetailSection: React.FC<OfferDetailSectionProps> = ({
           }>{`${interest.toLocaleString()}% interest`}</Text>
       </View>
       <View style={styles.RoleButtonContainer}>
-        <Pressable onPress={() => navigation.navigate('NewOfferDetails')}
+        <Pressable onPress={() => navigation.navigate('TransactionHistoryTax')}
           style={styles.ViewButtonContainer}>
           <Text style={styles.ViewButton}>Details</Text>
         </Pressable>

@@ -15,7 +15,7 @@ export interface AppState {
 const rootReducer = combineReducers({
   token: tokenReducer,
   app: appReducer,
-  language: languageReducer, // You need to import and define languageReducer
+  language: languageReducer,
   tabBar: tabBarReducer,
   verify: verifyReducer,
 });

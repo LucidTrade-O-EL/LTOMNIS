@@ -5,20 +5,21 @@ import GlobalStyles from '../../assets/constants/colors';
 import CompleteButton from '../../assets/constants/Components/Buttons/CompleteButton';
 import ListItemWithRadial, { ListItemProps } from '../../assets/constants/Components/ListItemWithRadial';
 import ScreenTitle from '../../assets/constants/Components/ScreenTitle';
-import { hideTabBar, showTabBar } from '../../appReducer';
+import { hideTabBar, showTabBar } from '../../tabBarSlice';
+// import { hideTabBar, showTabBar } from '../../appReducer';
 
 
 const TransactionHistoryTax: React.FC = () => {
 
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(hideTabBar()); // Hide the tab bar
-    console.log('hide the bar')
-    return () => {
-      dispatch(showTabBar()); // Show the tab bar when leaving the screen
-    };
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(hideTabBar()); // Hide the tab bar
+  //   console.log('hide the bar')
+  //   return () => {
+  //     // dispatch(showTabBar()); // Show the tab bar when leaving the screen
+  //   };
+  // }, [dispatch]);
 
   const formatCurrency = (value: string) => {
     const sign = ['+', '-'].includes(value[0]) ? value[0] : '';

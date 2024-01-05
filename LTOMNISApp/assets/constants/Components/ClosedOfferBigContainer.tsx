@@ -1,9 +1,18 @@
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Pressable,
+} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import GlobalStyles from '../colors';
 import {LinearProgress} from '@rneui/themed';
 import OfferDetailSection from './OfferDetailSection';
 import CustomRow from './CustomRow';
+import {useNavigation} from '@react-navigation/native';
+import {HomeStackParamList} from '../../../App';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
 type ClosedOfferBigContainerProps = {
   title: string;
@@ -18,8 +27,6 @@ type ClosedOfferBigContainerProps = {
     | 'In processing'
     | 'Payed';
 };
-
-
 
 export type OfferStatus =
   | 'Closed'
@@ -53,6 +60,8 @@ const ClosedOfferBigContainer: React.FC<ClosedOfferBigContainerProps> = ({
   const progress = raiseNumber / fullNumber;
 
   //   Users Mapping
+  const navigation =
+  useNavigation<NativeStackNavigationProp<HomeStackParamList>>();
 
   //   CODE
 
@@ -104,13 +113,13 @@ const ClosedOfferBigContainer: React.FC<ClosedOfferBigContainerProps> = ({
         />
         <CustomRow leftText="2 offers" rightText="$4,500" />
         <CustomRow leftText="3 offers" rightText="$600" />
-        <TouchableOpacity
+        <Pressable
           style={styles.detailButton}
           onPress={() => {
-            // Handle the button press here
+            navigation.navigate('OfferDetailsAccepted');
           }}>
           <Text style={styles.detailButtonText}>Details</Text>
-        </TouchableOpacity>
+        </Pressable>
       </View>
     </View>
   );

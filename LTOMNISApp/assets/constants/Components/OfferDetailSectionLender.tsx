@@ -91,7 +91,7 @@ const OfferDetailSectionLender: React.FC<OfferDetailSectionLenderProps> = ({
           <View style={styles.RoleButtonContainer}>
             <Pressable
               onPress={() => {
-                navigation.navigate(targetScreen);
+                navigation.navigate(targetScreen as keyof HomeStackParamList);
               }}
               style={styles.ViewButtonContainer}>
               <Text style={styles.ViewButton}>Details</Text>

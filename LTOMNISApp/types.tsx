@@ -73,6 +73,7 @@ export type RootStackParamList = {
   HomeStackNavigator: undefined;
   SpotlightStackNavigator: undefined;
   OfferSent: undefined;
+  HomeScreen: undefined;
 };
 
 // Tabs Stack Navigator Props Type

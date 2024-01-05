@@ -17,6 +17,7 @@ type OfferBigContainerProps = {
     userName: string;
     amount: number;
     interest: number;
+    avatarImage?: string;
   }[];
 };
 
@@ -83,6 +84,7 @@ const OfferBigContainer: React.FC<OfferBigContainerProps> = ({
             userName={user.userName}
             amount={user.amount}
             interest={user.interest}
+            avatarImage={user.avatarImage} // Add this line
           />
         ))}
       </View>

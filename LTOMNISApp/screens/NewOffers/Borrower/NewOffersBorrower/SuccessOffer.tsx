@@ -1,10 +1,13 @@
 import {View, Text, SafeAreaView, StyleSheet} from 'react-native';
 import React from 'react';
 import ScreenTitle from '../../../../assets/constants/Components/ScreenTitle';
-import Icon from 'react-native-ionicons';
+import Icon from 'react-native-vector-icons/Ionicons';
 import GlobalStyles from '../../../../assets/constants/colors';
 import SmallOfferDetailsVOne from '../../../../assets/constants/Components/SmallOfferDetailsVOne';
 import CompleteButton from '../../../../assets/constants/Components/Buttons/CompleteButton';
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {HomeStackParamList} from '../../../../App';
 
 type SuccessOfferProps = {
   receivedAmount?: string;
@@ -13,6 +16,9 @@ type SuccessOfferProps = {
 const SuccessOffer: React.FC<SuccessOfferProps> = ({
   receivedAmount = '$15',
 }) => {
+  const navigation =
+    useNavigation<NativeStackNavigationProp<HomeStackParamList>>();
+
   return (
     <SafeAreaView style={styles.Background}>
       <View
@@ -60,7 +66,7 @@ const SuccessOffer: React.FC<SuccessOfferProps> = ({
       />
       <CompleteButton
         onPress={() => {
-          console.log('Button pressed!');
+          navigation.pop(4);
         }}
         text="Done"
       />

@@ -12,6 +12,7 @@ export const offersData = [
         userName: 'Easy 359',
         amount: 1500,
         interest: 13,
+        avatarImage: 'https://example.com/path-to-avatar.jpg'
       },
       {
         firstNameLetter: 'J',
@@ -19,6 +20,7 @@ export const offersData = [
         userName: 'User 456',
         amount: 2500,
         interest: 10,
+        avatarImage: 'https://example.com/path-to-avatar.jpg'
       },
       {
         firstNameLetter: 'J',
@@ -26,6 +28,7 @@ export const offersData = [
         userName: 'User 456',
         amount: 20,
         interest: 10,
+        avatarImage: 'https://example.com/path-to-avatar.jpg'
       }, 
     ],
   },

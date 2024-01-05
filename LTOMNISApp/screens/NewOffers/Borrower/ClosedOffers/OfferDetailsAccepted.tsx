@@ -7,6 +7,9 @@ import TransactionHistory from '../../../../assets/constants/Components/CustomTr
 import CompleteButton from '../../../../assets/constants/Components/Buttons/CompleteButton';
 import Icon from 'react-native-vector-icons/Ionicons';
 import SmallOfferDetailsVThree from '../../../../assets/constants/Components/SmallOfferDetailsVThree';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { HomeStackParamList } from '../../../../App';
 
 type NewOfferDetailsProps = {
   initialRaiseNumber?: number;
@@ -24,10 +27,12 @@ export default function OfferDetailsAccepted({
 }: NewOfferDetailsProps) {
   const [raiseNumber, setRaiseNumber] = React.useState(initialRaiseNumber);
   const [fullNumber, setFullNumber] = React.useState(initialFullNumber);
+  const navigation =
+  useNavigation<NativeStackNavigationProp<HomeStackParamList>>();
 
   function handleTransaction() {
-    console.log('Transaction History Button Pressed');
-  }
+    navigation.navigate('TransactionHistoryTax')}
+  
 
   const rightWordsData: WordWithIcon[] = [
     {text: 'Zak Veasy'},

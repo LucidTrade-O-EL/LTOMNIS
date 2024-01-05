@@ -23,11 +23,17 @@ import {
   HomeStackNavigator,
   SpotlightStackNavigator,
 } from '../App';
-import {getFocusedRouteNameFromRoute, useNavigation} from '@react-navigation/native';
+import {
+  getFocusedRouteNameFromRoute,
+  useNavigation,
+} from '@react-navigation/native';
 import ScoreBreakDown from '../screens/OMNISScore/ScoreBreakDown/ScoreBreakDown';
 import OfferTransactionHistory from '../screens/NewOffers/Borrower/ClosedOffers/OfferTransactionHistory';
 import {useDispatch, useSelector} from 'react-redux';
-import {AppState, hideTabBar, showTabBar} from '../appReducer';
+// import { hideTabBar, showTabBar} from '../appReducer';
+import {AppState} from '../ReduxStore';
+import {hideTabBar, showTabBar} from '../tabBarSlice';
+import {RootStackParamList} from '../types';
 
 interface CustomTabBarButtonProps {
   children: React.ReactNode;
@@ -76,40 +82,58 @@ const CustomTabBarButton = ({children, onPress}) => {
   );
 };
 
-const findDeepRouteName = (state) => {
+interface NavigationState {
+  routes: Array<{
+    name: string;
+    state?: NavigationState;
+  }>;
+  index: number;
+}
+
+const findDeepRouteName = (state: NavigationState): string => {
   const route = state.routes[state.index];
+  let count = 0;
   if (route.state) {
+    count++;
+    console.log(`Route State ${route.state}, ${count}`);
+    console.log(count);
+    console.log('Navigation State: ', state);
     // Nested navigator detected
     return findDeepRouteName(route.state);
   }
   return route.name; // The name of the current screen
 };
 
-const screensWithTabs = ['HomeStackNavigator']; // List of screen names with tabs
+const screensWithTabs = ['HomeScreen']; // Screens with visible tabs
 
-export default function Tabs({ route }) {
-
+export default function Tabs({}) {
   const navigation = useNavigation();
-  const currentRouteName = findDeepRouteName(navigation.getState());
-  console.log(`Current Route Name ${currentRouteName}`)
-  
-  const tabBarVisible = useSelector((state: AppState) => state.isTabBarVisible);
-  console.log(`this is tab bar visbale ${tabBarVisible}`)
+  const currentRouteName = findDeepRouteName(
+    navigation.getState() as NavigationState,
+  );
+  console.log(`Current Route: ${currentRouteName}`);
+  const tabBarVisible = useSelector(
+    (state: AppState) => state.tabBar.isVisible,
+  );
+  console.log(`Tab Bar Visible: ${tabBarVisible} 12`);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    const unsubscribe = navigation.addListener('state', (e) => {
-      const routeName = getFocusedRouteNameFromRoute(e.data.state) ?? 'DefaultScreen';
-      console.log(`This is route name ${routeName}, ${JSON.stringify(e.data.state)}`)
-      if (screensWithTabs.includes(routeName)) {
-        dispatch(showTabBar());
-      } else {
-        dispatch(hideTabBar());
-      }
-    });
+  dispatch(showTabBar())
 
-    return unsubscribe;
-  }, [navigation, dispatch]);
+  // useEffect(() => {
+  //   navigation.addListener('state', e => {
+  //     // const routeName =
+  //     //   getFocusedRouteNameFromRoute(e.data.state) || 'DefaultScreen';
+  //     // console.log(
+  //     //   `Route: ${routeName}`,
+  //     // );
+  //     dispatch(
+  //       screensWithTabs.includes(currentRouteName)
+  //         ? showTabBar()
+  //         : hideTabBar(),
+  //     );
+  //   });
+  // }, [navigation, dispatch]);
 
   return (
     <View style={{flex: 1}}>
@@ -118,12 +142,13 @@ export default function Tabs({ route }) {
           tabBarShowLabel: false,
           headerShown: false,
           tabBarStyle: {
-            display: tabBarVisible ? 'flex' : 'none',
             position: 'absolute',
             backgroundColor: GlobalStyles.Colors.primary700,
             borderRadius: 10,
             height: '9%',
             ...styles.shadow,
+            display: tabBarVisible == false ? 'none' : 'flex'
+            // display: 'flex'
           },
         }}>
         <Tab.Screen
@@ -141,10 +166,6 @@ export default function Tabs({ route }) {
                 }
               />
             ),
-            tabBarStyle: {
-              display: tabBarVisible ? 'flex' : 'none',
-              backgroundColor: GlobalStyles.Colors.primary700
-            },
           }}
         />
         <Tab.Screen

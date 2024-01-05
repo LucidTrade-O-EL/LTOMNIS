@@ -1,6 +1,7 @@
 import { createStore, combineReducers } from 'redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { AppActionTypes, TokenActionTypes } from './types'; // Adjust the import path
+import tabBarReducer, { TabBarInitialState } from './tabBarSlice';
 
 // Action Types
 const SET_HAS_VIEWED_ONBOARDING = 'SET_HAS_VIEWED_ONBOARDING';
@@ -8,16 +9,36 @@ const SET_IS_SIGNED_IN = 'SET_IS_SIGNED_IN';
 const SET_TOKEN = 'SET_TOKEN';
 const REMOVE_TOKEN = 'REMOVE_TOKEN';
 
+export interface AppInitialState {
+  hasViewedOnboarding: boolean
+  isSignedIn: boolean,
+}
+
 // App State and Reducer
-const appInitialState = {
+//This is what we see in the terminal
+const appInitialState: AppInitialState = {
   hasViewedOnboarding: false,
   isSignedIn: false,
 };
 
 // Token State and Reducer
-const tokenInitialState = {
+
+export interface TokenInitialState {
+  token: string | null
+}
+
+//see in terminal
+const tokenInitialState: TokenInitialState  = {
   token: null,
 };
+
+export interface AppState {
+  app: AppInitialState,
+  token: TokenInitialState,
+  //language: ReturnType<typeof languageReducer>;
+  tabBar: TabBarInitialState
+  //verify: ReturnType<typeof verifyReducer>; // Add this line
+}
 
 
 const appReducer = (state = appInitialState, action: AppActionTypes) => {
@@ -46,6 +67,7 @@ const tokenReducer = (state = tokenInitialState, action: TokenActionTypes) => {
 const rootReducer = combineReducers({
   app: appReducer,
   token: tokenReducer,
+  tabBar: tabBarReducer,
 });
 
 // Store
@@ -78,3 +100,4 @@ export const removeToken = () => {
     type: REMOVE_TOKEN,
   };
 };
+

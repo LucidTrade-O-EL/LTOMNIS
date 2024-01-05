@@ -1,7 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+export interface TabBarInitialState {
+  isVisible: boolean,
+}
 const initialState = {
-  isVisible: true,
+  isVisible: false,
 };
 
 const tabBarSlice = createSlice({

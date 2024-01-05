@@ -42,7 +42,7 @@ import OnboardingScreen3 from './screens/onboarding/OnboardingScreen3';
 import OnboardingScreen2 from './screens/onboarding/OnboardingScreen2';
 import Tabs from './navigation/Tabs';
 import {Provider, useDispatch, useSelector} from 'react-redux';
-import store, {setHasViewedOnboarding, setIsSignedIn} from './ReduxStore';
+// import store, {setHasViewedOnboarding, setIsSignedIn} from './ReduxStore';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import i18n from './screens/SelectLanguage/i18n'; // Adjust the import path based on your project structure
 import {AppState} from './rootReducer'; // Ensure this is correctly imported
@@ -91,6 +91,12 @@ import OfferScreen from './screens/NewOffers/Borrower/NewOffersBorrower/OfferScr
 import NewOfferDetails from './screens/NewOffers/Borrower/NewOffersBorrower/NewOfferDetails';
 import ChoosePaymentPlanScreen from './screens/NewOffers/Borrower/NewOffersBorrower/ChoosePaymentPlanScreen';
 import PaymentChosenScreen from './screens/NewOffers/Borrower/NewOffersBorrower/PaymentChosenScreen';
+import SuccessOffer from './screens/NewOffers/Borrower/NewOffersBorrower/SuccessOffer';
+import ActiveOfferMakePayment from './screens/NewOffers/Borrower/ActiveOffers/ActiveOfferMakePayment';
+import OfferDetailsAccepted from './screens/NewOffers/Borrower/ClosedOffers/OfferDetailsAccepted';
+import store from './ReduxStore';
+// import store from './store';
+// import store from '../LTOMNISApp'
 
 type MainStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
@@ -170,9 +176,6 @@ function MainStackNavigator() {
 const App = () => {
   const [hasViewedOnboarding, setHasViewedOnboarding] = useState(false);
 
-  const isTabBarVisible = useSelector((state: AppState) => state.tabBar?.isVisible);
-
-
   // const hasCompletedVerify = useSelector(state => state.verify.hasCompletedOnboarding);
 
   useEffect(() => {
@@ -196,7 +199,7 @@ const App = () => {
   return (
     <NavigationContainer>
       <RootStack.Navigator screenOptions={{headerShown: false}}>
-        {hasViewedOnboarding && isTabBarVisible ? (
+        {hasViewedOnboarding ? (
           // {!hasViewedOnboarding && !token ? (
           // Use CombinedStackNavigator here
           <RootStack.Screen
@@ -242,22 +245,14 @@ export type HomeStackParamList = {
   ChoosePaymentPlanScreen: undefined;
   PaymentChosenScreen: undefined;
   OfferSentSuccessful: undefined;
+  SuccessOffer: undefined;
+  ActiveOfferMakePayment: undefined;
+  OfferDetailsAccepted: undefined;
 };
 
 const HomeStack = createNativeStackNavigator<HomeStackParamList>();
 
-export function HomeStackNavigator({
-  navigation,
-  route,
-}: HomeStackNavigatorProps) {
-  React.useEffect(() => {
-    const routeName = getFocusedRouteNameFromRoute(route) ?? 'FeedScreen';
-    const hideTabBarScreens = ['OfferTransactionHistory',]; // Add other screen names as needed
-    const tabBarVisible = !hideTabBarScreens.includes(routeName);
-
-    navigation.getParent()?.setOptions({tabBarVisible});
-  }, [navigation, route]);
-
+export function HomeStackNavigator({}: HomeStackNavigatorProps) {
   return (
     <HomeStack.Navigator
       initialRouteName="HomeScreen"
@@ -266,7 +261,6 @@ export function HomeStackNavigator({
       <HomeStack.Screen
         name="WithdrawMoneyScreen"
         component={WithdrawMoneyScreen}
-
       />
       <HomeStack.Screen
         name="OfferTransactionHistory"
@@ -295,7 +289,6 @@ export function HomeStackNavigator({
       <HomeStack.Screen
         name="TransactionHistoryTax"
         component={TransactionHistoryTax}
-        options={{ tabBarVisible: false }}
       />
       <HomeStack.Screen
         name="LoanDetailsScreen"
@@ -314,6 +307,15 @@ export function HomeStackNavigator({
       <HomeStack.Screen
         name="OfferSentSuccessful"
         component={OfferSentSuccessful}
+      />
+      <HomeStack.Screen name="SuccessOffer" component={SuccessOffer} />
+      <HomeStack.Screen
+        name="ActiveOfferMakePayment"
+        component={ActiveOfferMakePayment}
+      />
+      <HomeStack.Screen
+        name="OfferDetailsAccepted"
+        component={OfferDetailsAccepted}
       />
     </HomeStack.Navigator>
   );
@@ -334,18 +336,7 @@ export type FeedStackParamList = {
   SpotlightStackNavigator: undefined;
 };
 
-export function FeedStackNavigator({
-  navigation,
-  route,
-}: FeedStackNavigatorProps) {
-  React.useEffect(() => {
-    const routeName = getFocusedRouteNameFromRoute(route) ?? 'MyFeedScreen';
-    const hideTabBarScreens = ['OfferTransactionHistory']; // Add other screen names as needed
-    const tabBarVisible = !hideTabBarScreens.includes(routeName);
-
-    navigation.getParent()?.setOptions({tabBarVisible});
-  }, [navigation, route]);
-
+export function FeedStackNavigator({}: FeedStackNavigatorProps) {
   return (
     <FeedStack.Navigator
       initialRouteName="MyFeedScreen"
@@ -383,18 +374,7 @@ export type SpotlightStackParamList = {
   SpotlightScreen: undefined;
 };
 
-export function SpotlightStackNavigator({
-  navigation,
-  route,
-}: SpotlightStackNavigatorProps) {
-  React.useEffect(() => {
-    const routeName = getFocusedRouteNameFromRoute(route) ?? 'MyFeedScreen';
-    const hideTabBarScreens = ['OfferTransactionHistory']; // Add other screen names as needed
-    const tabBarVisible = !hideTabBarScreens.includes(routeName);
-
-    navigation.getParent()?.setOptions({tabBarVisible});
-  }, [navigation, route]);
-
+export function SpotlightStackNavigator({}: SpotlightStackNavigatorProps) {
   return (
     <SpotlightStack.Navigator
       initialRouteName="SpotlightScreen"

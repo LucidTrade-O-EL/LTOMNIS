@@ -17,7 +17,9 @@ import {RouteProp} from '@react-navigation/native';
 import {useNavigation} from '@react-navigation/native';
 import {HomeStackParamList} from '../App'
 import { useDispatch, useSelector } from 'react-redux';
-import { AppState, hideTabBar, showTabBar } from '../appReducer';
+import { hideTabBar, showTabBar } from '../tabBarSlice';
+import { AppState } from '../ReduxStore';
+// import { hideTabBar, showTabBar } from '../appReducer';
 
 
 type HomeScreenRouteProp = RouteProp<RootStackParamList, 'HomeScreen'>;
@@ -42,17 +44,18 @@ export default function HomeScreen({
   navigation: HomeScreenNavigationProp;
 }) {
 
-  const tabBarVisible = useSelector((state: AppState) => state.isTabBarVisible);
-  const dispatch = useDispatch();
+  // const tabBarVisible = useSelector((state: AppState) => JSON.stringify(state.tabBar.isVisible));
+  // console.log(`HomeScreen1 ${tabBarVisible}`)
+  // const dispatch = useDispatch();
 
   
-  // ... rest of your HomeScreen component code
+  // // ... rest of your HomeScreen component code
 
 
-  useEffect(() => {
-        dispatch(showTabBar());
-        console.log(`The tab bar is visiable ${tabBarVisible}`)
-  }, []);
+  // useEffect(() => {
+  //       dispatch(showTabBar());
+  //       console.log(`The tab bar is visiable 2${tabBarVisible}`)
+  // }, []);
 
   const [userName, setUserName] = useState('Zak Veasy');
   const [balance, setBalance] = useState('$124.56');
@@ -87,6 +90,10 @@ export default function HomeScreen({
     console.log('Transaction button pressed');
     navigation.navigate('OfferScreen');
   };
+
+  const dispatch = useDispatch()
+
+  dispatch(showTabBar())
 
   return (
     <SafeAreaView style={styles.Background}>
