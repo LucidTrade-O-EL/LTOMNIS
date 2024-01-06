@@ -4,7 +4,7 @@ export interface TabBarInitialState {
   isVisible: boolean,
 }
 const initialState = {
-  isVisible: false,
+  isVisible: true,
 };
 
 const tabBarSlice = createSlice({

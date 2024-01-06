@@ -118,22 +118,22 @@ export default function Tabs({}) {
   console.log(`Tab Bar Visible: ${tabBarVisible} 12`);
   const dispatch = useDispatch();
 
-  dispatch(showTabBar())
+  // dispatch(showTabBar())
 
-  // useEffect(() => {
-  //   navigation.addListener('state', e => {
-  //     // const routeName =
-  //     //   getFocusedRouteNameFromRoute(e.data.state) || 'DefaultScreen';
-  //     // console.log(
-  //     //   `Route: ${routeName}`,
-  //     // );
-  //     dispatch(
-  //       screensWithTabs.includes(currentRouteName)
-  //         ? showTabBar()
-  //         : hideTabBar(),
-  //     );
-  //   });
-  // }, [navigation, dispatch]);
+  useEffect(() => {
+    dispatch(showTabBar())
+    const unsubscribe = navigation.addListener('state', () => {
+      const state = navigation.getState();
+      const currentRouteName = findDeepRouteName(state as NavigationState);
+      if (screensWithTabs.includes(currentRouteName)) {
+        dispatch(showTabBar());
+      } else {
+        dispatch(hideTabBar());
+      }
+    });
+
+    return unsubscribe;
+  }, [navigation, dispatch]);
 
   return (
     <View style={{flex: 1}}>
