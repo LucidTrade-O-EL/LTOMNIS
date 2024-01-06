@@ -12,16 +12,7 @@ const OfferScreenLender = () => {
   const TabV = useSelector((state: AppState) => JSON.stringify(state.tabBar.isVisible))
   console.log(`${TabV} outside of useEffect`)
 
-  useEffect(() => {
-    dispatch(hideTabBar());
-    console.log('this is running in OfferScreenLender');
-    console.log(`${TabV} inside useEffect`)
-    // If you need to show the tab bar again when the component unmounts,
-    // return a cleanup function:
-    return () => {
-      dispatch(showTabBar());
-    };
-  }, []); // Empty dependency array means this runs once on mount and cleanup on unmount
+
 
   return (
     <SafeAreaView style={styles.Background}>

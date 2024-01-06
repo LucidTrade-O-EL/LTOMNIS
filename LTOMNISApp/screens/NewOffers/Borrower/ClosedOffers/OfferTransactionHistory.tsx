@@ -16,11 +16,11 @@ const OfferTransactionHistory: React.FC = () => {
     const amountValue = value.replace('$', '').trim(); // remove dollar sign if it exists
     const numericalValue = sign ? amountValue.slice(1) : amountValue;
     const amount = parseFloat(numericalValue);
-    const dispatch = useDispatch();
+
     // const tabBarVisible = useSelector((state: RootState) => state.tabBar.isVisible);
 
 
-    dispatch(hideTabBar())
+
 
     if (isNaN(amount)) {
       console.error(`Invalid currency value: ${value}`);

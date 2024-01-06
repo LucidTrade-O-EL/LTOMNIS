@@ -11,15 +11,6 @@ import { hideTabBar, showTabBar } from '../../tabBarSlice';
 
 const TransactionHistoryTax: React.FC = () => {
 
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(hideTabBar()); // Hide the tab bar
-    console.log('hide the bar')
-    return () => {
-      // dispatch(showTabBar()); // Show the tab bar when leaving the screen
-    };
-  }, [dispatch]);
 
   const formatCurrency = (value: string) => {
     const sign = ['+', '-'].includes(value[0]) ? value[0] : '';

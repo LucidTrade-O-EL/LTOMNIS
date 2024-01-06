@@ -1,4 +1,4 @@
-import React, {ReactNode, useEffect} from 'react';
+import React, {ReactNode, useEffect, useRef} from 'react';
 import {View, StyleSheet, GestureResponderEvent} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createStackNavigator} from '@react-navigation/stack';
@@ -104,7 +104,18 @@ const findDeepRouteName = (state: NavigationState): string => {
   return route.name; // The name of the current screen
 };
 
-const screensWithTabs = ['HomeScreen']; // Screens with visible tabs
+const screensWithTabs = [
+  'HomeScreen',
+  'HomeStackNavigator',
+  'MyFeedScreen',
+  'SpotlightScreen',
+  'Tabs',
+  'FeedStackNavigator',
+  'Featured',
+  'MyPosts',
+  'FriendsFeed',
+  'OMNISScoreScreen',
+]; // Screens with visible tabs
 
 export default function Tabs({}) {
   const navigation = useNavigation();
@@ -121,7 +132,7 @@ export default function Tabs({}) {
   // dispatch(showTabBar())
 
   useEffect(() => {
-    dispatch(showTabBar())
+    dispatch(showTabBar());
     const unsubscribe = navigation.addListener('state', () => {
       const state = navigation.getState();
       const currentRouteName = findDeepRouteName(state as NavigationState);
@@ -147,7 +158,7 @@ export default function Tabs({}) {
             borderRadius: 10,
             height: '9%',
             ...styles.shadow,
-            display: tabBarVisible == false ? 'none' : 'flex'
+            display: tabBarVisible == false ? 'none' : 'flex',
             // display: 'flex'
           },
         }}>

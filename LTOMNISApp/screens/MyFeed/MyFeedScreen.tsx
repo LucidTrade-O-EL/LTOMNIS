@@ -1,9 +1,12 @@
 import {View, StyleSheet, SafeAreaView} from 'react-native';
-import React from 'react';
+import React, { useEffect } from 'react';
 import GlobalStyles from '../../assets/constants/colors';
 import FeedTopTabs from './FeedTopTabs';
 import Header from './Header';
 import {StackScreenProps} from '@react-navigation/stack';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppState } from '../../ReduxStore';
+
 
 type Type1 = {
   property: string;
