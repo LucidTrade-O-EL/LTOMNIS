@@ -17,11 +17,16 @@ import OmnisOptions from '../../assets/constants/Components/OmnisOptions';
 import {useNavigation} from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import LevelDetails from './ScoreBreakDown/Levels/LevelDetails';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { OMNISScoreStackParamList } from '../../App';
 
 
 export default function OMNISScoreScreen() {
 
-  const navigation = useNavigation<StackNavigationProp<any, any>>();
+  const navigation = useNavigation<NativeStackNavigationProp<OMNISScoreStackParamList>>();
+
+  console.log(navigation);
+
   const refRBSheet = useRef<RBSheet>(null);
 
   const handleIconPress = () => {
@@ -73,7 +78,8 @@ export default function OMNISScoreScreen() {
           },
         }}
       />
-      <Pressable onPress={() => navigation.navigate('LevelDetails')}>
+      <Pressable onPress={() => navigation.navigate('LevelsScreen')}>
+        
       <OmnisOptions
         isLottie={true}
         title="Money Master"

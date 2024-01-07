@@ -65,6 +65,7 @@ import {
   HomeStackNavigatorProps,
   FeedStackNavigatorProps,
   SpotlightStackNavigatorProps,
+  OMNISScoreStackNavigatorProps,
 } from './types';
 import {SplashScreenProps} from './types';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
@@ -95,6 +96,7 @@ import SuccessOffer from './screens/NewOffers/Borrower/NewOffersBorrower/Success
 import ActiveOfferMakePayment from './screens/NewOffers/Borrower/ActiveOffers/ActiveOfferMakePayment';
 import OfferDetailsAccepted from './screens/NewOffers/Borrower/ClosedOffers/OfferDetailsAccepted';
 import store from './ReduxStore';
+import OMNISScoreScreen from './screens/OMNISScore/OMNISScoreScreen';
 // import store from './store';
 // import store from '../LTOMNISApp'
 
@@ -105,6 +107,7 @@ const MainStack = createNativeStackNavigator();
 const FeedStack = createNativeStackNavigator();
 const CombinedStack = createNativeStackNavigator();
 const SpotlightStack = createNativeStackNavigator();
+const OMNISScoreStack = createNativeStackNavigator();
 
 // Define a combined stack
 
@@ -331,7 +334,6 @@ export type FeedStackParamList = {
   OfferSent: undefined;
   OfferSentSuccessful: undefined;
   FriendsProfile: undefined;
-  LevelsScreen: undefined;
   SpotlightScreen: undefined;
   SpotlightStackNavigator: undefined;
 };
@@ -347,7 +349,6 @@ export function FeedStackNavigator({}: FeedStackNavigatorProps) {
       <FeedStack.Screen name="FeedSummary" component={FeedSummary} />
       <FeedStack.Screen name="OfferSent" component={OfferSent} />
       <FeedStack.Screen name="FriendsProfile" component={FriendsProfile} />
-      <FeedStack.Screen name="LevelsScreen" component={LevelsScreen} />
       <FeedStack.Screen
         name="SpotlightStackNavigator"
         component={SpotlightStackNavigator}
@@ -360,6 +361,28 @@ export function FeedStackNavigator({}: FeedStackNavigatorProps) {
   );
 }
 
+// OMNIS SCORE Navigation Stack
+
+export type OMNISScoreStackParamList = {
+  LevelsScreen: undefined;
+  OMNISScoreScreen: undefined;
+};
+
+export function OMNISScoreStackNavigator({}: OMNISScoreStackNavigatorProps) {
+  return (
+    <OMNISScoreStack.Navigator
+      initialRouteName="OMNISScoreScreen"
+      screenOptions={{headerShown: false}}>
+      <OMNISScoreStack.Screen
+        name="OMNISScoreScreen"
+        component={OMNISScoreScreen}
+      />
+      <OMNISScoreStack.Screen name="LevelsScreen" component={LevelsScreen} />
+    </OMNISScoreStack.Navigator>
+  );
+}
+
+// FIX SPOTLIGHT
 // Spotlight
 
 export type SpotlightStackParamList = {
@@ -370,7 +393,6 @@ export type SpotlightStackParamList = {
   OfferSent: undefined;
   OfferSentSuccessful: undefined;
   FriendsProfile: undefined;
-  LevelsScreen: undefined;
   SpotlightScreen: undefined;
 };
 
@@ -388,7 +410,6 @@ export function SpotlightStackNavigator({}: SpotlightStackNavigatorProps) {
       <SpotlightStack.Screen name="FeedSummary" component={FeedSummary} />
       <SpotlightStack.Screen name="OfferSent" component={OfferSent} />
       <SpotlightStack.Screen name="FriendsProfile" component={FriendsProfile} />
-      <SpotlightStack.Screen name="LevelsScreen" component={LevelsScreen} />
       <SpotlightStack.Screen
         name="OfferSentSuccessful"
         component={OfferSentSuccessful}

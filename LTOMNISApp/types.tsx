@@ -72,6 +72,7 @@ export type RootStackParamList = {
   FeedStackNavigator: undefined;
   HomeStackNavigator: undefined;
   SpotlightStackNavigator: undefined;
+  OMNISScoreStackNavigator: undefined;
   OfferSent: undefined;
   HomeScreen: undefined;
 };
@@ -91,6 +92,11 @@ export type HomeStackNavigatorProps = {
 
 // Feed Stack Navigator Props Type
 export type FeedStackNavigatorProps = {
+  navigation: NativeStackNavigationProp<RootStackParamList, keyof RootStackParamList>;
+  route: RouteProp<RootStackParamList, keyof RootStackParamList>;
+};
+
+export type OMNISScoreStackNavigatorProps = {
   navigation: NativeStackNavigationProp<RootStackParamList, keyof RootStackParamList>;
   route: RouteProp<RootStackParamList, keyof RootStackParamList>;
 };
