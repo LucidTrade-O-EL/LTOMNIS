@@ -21,6 +21,7 @@ import SpotlightScreen from '../screens/Spotlight/SpotlightScreen';
 import {
   FeedStackNavigator,
   HomeStackNavigator,
+  OMNISScoreStackNavigator,
   SpotlightStackNavigator,
 } from '../App';
 import {
@@ -115,6 +116,9 @@ const screensWithTabs = [
   'MyPosts',
   'FriendsFeed',
   'OMNISScoreScreen',
+  'OMNISScoreStackNavigator',
+  'SpotlightStackNavigator',
+  'SpotlightScreen',
 ]; // Screens with visible tabs
 
 export default function Tabs({}) {
@@ -213,8 +217,8 @@ export default function Tabs({}) {
           }}
         />
         <Tab.Screen
-          name="OMNISScoreScreen"
-          component={OMNISScoreScreen}
+          name="OMNISScoreStackNavigator"
+          component={OMNISScoreStackNavigator}
           options={{
             tabBarIcon: ({focused}) => (
               <Ionicons

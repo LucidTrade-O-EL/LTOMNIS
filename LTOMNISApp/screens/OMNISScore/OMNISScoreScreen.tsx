@@ -23,9 +23,9 @@ import { OMNISScoreStackParamList } from '../../App';
 
 export default function OMNISScoreScreen() {
 
+
   const navigation = useNavigation<NativeStackNavigationProp<OMNISScoreStackParamList>>();
 
-  console.log(navigation);
 
   const refRBSheet = useRef<RBSheet>(null);
 

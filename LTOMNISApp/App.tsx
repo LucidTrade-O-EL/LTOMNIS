@@ -364,8 +364,9 @@ export function FeedStackNavigator({}: FeedStackNavigatorProps) {
 // OMNIS SCORE Navigation Stack
 
 export type OMNISScoreStackParamList = {
-  LevelsScreen: undefined;
   OMNISScoreScreen: undefined;
+  LevelsScreen: undefined;
+
 };
 
 export function OMNISScoreStackNavigator({}: OMNISScoreStackNavigatorProps) {
@@ -377,7 +378,10 @@ export function OMNISScoreStackNavigator({}: OMNISScoreStackNavigatorProps) {
         name="OMNISScoreScreen"
         component={OMNISScoreScreen}
       />
-      <OMNISScoreStack.Screen name="LevelsScreen" component={LevelsScreen} />
+        <OMNISScoreStack.Screen
+        name="LevelsScreen"
+        component={LevelsScreen}
+      />
     </OMNISScoreStack.Navigator>
   );
 }

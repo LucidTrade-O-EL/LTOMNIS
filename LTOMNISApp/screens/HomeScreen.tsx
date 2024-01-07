@@ -31,8 +31,6 @@ type RootStackParamList = {
   // Add other screens and their respective parameter definitions here.
 };
 
-
-
 type HomeScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
   'HomeScreen'
@@ -43,8 +41,6 @@ export default function HomeScreen({
 }: {
   navigation: HomeScreenNavigationProp;
 }) {
-
-
 
   const [userName, setUserName] = useState('Zak Veasy');
   const [balance, setBalance] = useState('$124.56');
