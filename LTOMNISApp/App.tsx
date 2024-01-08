@@ -97,6 +97,8 @@ import ActiveOfferMakePayment from './screens/NewOffers/Borrower/ActiveOffers/Ac
 import OfferDetailsAccepted from './screens/NewOffers/Borrower/ClosedOffers/OfferDetailsAccepted';
 import store from './ReduxStore';
 import OMNISScoreScreen from './screens/OMNISScore/OMNISScoreScreen';
+import GroupsScreen from './screens/Spotlight/Groups/GroupsScreen';
+import FriendsScreen from './screens/Spotlight/Friends/FriendsScreen';
 // import store from './store';
 // import store from '../LTOMNISApp'
 
@@ -366,7 +368,6 @@ export function FeedStackNavigator({}: FeedStackNavigatorProps) {
 export type OMNISScoreStackParamList = {
   OMNISScoreScreen: undefined;
   LevelsScreen: undefined;
-
 };
 
 export function OMNISScoreStackNavigator({}: OMNISScoreStackNavigatorProps) {
@@ -378,10 +379,7 @@ export function OMNISScoreStackNavigator({}: OMNISScoreStackNavigatorProps) {
         name="OMNISScoreScreen"
         component={OMNISScoreScreen}
       />
-        <OMNISScoreStack.Screen
-        name="LevelsScreen"
-        component={LevelsScreen}
-      />
+      <OMNISScoreStack.Screen name="LevelsScreen" component={LevelsScreen} />
     </OMNISScoreStack.Navigator>
   );
 }
@@ -398,6 +396,8 @@ export type SpotlightStackParamList = {
   OfferSentSuccessful: undefined;
   FriendsProfile: undefined;
   SpotlightScreen: undefined;
+  GroupsScreen: undefined;
+  FriendsScreen: undefined;
 };
 
 export function SpotlightStackNavigator({}: SpotlightStackNavigatorProps) {
@@ -414,6 +414,8 @@ export function SpotlightStackNavigator({}: SpotlightStackNavigatorProps) {
       <SpotlightStack.Screen name="FeedSummary" component={FeedSummary} />
       <SpotlightStack.Screen name="OfferSent" component={OfferSent} />
       <SpotlightStack.Screen name="FriendsProfile" component={FriendsProfile} />
+      <SpotlightStack.Screen name="GroupsScreen" component={GroupsScreen} />
+      <SpotlightStack.Screen name="FriendsScreen" component={FriendsScreen} />
       <SpotlightStack.Screen
         name="OfferSentSuccessful"
         component={OfferSentSuccessful}

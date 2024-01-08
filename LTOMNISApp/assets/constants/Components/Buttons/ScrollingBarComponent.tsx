@@ -10,6 +10,8 @@ interface ScrollingBarComponentProps {
 }
 
 const ScrollingBarComponent: React.FC<ScrollingBarComponentProps> = ({ scrollPosition, totalWidth, flatListWidth, highlightedWidth }) => {
+
+  console.log(`this is totalWidth ${totalWidth} and this is ${flatListWidth}. Is totalWidth Greater or Equal ${totalWidth>=flatListWidth}`)
   return (
     <View style={styles.barContainer}>
       <View

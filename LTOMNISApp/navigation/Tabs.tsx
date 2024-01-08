@@ -119,6 +119,8 @@ const screensWithTabs = [
   'OMNISScoreStackNavigator',
   'SpotlightStackNavigator',
   'SpotlightScreen',
+  'FriendsScreen',
+  'GroupsScreen',
 ]; // Screens with visible tabs
 
 export default function Tabs({}) {

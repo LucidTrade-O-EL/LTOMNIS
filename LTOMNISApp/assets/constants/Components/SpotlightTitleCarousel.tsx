@@ -8,12 +8,13 @@ import {
   Image,
 } from 'react-native';
 import GlobalStyles from '../colors';
+import { FeaturedGroupItem } from './SmallCustomCarousel';
 
 interface CustomTitleProps {
   title: string;
   buttonText: string;
   onButtonPress: () => void;
-  data: {title: string}[]; // Define the type of objects in the array
+  data: FeaturedGroupItem[]; // If every item has a title
 }
 
 export const CustomTitle: React.FC<CustomTitleProps> = ({
@@ -39,6 +40,7 @@ interface ImageData {
 
 interface CustomCarouselProps {
   images: ImageData[];
+  data: ImageData[];
 }
 
 interface ViewableItem {
@@ -53,7 +55,7 @@ interface OnViewableItemsChangedInfo {
   changed: ViewableItem[];
 }
 
-export const CustomCarousel: React.FC<CustomCarouselProps> = ({images}) => {
+export const CustomCarousel: React.FC<CustomCarouselProps> = ({data, images}) => {
   const [currentIndex, setCurrentIndex] = React.useState(0);
 
   const viewConfigRef = React.useRef({
@@ -67,10 +69,15 @@ export const CustomCarousel: React.FC<CustomCarouselProps> = ({images}) => {
     [],
   );
 
+  const combinedData = images.map((image, index) => ({
+    ...image,
+    additionalData: data[index]
+  }));
+
   return (
     <View style={{left: 20}}>
       <FlatList
-        data={images}
+        data={combinedData}
         horizontal
         showsHorizontalScrollIndicator={false}
         renderItem={({item, index}) => (

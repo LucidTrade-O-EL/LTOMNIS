@@ -3,16 +3,17 @@ import { View, Text, StyleSheet, Image, FlatList, Animated } from 'react-native'
 import ScrollingBarComponent from './Buttons/ScrollingBarComponent';
 import { ViewToken } from 'react-native';
 
-interface ImageData {
+export interface FeaturedGroupItem {
   url: string;
   text?: string; 
 }
 
-interface SmallCustomCarouselProps {
-  images: ImageData[];
+ interface SmallCustomCarouselProps {
+  images: FeaturedGroupItem[];
+  data: FeaturedGroupItem[]; // Use the defined type for the data prop
 }
 
-export const SmallCustomCarousel: React.FC<SmallCustomCarouselProps> = ({ images }) => {
+export const SmallCustomCarousel: React.FC<SmallCustomCarouselProps> = ({ data, images }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const scrollPosition = useState(new Animated.Value(0))[0];
 
@@ -37,10 +38,15 @@ export const SmallCustomCarousel: React.FC<SmallCustomCarouselProps> = ({ images
     setCurrentIndex(viewableItems[0]?.index || 0);
   }, []);
 
+  const combinedData = images.map((image, index) => ({
+    ...image,
+    additionalData: data[index]
+  }));
+
   return (
     <View>
       <FlatList
-        data={images}
+        data={combinedData}
         horizontal
         showsHorizontalScrollIndicator={false}
         onScroll={onScroll}

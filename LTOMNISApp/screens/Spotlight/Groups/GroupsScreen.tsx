@@ -8,12 +8,21 @@ import {
 } from '../../../assets/constants/Components/SpotlightTitleCarousel';
 import axios from 'axios';
 
-import {SmallCustomCarousel} from '../../../assets/constants/Components/SmallCustomCarousel';
+import {FeaturedGroupItem, SmallCustomCarousel} from '../../../assets/constants/Components/SmallCustomCarousel';
+
+
+
+export default function GroupsScreen() {
 const handleButtonPress = () => {
   console.log('Button Pressed');
 };
 
+const [group, setGroup] = useState([{ title: 'Initial title' }]);
+const [featuredGroup, setFeaturedGroup] = useState<FeaturedGroupItem[]>([]);
+const [interestGroup, setInterestGroup] = useState<FeaturedGroupItem[]>([]);
+
 const GetMyGroup = async () => {
+
   try {
     const options = {
       method: 'GET',
@@ -29,16 +38,13 @@ const GetMyGroup = async () => {
     console.log('data payload ', res.data, res.headers);
 
     const group = res.data;
-
-    if (group == null) {
-      console.log('No group data received');
+    
+    // if (group == null) {
+      setGroup(res.data ?? []);
+    } catch (error) {
+      console.error('An error occurred:', error);
     }
-    setGroup(group);
-    console.log('group: ', group);
-  } catch (error: any) {
-    console.error('An error occurred:', error);
-  }
-};
+  };
 
 const GetMyFeaturedGroup = async () => {
   try {
@@ -57,12 +63,11 @@ const GetMyFeaturedGroup = async () => {
 
     const featuredGroup = res.data;
 
-    if (featuredGroup == null) {
-      console.log('No featured group data received');
-    }
-    setGroup(featuredGroup);
-    console.log('featured group: ', featuredGroup);
-  } catch (error: any) {
+    // if (featuredGroup == null) {
+    //   console.log('No featured group data received');
+    // }
+    setFeaturedGroup(res.data ?? []);
+  } catch (error) {
     console.error('An error occurred:', error);
   }
 };
@@ -84,12 +89,11 @@ const GetMyInterestGroup = async () => {
 
     const interestGroup = res.data;
 
-    if (interestGroup == null) {
-      console.log('No interest group data received');
-    }
-    setGroup(interestGroup);
-    console.log('interest group: ', interestGroup);
-  } catch (error: any) {
+    // if (interestGroup == null) {
+    //   console.log('No interest group data received');
+    // }
+    setInterestGroup(res.data ?? []);
+  } catch (error) {
     console.error('An error occurred:', error);
   }
 };
@@ -105,6 +109,34 @@ useEffect(() => {
 }, []);
 
 const images = [
+  {
+    url: 'https://images.unsplash.com/photo-1693985320387-9b08d2c8e1ad?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwzfHx8ZW58MHx8fHx8&auto=format&fit=crop&w=800&q=60',
+    tag: 'Tag 1',
+  },
+  {
+    url: 'https://images.unsplash.com/photo-1525547719571-a2d4ac8945e2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8Y29tcHV0ZXJ8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=800&q=60',
+    tag: 'Tag 2',
+  },
+  {
+    url: 'https://images.unsplash.com/photo-1693985320387-9b08d2c8e1ad?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwzfHx8ZW58MHx8fHx8&auto=format&fit=crop&w=800&q=60',
+    tag: 'Tag 1',
+  },
+  {
+    url: 'https://images.unsplash.com/photo-1525547719571-a2d4ac8945e2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8Y29tcHV0ZXJ8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=800&q=60',
+    tag: 'Tag 2',
+  },
+  {
+    url: 'https://images.unsplash.com/photo-1693985320387-9b08d2c8e1ad?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwzfHx8ZW58MHx8fHx8&auto=format&fit=crop&w=800&q=60',
+    tag: 'Tag 1',
+  },
+  {
+    url: 'https://images.unsplash.com/photo-1525547719571-a2d4ac8945e2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8Y29tcHV0ZXJ8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=800&q=60',
+    tag: 'Tag 2',
+  },
+  // ... more image URLs
+];
+
+const image1 = [
   {
     url: 'https://images.unsplash.com/photo-1693985320387-9b08d2c8e1ad?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwzfHx8ZW58MHx8fHx8&auto=format&fit=crop&w=800&q=60',
     tag: 'Tag 1',
@@ -155,10 +187,7 @@ const images2 = [
   },
 ];
 
-export default function GroupsScreen() {
-  const [group, setGroup] = useState([{title: 'Initial title'}]);
-  const [featuredGroup, setFeaturedGroup] = useState([{}]);
-  const [interestGroup, setInterestGroup] = useState([{}]);
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -178,7 +207,7 @@ export default function GroupsScreen() {
           buttonText="Create"
           onButtonPress={handleButtonPress}
         />
-        <CustomCarousel data={group} images={images} />
+        <CustomCarousel data={[]} images={images} />
         <View style={{marginTop: 20}} />
         <CustomTitle
           data={featuredGroup}
@@ -186,7 +215,7 @@ export default function GroupsScreen() {
           buttonText="Show all"
           onButtonPress={handleButtonPress}
         />
-        <SmallCustomCarousel data={featuredGroup} images={images2} />
+        <SmallCustomCarousel data={[]} images={image1} />
         <View style={{marginTop: 20}} />
         <CustomTitle
           data={interestGroup}
@@ -194,7 +223,7 @@ export default function GroupsScreen() {
           buttonText="Show all"
           onButtonPress={handleButtonPress}
         />
-        <SmallCustomCarousel data={interestGroup} images={images2} />
+        <SmallCustomCarousel data={[]} images={images2} />
       </View>
     </SafeAreaView>
   );
