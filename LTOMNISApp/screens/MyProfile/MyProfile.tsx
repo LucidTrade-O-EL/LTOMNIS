@@ -9,18 +9,25 @@ import ButtonsRow from './ButtonsRow';
 import GrayBox from './GrayBox';
 import ImagePicker from 'react-native-image-picker';
 import {
-    launchCamera,
-    launchImageLibrary,
-    ImagePickerResponse
-  } from 'react-native-image-picker';
-  
-  type ImagePickerMethod = (
-    options: any,  // Here you can replace 'any' with the correct type if known
-    callback: (response: ImagePickerResponse) => void
-  ) => void;  // This is the return type of the function, which is void in this case  
-  
+  launchCamera,
+  launchImageLibrary,
+  ImagePickerResponse,
+} from 'react-native-image-picker';
+import {TouchableOpacity} from 'react-native-gesture-handler';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { HomeStackParamList } from '../../App';
+import { RootStackParamList } from '../../types';
+
+type ImagePickerMethod = (
+  options: any, // Here you can replace 'any' with the correct type if known
+  callback: (response: ImagePickerResponse) => void,
+) => void; // This is the return type of the function, which is void in this case
+
 export default function MyProfile() {
   const firstUser = importedUser[0];
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+
 
   const initials = firstUser.name
     ? firstUser.name
@@ -28,64 +35,58 @@ export default function MyProfile() {
         .map(word => word[0])
         .join('')
     : 'ZV';
-    
-    const handleEditAvatar = () => {
-        const options: any = {
-          mediaType: 'photo',
-          includeBase64: false,
-          maxHeight: 200,
-          maxWidth: 200,
-        };
-    
-        const selectMethod = (method: ImagePickerMethod) => {
-            const options = {
-                mediaType: 'photo',
-                includeBase64: false,
-                maxHeight: 200,
-                maxWidth: 200,
-            };
-        
-            method(options, (response) => {
-                if (response.didCancel) {
-                    console.log('User cancelled image picker');
-                } else if (response.errorMessage) {  // Check for errorMessage instead of error
-                    console.log('ImagePicker Error: ', response.errorMessage);
-                } else {
-                    const uri = response.assets?.[0]?.uri;
-if (uri) {
-    const source = { uri };
-    // Here you can set the selected image to state and display or upload as needed
-} else {
-    console.log('No image uri found');
-}
 
-                }
-            });
-        };
-        
-    
-      // You can use any UI element or approach to ask the user
-      // Here's a simple way using an Alert for demonstration
-      Alert.alert(
-        "Select Avatar",
-        "Choose the source of the image",
-        [
-          {
-            text: "Camera",
-            onPress: () => selectMethod(launchCamera)
-          },
-          {
-            text: "Gallery",
-            onPress: () => selectMethod(launchImageLibrary)
-          },
-          {
-            text: "Cancel",
-            style: "cancel"
-          }
-        ]
-      );
+  const handleEditAvatar = () => {
+    const options: any = {
+      mediaType: 'photo',
+      includeBase64: false,
+      maxHeight: 200,
+      maxWidth: 200,
     };
-    
+
+    const selectMethod = (method: ImagePickerMethod) => {
+      const options = {
+        mediaType: 'photo',
+        includeBase64: false,
+        maxHeight: 200,
+        maxWidth: 200,
+      };
+
+      method(options, response => {
+        if (response.didCancel) {
+          console.log('User cancelled image picker');
+        } else if (response.errorMessage) {
+          // Check for errorMessage instead of error
+          console.log('ImagePicker Error: ', response.errorMessage);
+        } else {
+          const uri = response.assets?.[0]?.uri;
+          if (uri) {
+            const source = {uri};
+            // Here you can set the selected image to state and display or upload as needed
+          } else {
+            console.log('No image uri found');
+          }
+        }
+      });
+    };
+
+    // You can use any UI element or approach to ask the user
+    // Here's a simple way using an Alert for demonstration
+    Alert.alert('Select Avatar', 'Choose the source of the image', [
+      {
+        text: 'Camera',
+        onPress: () => selectMethod(launchCamera),
+      },
+      {
+        text: 'Gallery',
+        onPress: () => selectMethod(launchImageLibrary),
+      },
+      {
+        text: 'Cancel',
+        style: 'cancel',
+      },
+    ]);
+  };
 
   return (
     <SafeAreaView style={styles.Background}>
@@ -130,7 +131,14 @@ if (uri) {
             lottieSource={require('../../assets/goldBar.json')}
           />
         </View>
-        <ButtonsRow />
+        <ButtonsRow
+  leftButtonText="Edit Profile"
+  rightButtonText="Share Profile"
+  onLeftButtonPress={() => { console.log('Left button pressed'); }}
+  onRightButtonPress={() => { console.log('Right button pressed'); }}
+  isLeftButtonActive={true} // or false based on your state
+  isRightButtonActive={true} // or true based on your state
+/>
       </View>
       <View
         style={{
@@ -144,13 +152,47 @@ if (uri) {
           alignItems: 'flex-start',
           justifyContent: 'space-between',
         }}>
-        <GrayBox iconName="users" label="Friends" iconType="feather" />
-        <GrayBox iconName="message-square" label="My Posts" iconType="feather" />
-        <GrayBox iconName="account-group" label="Groups" iconType="MaterialCommunityIcons" />
-        <GrayBox iconName="star-four-points-outline" label="Rewards" iconType="MaterialCommunityIcons" />
-        <GrayBox iconName="help-circle-outline" label="Help Center" iconType="Ionicons" />
-        <GrayBox iconName="settings" label="Settings" iconType="feather" />
-        <GrayBox iconName="exit-outline" label="Sign Out" iconType="Ionicons" />
+        <TouchableOpacity onPress={() => {navigation.navigate('SpotlightStackNavigator', { screen: 'AddFriendScreen' })}}>
+          <GrayBox iconName="users" label="Friends" iconType="feather" />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => {navigation.navigate('FeedStackNavigator', { screen: 'MyFeedScreen' })}}>
+          <GrayBox
+            iconName="message-square"
+            label="My Posts"
+            iconType="feather"
+          />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => {}}>
+          <GrayBox
+            iconName="account-group"
+            label="Groups"
+            iconType="MaterialCommunityIcons"
+          />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => {navigation.navigate('OMNISScoreStackNavigator', { screen: 'LevelsScreen' })}}>
+          <GrayBox
+            iconName="star-four-points-outline"
+            label="Rewards"
+            iconType="MaterialCommunityIcons"
+          />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => {navigation.navigate('HomeStackNavigator', { screen: 'FAQ' })}}>
+          <GrayBox
+            iconName="help-circle-outline"
+            label="Help Center"
+            iconType="Ionicons"
+          />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => {navigation.navigate('HomeStackNavigator', { screen: 'Settings' })}}>
+          <GrayBox iconName="settings" label="Settings" iconType="feather" />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => {}}>
+          <GrayBox
+            iconName="exit-outline"
+            label="Sign Out"
+            iconType="Ionicons"
+          />
+        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );

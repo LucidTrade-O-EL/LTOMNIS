@@ -8,8 +8,10 @@ import StatisticItem from '../MyProfile/StatisticItem';
 import ButtonsRow from '../MyProfile/ButtonsRow';
 import GrayBox from '../MyProfile/GrayBox';
 
+
 export default function FriendsProfile() {
   const firstUser = importedUser[0];
+
 
   const initials = firstUser.name
     ? firstUser.name
@@ -22,10 +24,7 @@ export default function FriendsProfile() {
     <SafeAreaView style={styles.Background}>
       <ScreenTitle
         showBackArrow={true}
-        showRightIcon={true}
-        rightIconType="Feather"
-        rightIconName="user-plus"
-        onRightIconPress={() => {}}
+        showRightIcon={false}
       />
       <View style={styles.avatarContainer}>
         <Avatar
@@ -53,18 +52,28 @@ export default function FriendsProfile() {
             lottieSource={require('../../assets/goldBar.json')}
           />
         </View>
-        <ButtonsRow />
+        <ButtonsRow
+          leftButtonText="Accept"
+          rightButtonText="Decline"
+          onLeftButtonPress={() => {
+            console.log('Left button pressed');
+          }}
+          onRightButtonPress={() => {
+            console.log('Right button pressed');
+          }}
+          isLeftButtonActive={true} // or false based on your state
+          isRightButtonActive={false} // or true based on your state
+        />
       </View>
       <View
         style={{
-          flex: 1,
           borderRadius: 24,
           backgroundColor: 'white',
           width: '100%',
+          height: '100%',
           padding: 20,
           flexDirection: 'row',
           flexWrap: 'wrap',
-          alignItems: 'flex-start',
           justifyContent: 'space-between',
         }}>
         <GrayBox iconName="users" label="Friends" iconType="feather" />

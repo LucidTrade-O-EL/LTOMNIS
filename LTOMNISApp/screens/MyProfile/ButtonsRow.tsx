@@ -1,17 +1,51 @@
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  Dimensions,
+} from 'react-native';
 import GlobalStyles from '../../assets/constants/colors';
+import {RootStackParamList} from '../../types';
 
-const { width } = Dimensions.get('window');
+const {width} = Dimensions.get('window');
+interface ButtonsRowProps {
+  leftButtonText: string;
+  rightButtonText: string;
+  onLeftButtonPress: () => void; // Callback for left button press
+  onRightButtonPress: () => void; // Callback for right button press
+  isLeftButtonActive: boolean; // New prop to determine if left button is active
+  isRightButtonActive: boolean; // New prop to determine if right button is active
+}
 
-const ButtonsRow = () => {
+const ButtonsRow = ({
+  leftButtonText,
+  rightButtonText,
+  onLeftButtonPress,
+  onRightButtonPress,
+  isLeftButtonActive,
+  isRightButtonActive,
+}: ButtonsRowProps) => {
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={[styles.button, styles.buttonLeft]}>
-        <Text style={styles.buttonText}>Edit Profile</Text>
+      <TouchableOpacity
+        onPress={onLeftButtonPress}
+        style={[
+          styles.button,
+          isLeftButtonActive ? styles.activeButton : styles.inactiveButton,
+        ]}>
+        <Text style={styles.buttonText}>{leftButtonText}</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={[styles.button, styles.buttonRight]}>
-        <Text style={styles.buttonText}>Share Profile</Text>
+      <TouchableOpacity
+        onPress={onRightButtonPress}
+        style={[
+          styles.button,
+          isRightButtonActive ? styles.activeButton : styles.inactiveButton,
+        ]}>
+        <Text style={styles.buttonText}>{rightButtonText}</Text>
       </TouchableOpacity>
     </View>
   );
@@ -23,7 +57,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     width: width * 0.85,
     alignSelf: 'center', // To center the container
-    marginVertical: 20
+    marginVertical: 20,
   },
   button: {
     height: 36,
@@ -37,6 +71,12 @@ const styles = StyleSheet.create({
   },
   buttonRight: {
     backgroundColor: GlobalStyles.Colors.primary200, // Change to desired color
+  },
+  activeButton: {
+    backgroundColor: GlobalStyles.Colors.primary200,
+  },
+  inactiveButton: {
+    backgroundColor: GlobalStyles.Colors.primary700,
   },
   buttonText: {
     color: 'white',

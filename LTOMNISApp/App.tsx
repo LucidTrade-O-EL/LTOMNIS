@@ -99,6 +99,18 @@ import store from './ReduxStore';
 import OMNISScoreScreen from './screens/OMNISScore/OMNISScoreScreen';
 import GroupsScreen from './screens/Spotlight/Groups/GroupsScreen';
 import FriendsScreen from './screens/Spotlight/Friends/FriendsScreen';
+import NotificationScreen from './screens/Notification/NotificationScreen';
+import MyProfile from './screens/MyProfile/MyProfile';
+import AddFriendScreen from './screens/Spotlight/Friends/AddFriendScreen';
+import FAQ from './screens/HelpCenter/FAQ';
+import Settings from './screens/MyProfile/Settings';
+import DeactivateAccount from './screens/MyProfile/DeactivateAccount';
+import PrivacyPolicy from './screens/MyProfile/PrivacyPolicy';
+import EditProfile from './screens/MyProfile/EditProfile';
+import AppFeedBack from './screens/MyProfile/AppFeedBack';
+import DepositMoneyScreen from './screens/DepositMoney/DepositMoneyScreen';
+import BeforeYouGo from './screens/DeactivateAccount/BeforeYouGo';
+import BeforeYouGoAgain from './screens/DeactivateAccount/BeforeYouGoAgain';
 // import store from './store';
 // import store from '../LTOMNISApp'
 
@@ -236,10 +248,11 @@ export {App};
 
 export type HomeStackParamList = {
   HomeScreen: undefined;
-  TransactionHistoryDetails: undefined;
-  TransactionHistoryTax: undefined;
+  TransactionHistoryDetails: {transactionId: string};
+  TransactionHistoryTax: {transactionId: string};
   OfferScreenLender: undefined;
   OfferTransactionHistory: undefined;
+  DepositMoneyScreen: undefined;
   WithdrawMoneyScreen: undefined;
   ActiveOfferDetails: undefined;
   ActiveOfferLenderDetails: undefined;
@@ -253,6 +266,17 @@ export type HomeStackParamList = {
   SuccessOffer: undefined;
   ActiveOfferMakePayment: undefined;
   OfferDetailsAccepted: undefined;
+  NotificationScreen: undefined;
+  MyProfile: undefined;
+  FAQ: undefined;
+  Settings: undefined;
+  LanguagesSettings: undefined;
+  DeactivateAccount: undefined;
+  PrivacyPolicy: undefined;
+  EditProfile: undefined;
+  AppFeedBack: undefined;
+  BeforeYouGo: undefined;
+  BeforeYouGoAgain: undefined;
 };
 
 const HomeStack = createNativeStackNavigator<HomeStackParamList>();
@@ -322,6 +346,36 @@ export function HomeStackNavigator({}: HomeStackNavigatorProps) {
         name="OfferDetailsAccepted"
         component={OfferDetailsAccepted}
       />
+      <HomeStack.Screen
+        name="NotificationScreen"
+        component={NotificationScreen}
+      />
+      <HomeStack.Screen name="MyProfile" component={MyProfile} />
+      <HomeStack.Screen name="FAQ" component={FAQ} />
+      <HomeStack.Screen name="Settings" component={Settings} />
+      <HomeStack.Screen name="EditProfile" component={EditProfile} />
+      <HomeStack.Screen
+        name="LanguagesSettings"
+        component={LanguagesSettings}
+      />
+      <HomeStack.Screen
+        name="DeactivateAccount"
+        component={DeactivateAccount}
+      />
+      <HomeStack.Screen name="PrivacyPolicy" component={PrivacyPolicy} />
+      <HomeStack.Screen name="AppFeedBack" component={AppFeedBack} />
+      <HomeStack.Screen
+        name="DepositMoneyScreen"
+        component={DepositMoneyScreen}
+      />
+            <HomeStack.Screen
+        name="BeforeYouGo"
+        component={BeforeYouGo}
+      />            
+      <HomeStack.Screen
+      name="BeforeYouGoAgain"
+      component={BeforeYouGoAgain}
+    />
     </HomeStack.Navigator>
   );
 }
@@ -394,10 +448,13 @@ export type SpotlightStackParamList = {
   FeedSummary: undefined;
   OfferSent: undefined;
   OfferSentSuccessful: undefined;
-  FriendsProfile: undefined;
+  FriendsProfile: {
+    from: string;
+  };
   SpotlightScreen: undefined;
   GroupsScreen: undefined;
   FriendsScreen: undefined;
+  AddFriendScreen: undefined;
 };
 
 export function SpotlightStackNavigator({}: SpotlightStackNavigatorProps) {
@@ -416,6 +473,10 @@ export function SpotlightStackNavigator({}: SpotlightStackNavigatorProps) {
       <SpotlightStack.Screen name="FriendsProfile" component={FriendsProfile} />
       <SpotlightStack.Screen name="GroupsScreen" component={GroupsScreen} />
       <SpotlightStack.Screen name="FriendsScreen" component={FriendsScreen} />
+      <SpotlightStack.Screen
+        name="AddFriendScreen"
+        component={AddFriendScreen}
+      />
       <SpotlightStack.Screen
         name="OfferSentSuccessful"
         component={OfferSentSuccessful}

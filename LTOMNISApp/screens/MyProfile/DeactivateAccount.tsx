@@ -1,11 +1,14 @@
 import {View, Text, SafeAreaView, StyleSheet} from 'react-native';
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import ScreenTitle from '../../assets/constants/Components/ScreenTitle';
 import GlobalStyles from '../../assets/constants/colors';
 import {Image} from 'react-native';
 import IconWithText from './IconWithText';
 import CompleteButton from '../../assets/constants/Components/Buttons/CompleteButton';
 import BottomSheet from './BottomSheet';
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {RootStackParamList} from '../../types';
 
 export default function DeactivateAccount() {
   const [isSheetVisible, setSheetVisible] = useState(false);
@@ -17,6 +20,9 @@ export default function DeactivateAccount() {
     earnedAmount: 214.23,
     borrowedAmount: 11111,
   });
+
+  const navigation =
+    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
   function formatNumber(num: number) {
     return new Intl.NumberFormat('en-US', {
@@ -90,22 +96,20 @@ export default function DeactivateAccount() {
           </View>
         </View>
       </View>
-      <View style={{height: '33%'}}>
+      <View style={{height: '25%'}}>
         <CompleteButton
-          text="Back to Feed"
-          icon="return-up-back"
-          iconSet="Ionicons"
+          text="Keep My Account"
           iconColor={GlobalStyles.Colors.primary100}
-          color={GlobalStyles.Colors.primary600}
-          onPress={() => setSheetVisible(true)}
+          color={GlobalStyles.Colors.primary200}
+          onPress={() => navigation.goBack()}
         />
       </View>
       <View style={{height: '10%'}}>
         <CompleteButton
-          text="Visit Spotlight"
+          text="Deactivate Account"
           iconColor={GlobalStyles.Colors.primary100}
-          color={GlobalStyles.Colors.primary200}
-          onPress={() => console.log('Button pressed!')}
+          color={GlobalStyles.Colors.primary600}
+          onPress={() => setSheetVisible(true)}
         />
       </View>
       <BottomSheet
@@ -118,6 +122,9 @@ export default function DeactivateAccount() {
         button2Color={GlobalStyles.Colors.primary600}
         onButton1Press={() => {
           console.log('Button 1 pressed');
+          {
+            navigation.navigate('HomeStackNavigator', {screen: 'BeforeYouGo'});
+          }
           setSheetVisible(false);
         }}
         onButton2Press={() => {

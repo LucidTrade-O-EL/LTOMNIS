@@ -171,6 +171,15 @@ export default function Tabs({}) {
         <Tab.Screen
           name="HomeStackNavigator"
           component={HomeStackNavigator}
+          listeners={({navigation}) => ({
+            tabPress: e => {
+              // Prevent default action
+              e.preventDefault();
+
+              // Navigate to the initial route of the HomeStackNavigator
+              navigation.navigate('HomeStackNavigator');
+            },
+          })}
           options={{
             tabBarIcon: ({focused}) => (
               <Octicons
@@ -188,6 +197,15 @@ export default function Tabs({}) {
         <Tab.Screen
           name="FeedStackNavigator"
           component={FeedStackNavigator}
+          listeners={({navigation}) => ({
+            tabPress: e => {
+              // Prevent default action
+              e.preventDefault();
+
+              // Navigate to the initial route of the HomeStackNavigator
+              navigation.navigate('FeedStackNavigator');
+            },
+          })}
           options={{
             tabBarIcon: ({focused}) => (
               <Ionicons
@@ -205,6 +223,15 @@ export default function Tabs({}) {
         <Tab.Screen
           name="AddPostScreen"
           component={AddPostScreen}
+          listeners={({navigation}) => ({
+            tabPress: e => {
+              // Prevent default action
+              e.preventDefault();
+
+              // Navigate to the initial route of the HomeStackNavigator
+              navigation.navigate('AddPostScreen');
+            },
+          })}
           options={{
             tabBarIcon: () => (
               <Ionicons
@@ -221,6 +248,15 @@ export default function Tabs({}) {
         <Tab.Screen
           name="OMNISScoreStackNavigator"
           component={OMNISScoreStackNavigator}
+          listeners={({navigation}) => ({
+            tabPress: e => {
+              // Prevent default action
+              e.preventDefault();
+
+              // Navigate to the initial route of the HomeStackNavigator
+              navigation.navigate('OMNISScoreStackNavigator');
+            },
+          })}
           options={{
             tabBarIcon: ({focused}) => (
               <Ionicons
@@ -238,6 +274,15 @@ export default function Tabs({}) {
         <Tab.Screen
           name="SpotlightStackNavigator"
           component={SpotlightStackNavigator}
+          listeners={({navigation}) => ({
+            tabPress: e => {
+              // Prevent default action
+              e.preventDefault();
+
+              // Navigate to the initial route of the HomeStackNavigator
+              navigation.navigate('SpotlightStackNavigator');
+            },
+          })}
           options={{
             tabBarIcon: ({focused}) => (
               <Ionicons

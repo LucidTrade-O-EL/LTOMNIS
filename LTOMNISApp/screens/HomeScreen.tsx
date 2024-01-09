@@ -19,27 +19,12 @@ import {HomeStackParamList} from '../App'
 import { useDispatch, useSelector } from 'react-redux';
 import { hideTabBar, showTabBar } from '../tabBarSlice';
 import { AppState } from '../ReduxStore';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 // import { hideTabBar, showTabBar } from '../appReducer';
 
 
-type HomeScreenRouteProp = RouteProp<RootStackParamList, 'HomeScreen'>;
-
-type RootStackParamList = {
-  HomeScreen: undefined;
-  TransactionHistoryDetails: {transactionId: string};
-  TransactionHistoryTax: {transactionId: string};
-  // Add other screens and their respective parameter definitions here.
-};
-
-type HomeScreenNavigationProp = StackNavigationProp<
-  RootStackParamList,
-  'HomeScreen'
->;
-
 export default function HomeScreen({
-  navigation,
 }: {
-  navigation: HomeScreenNavigationProp;
 }) {
 
   const [userName, setUserName] = useState('Zak Veasy');
@@ -48,10 +33,11 @@ export default function HomeScreen({
   const [AcceptedOffers, setAcceptedOffers] = useState(6);
   const [OffersAccepted, setOffersAccepted] = useState(13);
   const [NewOffers, setNewOffers] = useState(5);
+  const navigation = useNavigation<NativeStackNavigationProp<HomeStackParamList>>();
 
   const handleDeposit = () => {
     console.log('Deposit button pressed');
-    // Insert logic for deposit functionality here
+    navigation.navigate('DepositMoneyScreen');
   };
 
   const handleWithdraw = () => {
@@ -71,6 +57,16 @@ export default function HomeScreen({
     navigation.navigate('OfferScreenLender');
   };
 
+  const handleNotifications = () => {
+    console.log('NotificationScreen button pressed');
+    navigation.navigate('NotificationScreen');
+  };
+
+  const handleProfileScreen = () => {
+    console.log('MyProfile button pressed');
+    navigation.navigate('MyProfile');
+  };
+
   const handleBorrower = () => {
     console.log('Transaction button pressed');
     navigation.navigate('OfferScreen');
@@ -81,7 +77,7 @@ export default function HomeScreen({
     <SafeAreaView style={styles.Background}>
       {/* Profile Pic, Name, and Notifications */}
       <View style={styles.headerContainer}>
-        <View style={{flexDirection: 'row'}}>
+        <Pressable onPress={handleProfileScreen} style={{flexDirection: 'row'}}>
           <Avatar
             size={48}
             rounded
@@ -90,19 +86,21 @@ export default function HomeScreen({
             }}
           />
           <Text style={styles.NameHeaderText}>{userName}</Text>
-        </View>
+        </Pressable>
+        <Pressable onPress={handleNotifications}>
         <IonIcon
           name="notifications-outline"
           size={24}
           style={{alignSelf: 'center'}}
           color={GlobalStyles.Colors.primary100}
         />
+        </Pressable>
       </View>
 
       {/* Balance */}
 
       <View>
-        <Text style={styles.LoanTitle}>Loan Balance</Text>
+        <Text style={styles.LoanTitle}>Credit</Text>
       </View>
       <View>
         <Text style={styles.LoanNumber}>{balance}</Text>

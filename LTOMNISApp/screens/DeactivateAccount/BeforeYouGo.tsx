@@ -4,10 +4,14 @@ import ScreenTitle from '../../assets/constants/Components/ScreenTitle';
 import GlobalStyles from '../../assets/constants/colors';
 import RowWithRadioButton from '../MyProfile/RowWithRadioButton';
 import CompleteButton from '../../assets/constants/Components/Buttons/CompleteButton';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../../types';
 
 export default function BeforeYouGo() {
   const [selectedIndex, setIndex] = useState<number | null>(null);
   const [otherReason, setOtherReason] = useState<string>('');
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
   return (
     <SafeAreaView style={styles.Background}>
@@ -46,7 +50,7 @@ export default function BeforeYouGo() {
           )}
         </View>
       </View>
-      <CompleteButton text="Deactivate Account" onPress={() => {}} />
+      <CompleteButton text="Deactivate Account" onPress={() => navigation.navigate('HomeStackNavigator', {screen: 'BeforeYouGoAgain'})} />
     </SafeAreaView>
   );
 }

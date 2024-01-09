@@ -27,7 +27,7 @@ export default function FAQ() {
 
   return (
     <SafeAreaView style={styles.safeArea}>
-      <View style={styles.Background}>
+      <View>
         <ScreenTitle showBackArrow={true} title="FAQs" />
         <ScrollView style={styles.contentContainer}>
           <View style={styles.whiteContainer}>
@@ -53,10 +53,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#1E1E1E',
   },
-  Background: {
-    flex: 1,
-    alignItems: 'center',
-  },
   contentContainer: {
     flexGrow: 1, // Updated this line
     width: '100%',
@@ -67,7 +63,6 @@ const styles = StyleSheet.create({
     borderRadius: 24,
     marginBottom: 20,
     alignItems: 'center',
-    height: '100%',
     width: '100%',
   },
   textContent: {
