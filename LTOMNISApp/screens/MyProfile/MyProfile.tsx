@@ -14,10 +14,10 @@ import {
   ImagePickerResponse,
 } from 'react-native-image-picker';
 import {TouchableOpacity} from 'react-native-gesture-handler';
-import { useNavigation } from '@react-navigation/native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { HomeStackParamList } from '../../App';
-import { RootStackParamList } from '../../types';
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {HomeStackParamList} from '../../App';
+import {RootStackParamList} from '../../types';
 
 type ImagePickerMethod = (
   options: any, // Here you can replace 'any' with the correct type if known
@@ -26,8 +26,8 @@ type ImagePickerMethod = (
 
 export default function MyProfile() {
   const firstUser = importedUser[0];
-  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
-
+  const navigation =
+    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
   const initials = firstUser.name
     ? firstUser.name
@@ -132,19 +132,23 @@ export default function MyProfile() {
           />
         </View>
         <ButtonsRow
-  leftButtonText="Edit Profile"
-  rightButtonText="Share Profile"
-  onLeftButtonPress={() => { console.log('Left button pressed'); }}
-  onRightButtonPress={() => { console.log('Right button pressed'); }}
-  isLeftButtonActive={true} // or false based on your state
-  isRightButtonActive={true} // or true based on your state
-/>
+          leftButtonText="Edit Profile"
+          rightButtonText="Share Profile"
+          onLeftButtonPress={() => {
+            console.log('Left button pressed');
+          }}
+          onRightButtonPress={() => {
+            console.log('Right button pressed');
+          }}
+          isLeftButtonActive={true} // or false based on your state
+          isRightButtonActive={true} // or true based on your state
+        />
       </View>
       <View
         style={{
-          flex: 1,
           borderRadius: 24,
           backgroundColor: 'white',
+          height: '100%',
           width: '100%',
           padding: 20,
           flexDirection: 'row',
@@ -152,10 +156,18 @@ export default function MyProfile() {
           alignItems: 'flex-start',
           justifyContent: 'space-between',
         }}>
-        <TouchableOpacity onPress={() => {navigation.navigate('SpotlightStackNavigator', { screen: 'AddFriendScreen' })}}>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate('SpotlightStackNavigator', {
+              screen: 'AddFriendScreen',
+            });
+          }}>
           <GrayBox iconName="users" label="Friends" iconType="feather" />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => {navigation.navigate('FeedStackNavigator', { screen: 'MyFeedScreen' })}}>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate('FeedStackNavigator', {screen: 'MyFeedScreen'});
+          }}>
           <GrayBox
             iconName="message-square"
             label="My Posts"
@@ -169,21 +181,32 @@ export default function MyProfile() {
             iconType="MaterialCommunityIcons"
           />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => {navigation.navigate('OMNISScoreStackNavigator', { screen: 'LevelsScreen' })}}>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate('OMNISScoreStackNavigator', {
+              screen: 'LevelsScreen',
+            });
+          }}>
           <GrayBox
             iconName="star-four-points-outline"
             label="Rewards"
             iconType="MaterialCommunityIcons"
           />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => {navigation.navigate('HomeStackNavigator', { screen: 'FAQ' })}}>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate('HomeStackNavigator', {screen: 'FAQ'});
+          }}>
           <GrayBox
             iconName="help-circle-outline"
             label="Help Center"
             iconType="Ionicons"
           />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => {navigation.navigate('HomeStackNavigator', { screen: 'Settings' })}}>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate('HomeStackNavigator', {screen: 'Settings'});
+          }}>
           <GrayBox iconName="settings" label="Settings" iconType="feather" />
         </TouchableOpacity>
         <TouchableOpacity onPress={() => {}}>

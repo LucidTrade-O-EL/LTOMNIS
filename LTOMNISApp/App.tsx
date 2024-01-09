@@ -111,6 +111,8 @@ import AppFeedBack from './screens/MyProfile/AppFeedBack';
 import DepositMoneyScreen from './screens/DepositMoney/DepositMoneyScreen';
 import BeforeYouGo from './screens/DeactivateAccount/BeforeYouGo';
 import BeforeYouGoAgain from './screens/DeactivateAccount/BeforeYouGoAgain';
+import PostOfferSummary from './screens/MyFeed/Borrower/PostOfferSummary';
+import PostEdit from './screens/MyFeed/Borrower/PostEdit';
 // import store from './store';
 // import store from '../LTOMNISApp'
 
@@ -368,14 +370,8 @@ export function HomeStackNavigator({}: HomeStackNavigatorProps) {
         name="DepositMoneyScreen"
         component={DepositMoneyScreen}
       />
-            <HomeStack.Screen
-        name="BeforeYouGo"
-        component={BeforeYouGo}
-      />            
-      <HomeStack.Screen
-      name="BeforeYouGoAgain"
-      component={BeforeYouGoAgain}
-    />
+      <HomeStack.Screen name="BeforeYouGo" component={BeforeYouGo} />
+      <HomeStack.Screen name="BeforeYouGoAgain" component={BeforeYouGoAgain} />
     </HomeStack.Navigator>
   );
 }
@@ -392,6 +388,9 @@ export type FeedStackParamList = {
   FriendsProfile: undefined;
   SpotlightScreen: undefined;
   SpotlightStackNavigator: undefined;
+  PostOfferSummary: undefined;
+  PostEdit: undefined;
+  FeedSummary: undefined;
 };
 
 export function FeedStackNavigator({}: FeedStackNavigatorProps) {
@@ -413,6 +412,9 @@ export function FeedStackNavigator({}: FeedStackNavigatorProps) {
         name="OfferSentSuccessful"
         component={OfferSentSuccessful}
       />
+      <FeedStack.Screen name="PostOfferSummary" component={PostOfferSummary} />
+      <FeedStack.Screen name="PostEdit" component={PostEdit} />
+      <FeedStack.Screen name="FeedSummary" component={FeedSummary} />
     </FeedStack.Navigator>
   );
 }
