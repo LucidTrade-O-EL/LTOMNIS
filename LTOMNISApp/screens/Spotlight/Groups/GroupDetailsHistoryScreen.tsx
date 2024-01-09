@@ -10,8 +10,13 @@ import ScreenTitle from '../../../assets/constants/Components/ScreenTitle';
 import GroupDetailsInfo from '../../../assets/constants/Components/GroupDetailsInfo';
 import CompleteButton from '../../../assets/constants/Components/Buttons/CompleteButton';
 import GlobalStyles from '../../../assets/constants/colors';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { SpotlightStackParamList } from '../../../App';
 
 export default function GroupDetailsHistoryScreen() {
+  const navigation = useNavigation<NativeStackNavigationProp<SpotlightStackParamList>>();
+
   return (
     <View style={styles.Background}>
       <ImageBackground
@@ -47,7 +52,7 @@ export default function GroupDetailsHistoryScreen() {
       <CompleteButton
         text="View payment status"
         color={GlobalStyles.Colors.primary200}
-        onPress={() => console.log('Button pressed!')}
+        onPress={() => navigation.navigate('PaymentStatus')}
       />
     </View>
   );

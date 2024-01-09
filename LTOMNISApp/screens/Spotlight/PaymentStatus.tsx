@@ -1,5 +1,5 @@
 import {View, Text, ScrollView} from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import GlobalStyles from '../../assets/constants/colors';
 import {StyleSheet} from 'react-native';
 import ScreenTitle from '../../assets/constants/Components/ScreenTitle';
@@ -14,10 +14,13 @@ import {
 } from '../../assets/constants/Data/dummydata';
 
 export default function PaymentStatus() {
+  const [firstName, setFirstName] = useState('John'); // Replace 'John' with a default or initial value
+  const [lastName, setLastName] = useState('Doe'); // Replace 'Doe' with a default or initial value
+  const [status, setStatus] = useState('Pending'); // Set the default status
   return (
     <SafeAreaView style={styles.Background}>
       <ScreenTitle
-        title="Group details"
+        title="Payment Status"
         showBackArrow={true}
         onBackPress={() => {
           // Handle the back button press, e.g., navigate back
@@ -28,8 +31,17 @@ export default function PaymentStatus() {
         onRightIconPress={() => {}}
       />
       <ScrollView contentContainerStyle={styles.scrollViewContent}>
-        <CustomPaymentBlock data={dummyUserData.payments} {...dummyUserData} />
         <CustomPaymentBlock
+          firstname={firstName}
+          lastname={lastName}
+          status={status}
+          data={dummyUserData.payments}
+          {...dummyUserData}
+        />
+        <CustomPaymentBlock
+          firstname={firstName}
+          lastname={lastName}
+          status={status}
           data={dummyUserData2.payments}
           {...dummyUserData2}
         />

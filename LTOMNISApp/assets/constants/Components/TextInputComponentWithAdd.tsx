@@ -1,7 +1,10 @@
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React, {useState} from 'react';
 import {View, Text, StyleSheet, TextInput, ScrollView} from 'react-native';
 import {Chip} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { SpotlightStackParamList } from '../../../App';
 import GlobalStyles from '../colors';
 
 interface TextInputComponentWithAddProps {
@@ -45,7 +48,7 @@ const TextInputComponentWithAdd: React.FC<TextInputComponentWithAddProps> = ({
       setTextValue('');
     }
   };
-
+  const navigation = useNavigation<NativeStackNavigationProp<SpotlightStackParamList>>();
   return (
     <View style={styles.customComponentContainer}>
       <View
@@ -68,6 +71,7 @@ const TextInputComponentWithAdd: React.FC<TextInputComponentWithAddProps> = ({
             justifyContent: 'center',
           }}>
           <Icon
+          onPressIn={() => navigation.navigate('ChooseFriends')}
             name={'add'}
             size={20}
             color={GlobalStyles.Colors.primary100}

@@ -1,7 +1,10 @@
 import React, { useState, useCallback } from 'react';
-import { View, Text, StyleSheet, Image, FlatList, Animated } from 'react-native';
+import { View, Text, StyleSheet, Image, FlatList, Animated, Pressable } from 'react-native';
 import ScrollingBarComponent from './Buttons/ScrollingBarComponent';
 import { ViewToken } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { SpotlightStackParamList } from '../../../App';
 
 export interface FeaturedGroupItem {
   url: string;
@@ -16,6 +19,8 @@ export interface FeaturedGroupItem {
 export const SmallCustomCarousel: React.FC<SmallCustomCarouselProps> = ({ data, images }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const scrollPosition = useState(new Animated.Value(0))[0];
+  const navigation =
+    useNavigation<NativeStackNavigationProp<SpotlightStackParamList>>();
 
   const totalWidth = images.length * 80; // Adjust as necessary
   const flatListWidth = 400; // Adjust as necessary
@@ -51,10 +56,10 @@ export const SmallCustomCarousel: React.FC<SmallCustomCarouselProps> = ({ data, 
         showsHorizontalScrollIndicator={false}
         onScroll={onScroll}
         renderItem={({ item, index }) => (
-          <View style={styles.imageContainer}>
+          <Pressable onPress={() => {navigation.navigate('GroupDetailsHistoryScreen')}} style={styles.imageContainer}>
             <Image source={{ uri: item.url }} style={styles.image} />
             <Text style={styles.text}>{formatText(item.text)}</Text>
-          </View>
+          </Pressable>
         )}
         keyExtractor={(item, index) => index.toString()}
         onViewableItemsChanged={onViewableItemsChanged}

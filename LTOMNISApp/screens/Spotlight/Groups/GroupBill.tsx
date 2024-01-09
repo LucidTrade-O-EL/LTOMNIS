@@ -1,4 +1,4 @@
-import {View, Text, StyleSheet, ScrollView} from 'react-native';
+import {View, Text, StyleSheet, ScrollView, Pressable} from 'react-native';
 import React from 'react';
 import GlobalStyles from '../../../assets/constants/colors';
 import ScreenTitle from '../../../assets/constants/Components/ScreenTitle';
@@ -9,11 +9,15 @@ import ToggleButton from '../../../assets/constants/Components/ToggleButton';
 import {Switch} from 'react-native';
 import CompleteButton from '../../../assets/constants/Components/Buttons/CompleteButton';
 import CostPercentageComponent from '../../../assets/constants/Components/CostPercentageComponent';
+import {SpotlightStackParamList} from '../../../App';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {useNavigation} from '@react-navigation/native';
 
 const GroupBill = () => {
   const [isFeatured, setIsFeatured] = React.useState(false);
   const [splitMethod, setSplitMethod] = React.useState('Equal');
-
+  const navigation =
+    useNavigation<NativeStackNavigationProp<SpotlightStackParamList>>();
   const users = [
     {firstName: 'User1', lastName: 'A', type: 'custom', avatar: true},
     {firstName: 'User2', lastName: 'B', type: 'custom', avatar: true},
@@ -60,12 +64,14 @@ const GroupBill = () => {
           onChangeText={text => console.log(text)}
           inputHeight={110}
         />
+
         <TextInputComponentWithAdd
           title="Participants"
           keyboardType="default"
           onChangeText={text => console.log(text)}
           isAmount={true}
         />
+
         <ToggleButton
           title="Split the bill"
           toggleTexts={['Equal', 'Custom']}
@@ -117,7 +123,9 @@ const GroupBill = () => {
           <CompleteButton
             text="Create bill"
             color={GlobalStyles.Colors.primary200}
-            onPress={() => console.log('Button pressed!')}
+            onPress={() => {
+              navigation.pop(3);
+            }}
           />
         </View>
       </ScrollView>

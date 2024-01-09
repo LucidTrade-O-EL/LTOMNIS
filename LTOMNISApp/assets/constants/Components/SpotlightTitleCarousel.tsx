@@ -1,3 +1,5 @@
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React from 'react';
 import {
   View,
@@ -6,7 +8,9 @@ import {
   TouchableOpacity,
   FlatList,
   Image,
+  Pressable,
 } from 'react-native';
+import { SpotlightStackParamList } from '../../../App';
 import GlobalStyles from '../colors';
 import { FeaturedGroupItem } from './SmallCustomCarousel';
 
@@ -58,6 +62,9 @@ interface OnViewableItemsChangedInfo {
 export const CustomCarousel: React.FC<CustomCarouselProps> = ({data, images}) => {
   const [currentIndex, setCurrentIndex] = React.useState(0);
 
+  const navigation =
+  useNavigation<NativeStackNavigationProp<SpotlightStackParamList>>();
+
   const viewConfigRef = React.useRef({
     viewAreaCoveragePercentThreshold: 50,
   }).current;
@@ -74,6 +81,11 @@ export const CustomCarousel: React.FC<CustomCarouselProps> = ({data, images}) =>
     additionalData: data[index]
   }));
 
+  const handleButtonPress = () => {
+    console.log('Button Pressed');
+    navigation.navigate('GroupDetailsScreen');
+  };
+
   return (
     <View style={{left: 20}}>
       <FlatList
@@ -81,6 +93,7 @@ export const CustomCarousel: React.FC<CustomCarouselProps> = ({data, images}) =>
         horizontal
         showsHorizontalScrollIndicator={false}
         renderItem={({item, index}) => (
+          <Pressable onPress={handleButtonPress}>
           <View style={styles.carouselItem}>
             <Image
               source={{uri: item.url}}
@@ -93,6 +106,7 @@ export const CustomCarousel: React.FC<CustomCarouselProps> = ({data, images}) =>
               </View>
             )}
           </View>
+          </Pressable>
         )}
         keyExtractor={(item, index) => index.toString()}
         contentContainerStyle={{marginBottom: 24}}

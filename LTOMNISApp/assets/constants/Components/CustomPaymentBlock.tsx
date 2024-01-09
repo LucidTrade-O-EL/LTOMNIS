@@ -60,7 +60,7 @@ const CustomPaymentBlock: React.FC<CustomPaymentBlockProps> = ({
   status,
 }) => {
   // Calculate the total amount based on payments received
-  const paymentsReceived = data.filter(item => 'isDivider' in item).length;
+  const paymentsReceived = (data || []).filter(item => 'isDivider' in item).length;
   const totalAmount = paymentsReceived * 10; // Assuming $10 per payment
 
   // Determine if the payment is "Paid" based on the remaining amount
@@ -71,8 +71,10 @@ const CustomPaymentBlock: React.FC<CustomPaymentBlockProps> = ({
   const totalAmountTextColor = isPaid ? 'black' : 'red';
 
   const avatarImage = ''; // Assuming you'd get this from props or somewhere else
-  const firstNameLetter = firstname.charAt(0);
-  const lastNameLetter = lastname.charAt(0);
+  const firstNameLetter = firstname ? firstname.charAt(0) : '';
+  const lastNameLetter = lastname ? lastname.charAt(0) : '';
+  
+  
 
   return (
     <View style={styles.container}>

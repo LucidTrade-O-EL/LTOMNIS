@@ -113,6 +113,13 @@ import BeforeYouGo from './screens/DeactivateAccount/BeforeYouGo';
 import BeforeYouGoAgain from './screens/DeactivateAccount/BeforeYouGoAgain';
 import PostOfferSummary from './screens/MyFeed/Borrower/PostOfferSummary';
 import PostEdit from './screens/MyFeed/Borrower/PostEdit';
+import ChooseFriends from './screens/Spotlight/Friends/ChooseFriends';
+import GroupBill from './screens/Spotlight/Groups/GroupBill';
+import GroupDetailsHistoryScreen from './screens/Spotlight/Groups/GroupDetailsHistoryScreen';
+import GroupDetailsScreen from './screens/Spotlight/Groups/GroupDetailsScreen';
+import MakeAGroupScreen from './screens/Spotlight/Groups/MakeAGroupScreen';
+import CustomPaymentBlock from './assets/constants/Components/CustomPaymentBlock';
+import PaymentStatus from './screens/Spotlight/PaymentStatus';
 // import store from './store';
 // import store from '../LTOMNISApp'
 
@@ -382,7 +389,6 @@ export type FeedStackParamList = {
   MyFeedScreen: undefined;
   PostDetails: undefined;
   PostOffer: undefined;
-  FeedSummary: undefined;
   OfferSent: undefined;
   OfferSentSuccessful: undefined;
   FriendsProfile: undefined;
@@ -401,7 +407,6 @@ export function FeedStackNavigator({}: FeedStackNavigatorProps) {
       <FeedStack.Screen name="MyFeedScreen" component={MyFeedScreen} />
       <FeedStack.Screen name="PostDetails" component={PostDetails} />
       <FeedStack.Screen name="PostOffer" component={PostOffer} />
-      <FeedStack.Screen name="FeedSummary" component={FeedSummary} />
       <FeedStack.Screen name="OfferSent" component={OfferSent} />
       <FeedStack.Screen name="FriendsProfile" component={FriendsProfile} />
       <FeedStack.Screen
@@ -457,6 +462,12 @@ export type SpotlightStackParamList = {
   GroupsScreen: undefined;
   FriendsScreen: undefined;
   AddFriendScreen: undefined;
+  ChooseFriends: undefined;
+  GroupBill: undefined;
+  GroupDetailsHistoryScreen: undefined;
+  GroupDetailsScreen: undefined;
+  MakeAGroupScreen: undefined;
+  PaymentStatus: undefined;
 };
 
 export function SpotlightStackNavigator({}: SpotlightStackNavigatorProps) {
@@ -468,6 +479,24 @@ export function SpotlightStackNavigator({}: SpotlightStackNavigatorProps) {
         name="SpotlightScreen"
         component={SpotlightScreen}
       />
+      <SpotlightStack.Screen
+        name="AddFriendScreen"
+        component={AddFriendScreen}
+      />
+      <SpotlightStack.Screen name="ChooseFriends" component={ChooseFriends} />
+      <SpotlightStack.Screen name="GroupBill" component={GroupBill} />
+      <SpotlightStack.Screen
+        name="GroupDetailsHistoryScreen"
+        component={GroupDetailsHistoryScreen}
+      />
+      <SpotlightStack.Screen
+        name="GroupDetailsScreen"
+        component={GroupDetailsScreen}
+      />
+      <SpotlightStack.Screen
+        name="MakeAGroupScreen"
+        component={MakeAGroupScreen}
+      />
       <SpotlightStack.Screen name="PostDetails" component={PostDetails} />
       <SpotlightStack.Screen name="PostOffer" component={PostOffer} />
       <SpotlightStack.Screen name="FeedSummary" component={FeedSummary} />
@@ -476,12 +505,12 @@ export function SpotlightStackNavigator({}: SpotlightStackNavigatorProps) {
       <SpotlightStack.Screen name="GroupsScreen" component={GroupsScreen} />
       <SpotlightStack.Screen name="FriendsScreen" component={FriendsScreen} />
       <SpotlightStack.Screen
-        name="AddFriendScreen"
-        component={AddFriendScreen}
-      />
-      <SpotlightStack.Screen
         name="OfferSentSuccessful"
         component={OfferSentSuccessful}
+      />
+            <SpotlightStack.Screen
+        name="PaymentStatus"
+        component={PaymentStatus}
       />
     </SpotlightStack.Navigator>
   );

@@ -1,7 +1,7 @@
-import { View, Text, StyleSheet } from 'react-native';
-import React, { useState } from 'react';
+import {View, Text, StyleSheet} from 'react-native';
+import React, {useState} from 'react';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import { LinearProgress } from '@rneui/base';
+import {LinearProgress} from '@rneui/base';
 import GlobalStyles from '../colors';
 
 export default function PointsRow() {
@@ -23,12 +23,12 @@ export default function PointsRow() {
               style={[
                 styles.pointCircle,
                 {
-                  backgroundColor: Points >= point
-                    ? GlobalStyles.Colors.primary210
-                    : GlobalStyles.Colors.primary200,
+                  backgroundColor:
+                    Points >= point
+                      ? GlobalStyles.Colors.primary210
+                      : GlobalStyles.Colors.primary200,
                 },
-              ]}
-            >
+              ]}>
               <MaterialCommunityIcons
                 size={40} // Increased icon size
                 color={

@@ -10,8 +10,12 @@ import ScreenTitle from '../../../assets/constants/Components/ScreenTitle';
 import GlobalStyles from '../../../assets/constants/colors';
 import GroupDetailsInfo from '../../../assets/constants/Components/GroupDetailsInfo';
 import CompleteButton from '../../../assets/constants/Components/Buttons/CompleteButton';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { SpotlightStackParamList } from '../../../App';
 
 export default function GroupDetailsScreen() {
+  const navigation = useNavigation<NativeStackNavigationProp<SpotlightStackParamList>>();
   return (
     <View style={styles.Background}>
       <ImageBackground
@@ -43,7 +47,7 @@ export default function GroupDetailsScreen() {
       <CompleteButton
         text="Create a group bill"
         color={GlobalStyles.Colors.primary200}
-        onPress={() => console.log('Button pressed!')}
+        onPress={() => navigation.navigate('GroupBill')}
       />
     </View>
   );
