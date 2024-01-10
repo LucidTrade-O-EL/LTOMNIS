@@ -143,7 +143,7 @@ function CombinedStackNavigator() {
   return (
     <CombinedStack.Navigator screenOptions={{headerShown: false}}>
       {/* Onboarding Screens */}
-      {/* <CombinedStack.Screen name="SplashScreen" component={SplashScreen} />
+      <CombinedStack.Screen name="SplashScreen" component={SplashScreen} />
       <CombinedStack.Screen name="SelectLang" component={SelectLang} />
       <CombinedStack.Screen
         name="OnboardingManager"
@@ -164,10 +164,10 @@ function CombinedStackNavigator() {
       <CombinedStack.Screen
         name="OnboardingScreen4"
         component={OnboardingScreen4}
-      /> */}
+      />
 
-      {/* <CombinedStack.Screen name="SignInScreen" component={SignInScreen} />
-      <CombinedStack.Screen name="RegisterScreen" component={RegisterScreen} /> */}
+      <CombinedStack.Screen name="SignInScreen" component={SignInScreen} />
+      <CombinedStack.Screen name="RegisterScreen" component={RegisterScreen} />
       <CombinedStack.Screen
         name="CreateLinkToken"
         component={CreateLinkToken}
@@ -225,7 +225,7 @@ const App = () => {
   return (
     <NavigationContainer>
       <RootStack.Navigator screenOptions={{headerShown: false}}>
-        {hasViewedOnboarding ? (
+        {!hasViewedOnboarding ? (
           // {!hasViewedOnboarding && !token ? (
           // Use CombinedStackNavigator here
           <RootStack.Screen

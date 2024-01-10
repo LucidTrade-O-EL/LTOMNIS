@@ -7,12 +7,12 @@ import GlobalStyles from '../../assets/constants/colors';
 import RowWithRadioButton from '../MyProfile/RowWithRadioButton';
 import CompleteButton from '../../assets/constants/Components/Buttons/CompleteButton';
 import {useDispatch, useSelector} from 'react-redux';
-import {AppState} from '../../rootReducer';
 import {setLanguage} from '../SelectLanguage/LanguageActions';
 import { initReactI18next, useTranslation } from 'react-i18next';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useNavigation } from '@react-navigation/native';
 import { RootStackParamList } from '../../types';
+import { AppState } from '../../ReduxStore';
 
 interface SelectLangProps {
   navigation: NativeStackNavigationProp<RootStackParamList>;

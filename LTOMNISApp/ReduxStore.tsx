@@ -2,6 +2,7 @@ import { createStore, combineReducers } from 'redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { AppActionTypes, TokenActionTypes } from './types'; // Adjust the import path
 import tabBarReducer, { TabBarInitialState } from './tabBarSlice';
+import languageReducer, { LanguageInitialState } from './Redux/Reducers/languageReducer';
 
 // Action Types
 const SET_HAS_VIEWED_ONBOARDING = 'SET_HAS_VIEWED_ONBOARDING';
@@ -35,8 +36,8 @@ const tokenInitialState: TokenInitialState  = {
 export interface AppState {
   app: AppInitialState,
   token: TokenInitialState,
-  //language: ReturnType<typeof languageReducer>;
-  tabBar: TabBarInitialState
+  language: LanguageInitialState,
+  tabBar: TabBarInitialState,
   //verify: ReturnType<typeof verifyReducer>; // Add this line
 }
 
@@ -68,6 +69,7 @@ const rootReducer = combineReducers({
   app: appReducer,
   token: tokenReducer,
   tabBar: tabBarReducer,
+  language: languageReducer,
 });
 
 // Store

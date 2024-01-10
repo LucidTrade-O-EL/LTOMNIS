@@ -1,12 +1,18 @@
 // languageReducer.tsx
-import {AnyAction} from 'redux';
-import {SET_LANGUAGE, SetLanguageAction} from '../../types';
+import {LanguageActionTypes} from '../../types';
 
-const initialState = {
-  language: 'en', // default language
+export interface LanguageInitialState {
+  language: string; // default language
+}
+
+const languageInitialState: LanguageInitialState = {
+  language: 'en',
 };
 
-const languageReducer = (state = initialState, action) => {
+const languageReducer = (
+  state: LanguageInitialState = languageInitialState,
+  action: LanguageActionTypes,
+) => {
   switch (action.type) {
     case 'SET_LANGUAGE':
       return {
