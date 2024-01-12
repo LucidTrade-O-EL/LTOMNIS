@@ -7,6 +7,7 @@ import CompleteButton from '../../../../assets/constants/Components/Buttons/Comp
 import PaymentPlanBox from '../../../../assets/constants/Components/PaymentPlanBox';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import {t} from 'i18next'
 import { HomeStackParamList } from '../../../../App';
 
 export default function ChoosePaymentPlanScreen() {
@@ -18,7 +19,7 @@ export default function ChoosePaymentPlanScreen() {
     <View style={styles.Background}>
       <View style={styles.contentContainer}>
         <ScreenTitle
-          title="Choose Payment Plan"
+          title={t('choosePaymentPlan')}
           showBackArrow={true}
           onBackPress={() => {
             // Handle the back button press, e.g., navigate back
@@ -54,7 +55,7 @@ export default function ChoosePaymentPlanScreen() {
         onPress={() => {
           navigation.navigate('PaymentChosenScreen');
         }}
-        text="Complete"
+        text={t("Complete")}
       />
     </View>
   );

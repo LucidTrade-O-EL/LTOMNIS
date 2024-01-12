@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import GlobalStyles from '../colors';
+import {t} from 'i18next';
 
 type Props = {
     title: string;
@@ -18,13 +19,13 @@ const DEFAULT_RIGHT_WORDS = [
 ];
 
 const LEFT_WORDS = [
-    'Date',
-    'Time',
-    'Sent from',
-    'Interest rate',
-    'Total payback',
-    'Amount per month',
-    'Payment plan'
+    t('Date'),
+    t('Time'),
+    t('sentFrom'),
+    t('newOfferDetails-interestRate'),
+    t('TotalPayback'),
+    t('AmountPerMonth'),
+    t('PaymentPlan')
 ];
 
 const SmallOfferDetailsVOne: React.FC<Props> = ({ title, rightWords = DEFAULT_RIGHT_WORDS }) => {

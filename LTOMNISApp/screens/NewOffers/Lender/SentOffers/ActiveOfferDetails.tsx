@@ -8,6 +8,7 @@ import ProgressWithLabel from '../../../../assets/constants/Components/ProgressW
 import TransactionHistory from '../../../../assets/constants/Components/CustomTransactionButton';
 import SmallOfferDetailsVFour from '../../../../assets/constants/Components/SmallOfferDetailsVFour';
 import CompleteButton from '../../../../assets/constants/Components/Buttons/CompleteButton';
+import {t} from 'i18next'
 
 function handleTransaction() {
   console.log('Transaction History Button Pressed');
@@ -17,7 +18,7 @@ export default function ActiveOfferDetails() {
   return (
     <SafeAreaView style={styles.Background}>
       <ScreenTitle
-        title="New Offer Details"
+        title={t('New Offer Details')}
         showBackArrow={true}
         onBackPress={() => {}}
         showRightIcon={true}
@@ -32,7 +33,7 @@ export default function ActiveOfferDetails() {
         />
       ))}
       <SmallOfferDetailsVFour
-        title="Offer Details"
+        title={t("OfferDetails")}
         words={[
           {
             leftText: 'Offer Number',
@@ -45,7 +46,7 @@ export default function ActiveOfferDetails() {
         ]}
       />
       <CompleteButton
-        text="Deactivate"
+        text={t("Deactivate")}
         icon="remove-circle-outline"
         iconSet="Ionicons"
         iconColor="#E10000"

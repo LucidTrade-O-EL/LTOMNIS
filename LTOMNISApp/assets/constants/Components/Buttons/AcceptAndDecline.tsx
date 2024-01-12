@@ -1,6 +1,7 @@
 import React from 'react';
 import {Pressable, Text, StyleSheet, View} from 'react-native';
 import GlobalStyles from '../../colors';
+import {t} from 'i18next';
 
 type CompleteButtonProps = {
   onAccept: () => void;
@@ -14,8 +15,8 @@ const AcceptAndDecline: React.FC<CompleteButtonProps> = ({
   onAccept,
   onDecline,
   acceptButtonStyle,
-  acceptText = 'Accept', // Default value in case no prop is passed
-  declineText = 'Decline', // Default value in case no prop is passed
+  acceptText = t('Accept'), // Default value in case no prop is passed
+  declineText = t('Decline'), // Default value in case no prop is passed
 }) => {
   return (
     <View

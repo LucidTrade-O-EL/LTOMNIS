@@ -4,6 +4,7 @@ import {View, Text, StyleSheet, Dimensions} from 'react-native';
 import Modal from 'react-native-modal';
 import GlobalStyles from '../colors';
 import AcceptAndDecline from './Buttons/AcceptAndDecline';
+import {t} from 'i18next';
 
 type BottomSheetModalProps = {
   isVisible: boolean;
@@ -21,13 +22,13 @@ const BottomSheetModal: React.FC<BottomSheetModalProps> = ({
   return (
     <Modal isVisible={isVisible} style={styles.modal}>
       <View style={styles.content}>
-        <Text style={styles.bigTitle}>Are you sure you want to</Text>
-        <Text style={styles.bigTitle}>accept this offer?</Text>
+        <Text style={styles.bigTitle}>{t('areYouSure')}</Text>
+        <Text style={styles.bigTitle}>{t('acceptThsOffer')}</Text>
         <Text style={styles.subText}>
-          This offer covers the rest of the amount, so other
+          {t('thisOfferCovers')}
         </Text>
         <Text style={styles.subText}>
-          offers for this post will be rejected.
+          {t('offerForPost')}
         </Text>
         <AcceptAndDecline onAccept={onAccept} onDecline={onDecline} />
       </View>

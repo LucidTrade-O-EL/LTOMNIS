@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {View, Text, StyleSheet, Pressable} from 'react-native';
 import {Divider} from 'react-native-elements';
-
+import {t} from 'i18next'
 import GlobalStyles from '../colors';
 import StarCircle from './Buttons/StarCircle';
 
@@ -57,7 +57,7 @@ const PaymentPlanBox: React.FC<OfferBigContainerProps> = ({
   return (
     <View style={styles.container}>
       <View style={styles.innerContainerTitle}>
-        <Text style={styles.TitleOfferLeftText}>{title}</Text>
+        <Text style={styles.TitleOfferLeftText}>{t('paymentPlanTitle', {paymentPlanTitle: title})}</Text>
         <View style={styles.rewardPointsContainer}>
           <StarCircle iconName="star-four-points-outline" />
           <Text style={styles.TitleOfferRightText}>
@@ -71,11 +71,9 @@ const PaymentPlanBox: React.FC<OfferBigContainerProps> = ({
           <Text
             style={
               styles.TextInRoles
-            }>{`${user.interest.toLocaleString()}% APR`}</Text>
+            }>{t('paymentPlanAPR', {APR: user.interest.toLocaleString()})}</Text>
           <Divider orientation="vertical" width={1} />
-          <Text style={styles.NumberInRoles}>{`Starting ${addDaysToDate(
-            user.amount,
-          )}`}</Text>
+          <Text style={styles.NumberInRoles}>{t('paymentPlanStarting', {starting: addDaysToDate(user.amount)})}</Text>
         </View>
       ))}
 
@@ -90,7 +88,7 @@ const PaymentPlanBox: React.FC<OfferBigContainerProps> = ({
           <Text style={styles.monthlyAmount}>
             ${calculateMonthlyPayment(fullNumber, Number(title.split(' ')[0]))}
           </Text>
-          <Text style={styles.perMonth}> /month</Text>
+          <Text style={styles.perMonth}>{t('perMonth')}</Text>
         </View>
         <Pressable
           style={[
@@ -103,7 +101,7 @@ const PaymentPlanBox: React.FC<OfferBigContainerProps> = ({
               styles.ViewButton,
               isChosen && styles.selectedButtonTextStyle,
             ]}>
-            {isChosen ? 'Chosen' : 'Choose'}
+            {isChosen ? t('Chosen') : t('Choose')}
           </Text>
         </Pressable>
       </View>

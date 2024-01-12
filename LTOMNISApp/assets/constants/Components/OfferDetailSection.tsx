@@ -7,6 +7,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { HomeStackParamList } from '../../../App';
+import {t} from 'i18next'
 
 interface OfferDetailSectionProps {
   targetScreen: string;
@@ -55,7 +56,7 @@ const OfferDetailSection: React.FC<OfferDetailSectionProps> = ({
           <Avatar
             size={22}
             rounded
-            title={title}
+            title={t('title', {title:title})}
             containerStyle={{backgroundColor: GlobalStyles.Colors.primary120}}
             titleStyle={{
               color: GlobalStyles.Colors.primary500,
@@ -64,14 +65,14 @@ const OfferDetailSection: React.FC<OfferDetailSectionProps> = ({
           />
         )}
         <Text style={{left: 8, fontFamily: 'San Francisco', fontSize: 14}}>
-          {userName}
+          {t('userName', { userName: userName})}
         </Text>
       </View>
 
       {/* Amount */}
       <View style={{flexDirection: 'row', marginTop: 6, alignItems: 'center'}}>
         <Text
-          style={styles.NumberInRoles}>{`$${amount.toLocaleString()}`}</Text>
+          style={styles.NumberInRoles}> {t('amount', { amount: amount.toLocaleString() })}</Text>
         <View
           style={{
             height: 15,
@@ -85,12 +86,13 @@ const OfferDetailSection: React.FC<OfferDetailSectionProps> = ({
         <Text
           style={
             styles.TextInRoles
-          }>{`${interest.toLocaleString()}% interest`}</Text>
+          }>{t('interestRate', { interest: interest.toLocaleString() })}
+          </Text>
       </View>
       <View style={styles.RoleButtonContainer}>
         <Pressable onPress={() => navigation.navigate('TransactionHistoryTax')}
           style={styles.ViewButtonContainer}>
-          <Text style={styles.ViewButton}>Details</Text>
+          <Text style={styles.ViewButton}>{t('Details')}</Text>
         </Pressable>
       </View>
     </View>

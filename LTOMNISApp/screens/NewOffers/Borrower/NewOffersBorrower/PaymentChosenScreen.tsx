@@ -12,6 +12,7 @@ import BottomSheetModal from '../../../../assets/constants/Components/BottomShee
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {HomeStackParamList} from '../../../../App';
+import {t} from 'i18next'
 
 type NewOfferDetailsProps = {
   initialRaiseNumber?: number;
@@ -68,11 +69,11 @@ export default function PaymentChosenScreen({
       />
       <CustomOfferBlock
         data={[
-          {leftText: 'Sent from', rightText: 'Zak Veasy'},
-          {leftText: 'Amount offered', rightText: '$15'},
-          {leftText: 'Interest rate', rightText: '3%'},
+          {leftText: t('sentFrom'), rightText: 'Zak Veasy'},
+          {leftText: t('amountOffered'), rightText: '$15'},
+          {leftText: t('newOfferDetails-interestRate'), rightText: '3%'},
           {isDivider: true},
-          {leftText: 'Total', rightText: '$15.45'},
+          {leftText: t('Total'), rightText: '$15.45'},
         ]}
       />
       <ProgressWithLabel collected={raiseNumber} goal={fullNumber} />
@@ -128,7 +129,7 @@ export default function PaymentChosenScreen({
               width: '80%',
               color: GlobalStyles.Colors.primary100,
             }}>
-            I understand that Gifts may be subject to tax in my country.
+            {t('giftUnderstand')}
           </Text>
         </View>
       )}

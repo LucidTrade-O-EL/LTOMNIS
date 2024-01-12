@@ -6,6 +6,7 @@ import OfferScreenTopTabsLender from '../../../assets/constants/Components/Offer
 import {useDispatch, useSelector} from 'react-redux';
 import {hideTabBar, showTabBar} from '../../../tabBarSlice';
 import { AppState } from '../../../ReduxStore';
+import {t} from 'i18next'
 
 const OfferScreenLender = () => {
   const dispatch = useDispatch();
@@ -17,7 +18,7 @@ const OfferScreenLender = () => {
   return (
     <SafeAreaView style={styles.Background}>
       <ScreenTitle
-        title="Lender"
+        title={t('Lender')}
         showBackArrow={true}
         onBackPress={() => {
           // Handle the back button press, e.g., navigate back

@@ -13,6 +13,7 @@ import CustomRow from './CustomRow';
 import {useNavigation} from '@react-navigation/native';
 import {HomeStackParamList} from '../../../App';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {t} from 'i18next'
 
 type ClosedOfferBigContainerProps = {
   title: string;
@@ -71,7 +72,7 @@ const ClosedOfferBigContainer: React.FC<ClosedOfferBigContainerProps> = ({
         <Text style={styles.TitleOfferText}>{title}</Text>
         <View style={{flexDirection: 'row'}}>
           <View style={[styles.statusChip, getStatusStyle(status)]}>
-            <Text style={styles.statusText}>{status}</Text>
+            <Text style={styles.statusText}>{t('closedOfferStatus',{offerStatus: status})}</Text>
           </View>
         </View>
       </View>
@@ -118,7 +119,7 @@ const ClosedOfferBigContainer: React.FC<ClosedOfferBigContainerProps> = ({
           onPress={() => {
             navigation.navigate('OfferDetailsAccepted');
           }}>
-          <Text style={styles.detailButtonText}>Details</Text>
+          <Text style={styles.detailButtonText}>{t('Details')}</Text>
         </Pressable>
       </View>
     </View>

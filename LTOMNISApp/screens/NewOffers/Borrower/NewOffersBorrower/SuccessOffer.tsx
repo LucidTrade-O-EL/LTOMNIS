@@ -8,6 +8,7 @@ import CompleteButton from '../../../../assets/constants/Components/Buttons/Comp
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {HomeStackParamList} from '../../../../App';
+import {t} from 'i18next';
 
 type SuccessOfferProps = {
   receivedAmount?: string;
@@ -53,7 +54,7 @@ const SuccessOffer: React.FC<SuccessOfferProps> = ({
         </Text>
       </View>
       <SmallOfferDetailsVOne
-        title="Offer Details"
+        title={t("OfferDetails")}
         rightWords={[
           '01/02/2023',
           '06:00 PM',
@@ -68,7 +69,7 @@ const SuccessOffer: React.FC<SuccessOfferProps> = ({
         onPress={() => {
           navigation.pop(4);
         }}
-        text="Done"
+        text={t("Done")}
       />
     </SafeAreaView>
   );

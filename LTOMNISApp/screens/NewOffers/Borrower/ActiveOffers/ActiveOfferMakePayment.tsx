@@ -6,6 +6,7 @@ import ProgressWithLabel from '../../../../assets/constants/Components/ProgressW
 import TransactionHistory from '../../../../assets/constants/Components/CustomTransactionButton';
 import CompleteButton from '../../../../assets/constants/Components/Buttons/CompleteButton';
 import SmallOfferDetailsVTwo from '../../../../assets/constants/Components/SmallOfferDetailsVTwo';
+import {t} from 'i18next'
 
 type NewOfferDetailsProps = {
   initialRaiseNumber?: number;
@@ -47,7 +48,7 @@ export default function ActiveOfferMakePayment({
   return (
     <SafeAreaView style={styles.Background}>
       <ScreenTitle
-        title="Offer Details"
+        title={t('OfferDetails')}
         showBackArrow={true}
         onBackPress={() => {
           // Handle the back button press, e.g., navigate back
@@ -66,7 +67,7 @@ export default function ActiveOfferMakePayment({
             },
             hasGift(rightWordsData) && {marginBottom: 50},
           ]}>
-          Entered Amount
+          {t('EnteredAmount')}
         </Text>
       </View>
       {/* Conditionally render ProgressWithLabel based on the presence of 'Gift' */}
@@ -75,27 +76,27 @@ export default function ActiveOfferMakePayment({
           <ProgressWithLabel
             collected={100}
             goal={500}
-            collectedLabel="Payed"
-            goalLabel="Full payback needed"
+            collectedLabel={t('payed')}
+            goalLabel={t('FullPaybackNeeded')}
           />
         </View>
       )}
       {/* Conditionally render TransactionHistory based on the presence of 'Gift' */}
       {!hasGift(rightWordsData) && (
         <TransactionHistory
-          buttonText="View Offer Transaction History"
+          buttonText={t('ViewOfferTransactionHistory')}
           onPress={handleTransaction}
         />
       )}
       <SmallOfferDetailsVTwo
-        title="Offer Details"
+        title={t('OfferDetails')}
         rightWords={rightWordsData}
       />
       <CompleteButton
         onPress={() => {
           console.log('Button pressed!');
         }}
-        text="Make Payment"
+        text={t('MakePayment')}
       />
     </SafeAreaView>
   );

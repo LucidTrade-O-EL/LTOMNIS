@@ -5,6 +5,7 @@ import ClosedOfferBigContainer, {
   OfferStatus,
 } from '../../../../assets/constants/Components/ClosedOfferBigContainer';
 import {offersData} from '../../../../assets/constants/data';
+import {t} from 'i18next'
 
 const validStatuses = [
   'Closed',
@@ -26,7 +27,7 @@ export default function BorrowerClosedOffers() {
           raiseNumber={item.raiseNumber} // <-- Change offer to item
           fullNumber={item.fullNumber} // <-- Change offer to item
           users={item.users} // <-- Change offer to item
-          status={'Closed'}
+          status={t('Closed')}
         />
       )}
       keyExtractor={(item, index) => index.toString()}

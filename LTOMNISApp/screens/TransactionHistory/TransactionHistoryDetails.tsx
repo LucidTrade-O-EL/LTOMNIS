@@ -11,6 +11,7 @@ import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import HomeScreen from '../HomeScreen';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import {t} from 'i18next'
 
 type RootStackParamList = {
   HomeStack: undefined;
@@ -49,40 +50,40 @@ const TransactionHistoryDetails: React.FC = () => {
     {
       radialType: 'radio',
       iconName: 'coffee',
-      topTextLeft: 'Transfer to Zak Veasy',
+      topTextLeft: t('TransferTo'),
       topTextRight: '-$171.23',
-      bottomTextLeft: 'Pending',
+      bottomTextLeft: t('Pending'),
       bottomTextRight: '06.23.2024 14:00',
     },
     {
       radialType: 'radio',
-      topTextLeft: 'Transfer to Zak Veasy',
+      topTextLeft: t('TransferTo'),
       topTextRight: '+$100.00',
-      bottomTextLeft: 'Completed',
+      bottomTextLeft: t('Completed'),
       bottomTextRight: '05.20.2024 11:15',
     },
     {
       radialType: 'radio',
       imagePath: 'path_to_some_image',
-      topTextLeft: 'Transfer to Zak Veasy',
+      topTextLeft: t('TransferTo'),
       topTextRight: '+$58.75',
-      bottomTextLeft: 'Failed',
+      bottomTextLeft: t('Failed'),
       bottomTextRight: '04.29.2024 09:45',
     },
     {
       radialType: 'radio',
       iconName: 'shopping-cart',
-      topTextLeft: 'Transfer to Zak Veasy',
+      topTextLeft: t('TransferTo'),
       topTextRight: '-$89.50',
-      bottomTextLeft: 'Pending',
+      bottomTextLeft: t('Pending'),
       bottomTextRight: '06.15.2024 16:30',
     },
     {
       radialType: 'radio',
       iconName: 'dollar-sign',
-      topTextLeft: 'Transfer to Zak Veasy',
+      topTextLeft: t('TransferTo'),
       topTextRight: '+$2000',
-      bottomTextLeft: 'Completed',
+      bottomTextLeft: t('Completed'),
       bottomTextRight: '06.01.2024 12:00',
     },
   ];

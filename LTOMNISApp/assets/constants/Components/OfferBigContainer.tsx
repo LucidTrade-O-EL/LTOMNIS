@@ -4,6 +4,7 @@ import GlobalStyles from '../colors';
 import GlobalFonts from '../fonts';
 import {LinearProgress} from '@rneui/themed';
 import OfferDetailSection from './OfferDetailSection';
+import {t} from 'i18next';
 
 type OfferBigContainerProps = {
   title: string;
@@ -38,10 +39,10 @@ const OfferBigContainer: React.FC<OfferBigContainerProps> = ({
   return (
     <View style={styles.container}>
       <View style={styles.innerContainerTitle}>
-        <Text style={styles.TitleOfferText}>{title}</Text>
+        <Text style={styles.TitleOfferText}>{t('offerTitle', {offerTitle:title})}</Text>
         <View style={{flexDirection: 'row'}}>
           <Text style={styles.TitleOfferText}>{offerNumber}</Text>
-          <Text style={styles.TitleOfferText}> offers</Text>
+          <Text style={styles.TitleOfferText}> {t('offers')}</Text>
         </View>
       </View>
       <View style={styles.innerContainerBar}>

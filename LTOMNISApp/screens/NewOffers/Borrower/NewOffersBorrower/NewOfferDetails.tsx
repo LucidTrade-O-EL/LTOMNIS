@@ -8,6 +8,7 @@ import CompleteButton from '../../../../assets/constants/Components/Buttons/Comp
 import CustomOfferBlock from '../../../../assets/constants/Components/CustomOfferBlock';
 import ProgressWithLabel from '../../../../assets/constants/Components/ProgressWithLabel';
 import ScreenTitle from '../../../../assets/constants/Components/ScreenTitle';
+import {t} from 'i18next'
 
 
 type NewOfferDetailsProps = {
@@ -34,11 +35,11 @@ export default function NewOfferDetails({
       />
       <CustomOfferBlock
         data={[
-          {leftText: 'Sent from', rightText: 'Zak Veasy'},
-          {leftText: 'Amount offered', rightText: '$15'},
-          {leftText: 'Interest rate', rightText: '3%'},
+          {leftText: t('sentFrom'), rightText: 'Zak Veasy'},
+          {leftText: t('amountOffered'), rightText: '$15'},
+          {leftText: t('newOfferDetails-interestRate'), rightText: '3%'},
           {isDivider: true},
-          {leftText: 'Total', rightText: '$15.45'},
+          {leftText: t('Total'), rightText: '$15.45'},
         ]}
       />
       <ProgressWithLabel collected={raiseNumber} goal={fullNumber} />
@@ -46,7 +47,7 @@ export default function NewOfferDetails({
         onPress={() => {
          navigation.navigate('ChoosePaymentPlanScreen')
         }}
-        text="Complete"
+        text={t("Complete")}
       />
     </SafeAreaView>
   );

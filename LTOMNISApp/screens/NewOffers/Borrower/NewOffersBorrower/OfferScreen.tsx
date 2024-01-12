@@ -3,12 +3,13 @@ import React from 'react';
 import OfferScreenTopTabs from './OfferScreenTopTabs';
 import ScreenTitle from '../../../../assets/constants/Components/ScreenTitle';
 import GlobalStyles from '../../../../assets/constants/colors';
+import {t} from 'i18next';
 
 const OfferScreen = () => {
   return (
     <SafeAreaView style={styles.Background}>
       <ScreenTitle
-        title="Borrower"
+        title={t('NewOffers')}
         showBackArrow={true}
         onBackPress={() => {
           // Handle the back button press, e.g., navigate back

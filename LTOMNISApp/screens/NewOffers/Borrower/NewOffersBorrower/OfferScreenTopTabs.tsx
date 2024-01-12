@@ -4,6 +4,7 @@ import NewOffersScreen from './NewOffersScreen';
 import GlobalStyles from '../../../../assets/constants/colors';
 import ActiveOffers from '../ActiveOffers/ActiveOffers';
 import BorrowerClosedOffers from '../ClosedOffers/BorrowerClosedOffers';
+import {t} from 'i18next';
 
 
 const Tab = createMaterialTopTabNavigator();
@@ -21,17 +22,17 @@ export default function OfferScreenTopTabs() {
         },
       }}>
       <Tab.Screen
-        options={{title: 'New Offers'}}
+        options={{title: t('NewOffers')}}
         name="NewOffersScreen"
         component={NewOffersScreen}
       />
       <Tab.Screen
-        options={{title: 'Active Offers'}}
+        options={{title: t('ActiveOffers')}}
         name="ActiveOffers"
         component={ActiveOffers}
       />
       <Tab.Screen
-        options={{title: 'Closed Offers'}}
+        options={{title: t('ClosedOffers')}}
         name="BorrowerClosedOffers"
         component={BorrowerClosedOffers}
       />
