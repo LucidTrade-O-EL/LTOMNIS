@@ -225,7 +225,7 @@ const App = () => {
   return (
     <NavigationContainer>
       <RootStack.Navigator screenOptions={{headerShown: false}}>
-        {!hasViewedOnboarding ? (
+        {hasViewedOnboarding ? (
           // {!hasViewedOnboarding && !token ? (
           // Use CombinedStackNavigator here
           <RootStack.Screen

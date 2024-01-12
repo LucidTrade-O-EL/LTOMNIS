@@ -18,7 +18,7 @@ export default function ActiveOfferDetails() {
   return (
     <SafeAreaView style={styles.Background}>
       <ScreenTitle
-        title={t('New Offer Details')}
+        title={t('NewOfferDetails')}
         showBackArrow={true}
         onBackPress={() => {}}
         showRightIcon={true}
