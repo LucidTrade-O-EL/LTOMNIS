@@ -172,21 +172,21 @@ function CombinedStackNavigator() {
         name="CreateLinkToken"
         component={CreateLinkToken}
       />
-      {/* <CombinedStack.Screen name="ForgotPassword" component={ForgotPassword} /> */}
-      {/* <CombinedStack.Screen name="Verification" component={Verification} />
+      <CombinedStack.Screen name="ForgotPassword" component={ForgotPassword} />
+      <CombinedStack.Screen name="Verification" component={Verification} />
       <CombinedStack.Screen
         name="CreateNewPassword"
         component={CreateNewPassword}
       />
-      <CombinedStack.Screen name="PlaidLink" component={PlaidLinkButton} /> */}
+      <CombinedStack.Screen name="PlaidLink" component={PlaidLinkButton} />
       <CombinedStack.Screen
         name="IdentityVerificationScreen"
         component={IdentityVerificationScreen}
       />
-      {/* <CombinedStack.Screen
+      <CombinedStack.Screen
         name="CreditScoreDisplay"
         component={CreditScoreDisplay}
-      /> */}
+      />
     </CombinedStack.Navigator>
   );
 }

@@ -1,6 +1,6 @@
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {NavigatorScreenParams, RouteProp} from '@react-navigation/native';
-import {REMOVE_TOKEN} from './actions';
+import {REMOVE_TOKEN, SET_LINK_TOKEN} from './actions';
 import {
   FeedStackParamList,
   HomeStackParamList,
@@ -25,6 +25,11 @@ export type User = {
 // Action Interfaces
 export interface SetLanguageAction {
   type: typeof SET_LANGUAGE;
+  payload: string;
+}
+
+export interface SetLinkTokenAction {
+  type: typeof SET_LINK_TOKEN;
   payload: string;
 }
 
@@ -57,6 +62,7 @@ export type AuthStackParamList = {
 export type OnboardingActionTypes = SetHasViewedOnboardingAction;
 export type SignInActionTypes = SetIsSignedInAction;
 export type LanguageActionTypes = SetLanguageAction;
+export type LinkTokenActionTypes = SetLinkTokenAction;
 export type TokenActionTypes = SetTokenAction | RemoveTokenAction;
 export type AppActionTypes = SetHasViewedOnboardingAction | SetIsSignedInAction;
 export type OnboardingScreen4NavigationProp = NativeStackNavigationProp<
@@ -84,6 +90,9 @@ export type RootStackParamList = {
   FeedStackNavigator: NavigatorScreenParams<FeedStackParamList>;
   OMNISScoreStackNavigator: NavigatorScreenParams<OMNISScoreStackParamList>;
   SpotlightStackNavigator: NavigatorScreenParams<SpotlightStackParamList>;
+  IdentityVerificationScreen: {
+    linkToken: string;
+  };
 };
 
 // Tabs Stack Navigator Props Type

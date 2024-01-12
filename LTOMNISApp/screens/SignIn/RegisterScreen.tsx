@@ -77,12 +77,13 @@ export default function RegisterScreen() {
         navigation.navigate('CreateLinkToken', {userId: user.userId});
         dispatch(setId(user.userId));
         console.log('User ID', user.userId);
+
         // Navigate to CreateLinkToken screen with the user ID
       } else {
         console.log('No user data received');
       }
     } catch (error) {
-      console.error('An error occurred:', error);
+      console.error('An error occurred Type2:', error);
     }
   };
 

@@ -1,14 +1,17 @@
 import { createStore, combineReducers } from 'redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { AppActionTypes, TokenActionTypes } from './types'; // Adjust the import path
+import { AppActionTypes, SetLinkTokenAction, TokenActionTypes } from './types'; // Adjust the import path
 import tabBarReducer, { TabBarInitialState } from './tabBarSlice';
 import languageReducer, { LanguageInitialState } from './Redux/Reducers/languageReducer';
+import ActionItemList from './screens/OMNISScore/ScoreBreakDown/Levels/ActionItem';
 
 // Action Types
 const SET_HAS_VIEWED_ONBOARDING = 'SET_HAS_VIEWED_ONBOARDING';
 const SET_IS_SIGNED_IN = 'SET_IS_SIGNED_IN';
 const SET_TOKEN = 'SET_TOKEN';
 const REMOVE_TOKEN = 'REMOVE_TOKEN';
+const SET_LINK_TOKEN = 'SET_LINK_TOKEN';
+const REMOVE_LINK_TOKEN = 'REMOVE_LINK_TOKEN';
 
 export interface AppInitialState {
   hasViewedOnboarding: boolean
@@ -22,23 +25,67 @@ const appInitialState: AppInitialState = {
   isSignedIn: false,
 };
 
+export const setId = (id: string) => ({
+  type: SET_ID,
+  payload: id,
+});
+
 // Token State and Reducer
 
 export interface TokenInitialState {
   token: string | null
 }
 
-//see in terminal
+
 const tokenInitialState: TokenInitialState  = {
   token: null,
 };
+
+const LinkTokenInitialState: LinkTokenInitialState  = {
+  token: null,
+};
+
+export interface LinkTokenInitialState {
+  token: string | null
+}
 
 export interface AppState {
   app: AppInitialState,
   token: TokenInitialState,
   language: LanguageInitialState,
   tabBar: TabBarInitialState,
+  linkToken: LinkTokenInitialState,
+  id: string | null,
   //verify: ReturnType<typeof verifyReducer>; // Add this line
+}
+
+const SET_ID = 'SET_ID';
+
+export interface IdInitialState {
+  id: string | null;
+}
+
+const idInitialState: IdInitialState = {
+  id: null,
+};
+
+const idReducer = (state = idInitialState, action: any) => {
+  switch (action.type) {
+    case SET_ID:
+      return { ...state, id: action.payload };
+    default:
+      return state;
+  }
+};
+
+
+const linkTokenReducer = (state = LinkTokenInitialState, action: SetLinkTokenAction) => {
+  switch (action.type) {
+    case SET_LINK_TOKEN:
+      return {...state, LinkToken: action.payload};
+    default:
+      return state;
+  }
 }
 
 
@@ -70,6 +117,8 @@ const rootReducer = combineReducers({
   token: tokenReducer,
   tabBar: tabBarReducer,
   language: languageReducer,
+  linkToken: linkTokenReducer,
+  id: idReducer,
 });
 
 // Store
