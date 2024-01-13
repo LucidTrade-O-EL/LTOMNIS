@@ -120,6 +120,7 @@ import GroupDetailsScreen from './screens/Spotlight/Groups/GroupDetailsScreen';
 import MakeAGroupScreen from './screens/Spotlight/Groups/MakeAGroupScreen';
 import CustomPaymentBlock from './assets/constants/Components/CustomPaymentBlock';
 import PaymentStatus from './screens/Spotlight/PaymentStatus';
+import ScoreBreakDown from './screens/OMNISScore/ScoreBreakDown/ScoreBreakDown';
 // import store from './store';
 // import store from '../LTOMNISApp'
 
@@ -429,6 +430,7 @@ export function FeedStackNavigator({}: FeedStackNavigatorProps) {
 export type OMNISScoreStackParamList = {
   OMNISScoreScreen: undefined;
   LevelsScreen: undefined;
+  ScoreBreakDown: undefined;
 };
 
 export function OMNISScoreStackNavigator({}: OMNISScoreStackNavigatorProps) {
@@ -441,6 +443,7 @@ export function OMNISScoreStackNavigator({}: OMNISScoreStackNavigatorProps) {
         component={OMNISScoreScreen}
       />
       <OMNISScoreStack.Screen name="LevelsScreen" component={LevelsScreen} />
+      <OMNISScoreStack.Screen name="ScoreBreakDown" component={ScoreBreakDown} />
     </OMNISScoreStack.Navigator>
   );
 }

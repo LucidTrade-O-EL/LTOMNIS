@@ -73,6 +73,8 @@ export default function RegisterScreen() {
       const user = res.data; // Use `res.data` to access the response data
       console.log('This is our response data', user);
 
+
+
       if (user) {
         navigation.navigate('CreateLinkToken', {userId: user.userId});
         dispatch(setId(user.userId));

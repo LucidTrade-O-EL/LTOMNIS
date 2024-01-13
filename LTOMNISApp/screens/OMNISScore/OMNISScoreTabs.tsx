@@ -24,11 +24,11 @@ export default function OMNISScoreTabs() {
         name="LenderScoreBreakDown"
         component={LenderScoreBreakDown}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         options={{title: 'Borrower'}}
         name="BorrowerScoreBreakdown"
         component={BorrowerScoreBreakdown}
-      />
+      /> */}
     </Tab.Navigator>
   );
 }

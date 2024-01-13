@@ -93,6 +93,7 @@ export type RootStackParamList = {
   IdentityVerificationScreen: {
     linkToken: string;
   };
+  MainStackNavigator: undefined;
 };
 
 // Tabs Stack Navigator Props Type

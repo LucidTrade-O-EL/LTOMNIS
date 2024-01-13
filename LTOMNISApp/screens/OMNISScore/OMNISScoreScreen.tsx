@@ -56,7 +56,7 @@ export default function OMNISScoreScreen() {
         </TouchableOpacity>
         <CreditScoreBar scoreUpdate={scoreUpdate} score={score} />
         <SmallCreditScoreBar creditScore={creditScore} />
-        <Pressable onPress={() => {}} style={styles.ScoreBreakdownButton}>
+        <Pressable onPress={() => {navigation.navigate('ScoreBreakDown')}} style={styles.ScoreBreakdownButton}>
           <Text style={styles.ScoreBreakdownButtonText}>Score Breakdown</Text>
         </Pressable>
       </View>

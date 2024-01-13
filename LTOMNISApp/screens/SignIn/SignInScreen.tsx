@@ -14,7 +14,6 @@ import PasswordValidation from '../auth/passwordValidation';
 import axios from 'axios';
 import {useDispatch} from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {setToken} from '../../actions';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {
@@ -26,14 +25,19 @@ import {
   appleAuth,
   AppleButton,
 } from '@invertase/react-native-apple-authentication';
-import { t } from 'i18next';
+import {t} from 'i18next';
+import {setToken} from '../../ReduxStore';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {RootStackParamList} from '../../types';
+import { CommonActions } from '@react-navigation/native';
 
 interface SignInScreenProps {
   token: string;
 }
 
 const SignInScreen: React.FC = () => {
-  const navigation = useNavigation<StackNavigationProp<any, any>>();
+  const navigation =
+    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [user, setUser] = useState<{token?: string}>({});
@@ -49,7 +53,7 @@ const SignInScreen: React.FC = () => {
     try {
       const options = {
         method: 'POST',
-        url: 'https://api.lucidtrades.com/api/Account/login',
+        url: 'http://localhost:8080/api/omnis/account/login',
         data: {email, password},
         headers: {
           Accept: 'application/json',
@@ -58,34 +62,31 @@ const SignInScreen: React.FC = () => {
       };
 
       const res = await axios(options);
-      if (res.status !== 200) {
-        throw new Error('Non-OK status code: ' + res.status);
-      }
 
-      console.log('data payload ', res.data, res.headers);
+      if (res.status === 201 && res.data && res.data.token) {
+        const user = res.data;
+        const token = user.token;
 
-      const user = res.data;
-      const token = user.token;
-
-      // Save token to AsyncStorage
-      if (token) {
+        // Save token to AsyncStorage
         await AsyncStorage.setItem('token', token);
-      }
-
-      if (user != null) {
         setUserToken(token);
         setUser(user);
+        console.log('This works');
         return token;
+      } else {
+        // Handle non-200 responses
+        console.error('Login failed with status: ' + res.status);
       }
-
-      console.log(`this is the token ${userToken}`);
-
-      setUserToken(token);
-      setUser(user);
-
-      console.log('user: ', user);
-    } catch (error: any) {
-      console.error('An error occured:', error);
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response) {
+        // The request was made and the server responded with a status code
+        // that falls out of the range of 2xx
+        console.error('Error data:', error.response.data);
+        console.error('Error status:', error.response.status);
+      } else {
+        // Something happened in setting up the request and triggered an Error
+        console.error('Error:', error.message);
+      }
     }
   };
 
@@ -96,6 +97,9 @@ const SignInScreen: React.FC = () => {
     const token = await signIn();
     if (token) {
       dispatch(setToken(token));
+      navigation.navigate('MainStackNavigator');
+    } else {
+      // Optionally, handle the failed sign-in case
     }
   };
 
@@ -174,7 +178,7 @@ const SignInScreen: React.FC = () => {
   return (
     <SafeAreaView style={styles.Background}>
       <Text style={{color: 'white', fontSize: 20, marginBottom: 168}}>
-      {t('signInTitle')}
+        {t('signInTitle')}
       </Text>
 
       {/* Email */}
@@ -241,7 +245,7 @@ const SignInScreen: React.FC = () => {
 
         <Pressable
           onPress={() => navigation.navigate('ForgotPassword')}
-          style={{marginTop: 8, alignSelf: 'center', width: '90%'}}>
+          style={{alignSelf: 'center', width: '90%'}}>
           <Text
             style={{
               color: '#B08766',
@@ -259,7 +263,7 @@ const SignInScreen: React.FC = () => {
         onPress={async () => await handleSignIn()}
         style={[styles.SignButton, styles.SignButtonOutlined]}>
         <Text style={[styles.SignButtonText, styles.SignButtonTextOutlined]}>
-        {t('signInButton')}
+          {t('signInButton')}
         </Text>
       </Pressable>
 
@@ -281,7 +285,7 @@ const SignInScreen: React.FC = () => {
           }}>
           <Divider style={{flex: 1, height: 1, backgroundColor: 'black'}} />
           <Text style={{marginHorizontal: 10, color: 'white'}}>
-          {t('orLoginWith')}
+            {t('orLoginWith')}
           </Text>
           <Divider style={{flex: 1, height: 1, backgroundColor: 'black'}} />
         </View>
@@ -343,7 +347,7 @@ const SignInScreen: React.FC = () => {
             <Text style={{color: 'white', fontSize: 18}}>Apple</Text> */}
           {appleAuth.isSupported && (
             <AppleButton
-              style={{width: '100%', height: 56, }}
+              style={{width: '100%', height: 56}}
               buttonStyle={AppleButton.Style.WHITE}
               buttonType={AppleButton.Type.SIGN_IN}
               onPress={() => onAppleButtonPress()}
@@ -357,7 +361,7 @@ const SignInScreen: React.FC = () => {
         style={styles.newToOmnisContainer}
         onPress={() => navigation.navigate('RegisterScreen')}>
         <Text style={{color: 'white', fontSize: 14}}>{t('newToOmnis')}</Text>
-        <Text>{' '}</Text>
+        <Text> </Text>
         <Text style={{color: '#BDAE8D', fontSize: 14}}>{t('register')}</Text>
       </Pressable>
     </SafeAreaView>
@@ -440,7 +444,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#BDAE8D',
     justifyContent: 'center',
     borderRadius: 16,
-    marginTop: 110,
+    marginTop: 80,
   },
   SignButtonOutlined: {
     borderWidth: 2,
