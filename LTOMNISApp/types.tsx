@@ -4,6 +4,7 @@ import {REMOVE_TOKEN, SET_LINK_TOKEN} from './actions';
 import {
   FeedStackParamList,
   HomeStackParamList,
+  MainStackParamList,
   OMNISScoreStackParamList,
   SpotlightStackParamList,
 } from './App';
@@ -93,7 +94,19 @@ export type RootStackParamList = {
   IdentityVerificationScreen: {
     linkToken: string;
   };
-  MainStackNavigator: undefined;
+  MainStackNavigator: NavigatorScreenParams<MainStackParamList>;
+  TabsStackNavigator: undefined;
+};
+
+
+// Tabs Stack Navigator Props Type
+export type MainStackNavigatorProps = {
+  navigation: NativeStackNavigationProp<
+    RootStackParamList,
+    keyof MainStackParamList
+  >;
+  route: RouteProp<RootStackParamList, keyof RootStackParamList>;
+  activeScreenName: string;
 };
 
 // Tabs Stack Navigator Props Type

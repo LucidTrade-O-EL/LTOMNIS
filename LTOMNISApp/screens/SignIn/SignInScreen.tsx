@@ -30,14 +30,15 @@ import {setToken} from '../../ReduxStore';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../../types';
 import { CommonActions } from '@react-navigation/native';
+import { Screen } from 'react-native-screens';
+import { MainStackParamList } from '../../App';
 
 interface SignInScreenProps {
   token: string;
 }
 
 const SignInScreen: React.FC = () => {
-  const navigation =
-    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  const navigation = useNavigation<StackNavigationProp<any>>();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [user, setUser] = useState<{token?: string}>({});
@@ -71,7 +72,7 @@ const SignInScreen: React.FC = () => {
         await AsyncStorage.setItem('token', token);
         setUserToken(token);
         setUser(user);
-        console.log('This works');
+        console.log('This works!');
         return token;
       } else {
         // Handle non-200 responses
@@ -95,9 +96,11 @@ const SignInScreen: React.FC = () => {
 
   const handleSignIn = async () => {
     const token = await signIn();
+    console.log(`This is our token before the if ELSE ${JSON.stringify(token)}`)
     if (token) {
       dispatch(setToken(token));
       navigation.navigate('MainStackNavigator');
+      console.log(`We made it to the Tabs! ${JSON.stringify(token)} and ${Screen}`)
     } else {
       // Optionally, handle the failed sign-in case
     }

@@ -188,9 +188,17 @@ function CombinedStackNavigator() {
         name="CreditScoreDisplay"
         component={CreditScoreDisplay}
       />
+      <CombinedStack.Screen
+        name="MainStackNavigator"
+        component={MainStackNavigator}
+      />
     </CombinedStack.Navigator>
   );
 }
+
+export type MainStackParamList = {
+  Tabs: undefined;
+};
 
 function MainStackNavigator() {
   return (
@@ -226,7 +234,7 @@ const App = () => {
   return (
     <NavigationContainer>
       <RootStack.Navigator screenOptions={{headerShown: false}}>
-        {hasViewedOnboarding ? (
+        {!hasViewedOnboarding ? (
           // {!hasViewedOnboarding && !token ? (
           // Use CombinedStackNavigator here
           <RootStack.Screen
@@ -443,7 +451,10 @@ export function OMNISScoreStackNavigator({}: OMNISScoreStackNavigatorProps) {
         component={OMNISScoreScreen}
       />
       <OMNISScoreStack.Screen name="LevelsScreen" component={LevelsScreen} />
-      <OMNISScoreStack.Screen name="ScoreBreakDown" component={ScoreBreakDown} />
+      <OMNISScoreStack.Screen
+        name="ScoreBreakDown"
+        component={ScoreBreakDown}
+      />
     </OMNISScoreStack.Navigator>
   );
 }
@@ -511,10 +522,7 @@ export function SpotlightStackNavigator({}: SpotlightStackNavigatorProps) {
         name="OfferSentSuccessful"
         component={OfferSentSuccessful}
       />
-            <SpotlightStack.Screen
-        name="PaymentStatus"
-        component={PaymentStatus}
-      />
+      <SpotlightStack.Screen name="PaymentStatus" component={PaymentStatus} />
     </SpotlightStack.Navigator>
   );
 }
