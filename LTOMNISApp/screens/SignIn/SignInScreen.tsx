@@ -27,9 +27,7 @@ import {
 } from '@invertase/react-native-apple-authentication';
 import {t} from 'i18next';
 import {setToken} from '../../ReduxStore';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {RootStackParamList} from '../../types';
-import { CommonActions } from '@react-navigation/native';
+
 import { Screen } from 'react-native-screens';
 import { MainStackParamList } from '../../App';
 
@@ -64,7 +62,7 @@ const SignInScreen: React.FC = () => {
 
       const res = await axios(options);
 
-      if (res.status === 201 && res.data && res.data.token) {
+      if (res.status === 200 && res.data && res.data.token) {
         const user = res.data;
         const token = user.token;
 

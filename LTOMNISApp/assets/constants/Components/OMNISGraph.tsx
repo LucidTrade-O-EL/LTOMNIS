@@ -1,6 +1,7 @@
 import React from 'react';
 import {VictoryLine, VictoryChart, VictoryTheme} from 'victory-native';
 import {ScrollView} from 'react-native';
+import GlobalStyles from '../colors';
 
 const OMNISGraph = () => {
   // Sample data
@@ -31,12 +32,12 @@ const OMNISGraph = () => {
       <VictoryChart theme={VictoryTheme.material} domainPadding={10}>
         <VictoryLine
           data={borrowedData}
-          style={{data: {stroke: '#007AFF'}}}
+          style={{data: {stroke: GlobalStyles.Colors.primary900}}}
           interpolation="natural" // This makes the line curved
         />
         <VictoryLine
           data={repaidData}
-          style={{data: {stroke: '#FF4500'}}}
+          style={{data: {stroke: GlobalStyles.Colors.primary200}}}
           interpolation="natural" // This makes the line curved
         />
       </VictoryChart>

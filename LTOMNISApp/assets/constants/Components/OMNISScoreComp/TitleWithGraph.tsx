@@ -3,6 +3,7 @@ import {View, Text, StyleSheet, Dimensions} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import SimpleLineChart from './SimpleLineChart'; // Import the LineChart component
 import GlobalStyles from '../../colors';
+import OMNISGraph from '../OMNISGraph';
 
 const {width} = Dimensions.get('window');
 
@@ -17,9 +18,7 @@ const TitleWithGraph: FC<TitleWithGraphProps> = ({title}) => {
         <Text style={styles.title}>{title}</Text>
         <AntDesign name="exclamationcircleo" size={18} style={styles.icon} />
       </View>
-      <View style={styles.graphContainer}>
-        <SimpleLineChart />
-      </View>
+      <OMNISGraph />
     </View>
   );
 };
@@ -43,7 +42,7 @@ const styles = StyleSheet.create({
   },
   graphContainer: {
     width: '100%',
-    height: 300,  // Or whatever height you want
+    height: 300, // Or whatever height you want
     marginBottom: 16,
   },
 });

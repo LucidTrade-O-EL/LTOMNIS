@@ -4,19 +4,20 @@ import {PostCard, PostCardProps} from './PostCard';
 import GlobalStyles from '../../assets/constants/colors';
 import axios from 'axios';
 import {useSelector} from 'react-redux';
-import {RootState} from '../../rootReducer';
+import { AppState } from '../../ReduxStore';
+
 
 export default function MyPosts() {
   const [postData, setPostData] = useState<PostCardProps[]>([]);
-  const token = useSelector((state: RootState) => state.token.token);
+  const token = useSelector((state: AppState) => state.token);
 
   const fetchMyPostFeedList = async () => {
     try {
       const options = {
         method: 'GET',
-        url: 'https://api.lucidtrades.com/api/Posts/MyPost',
+        url: 'http://localhost:8080/api/posts/mypost',
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${token.token}`,
           Accept: 'application/json',
           'Content-Type': 'application/json',
         },
