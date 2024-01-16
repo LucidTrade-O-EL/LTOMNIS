@@ -1,6 +1,9 @@
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React, {useEffect, useRef} from 'react';
 import {View, Text, StyleSheet, Pressable} from 'react-native';
 import {Avatar} from 'react-native-elements';
+import { FeedStackParamList } from '../../../App';
 import GlobalStyles from '../../../assets/constants/colors';
 import StarCircle from '../../../assets/constants/Components/Buttons/StarCircle';
 import CustomOfferBlock from '../../../assets/constants/Components/CustomOfferBlock';
@@ -43,6 +46,9 @@ export default function PostOfferHeader({
   const calculatedProgressBarWidth =
     (Number(progress) / Number(totalAmount)) * 100;
 
+    const navigation =
+    useNavigation<NativeStackNavigationProp<FeedStackParamList>>();
+    
   useEffect(() => {
     if (progressBarRef.current) {
       progressBarRef.current.setNativeProps({
@@ -105,7 +111,7 @@ export default function PostOfferHeader({
               styles.SignButton,
               {backgroundColor: GlobalStyles.Colors.primary200},
             ]}
-            onPress={() => {}}>
+            onPress={() => {navigation.navigate('PostDetails')}}>
             <Text style={styles.SignButtonText}>{buttonText}</Text>
           </Pressable>
     </View>
@@ -209,7 +215,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#BDAE8D',
     justifyContent: 'center',
     borderRadius: 16,
-    marginTop: 20,
+    marginTop: 80,
     alignSelf: 'center',
   },
   SignButtonText: {

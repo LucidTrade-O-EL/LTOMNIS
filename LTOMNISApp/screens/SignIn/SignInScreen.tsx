@@ -28,8 +28,8 @@ import {
 import {t} from 'i18next';
 import {setToken} from '../../ReduxStore';
 
-import { Screen } from 'react-native-screens';
-import { MainStackParamList } from '../../App';
+import {Screen} from 'react-native-screens';
+import {MainStackParamList} from '../../App';
 
 interface SignInScreenProps {
   token: string;
@@ -41,6 +41,7 @@ const SignInScreen: React.FC = () => {
   const [password, setPassword] = useState('');
   const [user, setUser] = useState<{token?: string}>({});
   const [userToken, setUserToken] = useState('');
+  const [passwordVisible, setPasswordVisible] = useState(false);
 
   GoogleSignin.configure({
     iosClientId:
@@ -94,11 +95,15 @@ const SignInScreen: React.FC = () => {
 
   const handleSignIn = async () => {
     const token = await signIn();
-    console.log(`This is our token before the if ELSE ${JSON.stringify(token)}`)
+    console.log(
+      `This is our token before the if ELSE ${JSON.stringify(token)}`,
+    );
     if (token) {
       dispatch(setToken(token));
       navigation.navigate('MainStackNavigator');
-      console.log(`We made it to the Tabs! ${JSON.stringify(token)} and ${Screen}`)
+      console.log(
+        `We made it to the Tabs! ${JSON.stringify(token)} and ${Screen}`,
+      );
     } else {
       // Optionally, handle the failed sign-in case
     }
@@ -233,13 +238,16 @@ const SignInScreen: React.FC = () => {
               style={[styles.textInput, password ? styles.textActive : null]}
               placeholder={t('enterYourPassword')}
               placeholderTextColor="rgba(255,255,255, 0.6)"
-              keyboardType="visible-password"
+              secureTextEntry={!passwordVisible}
               onChangeText={text => setPassword(text)}
               value={password}
-              // autoCompleteType="email"
             />
-            <Pressable>
-              <IonIcon name="eye-outline" size={24} color="#B08766" />
+            <Pressable onPress={() => setPasswordVisible(!passwordVisible)}>
+              <IonIcon
+                name={passwordVisible ? 'eye-outline' : 'eye-off-outline'}
+                size={24}
+                color="#B08766"
+              />
             </Pressable>
           </View>
         </View>

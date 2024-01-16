@@ -4,29 +4,42 @@ import {PostCard, PostCardProps} from './PostCard';
 import GlobalStyles from '../../assets/constants/colors';
 import axios from 'axios';
 import {useSelector} from 'react-redux';
-import { AppState } from '../../ReduxStore';
+import {AppState} from '../../ReduxStore';
 
-
-export default function MyPosts() {
+export default function MyPosts({route}) {
   const [postData, setPostData] = useState<PostCardProps[]>([]);
   const token = useSelector((state: AppState) => state.token);
+  const fromMyPosts = route.params?.fromMyPosts ?? false;
 
   const fetchMyPostFeedList = async () => {
     try {
       const options = {
         method: 'GET',
-        url: 'http://localhost:8080/api/posts/mypost',
+        url: 'http://localhost:8080/api/omnis/posts/mypost',
         headers: {
           Authorization: `Bearer ${token.token}`,
           Accept: 'application/json',
           'Content-Type': 'application/json',
         },
       };
-      console.log(`Bearer ${token}`);
+      console.log(`Bearer ${token.token}`);
 
       const res = await axios(options);
       if (res.data) {
-        setPostData(res.data); // Set the post data with the data from the API.
+        setPostData(res.data.myPostList); // Set the post data with the data from the API.
+        console.log(
+          `our response from the my feed ${JSON.stringify(res.data)}`,
+        );
+        console.log(
+          `our response from the my feed 2 ${JSON.stringify(
+            res.data.myPostList,
+          )}`,
+        );
+        console.log(
+          `My postList!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!${JSON.stringify(
+            res.data.myPostList,
+          )}`,
+        );
       } else {
         console.log('No user data received');
       }
@@ -35,24 +48,35 @@ export default function MyPosts() {
     }
   };
 
+  // Polling Underneath
+
   useEffect(() => {
-    fetchMyPostFeedList(); // Fetch data when the component mounts
-  }, [token]);
+    const fetchInterval = setInterval(() => {
+      fetchMyPostFeedList();
+    }, 10000); // Fetches posts every 10 seconds
+  
+    return () => clearInterval(fetchInterval); // Clean up interval on component unmount
+  }, []);
+
+  // useEffect(() => {
+  //   fetchMyPostFeedList(); // Fetch data when the component mounts
+  // }, []);
 
   // renderItem function
-  const renderItem = ({item}: {item: PostCardProps}) => (
+  const renderItem = ({item, index}: {item: PostCardProps, index: number}) => (
     <PostCard
+      key={index}
       avatar={item.avatar}
-      firstname={item.firstname}
-      lastname={item.lastname}
-      hours={item.hours}
+      firstName={item.user.firstName}
+      lastName={item.user.lastName}
+      timeElasped={item.timeElasped}
       number={item.number}
       totalAmount={item.totalAmount}
-      progress={item.progress}
+      currentAmount={item.currentAmount}
       title={item.title}
-      subtext={item.subtext}
+      description={item.description}
       imageUrl={item.imageUrl}
-      offerText={item.offerText}
+      offerText={fromMyPosts ? "Edit" : "Offer"}
       id={item.id}
     />
   );

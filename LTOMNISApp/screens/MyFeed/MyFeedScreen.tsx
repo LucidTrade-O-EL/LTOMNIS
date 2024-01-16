@@ -63,6 +63,8 @@ const MyFeedScreen: React.FC<StackScreenProps<MyFeedStackParamList, 'MyFeedScree
 
   const avatarImage = ''; // Assuming you'd get this from props or somewhere else
 
+
+  
   return (
     <SafeAreaView style={styles.background}>
       <Header

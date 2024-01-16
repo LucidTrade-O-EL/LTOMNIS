@@ -6,31 +6,40 @@ import GlobalStyles from '../../assets/constants/colors';
 import StarCircle from '../../assets/constants/Components/Buttons/StarCircle';
 import {useNavigation} from '@react-navigation/native';
 
+
+// export type UserProps = {
+//   firstName: string;
+//   lastName: string;
+// };
+
 export type PostCardProps = {
   avatar?: string;
-  firstname: string;
-  lastname: string;
-  hours: number;
+  firstName: string;
+  lastName: string;
+  timeElasped: number;
   number: number;
   totalAmount: number;
-  progress: number; // Add progress as a prop
+  currentAmount: number; // Add progress as a prop
   title?: string; // added title prop
-  subtext?: string; // added subtext prop
+  description?: string; // added description prop
   imageUrl?: string; // added imageUrl prop
   offerText?: string;
   id: string;
+  // user: UserProps;
 };
+
+
 
 export const PostCard: React.FC<PostCardProps> = ({
   avatar,
-  firstname,
-  lastname,
-  hours,
+  firstName,
+  lastName,
+  timeElasped,
   number,
   title,
-  subtext,
+  description,
   totalAmount,
-  progress,
+  currentAmount,
   imageUrl,
   offerText,
   id,
@@ -38,7 +47,13 @@ export const PostCard: React.FC<PostCardProps> = ({
   const navigation = useNavigation();
   const progressBarRef = useRef<View>(null);
   const calculatedProgressBarWidth =
-    (Number(progress) / Number(totalAmount)) * 100;
+    (Number(currentAmount) / Number(totalAmount)) * 100;
+
+  const avatarTitle = `${firstName?.charAt(0) ?? ''}${
+    lastName?.charAt(0) ?? ''
+  }`;
+
+  // const { firstName, lastName } = user
 
   useEffect(() => {
     if (progressBarRef.current) {
@@ -51,18 +66,26 @@ export const PostCard: React.FC<PostCardProps> = ({
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Pressable style={styles.header} onPress={() => {navigation.navigate('FriendsProfile')}}>
-        <Avatar
-          size={25}
-          rounded
-          source={avatar ? {uri: avatar} : undefined}
-          title={`${firstname.charAt(0)}${lastname.charAt(0)}`}
-          containerStyle={{backgroundColor: GlobalStyles.Colors.primary800}}
-        />
-        <Text style={styles.NameTitle}>{`${firstname} ${lastname}`}</Text>
-        <Text style={styles.TimeText}>{`${hours} hour ago`}</Text>
+        <Pressable
+          style={styles.header}
+          onPress={() => {
+            navigation.navigate('FriendsProfile');
+          }}>
+          <Avatar
+            size={25}
+            rounded
+            source={avatar ? {uri: avatar} : undefined}
+            title={avatarTitle}
+            containerStyle={{backgroundColor: GlobalStyles.Colors.primary800}}
+          />
+          <Text style={styles.NameTitle}>{`${firstName} ${lastName}`}</Text>
+          <Text style={styles.TimeText}>{timeElasped}</Text>
         </Pressable>
-        <Pressable onPress={() => {navigation.navigate('LevelsScreen')}} style={styles.right}>
+        <Pressable
+          onPress={() => {
+            navigation.navigate('LevelsScreen');
+          }}
+          style={styles.right}>
           <StarCircle
             iconName="star-four-points-outline"
             height={16}
@@ -72,7 +95,7 @@ export const PostCard: React.FC<PostCardProps> = ({
         </Pressable>
       </View>
       {title && <Text style={styles.title}>{title}</Text>}
-      {subtext && <Text style={styles.subtext}>{subtext}</Text>}
+      {description && <Text style={styles.description}>{description}</Text>}
       {imageUrl && <Image source={{uri: imageUrl}} style={styles.image} />}
       <View style={styles.progressBarContainer}>
         <View style={{flexDirection: 'row', width: '100%'}}>
@@ -93,22 +116,22 @@ export const PostCard: React.FC<PostCardProps> = ({
           marginTop: 10,
         }}>
         <View style={styles.amountContainer}>
-          <Text style={styles.progressText}>{`$${progress}`}</Text>
+          <Text style={styles.progressText}>{`$${currentAmount}`}</Text>
           <Text style={styles.totalAmountText}>{`/ $${totalAmount}`}</Text>
         </View>
         <Pressable
           style={styles.offerContainer}
           onPress={() => {
-            navigation.navigate('PostDetails', {
+            navigation.navigate('PostOfferSummary', {
               avatar: avatar,
-              firstname: firstname,
-              lastname: lastname,
-              hours: hours,
+              firstName: firstName,
+              lastName: lastName,
+              timeElasped: timeElasped,
               number: number,
               title: title,
-              subtext: subtext,
+              description: description,
               totalAmount: totalAmount,
-              progress: progress,
+              currentAmount: currentAmount,
               imageUrl: imageUrl,
               offerText: offerText,
               id: id,
@@ -168,7 +191,7 @@ const styles = StyleSheet.create({
     marginVertical: 5,
     color: GlobalStyles.Colors.accent120,
   },
-  subtext: {
+  description: {
     fontSize: 14,
     color: GlobalStyles.Colors.primary800,
     marginLeft: 10,

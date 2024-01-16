@@ -8,8 +8,7 @@ import OnboardingScreen4 from '../onboarding/OnboardingScreen4';
 import Featured from './Featured';
 import MyPosts from './MyPosts';
 import FriendsFeed from './FriendsFeed';
-
-
+import HomeScreen from '../HomeScreen';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -24,7 +23,6 @@ export default function FeedTopTabs() {
           height: 2,
           alignSelf: 'center',
         },
-        
       }}>
       <Tab.Screen
         options={{title: 'Featured'}}
@@ -32,14 +30,20 @@ export default function FeedTopTabs() {
         component={Featured}
       />
       <Tab.Screen
-        options={{title: 'My posts'}}
-        name="MyPosts"
-        component={MyPosts}
+        options={{title: 'All'}}
+        name="HomeScreen"
+        component={HomeScreen}
       />
       <Tab.Screen
-        options={{title: 'Friends Feed'}}
+        options={{title: 'Friends'}}
         name="FriendsFeed"
         component={FriendsFeed}
+      />
+      <Tab.Screen
+        options={{title: 'posts'}}
+        name="MyPosts"
+        component={MyPosts}
+        initialParams={{ fromMyPosts: true }}
       />
     </Tab.Navigator>
   );

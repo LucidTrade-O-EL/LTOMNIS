@@ -19,9 +19,12 @@ import appleAuth, {
   AppleAuthRequestScope,
   AppleAuthRequestOperation,
 } from '@invertase/react-native-apple-authentication';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
 export default function RegisterScreen() {
-  const [name, setName] = useState('');
+  // const [name, setName] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -48,8 +51,16 @@ export default function RegisterScreen() {
       setInvalidPassword(false);
     }
 
-    if (name.length < 2) {
-      setErrorMessage('Name must be at least 2 characters long.');
+    // if (name.length < 2) {
+    //   setErrorMessage('Name must be at least 2 characters long.');
+    //   return;
+    // }
+    if (firstName.length < 2) {
+      setErrorMessage('First Name must be at least 2 characters long.');
+      return;
+    }
+    if (lastName.length < 2) {
+      setErrorMessage('Last Name must be at least 2 characters long.');
       return;
     }
 
@@ -64,7 +75,9 @@ export default function RegisterScreen() {
       const res = await axios.post(
         'http://localhost:8080/api/omnis/account/register_login',
         {
-          name,
+          // name,
+          firstName,
+          lastName,
           email,
           password,
         },
@@ -72,8 +85,6 @@ export default function RegisterScreen() {
 
       const user = res.data; // Use `res.data` to access the response data
       console.log('This is our response data', user);
-
-
 
       if (user) {
         navigation.navigate('CreateLinkToken', {userId: user.userId});
@@ -93,24 +104,32 @@ export default function RegisterScreen() {
     try {
       const appleAuthRequestResponse = await appleAuth.performRequest({
         requestedOperation: AppleAuthRequestOperation.LOGIN,
-        requestedScopes: [AppleAuthRequestScope.EMAIL, AppleAuthRequestScope.FULL_NAME],
+        requestedScopes: [
+          AppleAuthRequestScope.EMAIL,
+          AppleAuthRequestScope.FULL_NAME,
+        ],
       });
-  
-      const credentialState = await appleAuth.getCredentialStateForUser(appleAuthRequestResponse.user);
-  
+
+      const credentialState = await appleAuth.getCredentialStateForUser(
+        appleAuthRequestResponse.user,
+      );
+
       if (credentialState === appleAuth.State.AUTHORIZED) {
         // Extract user data
-        const { email, fullName } = appleAuthRequestResponse;
+        const {email, fullName} = appleAuthRequestResponse;
         const userData = {
           email,
           fullName,
           appleIdToken: appleAuthRequestResponse.identityToken, // This is important for backend verification
         };
-  
+
         // Send data to backend for verification and user record creation/updation
-        const res = await axios.post('http://localhost:8080/api/omnis/account/register_login', userData);
-        const { sessionToken } = res.data;
-  
+        const res = await axios.post(
+          'http://localhost:8080/api/omnis/account/register_login',
+          userData,
+        );
+        const {sessionToken} = res.data;
+
         // Store sessionToken securely, e.g., in AsyncStorage
         // Handle navigation or other logic
       }
@@ -118,44 +137,32 @@ export default function RegisterScreen() {
       console.error('Apple Sign-In error:', error);
     }
   };
-  
 
   return (
-    <View style={styles.background}>
+    <SafeAreaView style={styles.background}>
       <Text style={styles.text}>Lets Get Started</Text>
       <Text style={styles.smallText}>Create Your Account</Text>
       <View style={styles.view1}>
         {/* input boxes */}
-        <Text
-          style={{
-            color: 'white',
-            fontSize: 12,
-            opacity: 0.6,
-            textAlign: 'left',
-            alignSelf: 'flex-start',
-            paddingLeft: 20,
-          }}>
-          fullName
-        </Text>
+        <Text style={styles.boxSpacing}>First Name</Text>
         <TextInput
           style={[styles.textImputBox, styles.smallText]}
-          value={name}
-          onChangeText={text => setName(text)}
+          value={firstName}
+          onChangeText={text => setFirstName(text)}
           aria-label="Name"
-          placeholder="Kayne West"
+          placeholder="First Name"
           placeholderTextColor={'#fff'}
         />
-        <Text
-          style={{
-            color: 'white',
-            fontSize: 12,
-            opacity: 0.6,
-            textAlign: 'left',
-            alignSelf: 'flex-start',
-            paddingLeft: 20,
-          }}>
-          email
-        </Text>
+        <Text style={styles.boxSpacing}>Last Name</Text>
+        <TextInput
+          style={[styles.textImputBox, styles.smallText]}
+          value={lastName}
+          onChangeText={text => setLastName(text)}
+          aria-label="Name"
+          placeholder="Last Name"
+          placeholderTextColor={'#fff'}
+        />
+        <Text style={styles.boxSpacing}>Email</Text>
         <TextInput
           style={[styles.textImputBox, styles.smallText]}
           value={email}
@@ -164,17 +171,7 @@ export default function RegisterScreen() {
           placeholder="kanyewest@gmail.com"
           placeholderTextColor={'#fff'}
         />
-        <Text
-          style={{
-            color: 'white',
-            fontSize: 12,
-            opacity: 0.6,
-            textAlign: 'left',
-            alignSelf: 'flex-start',
-            paddingLeft: 20,
-          }}>
-          password
-        </Text>
+        <Text style={styles.boxSpacing}>Password</Text>
         <TextInput
           style={[styles.textImputBox, styles.smallText]}
           value={password}
@@ -197,17 +194,7 @@ export default function RegisterScreen() {
         ) : (
           <Text> </Text>
         )}
-        <Text
-          style={{
-            color: 'white',
-            fontSize: 12,
-            opacity: 0.6,
-            textAlign: 'left',
-            alignSelf: 'flex-start',
-            paddingLeft: 20,
-          }}>
-          confirm Password
-        </Text>
+        <Text style={styles.boxSpacing}>Confirm Password</Text>
         <TextInput
           style={[styles.textImputBox, styles.smallText]}
           value={confirmPassword}
@@ -282,7 +269,7 @@ export default function RegisterScreen() {
           </View>
         </Pressable>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
 
@@ -290,7 +277,6 @@ const styles = StyleSheet.create({
   background: {
     backgroundColor: '#1E1E1E',
     alignItems: 'center',
-    paddingTop: 75,
     height: '100%',
   },
 
@@ -300,7 +286,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#BDAE8D',
     justifyContent: 'center',
     borderRadius: 16,
-    marginBottom: 20,
+    marginBottom: 10,
   },
 
   buttonText: {
@@ -352,13 +338,13 @@ const styles = StyleSheet.create({
     height: 50,
     width: '90%',
     paddingLeft: 10,
-    marginBottom: 20,
-    marginTop: 10,
+    marginBottom: 15,
+    marginTop: 5,
   },
 
   view1: {
     alignItems: 'center',
-    marginTop: 50,
+    marginTop: 20,
     color: '#fff',
     width: '100%',
   },
@@ -375,5 +361,13 @@ const styles = StyleSheet.create({
     width: '100%',
     alignItems: 'center',
     justifyContent: 'space-around',
+  },
+  boxSpacing: {
+    color: 'white',
+    fontSize: 12,
+    opacity: 0.6,
+    textAlign: 'left',
+    alignSelf: 'flex-start',
+    paddingLeft: 20,
   },
 });

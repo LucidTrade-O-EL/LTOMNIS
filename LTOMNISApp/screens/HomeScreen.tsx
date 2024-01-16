@@ -33,6 +33,8 @@ export default function HomeScreen({
   const [AcceptedOffers, setAcceptedOffers] = useState(6);
   const [OffersAccepted, setOffersAccepted] = useState(13);
   const [NewOffers, setNewOffers] = useState(5);
+  const [notificationCount, setNotificationCount] = useState(3); // Example count
+
   const navigation = useNavigation<NativeStackNavigationProp<HomeStackParamList>>();
 
   const handleDeposit = () => {
@@ -72,6 +74,27 @@ export default function HomeScreen({
     navigation.navigate('OfferScreen');
   };
 
+  const NotificationIcon = () => {
+    return (
+      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+        <Pressable onPress={handleNotifications}>
+          <IonIcon
+            name="notifications-outline"
+            size={24}
+            color={GlobalStyles.Colors.primary100}
+          />
+        </Pressable>
+        {notificationCount > 0 && (
+          <View style={styles.notificationBubble}>
+            <Text style={styles.notificationText}>
+              {notificationCount}
+            </Text>
+          </View>
+        )}
+      </View>
+    );
+  };
+
 
   return (
     <SafeAreaView style={styles.Background}>
@@ -88,12 +111,13 @@ export default function HomeScreen({
           <Text style={styles.NameHeaderText}>{userName}</Text>
         </Pressable>
         <Pressable onPress={handleNotifications}>
-        <IonIcon
+        {/* <IonIcon
           name="notifications-outline"
           size={24}
           style={{alignSelf: 'center'}}
           color={GlobalStyles.Colors.primary100}
-        />
+        /> */}
+        <NotificationIcon />
         </Pressable>
       </View>
 
@@ -441,5 +465,21 @@ const styles = StyleSheet.create({
     marginBottom: 6,
     fontFamily: 'San Francisco', // This will default to San Francisco on iOS.
     fontWeight: '500',
+  },
+
+  notificationBubble: {
+    position: 'absolute',
+    right: -6,
+    top: -3,
+    backgroundColor: 'red',
+    borderRadius: 10,
+    width: 20,
+    height: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  notificationText: {
+    color: 'white',
+    fontSize: 10,
   },
 });
