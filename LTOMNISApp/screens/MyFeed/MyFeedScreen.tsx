@@ -1,12 +1,12 @@
 import {View, StyleSheet, SafeAreaView} from 'react-native';
-import React, { useEffect } from 'react';
+import React, {useEffect, useState} from 'react';
 import GlobalStyles from '../../assets/constants/colors';
 import FeedTopTabs from './FeedTopTabs';
 import Header from './Header';
 import {StackScreenProps} from '@react-navigation/stack';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppState } from '../../ReduxStore';
-
+import {useDispatch, useSelector} from 'react-redux';
+import {AppState} from '../../ReduxStore';
+import axios from 'axios';
 
 type Type1 = {
   property: string;
@@ -18,10 +18,10 @@ type Type2 = {
 
 export type MyFeedScreenProps = {
   MyFeedScreen: {
-     firstname: string;
-     lastname: string;
-     prop1?: Type1;
-     prop2?: Type2;
+    firstname: string;
+    lastname: string;
+    prop1?: Type1;
+    prop2?: Type2;
   };
 };
 
@@ -34,7 +34,6 @@ type MyFeedStackParamList = {
   };
   // Add other screens if you have params for them
 };
-
 
 let defaultValue1: Type1 = {
   property: 'defaultValue1',
@@ -49,27 +48,44 @@ export type MyFeedScreenNavigationProps = StackScreenProps<
   'MyFeedScreen'
 >;
 
+const MyFeedScreen: React.FC<
+  StackScreenProps<MyFeedStackParamList, 'MyFeedScreen'>
+> = ({navigation, route}) => {
+  const userId = useSelector((state: AppState) => state.user.userId); // Only declaration of userId
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
 
-const MyFeedScreen: React.FC<StackScreenProps<MyFeedStackParamList, 'MyFeedScreen'>> = ({
-  navigation,
-  route
-}) => {
-  const {
-    firstname = "",
-    lastname = "",
-    prop1 = defaultValue1, // You might want to define defaultValue1 somewhere or replace it.
-    prop2 = defaultValue2  // You might want to define defaultValue2 somewhere or replace it.
-  } = route.params || {}; // default to an empty object if route.params is undefined
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        if (!userId) {
+          console.error('User ID is missing');
+          return;
+        }
+
+        // Replace with your actual API endpoint and token if needed
+        const response = await axios.get(
+          `http://localhost:8080/api/omnis/user/${userId}`,
+        );
+        setFirstName(response.data.firstName);
+        setLastName(response.data.lastName);
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+      }
+    };
+
+    fetchUserData();
+  }, [userId]);
+
+  const {} = route.params || {}; // default to an empty object if route.params is undefined
 
   const avatarImage = ''; // Assuming you'd get this from props or somewhere else
 
-
-  
   return (
     <SafeAreaView style={styles.background}>
       <Header
-        firstname={firstname}
-        lastname={lastname}
+        firstname={firstName}
+        lastname={lastName}
         avatarImage={avatarImage}
       />
       <FeedTopTabs />

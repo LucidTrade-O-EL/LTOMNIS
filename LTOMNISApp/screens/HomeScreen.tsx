@@ -150,17 +150,11 @@ export default function HomeScreen({}: {}) {
             style={styles.NameHeaderText}>{`${firstName} ${lastName}`}</Text>
         </Pressable>
         <Pressable onPress={handleNotifications}>
-          {/* <IonIcon
-          name="notifications-outline"
-          size={24}
-          style={{alignSelf: 'center'}}
-          color={GlobalStyles.Colors.primary100}
-        /> */}
           <NotificationIcon />
         </Pressable>
       </View>
 
-      {/* Balance */}
+      {/* Balance or Credit */}
 
       <View>
         <Text style={styles.LoanTitle}>Credit</Text>
