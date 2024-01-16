@@ -52,7 +52,7 @@ export default function AddPostScreen() {
     formData.append('description', description);
     console.log('Amount before appending to FormData:', amount);
     formData.append('amount', amount);
-    formData.append('featured', featured); // Convert to string if necessary
+    formData.append('featured', String(featured)); // Convert boolean to string
 
 
     // if (imageFile) {

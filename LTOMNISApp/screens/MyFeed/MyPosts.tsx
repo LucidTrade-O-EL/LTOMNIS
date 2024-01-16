@@ -50,17 +50,17 @@ export default function MyPosts({route}) {
 
   // Polling Underneath
 
-  useEffect(() => {
-    const fetchInterval = setInterval(() => {
-      fetchMyPostFeedList();
-    }, 10000); // Fetches posts every 10 seconds
-  
-    return () => clearInterval(fetchInterval); // Clean up interval on component unmount
-  }, []);
-
   // useEffect(() => {
-  //   fetchMyPostFeedList(); // Fetch data when the component mounts
+  //   const fetchInterval = setInterval(() => {
+  //     fetchMyPostFeedList();
+  //   }, 10000); // Fetches posts every 10 seconds
+  
+  //   return () => clearInterval(fetchInterval); // Clean up interval on component unmount
   // }, []);
+
+  useEffect(() => {
+    fetchMyPostFeedList(); // Fetch data when the component mounts
+  }, []);
 
   // renderItem function
   const renderItem = ({item, index}: {item: PostCardProps, index: number}) => (

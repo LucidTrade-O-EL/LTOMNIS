@@ -1,10 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, FlatList } from 'react-native';
-import { PostCard, PostCardProps } from './PostCard';
+import React, {useEffect, useState} from 'react';
+import {View, Text, StyleSheet, FlatList} from 'react-native';
+import {PostCard, PostCardProps} from './PostCard';
 import GlobalStyles from '../../assets/constants/colors';
 import axios from 'axios';
+import {AppState} from '../../ReduxStore';
+import {useSelector} from 'react-redux';
 
-export default function Featured() {
+export default function Featured({route}) {
+  const fromMyPosts = route.params?.fromMyPosts ?? false;
   // Data array
   // const postData = [
   //   {
@@ -36,24 +39,40 @@ export default function Featured() {
   // ];
 
   const [postData, setPostData] = useState<PostCardProps[]>([]);
+  const token = useSelector((state: AppState) => state.token);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.post('http://localhost:8080/api/omnis/posts/featured', {
-          // Your request body here
-        });
-        setPostData(response.data); // Assuming the response data is the format you need
+        const response = await axios.get(
+          'http://localhost:8080/api/omnis/posts/featured',
+          {
+            headers: {
+              Authorization: `Bearer ${token.token}`,
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
+            },
+          },
+        );
+        setPostData(response.data.featuredPostList);
+        console.log('Fetched data:', response.data);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
     };
 
+    // Call the function immediately to fetch data initially
     fetchData();
+
+    // Set up polling to fetch data every specified interval
+    const interval = setInterval(fetchData, 30000); // Fetch data every 30 seconds
+
+    // Clean up interval on component unmount
+    return () => clearInterval(interval);
   }, []);
 
   // renderItem function
-  const renderItem = ({ item }: { item: PostCardProps }) => (
+  const renderItem = ({item}: {item: PostCardProps}) => (
     <PostCard
       avatar={item.avatar}
       firstName={item.user.firstName}
@@ -65,7 +84,7 @@ export default function Featured() {
       title={item.title}
       description={item.description}
       imageUrl={item.imageUrl}
-      offerText={item.offerText}
+      offerText={fromMyPosts ? "Edit" : "Offer"}
       id={item.id}
     />
   );
@@ -73,9 +92,9 @@ export default function Featured() {
   return (
     <View style={styles.container}>
       <FlatList
-        data={postData} // pass the data array
-        renderItem={renderItem} // pass the renderItem function
-        keyExtractor={item => item.id} // use id for keyExtractor
+        data={postData}
+        renderItem={renderItem}
+        keyExtractor={item => item.id}
       />
     </View>
   );

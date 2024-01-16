@@ -469,9 +469,9 @@ const styles = StyleSheet.create({
 
   notificationBubble: {
     position: 'absolute',
-    right: -6,
-    top: -3,
-    backgroundColor: 'red',
+    right: 20,
+    bottom: -20,
+    backgroundColor: GlobalStyles.Colors.primary200,
     borderRadius: 10,
     width: 20,
     height: 20,
