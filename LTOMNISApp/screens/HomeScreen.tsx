@@ -15,27 +15,38 @@ import TransactionHistory from '../assets/constants/Components/CustomTransaction
 import {StackNavigationProp} from '@react-navigation/stack';
 import {RouteProp} from '@react-navigation/native';
 import {useNavigation} from '@react-navigation/native';
-import {HomeStackParamList} from '../App'
-import { useDispatch, useSelector } from 'react-redux';
-import { hideTabBar, showTabBar } from '../tabBarSlice';
-import { AppState } from '../ReduxStore';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import {HomeStackParamList} from '../App';
+import {useDispatch, useSelector} from 'react-redux';
+import {hideTabBar, showTabBar} from '../tabBarSlice';
+import {AppState, setUserId} from '../ReduxStore';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import axios from 'axios';
 // import { hideTabBar, showTabBar } from '../appReducer';
 
-
-export default function HomeScreen({
-}: {
-}) {
-
-  const [userName, setUserName] = useState('Zak Veasy');
-  const [balance, setBalance] = useState('$124.56');
+export default function HomeScreen({}: {}) {
+  const [balance, setBalance] = useState('$0.00'); // Default balance
   const [OfferSent, setOfferSent] = useState(25);
   const [AcceptedOffers, setAcceptedOffers] = useState(6);
   const [OffersAccepted, setOffersAccepted] = useState(13);
   const [NewOffers, setNewOffers] = useState(5);
   const [notificationCount, setNotificationCount] = useState(3); // Example count
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
 
-  const navigation = useNavigation<NativeStackNavigationProp<HomeStackParamList>>();
+  const navigation =
+    useNavigation<NativeStackNavigationProp<HomeStackParamList>>();
+
+  const token = useSelector((state: AppState) => state.token);
+
+  const userId = useSelector((state: AppState) => state.user.userId);
+
+  const dispatch = useDispatch();
+  dispatch(setUserId(userId));
+
+  // Example of dispatching an action
+  const updateUserId = (newId: string) => {
+    dispatch(setUserId(newId));
+  };
 
   const handleDeposit = () => {
     console.log('Deposit button pressed');
@@ -74,9 +85,39 @@ export default function HomeScreen({
     navigation.navigate('OfferScreen');
   };
 
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        if (!userId || !token) {
+          console.error('User ID or Token is missing');
+          return;
+        }
+
+        const response = await axios.get(
+          `http://localhost:8080/api/omnis/user/${userId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
+            },
+          },
+        );
+
+        const userData = response.data;
+        setFirstName(userData.firstName);
+        setLastName(userData.lastName);
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+      }
+    };
+
+    fetchUserData();
+  }, [userId, token]);
+
   const NotificationIcon = () => {
     return (
-      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+      <View style={{flexDirection: 'row', alignItems: 'center'}}>
         <Pressable onPress={handleNotifications}>
           <IonIcon
             name="notifications-outline"
@@ -86,15 +127,12 @@ export default function HomeScreen({
         </Pressable>
         {notificationCount > 0 && (
           <View style={styles.notificationBubble}>
-            <Text style={styles.notificationText}>
-              {notificationCount}
-            </Text>
+            <Text style={styles.notificationText}>{notificationCount}</Text>
           </View>
         )}
       </View>
     );
   };
-
 
   return (
     <SafeAreaView style={styles.Background}>
@@ -108,16 +146,17 @@ export default function HomeScreen({
               uri: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8ZmFjZXxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60',
             }}
           />
-          <Text style={styles.NameHeaderText}>{userName}</Text>
+          <Text
+            style={styles.NameHeaderText}>{`${firstName} ${lastName}`}</Text>
         </Pressable>
         <Pressable onPress={handleNotifications}>
-        {/* <IonIcon
+          {/* <IonIcon
           name="notifications-outline"
           size={24}
           style={{alignSelf: 'center'}}
           color={GlobalStyles.Colors.primary100}
         /> */}
-        <NotificationIcon />
+          <NotificationIcon />
         </Pressable>
       </View>
 

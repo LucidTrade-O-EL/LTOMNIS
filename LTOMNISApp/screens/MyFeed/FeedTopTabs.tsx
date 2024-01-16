@@ -9,6 +9,7 @@ import Featured from './Featured';
 import MyPosts from './MyPosts';
 import FriendsFeed from './FriendsFeed';
 import HomeScreen from '../HomeScreen';
+import AllPosts from './AllPosts';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -31,8 +32,8 @@ export default function FeedTopTabs() {
       />
       <Tab.Screen
         options={{title: 'All'}}
-        name="HomeScreen"
-        component={HomeScreen}
+        name="AllPosts"
+        component={AllPosts}
       />
       <Tab.Screen
         options={{title: 'Friends'}}

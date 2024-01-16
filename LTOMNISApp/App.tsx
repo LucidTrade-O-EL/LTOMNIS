@@ -121,6 +121,7 @@ import MakeAGroupScreen from './screens/Spotlight/Groups/MakeAGroupScreen';
 import CustomPaymentBlock from './assets/constants/Components/CustomPaymentBlock';
 import PaymentStatus from './screens/Spotlight/PaymentStatus';
 import ScoreBreakDown from './screens/OMNISScore/ScoreBreakDown/ScoreBreakDown';
+import AllPosts from './screens/MyFeed/AllPosts';
 // import store from './store';
 // import store from '../LTOMNISApp'
 
@@ -406,6 +407,7 @@ export type FeedStackParamList = {
   PostOfferSummary: undefined;
   PostEdit: undefined;
   FeedSummary: undefined;
+  AllPosts: undefined;
 };
 
 export function FeedStackNavigator({}: FeedStackNavigatorProps) {
@@ -429,6 +431,7 @@ export function FeedStackNavigator({}: FeedStackNavigatorProps) {
       <FeedStack.Screen name="PostOfferSummary" component={PostOfferSummary} />
       <FeedStack.Screen name="PostEdit" component={PostEdit} />
       <FeedStack.Screen name="FeedSummary" component={FeedSummary} />
+      <FeedStack.Screen name="AllPosts" component={AllPosts} />
     </FeedStack.Navigator>
   );
 }

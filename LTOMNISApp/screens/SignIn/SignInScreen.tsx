@@ -26,7 +26,7 @@ import {
   AppleButton,
 } from '@invertase/react-native-apple-authentication';
 import {t} from 'i18next';
-import {setToken} from '../../ReduxStore';
+import {setToken, setUserId} from '../../ReduxStore';
 
 import {Screen} from 'react-native-screens';
 import {MainStackParamList} from '../../App';
@@ -66,12 +66,16 @@ const SignInScreen: React.FC = () => {
       if (res.status === 200 && res.data && res.data.token) {
         const user = res.data;
         const token = user.token;
+        const userId = user.userId;
 
         // Save token to AsyncStorage
         await AsyncStorage.setItem('token', token);
         setUserToken(token);
         setUser(user);
         console.log('This works!');
+        dispatch(setToken(token)); // Dispatch token to Redux store
+        dispatch(setUserId(userId)); // Dispatch userId to Redux store
+        console.log(`This is Login in set userID ${dispatch(setUserId(userId))}`)
         return token;
       } else {
         // Handle non-200 responses

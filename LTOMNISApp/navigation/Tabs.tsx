@@ -121,6 +121,7 @@ const screensWithTabs = [
   'SpotlightScreen',
   'FriendsScreen',
   'GroupsScreen',
+  'AllPosts'
 ]; // Screens with visible tabs
 
 export default function Tabs({}) {

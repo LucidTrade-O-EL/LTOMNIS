@@ -12,6 +12,8 @@ const SET_TOKEN = 'SET_TOKEN';
 const REMOVE_TOKEN = 'REMOVE_TOKEN';
 const SET_LINK_TOKEN = 'SET_LINK_TOKEN';
 const REMOVE_LINK_TOKEN = 'REMOVE_LINK_TOKEN';
+const SET_USER_ID = 'SET_USER_ID';
+
 
 export interface AppInitialState {
   hasViewedOnboarding: boolean
@@ -28,6 +30,15 @@ const appInitialState: AppInitialState = {
 export const setId = (id: string) => ({
   type: SET_ID,
   payload: id,
+});
+
+const UserInitialState = {
+  userId: null,
+};
+
+export const setUserId = (userId: string) => ({
+  type: SET_USER_ID,
+  payload: userId,
 });
 
 // Token State and Reducer
@@ -56,6 +67,7 @@ export interface AppState {
   tabBar: TabBarInitialState,
   linkToken: LinkTokenInitialState,
   id: string | null,
+  userId: string | null,
   //verify: ReturnType<typeof verifyReducer>; // Add this line
 }
 
@@ -78,6 +90,17 @@ const idReducer = (state = idInitialState, action: any) => {
   }
 };
 
+const userReducer = (state = UserInitialState, action: any) => {
+  switch (action.type) {
+    case SET_USER_ID:
+      return {
+        ...state,
+        userId: action.payload,
+      };
+    default:
+      return state;
+  }
+};
 
 const linkTokenReducer = (state = LinkTokenInitialState, action: SetLinkTokenAction) => {
   switch (action.type) {
@@ -119,6 +142,7 @@ const rootReducer = combineReducers({
   language: languageReducer,
   linkToken: linkTokenReducer,
   id: idReducer,
+  user: userReducer,
 });
 
 // Store
