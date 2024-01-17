@@ -27,19 +27,6 @@ export default function MyPosts({route}) {
       const res = await axios(options);
       if (res.data) {
         setPostData(res.data.myPostList); // Set the post data with the data from the API.
-        console.log(
-          `our response from the my feed ${JSON.stringify(res.data)}`,
-        );
-        console.log(
-          `our response from the my feed 2 ${JSON.stringify(
-            res.data.myPostList,
-          )}`,
-        );
-        console.log(
-          `My postList!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!${JSON.stringify(
-            res.data.myPostList,
-          )}`,
-        );
       } else {
         console.log('No user data received');
       }

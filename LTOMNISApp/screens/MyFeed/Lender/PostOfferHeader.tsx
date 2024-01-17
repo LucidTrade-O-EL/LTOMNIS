@@ -1,9 +1,9 @@
-import { useNavigation } from '@react-navigation/native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import React, {useEffect, useRef} from 'react';
 import {View, Text, StyleSheet, Pressable} from 'react-native';
 import {Avatar} from 'react-native-elements';
-import { FeedStackParamList } from '../../../App';
+import {FeedStackParamList} from '../../../App';
 import GlobalStyles from '../../../assets/constants/colors';
 import StarCircle from '../../../assets/constants/Components/Buttons/StarCircle';
 import CustomOfferBlock from '../../../assets/constants/Components/CustomOfferBlock';
@@ -18,37 +18,38 @@ type Participant = {
 // Add type for the props
 type PostOfferHeaderProps = {
   avatar?: string;
-  firstname: string;
-  lastname: string;
+  firstName: string;
+  lastName: string;
   number: number;
   title: string;
-  totalAmount: number;
+  amount: number;
   progress: number;
   participants: Participant[]; // add this line
-  subtext?: string
+  description?: string;
   buttonText: string;
+  interestPercentage: number;
 };
 
 // Pass the props to the function
 export default function PostOfferHeader({
   avatar,
-  firstname,
-  lastname,
+  firstName,
+  lastName,
   number,
   title,
   progress,
-  totalAmount,
+  amount,
   participants,
-  subtext,
+  description,
   buttonText,
+  interestPercentage,
 }: PostOfferHeaderProps) {
   const progressBarRef = useRef<View>(null);
-  const calculatedProgressBarWidth =
-    (Number(progress) / Number(totalAmount)) * 100;
+  const calculatedProgressBarWidth = (Number(progress) / Number(amount)) * 100;
 
-    const navigation =
+  const navigation =
     useNavigation<NativeStackNavigationProp<FeedStackParamList>>();
-    
+
   useEffect(() => {
     if (progressBarRef.current) {
       progressBarRef.current.setNativeProps({
@@ -64,14 +65,14 @@ export default function PostOfferHeader({
           size={25}
           rounded
           source={avatar ? {uri: avatar} : undefined}
-          title={`${firstname.charAt(0)}${lastname.charAt(0)}`}
+          title={`${firstName.charAt(0)}${lastName.charAt(0)}`}
           containerStyle={
             avatar
               ? {backgroundColor: GlobalStyles.Colors.primary800} // style when avatar is provided
               : {backgroundColor: 'blue'} // style when avatar is not provided
           }
         />
-        <Text style={styles.NameTitle}>{`${firstname} ${lastname}`}</Text>
+        <Text style={styles.NameTitle}>{`${firstName} ${lastName}`}</Text>
         <View style={styles.right}>
           <Text style={styles.textNumber}>{number}</Text>
           <Text style={styles.textScore}>Score</Text>
@@ -79,8 +80,7 @@ export default function PostOfferHeader({
       </View>
       <View style={styles.titleAmountRow}>
         <Text style={styles.titleText}>{title}</Text>
-        <Text
-          style={styles.amountText}>{`$${totalAmount.toLocaleString()}`}</Text>
+        <Text style={styles.amountText}>{`$${amount.toLocaleString()}`}</Text>
       </View>
       <View style={styles.progressBarContainer}>
         <View style={{flexDirection: 'row', width: '100%'}}>
@@ -97,23 +97,32 @@ export default function PostOfferHeader({
       <ParticipantDetails participants={participants} />
       <CustomOfferBlock
         data={[
-          {leftText: 'Loan amount', rightText: `$${380}`},
-          {leftText: 'Interest rate', rightText: `${5}%`},
+          {leftText: 'Loan amount', rightText: `$${amount}`},
+          {leftText: 'Interest rate', rightText: `${interestPercentage}%`},
           {isDivider: true},
-          {leftText: 'Remaining', rightText: `$${375}`},
+          {leftText: 'Remaining', rightText: `$${amount - progress}`},
         ]}
       />
-      <View style={{ flexDirection: 'row', width: '90%', alignSelf: 'center', marginTop: 5, flexWrap: 'wrap' }} >
-          <Text>"{subtext}"</Text>
+      <View
+        style={{
+          flexDirection: 'row',
+          width: '90%',
+          alignSelf: 'center',
+          marginTop: 5,
+          flexWrap: 'wrap',
+        }}>
+        <Text>"{description}"</Text>
       </View>
       <Pressable
-            style={[
-              styles.SignButton,
-              {backgroundColor: GlobalStyles.Colors.primary200},
-            ]}
-            onPress={() => {navigation.navigate('PostDetails')}}>
-            <Text style={styles.SignButtonText}>{buttonText}</Text>
-          </Pressable>
+        style={[
+          styles.SignButton,
+          {backgroundColor: GlobalStyles.Colors.primary200},
+        ]}
+        onPress={() => {
+          navigation.navigate('PostDetails');
+        }}>
+        <Text style={styles.SignButtonText}>{buttonText}</Text>
+      </Pressable>
     </View>
   );
 }
@@ -172,7 +181,7 @@ const styles = StyleSheet.create({
     color: GlobalStyles.Colors.primary800,
     fontWeight: '500',
   },
-  totalAmountText: {
+  amountText: {
     fontSize: 14,
     color: GlobalStyles.Colors.accent120,
   },
@@ -194,8 +203,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between', // separate title and amount
     alignItems: 'center', // center align items vertically
     padding: 10, // add some padding
-    width: '90%', 
-    alignSelf: 'center'
+    width: '90%',
+    alignSelf: 'center',
   },
   titleText: {
     fontSize: 22, // set font size to 22 as specified

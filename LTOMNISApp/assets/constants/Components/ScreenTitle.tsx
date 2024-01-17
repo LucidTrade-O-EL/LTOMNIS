@@ -33,7 +33,6 @@ const ScreenTitle: React.FC<ScreenTitleProps> = ({
     <View style={styles.container}>
       <TouchableOpacity onPress={() => {
         if (showBackArrow) {
-          console.log("Back button touched");
           navigation.goBack();
         }
       }} style={styles.backButton}>

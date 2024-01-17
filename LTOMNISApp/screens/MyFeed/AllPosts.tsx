@@ -6,7 +6,7 @@ import axios from 'axios';
 import {AppState} from '../../ReduxStore';
 import {useSelector} from 'react-redux';
 
-export default function AllPosts({route}) {
+export default function AllPosts({route, navigation}) {
   const fromMyPosts = route.params?.fromMyPosts ?? false;
   // Data array
   // const postData = [
@@ -40,7 +40,6 @@ export default function AllPosts({route}) {
 
   const [postData, setPostData] = useState<PostCardProps[]>([]);
   const token = useSelector((state: AppState) => state.token);
-  
 
   useEffect(() => {
     const fetchData = async () => {
@@ -56,7 +55,6 @@ export default function AllPosts({route}) {
           },
         );
         setPostData(response.data.postList);
-        console.log('Fetched data From ALL POSTS!:', response.data);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -72,6 +70,30 @@ export default function AllPosts({route}) {
     return () => clearInterval(interval);
   }, []);
 
+  const handleOfferPress = async (postId: string) => {
+    try {
+      const response = await axios.get(
+        `http://localhost:8080/api/omnis/post/${postId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token.token}`,
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+        },
+      );
+      // Now you can do something with the offers data, like navigating to a new screen with this data
+      navigation.navigate('PostOfferSummary', {posts: response.data.uniquePost});
+
+      console.log(
+        'this is the ALL screen ***************************************',
+        response.data,
+      );
+    } catch (error) {
+      console.error('Error fetching offers:', error);
+    }
+  };
+
   // renderItem function
   const renderItem = ({item}: {item: PostCardProps}) => (
     <PostCard
@@ -85,7 +107,8 @@ export default function AllPosts({route}) {
       title={item.title}
       description={item.description}
       imageUrl={item.imageUrl}
-      offerText={fromMyPosts ? "Edit" : "Offer"}
+      offerText={fromMyPosts ? 'Edit' : 'Offer'}
+      onOfferPress={() => handleOfferPress(item.id)}
       id={item.id}
     />
   );
@@ -105,7 +128,7 @@ export default function AllPosts({route}) {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: GlobalStyles.Colors.primary100,
-    flex: 1
+    flex: 1,
   },
   listContentContainer: {
     paddingBottom: 80,

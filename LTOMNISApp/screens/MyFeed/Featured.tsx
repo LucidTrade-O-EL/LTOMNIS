@@ -55,7 +55,6 @@ export default function Featured({route}) {
           },
         );
         setPostData(response.data.featuredPostList);
-        console.log('Fetched data:', response.data);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -70,7 +69,7 @@ export default function Featured({route}) {
     // Clean up interval on component unmount
     return () => clearInterval(interval);
   }, []);
-
+// PostOfferSummary
   // renderItem function
   const renderItem = ({item}: {item: PostCardProps}) => (
     <PostCard

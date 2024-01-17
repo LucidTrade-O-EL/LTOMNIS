@@ -41,7 +41,7 @@ export default function FeedTopTabs() {
         component={FriendsFeed}
       />
       <Tab.Screen
-        options={{title: 'posts'}}
+        options={{title: 'My posts'}}
         name="MyPosts"
         component={MyPosts}
         initialParams={{ fromMyPosts: true }}

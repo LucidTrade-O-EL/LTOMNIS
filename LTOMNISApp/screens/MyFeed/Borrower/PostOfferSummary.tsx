@@ -1,14 +1,27 @@
 import {View, StyleSheet, ImageBackground, Pressable} from 'react-native';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import PostOfferHeader from '../Lender/PostOfferHeader';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { useNavigation } from '@react-navigation/native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { FeedStackParamList } from '../../../App';
+import {useNavigation, useRoute} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {FeedStackParamList} from '../../../App';
+import axios from 'axios';
+import {Text} from 'react-native-elements';
 
 export default function PostOfferSummary() {
   const navigation =
-  useNavigation<NativeStackNavigationProp<FeedStackParamList>>();
+    useNavigation<NativeStackNavigationProp<FeedStackParamList>>();
+    const route = useRoute();
+
+    // Unpack the 'offers' data from the route params
+    const posts = route.params?.posts;
+
+    console.log(`This is in the PostOfferSummary ${JSON.stringify(route.params)}`)
+  
+    // Check if offers is available
+    if (!posts) {
+      return <Text>Loading...</Text>;
+    }
 
   return (
     <View style={styles.Background}>
@@ -18,7 +31,9 @@ export default function PostOfferSummary() {
         }}
         style={styles.backgroundImage}
         resizeMode="cover">
-        <Pressable onPress={() => navigation.goBack()} style={styles.rightSection}>
+        <Pressable
+          onPress={() => navigation.goBack()}
+          style={styles.rightSection}>
           <Ionicons name="chevron-back" size={24} color="white" />
         </Pressable>
       </ImageBackground>
@@ -33,12 +48,13 @@ export default function PostOfferSummary() {
           borderRadius: 24,
         }}>
         <PostOfferHeader
-          avatar="https://plus.unsplash.com/premium_photo-1671656349322-41de944d259b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8ZmFjZXN8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60"
-          firstname="John"
-          lastname="Doe"
+          avatar={posts.user.avatar}
+          firstName={posts.user.firstName}
+          lastName={posts.user.lastName}
           number={80}
-          title="Solar Panel"
-          totalAmount={700}
+          title={posts.title}
+          amount={posts.amount}
+          interestPercentage={posts.interestPercentage}
           progress={200}
           participants={[
             {
@@ -80,6 +96,6 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     width: '100%',
     marginTop: 40,
-    marginLeft: 40
+    marginLeft: 40,
   },
 });

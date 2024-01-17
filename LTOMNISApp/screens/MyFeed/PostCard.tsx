@@ -6,31 +6,29 @@ import GlobalStyles from '../../assets/constants/colors';
 import StarCircle from '../../assets/constants/Components/Buttons/StarCircle';
 import {useNavigation} from '@react-navigation/native';
 
-
 // export type UserProps = {
 //   firstName: string;
 //   lastName: string;
 // };
 
-export type PostCardProps = {
+type PostCardProps = {
   avatar?: string;
-  firstName: string;
-  lastName: string;
-  timeElasped: number;
-  number: number;
-  totalAmount: number;
-  currentAmount: number; // Add progress as a prop
-  title?: string; // added title prop
-  description?: string; // added description prop
-  imageUrl?: string; // added imageUrl prop
+  firstName?: string;
+  lastName?: string;
+  timeElasped?: number;
+  number?: number;
+  totalAmount?: number;
+  currentAmount?: number;
+  title?: string;
+  description?: string;
+  imageUrl?: string;
   offerText?: string;
-  id: string;
-  // user: UserProps;
+  onOfferPress?: () => void;
+  id?: string;
 };
 
 
-
-export const PostCard: React.FC<PostCardProps> = ({
+export const PostCard: React.FC<PostCardProps & {onOfferPress: () => void}> = ({
   avatar,
   firstName,
   lastName,
@@ -43,6 +41,7 @@ export const PostCard: React.FC<PostCardProps> = ({
   imageUrl,
   offerText,
   id,
+  onOfferPress,
 }) => {
   const navigation = useNavigation();
   const progressBarRef = useRef<View>(null);
@@ -119,7 +118,7 @@ export const PostCard: React.FC<PostCardProps> = ({
           <Text style={styles.progressText}>{`$${currentAmount}`}</Text>
           <Text style={styles.totalAmountText}>{`/ $${totalAmount}`}</Text>
         </View>
-        <Pressable
+        {/* <Pressable
           style={styles.offerContainer}
           onPress={() => {
             navigation.navigate('PostOfferSummary', {
@@ -135,8 +134,12 @@ export const PostCard: React.FC<PostCardProps> = ({
               imageUrl: imageUrl,
               offerText: offerText,
               id: id,
+              
             });
           }}>
+          <Text style={styles.offerText}>{offerText}</Text>
+        </Pressable> */}
+        <Pressable style={styles.offerContainer} onPress={onOfferPress}>
           <Text style={styles.offerText}>{offerText}</Text>
         </Pressable>
       </View>

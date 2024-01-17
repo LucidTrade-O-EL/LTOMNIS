@@ -7,10 +7,11 @@ import {
   TextInput,
 } from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
-import { useNavigation } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { useDispatch } from 'react-redux';
-import { setHasCompletedOnboarding } from '../../actions';
+import {useNavigation} from '@react-navigation/native';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {useDispatch, useSelector} from 'react-redux';
+import {setHasCompletedOnboarding} from '../../actions';
+import { AppState, setId, setToken } from '../../ReduxStore';
 
 export default function Verification() {
   const dispatch = useDispatch();
@@ -28,6 +29,8 @@ export default function Verification() {
   const ref_input4 = useRef<TextInput>(null);
 
   const navigation = useNavigation<StackNavigationProp<any>>();
+
+  const token = useSelector((state: AppState) => state.token);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -65,21 +68,23 @@ export default function Verification() {
     const verificationCode = digit1 + digit2 + digit3 + digit4;
     // Make sure to define userEmail or fetch it from state or props
 
-
     try {
-      const response = await fetch('http://localhost:8080/api/omnis/verify/code', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
+      const response = await fetch(
+        'http://localhost:8080/api/omnis/verify/code',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({code: verificationCode}),
         },
-        body: JSON.stringify({code: verificationCode }),
-      });
-  
+      );
+
       const data = await response.json();
       if (data.success) {
-      console.log('Verification successful.', data);
-      dispatch(setHasCompletedOnboarding(true));
-        // Handle successful verification
+        console.log('Verification successful.', data);
+        dispatch(setHasCompletedOnboarding(true));
+        navigation.navigate('MainStackNavigator');
       } else {
         console.log('Invalid verification code.');
         // Handle invalid code

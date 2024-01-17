@@ -67,7 +67,7 @@ const OfferSentSuccessful: React.FC<OfferSentSuccessfulProps> = ({
         iconSet="Ionicons"
         iconColor={GlobalStyles.Colors.primary100}
         color={GlobalStyles.Colors.primary200}
-        onPress={() => console.log('Button pressed!')}
+        onPress={() => {}}
       />
     </SafeAreaView>
   );
