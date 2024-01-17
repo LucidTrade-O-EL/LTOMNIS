@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, useWindowDimensions } from 'react-native';
+import { View, useWindowDimensions, Text, StyleSheet } from 'react-native';
 import { Avatar } from 'react-native-elements';
 import Feather from 'react-native-vector-icons/Feather';
 import GlobalStyles from '../../assets/constants/colors';
@@ -49,13 +49,31 @@ const Header: React.FC<HeaderProps> = ({
           }}
         />
       )}
-      <Feather
+      {/* <Feather
         name={'filter'}
         size={iconSize}
         color={GlobalStyles.Colors.primary100}
-      />
+      /> */}
+      <View style={{ flexDirection: 'column' }} >
+        <Text style={styles.PointsNumber} >5000</Text>
+        <Text style={styles.PointsText} >Points</Text>
+      </View>
     </View>
   );
 };
+
+
+const styles = StyleSheet.create({
+  PointsText: {
+    fontSize: 12,
+    color: GlobalStyles.Colors.accent100,
+    alignSelf: 'flex-end'
+  },
+  PointsNumber: {
+    fontSize: 20,
+    color: GlobalStyles.Colors.primary100
+  },
+
+});
 
 export default Header;
