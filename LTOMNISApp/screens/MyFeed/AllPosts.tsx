@@ -83,7 +83,9 @@ export default function AllPosts({route, navigation}) {
         },
       );
       // Now you can do something with the offers data, like navigating to a new screen with this data
-      navigation.navigate('PostOfferSummary', {posts: response.data.uniquePost});
+      navigation.navigate('PostOfferSummary', {
+        posts: response.data.uniquePost,
+      });
 
       console.log(
         'this is the ALL screen ***************************************',

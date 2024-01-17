@@ -6,7 +6,7 @@ import axios from 'axios';
 import {AppState} from '../../ReduxStore';
 import {useSelector} from 'react-redux';
 
-export default function Featured({route}) {
+export default function Featured({route, navigation}) {
   const fromMyPosts = route.params?.fromMyPosts ?? false;
   // Data array
   // const postData = [
@@ -69,7 +69,32 @@ export default function Featured({route}) {
     // Clean up interval on component unmount
     return () => clearInterval(interval);
   }, []);
-// PostOfferSummary
+
+
+  const handleOfferPress = async (postId: string) => {
+    try {
+      const response = await axios.get(
+        `http://localhost:8080/api/omnis/post/${postId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token.token}`,
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+        },
+      );
+      // Now you can do something with the offers data, like navigating to a new screen with this data
+      navigation.navigate('PostOfferSummary', {posts: response.data.uniquePost});
+
+      console.log(
+        'this is the Featured screen ***************************************',
+        response.data,
+      );
+    } catch (error) {
+      console.error('Error fetching offers:', error);
+    }
+  };
+
   // renderItem function
   const renderItem = ({item}: {item: PostCardProps}) => (
     <PostCard
@@ -84,6 +109,7 @@ export default function Featured({route}) {
       description={item.description}
       imageUrl={item.imageUrl}
       offerText={fromMyPosts ? "Edit" : "Offer"}
+      onOfferPress={() => handleOfferPress(item.id)}
       id={item.id}
     />
   );
@@ -94,6 +120,7 @@ export default function Featured({route}) {
         data={postData}
         renderItem={renderItem}
         keyExtractor={item => item.id}
+        contentContainerStyle={styles.listContentContainer}
       />
     </View>
   );
@@ -103,5 +130,8 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: GlobalStyles.Colors.primary100,
     flex: 1,
+  },
+  listContentContainer: {
+    paddingBottom: 80,
   },
 });

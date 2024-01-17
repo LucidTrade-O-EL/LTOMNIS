@@ -6,7 +6,7 @@ import axios from 'axios';
 import {useSelector} from 'react-redux';
 import {AppState} from '../../ReduxStore';
 
-export default function MyPosts({route}) {
+export default function MyPosts({route, navigation}) {
   const [postData, setPostData] = useState<PostCardProps[]>([]);
   const token = useSelector((state: AppState) => state.token);
   const fromMyPosts = route.params?.fromMyPosts ?? false;
@@ -49,6 +49,32 @@ export default function MyPosts({route}) {
     fetchMyPostFeedList(); // Fetch data when the component mounts
   }, []);
 
+
+  const handleOfferPress = async (postId: string) => {
+    try {
+      const response = await axios.get(
+        `http://localhost:8080/api/omnis/post/${postId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token.token}`,
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+        },
+      );
+      // Now you can do something with the offers data, like navigating to a new screen with this data
+      navigation.navigate('PostOfferSummary', {posts: response.data.uniquePost});
+
+      console.log(
+        'this is the ALL screen ***************************************',
+        response.data,
+      );
+    } catch (error) {
+      console.error('Error fetching offers:', error);
+    }
+  };
+
+
   // renderItem function
   const renderItem = ({item, index}: {item: PostCardProps, index: number}) => (
     <PostCard
@@ -64,6 +90,7 @@ export default function MyPosts({route}) {
       description={item.description}
       imageUrl={item.imageUrl}
       offerText={fromMyPosts ? "Edit" : "Offer"}
+      onOfferPress={() => handleOfferPress(item.id)}
       id={item.id}
     />
   );
@@ -71,9 +98,10 @@ export default function MyPosts({route}) {
   return (
     <View style={styles.container}>
       <FlatList
-        data={postData} // pass the postData state variable here
-        renderItem={renderItem} // pass the renderItem function
-        keyExtractor={item => item.id} // use id for keyExtractor
+        data={postData}
+        renderItem={renderItem}
+        keyExtractor={item => item.id} 
+        contentContainerStyle={styles.listContentContainer}
       />
     </View>
   );
@@ -83,5 +111,8 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: GlobalStyles.Colors.primary100,
     flex: 1,
+  },
+  listContentContainer: {
+    paddingBottom: 80,
   },
 });
