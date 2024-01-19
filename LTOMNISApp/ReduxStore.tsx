@@ -13,6 +13,7 @@ const REMOVE_TOKEN = 'REMOVE_TOKEN';
 const SET_LINK_TOKEN = 'SET_LINK_TOKEN';
 const REMOVE_LINK_TOKEN = 'REMOVE_LINK_TOKEN';
 const SET_USER_ID = 'SET_USER_ID';
+const SET_USER_PHONE_NUMBER = 'SET_USER_PHONE_NUMBER';
 
 
 export interface AppInitialState {
@@ -134,6 +135,29 @@ const tokenReducer = (state = tokenInitialState, action: TokenActionTypes) => {
   }
 };
 
+const initialStatePhone = {
+  userPhoneNumber: null,
+};
+
+interface Action {
+  type: any;
+  payload?: string; // You can replace 'any' with a more specific type if you have a defined payload structure
+}
+
+
+const userPhoneNumberReducer = (state = initialStatePhone, action: Action) => {
+  switch (action.type) {
+    case SET_USER_PHONE_NUMBER:
+      return {
+        ...state,
+        userPhoneNumber: action.payload, // Now action.payload is correctly recognized
+      };
+    default:
+      return state;
+  }
+};
+
+
 // Combine Reducers
 const rootReducer = combineReducers({
   app: appReducer,
@@ -143,6 +167,7 @@ const rootReducer = combineReducers({
   linkToken: linkTokenReducer,
   id: idReducer,
   user: userReducer,
+  userPhoneNumber: userPhoneNumberReducer,
 });
 
 // Store
@@ -175,4 +200,3 @@ export const removeToken = () => {
     type: REMOVE_TOKEN,
   };
 };
-

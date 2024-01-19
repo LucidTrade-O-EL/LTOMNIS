@@ -1,6 +1,6 @@
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {NavigatorScreenParams, RouteProp} from '@react-navigation/native';
-import {REMOVE_TOKEN, SET_LINK_TOKEN} from './actions';
+import {REMOVE_TOKEN, SET_LINK_TOKEN, SET_USER_PHONE_NUMBER} from './actions';
 import {
   FeedStackParamList,
   HomeStackParamList,
@@ -34,6 +34,11 @@ export interface SetLinkTokenAction {
   payload: string;
 }
 
+export interface SetUserPhoneNumberAction {
+  type: typeof SET_USER_PHONE_NUMBER;
+  payload: string;
+}
+
 export interface SetTokenAction {
   type: typeof SET_TOKEN;
   payload: string;
@@ -64,6 +69,7 @@ export type OnboardingActionTypes = SetHasViewedOnboardingAction;
 export type SignInActionTypes = SetIsSignedInAction;
 export type LanguageActionTypes = SetLanguageAction;
 export type LinkTokenActionTypes = SetLinkTokenAction;
+export type userPhoneNumberTypes = SetuserPhoneNumberAction;
 export type TokenActionTypes = SetTokenAction | RemoveTokenAction;
 export type AppActionTypes = SetHasViewedOnboardingAction | SetIsSignedInAction;
 export type OnboardingScreen4NavigationProp = NativeStackNavigationProp<

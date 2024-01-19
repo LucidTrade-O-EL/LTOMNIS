@@ -9,6 +9,7 @@ export const SET_HAS_VIEWED_ONBOARDING = 'SET_HAS_VIEWED_ONBOARDING';
 export const SET_IS_SIGNED_IN = 'SET_IS_SIGNED_IN';
 export const SET_LINK_TOKEN = 'SET_LINK_TOKEN';
 export const SET_ID = 'SET_LINK_TOKEN';
+export const SET_USER_PHONE_NUMBER = 'SET_USER_PHONE_NUMBER'
 
 type ActionType = 
   | { type: typeof SET_TOKEN; payload: string }
@@ -17,6 +18,7 @@ type ActionType =
   | { type: typeof SET_IS_SIGNED_IN; payload: boolean }
   | { type: typeof SET_LINK_TOKEN; payload: string }
   | { type: typeof SET_ID; payload: string }
+  | { type: typeof SET_USER_PHONE_NUMBER; payload: string }
 
   
 // In your actions file
@@ -40,6 +42,12 @@ export const setHasViewedOnboarding = (value: boolean) => ({
   type: SET_HAS_VIEWED_ONBOARDING,
   payload: value,
 });
+
+export const setUserPhoneNumber = (phoneNumber: string) => ({
+  type: SET_USER_PHONE_NUMBER,
+  payload: phoneNumber,
+});
+
 
 export const setIsSignedIn = (value: boolean) => ({
   type: SET_IS_SIGNED_IN,

@@ -26,6 +26,7 @@ export default function RegisterScreen() {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [invalidPassword, setInvalidPassword] = useState(false);
@@ -75,11 +76,11 @@ export default function RegisterScreen() {
       const res = await axios.post(
         'http://localhost:8080/api/omnis/account/register_login',
         {
-          // name,
           firstName,
           lastName,
           email,
           password,
+          phoneNumber,
         },
       );
 
@@ -87,7 +88,7 @@ export default function RegisterScreen() {
       console.log('This is our response data', user);
 
       if (user) {
-        navigation.navigate('CreateLinkToken', {userId: user.userId});
+        navigation.navigate('Verification', {userId: user.userId});
         dispatch(setId(user.userId));
         console.log('User ID', user.userId);
 
@@ -120,6 +121,7 @@ export default function RegisterScreen() {
         const userData = {
           email,
           fullName,
+          phoneNumber,
           appleIdToken: appleAuthRequestResponse.identityToken, // This is important for backend verification
         };
 
@@ -160,6 +162,15 @@ export default function RegisterScreen() {
           onChangeText={text => setLastName(text)}
           aria-label="Name"
           placeholder="Last Name"
+          placeholderTextColor={'#fff'}
+        />
+        <Text style={styles.boxSpacing}>Phone Number</Text>
+        <TextInput
+          style={[styles.textImputBox, styles.smallText]}
+          value={phoneNumber}
+          onChangeText={text => setPhoneNumber(text)}
+          aria-label="Phone Number"
+          placeholder="Phone Number"
           placeholderTextColor={'#fff'}
         />
         <Text style={styles.boxSpacing}>Email</Text>

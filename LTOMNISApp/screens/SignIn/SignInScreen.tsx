@@ -42,6 +42,9 @@ const SignInScreen: React.FC = () => {
   const [user, setUser] = useState<{token?: string}>({});
   const [userToken, setUserToken] = useState('');
   const [passwordVisible, setPasswordVisible] = useState(false);
+  const [userPhoneNumber, setUserPhoneNumber] = useState('');
+
+  const dispatch = useDispatch();
 
   GoogleSignin.configure({
     iosClientId:
@@ -67,15 +70,20 @@ const SignInScreen: React.FC = () => {
         const user = res.data;
         const token = user.token;
         const userId = user.userId;
+        // const userPhoneNumber = user.userPhoneNumber;
+        const userPhoneNumber = res.data.userPhoneNumber;
 
         // Save token to AsyncStorage
         await AsyncStorage.setItem('token', token);
         setUserToken(token);
         setUser(user);
+        setUserPhoneNumber(userPhoneNumber);
         console.log('This works!');
         dispatch(setToken(token)); // Dispatch token to Redux store
         dispatch(setUserId(userId)); // Dispatch userId to Redux store
-        console.log(`This is Login in set userID ${dispatch(setUserId(userId))}`)
+
+        console.log(`Dispatched user phone number: ${userPhoneNumber}`);
+        dispatch(userPhoneNumber);
         return token;
       } else {
         // Handle non-200 responses
@@ -94,9 +102,6 @@ const SignInScreen: React.FC = () => {
     }
   };
 
-  // In your SignInScreen component
-  const dispatch = useDispatch();
-
   const handleSignIn = async () => {
     const token = await signIn();
     console.log(
@@ -104,7 +109,8 @@ const SignInScreen: React.FC = () => {
     );
     if (token) {
       dispatch(setToken(token));
-      navigation.navigate('MainStackNavigator');
+
+      navigation.navigate('Verification', { userPhoneNumber: userPhoneNumber });
       console.log(
         `We made it to the Tabs! ${JSON.stringify(token)} and ${Screen}`,
       );
