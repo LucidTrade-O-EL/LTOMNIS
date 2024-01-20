@@ -41,11 +41,9 @@ import OnboardingScreen4 from './screens/onboarding/OnboardingScreen4';
 import OnboardingScreen3 from './screens/onboarding/OnboardingScreen3';
 import OnboardingScreen2 from './screens/onboarding/OnboardingScreen2';
 import Tabs from './navigation/Tabs';
-import {Provider, useDispatch, useSelector} from 'react-redux';
+import {Provider} from 'react-redux';
 // import store, {setHasViewedOnboarding, setIsSignedIn} from './ReduxStore';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import i18n from './screens/SelectLanguage/i18n'; // Adjust the import path based on your project structure
-import {AppState} from './rootReducer'; // Ensure this is correctly imported
 import OfferSent from './screens/MyFeed/Lender/OfferSent';
 import TransactionHistoryDetails from './screens/TransactionHistory/TransactionHistoryDetails';
 import {ParamListBase} from '@react-navigation/native';
@@ -235,7 +233,7 @@ const App = () => {
   return (
     <NavigationContainer>
       <RootStack.Navigator screenOptions={{headerShown: false}}>
-        {!hasViewedOnboarding ? (
+        {hasViewedOnboarding ? (
           // {!hasViewedOnboarding && !token ? (
           // Use CombinedStackNavigator here
           <RootStack.Screen

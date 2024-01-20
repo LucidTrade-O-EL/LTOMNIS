@@ -1,36 +1,82 @@
 import {Pressable, Text, View} from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Avatar, Divider} from 'react-native-elements';
 import GlobalStyles from '../colors';
 import {StyleSheet} from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
-import { useNavigation } from '@react-navigation/native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { HomeStackParamList } from '../../../App';
-import {t} from 'i18next'
+import {TouchableOpacity} from 'react-native-gesture-handler';
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {HomeStackParamList} from '../../../App';
+import {t} from 'i18next';
+import axios from 'axios';
+import { AppState } from '../../../ReduxStore';
+import { useSelector } from 'react-redux';
 
-interface OfferDetailSectionProps {
+
+// Define this in a separate file or at the top of your current file
+export type OfferDetailSectionProps = {
   targetScreen: string;
-  firstNameLetter: string;
-  lastNameLetter: string;
-  userName: string;
-  amount: number;
-  avatarImage: undefined;
-  interest: number;
+  firstName: string;
+  lastName: string;
+  totalAmount: number;
+  interestPercentage: number;
+  avatar?: string;
+  // ... any other props used in OfferDetailSection
 };
 
+
+
 const OfferDetailSection: React.FC<OfferDetailSectionProps> = ({
-    firstNameLetter = 'Z',
-    lastNameLetter = 'V',
-    avatarImage = null,
-    userName = 'Easy 438',
-    amount = 1000,
-    interest = 25,
-    targetScreen
-  }) => {
-    const title = `${firstNameLetter}${lastNameLetter}`;
+  avatar = null,
+  totalAmount = 1000,
+  interestPercentage,
+}) => {
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
+  const NameInitials = `${firstName?.charAt(0) || ''}${lastName?.charAt(0) || ''}`;
+  const token = useSelector((state: AppState) => state.token);
+  const [offerDetails, setOfferDetails] = useState(null);
+
+
   const navigation =
-  useNavigation<NativeStackNavigationProp<HomeStackParamList>>();
+    useNavigation<NativeStackNavigationProp<HomeStackParamList>>();
+
+    console.log('This is a Request::', JSON.stringify({firstName}))
+    console.log('This is a Request::', JSON.stringify({lastName}))
+
+    const fetchData = async () => {
+      // This function simulates fetching data asynchronously
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          resolve({ firstName: 'Zakariya', lastName: 'Veasy' });
+        }, 1000); // Simulate a network request
+      });
+    };
+    
+    useEffect(() => {
+      const loadOfferDetails = async () => {
+        try {
+          const details = await fetchOfferDetails(offerId);
+          setOfferDetails(details);
+        } catch (error) {
+          // Handle the error appropriately
+          console.error(error);
+        } finally {
+          setIsLoading(false);
+        }
+      };
+  
+      loadOfferDetails();
+    }, [offerId]);
+  
+    if (isLoading) {
+      return <Text>Loading offer details...</Text>;
+    }
+  
+    if (!offerDetails) {
+      return <Text>Offer details not found.</Text>;
+    }
 
 
   return (
@@ -41,7 +87,7 @@ const OfferDetailSection: React.FC<OfferDetailSectionProps> = ({
         height: 81,
         marginTop: 10,
       }}>
-      {/* Profile and Username */}
+      {/* Profile */}
 
       <View
         style={{
@@ -50,13 +96,13 @@ const OfferDetailSection: React.FC<OfferDetailSectionProps> = ({
           marginLeft: 16,
           alignItems: 'center',
         }}>
-        {avatarImage ? (
-          <Avatar size={22} rounded source={{uri: avatarImage}} />
+        {avatar ? (
+          <Avatar size={22} rounded source={{uri: avatar}} />
         ) : (
           <Avatar
             size={22}
             rounded
-            title={t('title', {title:title})}
+            title={t('title', {title: NameInitials})}
             containerStyle={{backgroundColor: GlobalStyles.Colors.primary120}}
             titleStyle={{
               color: GlobalStyles.Colors.primary500,
@@ -65,14 +111,13 @@ const OfferDetailSection: React.FC<OfferDetailSectionProps> = ({
           />
         )}
         <Text style={{left: 8, fontFamily: 'San Francisco', fontSize: 14}}>
-          {t('userName', { userName: userName})}
+          {`${firstName} ${lastName}`}
         </Text>
       </View>
 
       {/* Amount */}
       <View style={{flexDirection: 'row', marginTop: 6, alignItems: 'center'}}>
-        <Text
-          style={styles.NumberInRoles}> {t('amount', { amount: amount.toLocaleString() })}</Text>
+        <Text style={styles.NumberInRoles}> {t('amount', {totalAmount: totalAmount})}</Text>
         <View
           style={{
             height: 15,
@@ -83,21 +128,20 @@ const OfferDetailSection: React.FC<OfferDetailSectionProps> = ({
           }}>
           <Divider orientation="vertical" width={1} />
         </View>
-        <Text
-          style={
-            styles.TextInRoles
-          }>{t('interestRate', { interest: interest.toLocaleString() })}
-          </Text>
+        <Text style={styles.TextInRoles}>
+          {t('interestRate', {interestPercentage})}
+        </Text>
       </View>
       <View style={styles.RoleButtonContainer}>
-        <Pressable onPress={() => navigation.navigate('TransactionHistoryTax')}
+        <Pressable
+          onPress={() => navigation.navigate('TransactionHistoryTax')}
           style={styles.ViewButtonContainer}>
           <Text style={styles.ViewButton}>{t('Details')}</Text>
         </Pressable>
       </View>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   TextInRoles: {
@@ -151,8 +195,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     marginBottom: 20,
     marginLeft: 60,
-  }
+  },
 });
 
-
-export default OfferDetailSection
+export default OfferDetailSection;

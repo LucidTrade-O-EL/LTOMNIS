@@ -89,7 +89,6 @@ PODS:
   - GTMSessionFetcher/Core (3.2.0)
   - hermes-engine (0.72.4):
     - hermes-engine/Pre-built (= 0.72.4)
-  - hermes-engine/Pre-built (0.72.4)
   - libevent (2.1.12)
   - lottie-ios (4.3.4)
   - lottie-react-native (6.3.1):
@@ -859,6 +858,6 @@ SPEC CHECKSUMS:
   Yoga: 3efc43e0d48686ce2e8c60f99d4e6bd349aff981
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: 6ae0ccbdb7bd0033aa2f2d37856eb47f467fd6af
+PODFILE CHECKSUM: a32b31d48e785ff950e6635d45ad7b81141512c2
 
 COCOAPODS: 1.12.1

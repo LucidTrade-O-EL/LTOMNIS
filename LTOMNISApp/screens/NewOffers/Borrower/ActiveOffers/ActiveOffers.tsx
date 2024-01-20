@@ -1,10 +1,48 @@
 import {View, Text, FlatList, StyleSheet} from 'react-native';
-import React from 'react';
+import React, { useState } from 'react';
 import GlobalStyles from '../../../../assets/constants/colors';
 import {offersData} from '../../../../assets/constants/data';
-import OfferBigContainer from '../../../../assets/constants/Components/OfferBigContainer';
+import OfferBigContainer, { OfferBigContainerProps } from '../../../../assets/constants/Components/OfferBigContainer';
+import { useSelector } from 'react-redux';
+import { AppState } from '../../../../ReduxStore';
+import axios from 'axios';
 
-export default function ActiveOffers() {
+
+
+
+
+
+export default function ActiveOffers({route}) {
+
+  const [postData, setPostData] = useState<OfferBigContainerProps[]>([]);
+  const token = useSelector((state: AppState) => state.token);
+  const fromMyPosts = route.params?.fromMyPosts ?? false;
+  
+  const fetchMyPostFeedList = async () => {
+    try {
+      const options = {
+        method: 'GET',
+        url: 'http://localhost:8080/api/omnis/posts/mypost',
+        headers: {
+          Authorization: `Bearer ${token.token}`,
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+      };
+      console.log(`Bearer ${token.token}`);
+  
+      const res = await axios(options);
+      if (res.data) {
+        setPostData(res.data.myPostList); // Set the post data with the data from the API.
+      } else {
+        console.log('No user data received');
+      }
+    } catch (error: any) {
+      console.error('An error occurred:', error);
+    }
+  };
+
+
   return (
     <FlatList
       style={{backgroundColor: GlobalStyles.Colors.primary100}}

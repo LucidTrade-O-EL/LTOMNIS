@@ -11,10 +11,11 @@ import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {useDispatch, useSelector} from 'react-redux';
 import {setHasCompletedOnboarding} from '../../actions';
-import { AppState, setId, setToken } from '../../ReduxStore';
+import {AppState, setId, setToken} from '../../ReduxStore';
+import axios from 'axios';
 
-export default function Verification() {
-  const dispatch = useDispatch();
+export default function Verification({route}) {
+  const { userPhoneNumber } = route.params;
 
   // State definitions
   const [digit1, setDigit1] = useState('');
@@ -35,29 +36,31 @@ export default function Verification() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(
-          'http://localhost:8080/api/omnis/verification_code',
+        const response = await axios.get(
+          'http://localhost:8080/api/omnis/account/twilio/code',
           {
-            method: 'GET',
             headers: {
               'Content-Type': 'application/json',
+              Authorization: `Bearer YOUR_TOKEN_HERE`, // Replace with your token
             },
-            // Uncomment and modify if needed
-            // body: JSON.stringify({email: 'zveasy327@gmail.com', code: verificationCode}),
+            params: {
+              code: {verificationCode},
+              userPhoneNumber: {userPhoneNumber}
+            },
           },
         );
 
-        const data = await response.json();
+        const data = response.data;
         if (data) {
           console.log('Verification successful.', data);
-          // Handle successful verification (e.g., navigate to next screen)
+          // Handle successful verification
         } else {
           console.log('Invalid verification code.');
-          // Handle invalid code (e.g., show an error message)
+          // Handle invalid code
         }
       } catch (error) {
         console.error('Error:', error);
-        // Handle network errors (e.g., show an error message)
+        // Handle network errors
       }
     };
 
