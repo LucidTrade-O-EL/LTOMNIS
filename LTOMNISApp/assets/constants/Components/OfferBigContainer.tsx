@@ -15,8 +15,6 @@ export type OfferBigContainerProps = {
   currentAmount: number;
   totalAmount: number;
   targetScreen: string;
-  firstName: string;
-  lastName: string;
   timeElasped: string;
   interestPercentage: number;
   avatar?: string;
@@ -32,27 +30,22 @@ const OfferBigContainer: React.FC<OfferBigContainerProps> = ({
   currentAmount,
   totalAmount,
   targetScreen,
-  firstName,
-  timeElasped,
-  lastName,
-  interestPercentage,
-  avatar,
-  description,
-  imageUrl,
-  number,
-  offerText,
-  id
 }) => {
   const progress = currentAmount / totalAmount;
+  const userId = useSelector((state: AppState) => state.user.userId); // Only declaration of userId
 
   const token = useSelector((state: AppState) => state.token);
-  const [postData, setPostData] = useState<OfferDetailSectionProps[]>([]);
+  const [activeData, setActiveData] = useState<OfferDetailSectionProps[]>([]);
 
-  const fetchOfferDetails = async (offerId: string) => {
+  const fetchOfferDetails = async () => {
+    if (!userId) {
+      console.error('Offer ID is missing');
+      return;
+    }
     try {
       const options = {
         method: 'GET',
-        url: `http://localhost:8080/api/omnis/offers/active/${offerId}`,
+        url: `http://localhost:8080/api/omnis/offers/active/${userId}`,
         headers: {
           Authorization: `Bearer ${token.token}`,
           Accept: 'application/json',
@@ -63,7 +56,9 @@ const OfferBigContainer: React.FC<OfferBigContainerProps> = ({
 
       const res = await axios(options);
       if (res.data) {
-        setPostData(res.data.myPostList); // Set the post data with the data from the API.
+        setActiveData(res.data.user); // Set the post data with the data from the API.
+        console.log('this is my res', JSON.stringify(res.data.user))
+        console.log('this Active data', JSON.stringify(res.data.user))
       } else {
         console.log('No user data received');
       }
@@ -83,10 +78,12 @@ const OfferBigContainer: React.FC<OfferBigContainerProps> = ({
   // }, []);
 
   useEffect(() => {
-    fetchOfferDetails(); // Fetch data when the component mounts
-  }, []);
+    if (userId) {
+      fetchOfferDetails();
+    }
+  }, [userId]); // Add id as a dependency
+  
 
-  console.log('This is a Request???', JSON.stringify({firstName}));
 
   return (
     <View style={styles.container}>
@@ -132,17 +129,15 @@ const OfferBigContainer: React.FC<OfferBigContainerProps> = ({
       <View style={{width: '90%', alignSelf: 'center'}}>
         <FlatList
           style={{backgroundColor: GlobalStyles.Colors.primary100}}
-          data={postData}
-          renderItem={(
-            {item, index}, // Destructure `index` here
-          ) => (
+          data={activeData}
+          renderItem={({item}) => (
             <OfferDetailSection
               targetScreen={targetScreen}
-              firstName={firstName}
-              lastName={lastName}
-              totalAmount={totalAmount}
-              interestPercentage={interestPercentage}
-              avatar={avatar}
+              firstName={item.firstName}
+              lastName={item.lastName}
+              totalAmount={item.totalAmount}
+              interestPercentage={item.interestPercentage}
+              avatar={item.avatar}
             />
           )}
           keyExtractor={(item, index) => index.toString()}

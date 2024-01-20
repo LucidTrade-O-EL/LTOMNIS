@@ -9,9 +9,8 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {HomeStackParamList} from '../../../App';
 import {t} from 'i18next';
 import axios from 'axios';
-import { AppState } from '../../../ReduxStore';
-import { useSelector } from 'react-redux';
-
+import {AppState} from '../../../ReduxStore';
+import {useSelector} from 'react-redux';
 
 // Define this in a separate file or at the top of your current file
 export type OfferDetailSectionProps = {
@@ -24,59 +23,60 @@ export type OfferDetailSectionProps = {
   // ... any other props used in OfferDetailSection
 };
 
-
-
 const OfferDetailSection: React.FC<OfferDetailSectionProps> = ({
   avatar = null,
   totalAmount = 1000,
   interestPercentage,
+  firstName,
+  lastName,
 }) => {
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
   const [isLoading, setIsLoading] = useState(true);
-  const NameInitials = `${firstName?.charAt(0) || ''}${lastName?.charAt(0) || ''}`;
-  const token = useSelector((state: AppState) => state.token);
-  const [offerDetails, setOfferDetails] = useState(null);
 
+  console.log('This is the NAME', {firstName})
+  const NameInitials = `${firstName?.charAt(0) || ''}${
+    lastName?.charAt(0) || ''
+  }`;
+  
+  const [offerDetails, setOfferDetails] = useState(null);
 
   const navigation =
     useNavigation<NativeStackNavigationProp<HomeStackParamList>>();
 
-    console.log('This is a Request::', JSON.stringify({firstName}))
-    console.log('This is a Request::', JSON.stringify({lastName}))
+  console.log('This is a Request::', JSON.stringify({firstName}));
+  console.log('This is a Request::', JSON.stringify({lastName}));
 
-    const fetchData = async () => {
-      // This function simulates fetching data asynchronously
-      return new Promise((resolve) => {
-        setTimeout(() => {
-          resolve({ firstName: 'Zakariya', lastName: 'Veasy' });
-        }, 1000); // Simulate a network request
-      });
+  const fetchData = async () => {
+    // This function simulates fetching data asynchronously
+    return new Promise(resolve => {
+      setTimeout(() => {
+        resolve({firstName: 'Zakariya', lastName: 'Veasy'});
+      }, 1000); // Simulate a network request
+    });
+  };
+
+  useEffect(() => {
+    const loadOfferDetails = async () => {
+      try {
+        const details = await fetchOfferDetails(offerId);
+        setOfferDetails(details);
+      } catch (error) {
+        // Handle the error appropriately
+        console.error(error);
+      } finally {
+        setIsLoading(false);
+      }
     };
-    
-    useEffect(() => {
-      const loadOfferDetails = async () => {
-        try {
-          const details = await fetchOfferDetails(offerId);
-          setOfferDetails(details);
-        } catch (error) {
-          // Handle the error appropriately
-          console.error(error);
-        } finally {
-          setIsLoading(false);
-        }
-      };
-  
-      loadOfferDetails();
-    }, [offerId]);
-  
-    if (isLoading) {
-      return <Text>Loading offer details...</Text>;
-    }
-  
-    if (!offerDetails) {
-      return <Text>Offer details not found.</Text>;
-    }
+
+    loadOfferDetails();
+  }, [offerId]);
+
+  if (isLoading) {
+    return <Text>Loading offer details...</Text>;
+  }
+
+  if (!offerDetails) {
+    return <Text>Offer details not found.</Text>;
+  }
 
 
   return (
@@ -114,10 +114,12 @@ const OfferDetailSection: React.FC<OfferDetailSectionProps> = ({
           {`${firstName} ${lastName}`}
         </Text>
       </View>
-
       {/* Amount */}
       <View style={{flexDirection: 'row', marginTop: 6, alignItems: 'center'}}>
-        <Text style={styles.NumberInRoles}> {t('amount', {totalAmount: totalAmount})}</Text>
+        <Text style={styles.NumberInRoles}>
+          {' '}
+          {t('amount', {totalAmount: totalAmount})}
+        </Text>
         <View
           style={{
             height: 15,
