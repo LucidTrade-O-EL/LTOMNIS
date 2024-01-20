@@ -7,14 +7,10 @@ import OmnisScoreChips from '../../../../assets/constants/Components/OmnisScoreC
 import GlobalStyles from '../../../../assets/constants/colors';
 import {ScrollView} from 'react-native-gesture-handler';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import PieChartComp from '../../../../assets/constants/Components/PieChartComp';
+
 
 const LenderScoreBreakDown = () => {
-  const pieChartData = [
-    {title: 'One', value: 10, color: '#E38627'},
-    {title: 'Two', value: 15, color: '#C13C37'},
-    {title: 'Three', value: 20, color: '#6A2135'},
-  ];
+
 
   return (
     <ScrollView style={styles.background}>
@@ -29,7 +25,6 @@ const LenderScoreBreakDown = () => {
           ]}
         />
         <View style={{flexDirection: 'row', alignSelf: 'center'}}>
-          <PieChartComp />
         </View>
       </View>
     </ScrollView>
