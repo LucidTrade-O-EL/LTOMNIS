@@ -88,7 +88,7 @@ export default function RegisterScreen() {
       console.log('This is our response data', user);
 
       if (user) {
-        navigation.navigate('Verification', {userId: user.userId});
+        navigation.navigate('IdentityVerificationScreen', {userId: user.userId});
         dispatch(setId(user.userId));
         console.log('User ID', user.userId);
 

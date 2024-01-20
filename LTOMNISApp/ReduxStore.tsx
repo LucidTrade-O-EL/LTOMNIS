@@ -42,6 +42,11 @@ export const setUserId = (userId: string) => ({
   payload: userId,
 });
 
+export const setsUserPhoneNumber = (userPhoneNumber: string) => ({
+  type: SET_USER_PHONE_NUMBER,
+  payload: userPhoneNumber,
+});
+
 // Token State and Reducer
 
 export interface TokenInitialState {
@@ -141,7 +146,7 @@ const initialStatePhone = {
 
 interface Action {
   type: any;
-  payload?: string; // You can replace 'any' with a more specific type if you have a defined payload structure
+  payload?: any; // You can replace 'any' with a more specific type if you have a defined payload structure
 }
 
 

@@ -26,7 +26,7 @@ import {
   AppleButton,
 } from '@invertase/react-native-apple-authentication';
 import {t} from 'i18next';
-import {setToken, setUserId} from '../../ReduxStore';
+import {setsUserPhoneNumber, setToken, setUserId} from '../../ReduxStore';
 
 import {Screen} from 'react-native-screens';
 import {MainStackParamList} from '../../App';
@@ -81,9 +81,8 @@ const SignInScreen: React.FC = () => {
         console.log('This works!');
         dispatch(setToken(token)); // Dispatch token to Redux store
         dispatch(setUserId(userId)); // Dispatch userId to Redux store
-
+        dispatch(setsUserPhoneNumber(userPhoneNumber));
         console.log(`Dispatched user phone number: ${userPhoneNumber}`);
-        dispatch(userPhoneNumber);
         return token;
       } else {
         // Handle non-200 responses
@@ -110,7 +109,7 @@ const SignInScreen: React.FC = () => {
     if (token) {
       dispatch(setToken(token));
 
-      navigation.navigate('Verification', { userPhoneNumber: userPhoneNumber });
+      navigation.navigate('MainStackNavigator', { userPhoneNumber: userPhoneNumber });
       console.log(
         `We made it to the Tabs! ${JSON.stringify(token)} and ${Screen}`,
       );

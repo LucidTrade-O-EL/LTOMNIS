@@ -15,19 +15,24 @@ import {AppState, setId, setToken} from '../../ReduxStore';
 import axios from 'axios';
 
 export default function Verification({route}) {
-  const { userPhoneNumber } = route.params;
+  const {userPhoneNumber} = route.params;
+  const dispatch = useDispatch();
 
   // State definitions
   const [digit1, setDigit1] = useState('');
   const [digit2, setDigit2] = useState('');
   const [digit3, setDigit3] = useState('');
   const [digit4, setDigit4] = useState('');
+  const [digit5, setDigit5] = useState('');
+  const [digit6, setDigit6] = useState('');
 
   // Correctly typed refs for TextInput components
   const ref_input1 = useRef<TextInput>(null);
   const ref_input2 = useRef<TextInput>(null);
   const ref_input3 = useRef<TextInput>(null);
   const ref_input4 = useRef<TextInput>(null);
+  const ref_input5 = useRef<TextInput>(null);
+  const ref_input6 = useRef<TextInput>(null);
 
   const navigation = useNavigation<StackNavigationProp<any>>();
 
@@ -44,8 +49,7 @@ export default function Verification({route}) {
               Authorization: `Bearer YOUR_TOKEN_HERE`, // Replace with your token
             },
             params: {
-              code: {verificationCode},
-              userPhoneNumber: {userPhoneNumber}
+              userPhoneNumber: {userPhoneNumber},
             },
           },
         );
@@ -68,12 +72,13 @@ export default function Verification({route}) {
   }, []); // Add dependencies to the dependency array if needed
 
   const handleNextPress = async () => {
-    const verificationCode = digit1 + digit2 + digit3 + digit4;
+    const verificationCode =
+      digit1 + digit2 + digit3 + digit4 + digit5 + digit6;
     // Make sure to define userEmail or fetch it from state or props
 
     try {
       const response = await fetch(
-        'http://localhost:8080/api/omnis/verify/code',
+        'http://localhost:8080/api/omnis/account/twilio/verification',
         {
           method: 'POST',
           headers: {
@@ -86,7 +91,8 @@ export default function Verification({route}) {
       const data = await response.json();
       if (data.success) {
         console.log('Verification successful.', data);
-        dispatch(setHasCompletedOnboarding(true));
+        // dispatch(setHasCompletedOnboarding(true));
+        console.log(`This is the dispatch of Verify`)
         navigation.navigate('MainStackNavigator');
       } else {
         console.log('Invalid verification code.');
@@ -189,9 +195,35 @@ export default function Verification({route}) {
               keyboardType="numeric"
               onChangeText={text => {
                 setDigit4(text);
-                !text && ref_input3.current.focus();
+                text ? ref_input5.current.focus() : ref_input3.current.focus();
               }}
               value={digit4}
+              maxLength={1}
+            />
+          </View>
+          <View style={styles.VerificationBox}>
+            <TextInput
+              ref={ref_input5}
+              style={styles.textInput}
+              keyboardType="numeric"
+              onChangeText={text => {
+                setDigit5(text);
+                text ? ref_input6.current.focus() : ref_input4.current.focus();
+              }}
+              value={digit5}
+              maxLength={1}
+            />
+          </View>
+          <View style={styles.VerificationBox}>
+            <TextInput
+              ref={ref_input6}
+              style={styles.textInput}
+              keyboardType="numeric"
+              onChangeText={text => {
+                setDigit6(text);
+                !text && ref_input5.current.focus();
+              }}
+              value={digit6}
               maxLength={1}
             />
           </View>
@@ -270,7 +302,7 @@ const styles = StyleSheet.create({
   //   Box Styling
 
   VerificationBox: {
-    width: '20%',
+    width: '15%',
     height: 'auto',
     paddingVertical: 20,
     borderRadius: 16,
