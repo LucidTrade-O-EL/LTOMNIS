@@ -28,40 +28,37 @@ export default function PostDetails() {
 
   const [offerData, setOfferData] = useState();
   const token = useSelector((state: AppState) => state.token);
+  const userPostId = useSelector(
+    (state: AppState) => state.userPostId.userPostId,
+  );
+  console.log('Post ID for this post', userPostId);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.post(
-          'http://localhost:8080/api/omnis/offer/create',
-          {
-            headers: {
-              Authorization: `Bearer ${token.token}`,
-              Accept: 'application/json',
-              'Content-Type': 'application/json',
-            },
-            data: {
-              amount: loanAmount,
-              interestPercentage: interestRate,
-              postId: postId,
-            }
+  const fetchData = async () => {
+    try {
+      const response = await axios.post(
+        'http://localhost:8080/api/omnis/offer/create',
+        {
+          amount: loanAmount,
+          interestPercentage: interestRate,
+          postId: userPostId,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token.token}`,
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
           },
-        );
-        setOfferData(response.data.postList);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
-
-    // Call the function immediately to fetch data initially
-    fetchData();
-
-    // Set up polling to fetch data every specified interval
-    const interval = setInterval(fetchData, 30000); // Fetch data every 30 seconds
-
-    // Clean up interval on component unmount
-    return () => clearInterval(interval);
-  }, []);
+        },
+      );
+      setOfferData(response.data);
+      // Navigate to the OfferSent screen after setting the offer data
+      console.log('response.data.newOffer', response.data.newOffer);
+      console.log('response.data', response.data);
+      navigation.navigate('OfferSent');
+    } catch (error) {
+      console.error('Error fetching data:', error.message);
+    }
+  };
 
   useEffect(() => {
     setRewardPoints(calculateRewardPoints(loanAmount));
@@ -76,6 +73,14 @@ export default function PostDetails() {
     } else {
       setCustomRate(null);
       setSelectedChip(value);
+      if (value !== 'Gift') {
+        const rate = value.replace('%', ''); // Remove '%' character
+        setInterestRate(parseFloat(rate)); // Update the interest rate
+
+        console.log('This is the rate', rate);
+      } else {
+        setInterestRate(0); // Assuming 'Gift' means 0% interest
+      }
     }
   };
 
@@ -200,7 +205,7 @@ export default function PostDetails() {
                 key={index}
                 label={value}
                 selected={selectedChip === value}
-                onPress={() => setSelectedChip(value)}
+                onPress={() => handleChipPress(value)}
               />
             ))}
           </View>
@@ -212,8 +217,8 @@ export default function PostDetails() {
               inputType="percentage"
               inputValue={interestRateInput}
               onInputChange={(value: string) => setInterestRateInput(value)}
-              onAmountChange={(value: number) => setInterestRate(value)}
-              editable={true}
+              onAmountChange={(value: number) => setInterestRate(value)} // This updates the interest rate
+              editable={selectedChip === 'Custom'}
             />
           ) : (
             <AmountBox
@@ -260,9 +265,7 @@ export default function PostDetails() {
       </View>
       <ResetSubmit
         onResetPress={resetValues} // Passing the reset function here
-        onSubmitPress={() => {
-          navigation.navigate('OfferSent');
-        }}
+        onSubmitPress={fetchData}
       />
     </SafeAreaView>
   );

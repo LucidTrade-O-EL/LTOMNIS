@@ -55,8 +55,9 @@ export default function Featured({route, navigation}) {
           },
         );
         setPostData(response.data.featuredPostList);
+        console.log('response.data.featuredPostList', response.data.featuredPostList)
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error('Error fetching data:', error.message);
       }
     };
 

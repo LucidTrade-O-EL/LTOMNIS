@@ -3,8 +3,8 @@ import {View, Text, StyleSheet, FlatList} from 'react-native';
 import {PostCard, PostCardProps} from './PostCard';
 import GlobalStyles from '../../assets/constants/colors';
 import axios from 'axios';
-import {AppState} from '../../ReduxStore';
-import {useSelector} from 'react-redux';
+import {AppState, setUserPostId} from '../../ReduxStore';
+import {useDispatch, useSelector} from 'react-redux';
 
 export default function AllPosts({route, navigation}) {
   const fromMyPosts = route.params?.fromMyPosts ?? false;
@@ -40,6 +40,7 @@ export default function AllPosts({route, navigation}) {
 
   const [postData, setPostData] = useState<PostCardProps[]>([]);
   const token = useSelector((state: AppState) => state.token);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -64,11 +65,12 @@ export default function AllPosts({route, navigation}) {
     fetchData();
 
     // Set up polling to fetch data every specified interval
-    const interval = setInterval(fetchData, 30000); // Fetch data every 30 seconds
+    const interval = setInterval(fetchData, 3000); // Fetch data every 30 seconds
 
     // Clean up interval on component unmount
     return () => clearInterval(interval);
   }, []);
+
 
   const handleOfferPress = async (postId: string) => {
     try {
@@ -83,6 +85,9 @@ export default function AllPosts({route, navigation}) {
         },
       );
       // Now you can do something with the offers data, like navigating to a new screen with this data
+      const uniquePostId = postId;
+      dispatch(setUserPostId(uniquePostId));
+      console.log('this is the correct uniquePostId: ', uniquePostId)
       navigation.navigate('PostOfferSummary', {
         posts: response.data.uniquePost,
       });

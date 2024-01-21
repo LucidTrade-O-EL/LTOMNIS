@@ -14,6 +14,7 @@ const SET_LINK_TOKEN = 'SET_LINK_TOKEN';
 const REMOVE_LINK_TOKEN = 'REMOVE_LINK_TOKEN';
 const SET_USER_ID = 'SET_USER_ID';
 const SET_USER_PHONE_NUMBER = 'SET_USER_PHONE_NUMBER';
+const SET_USER_POST_ID = 'SET_USER_POST_ID'
 
 
 export interface AppInitialState {
@@ -41,6 +42,12 @@ export const setUserId = (userId: string) => ({
   type: SET_USER_ID,
   payload: userId,
 });
+
+export const setUserPostId = (userPostId: string) => ({
+  type: SET_USER_POST_ID,
+  payload: userPostId,
+});
+
 
 export const setsUserPhoneNumber = (userPhoneNumber: string) => ({
   type: SET_USER_PHONE_NUMBER,
@@ -74,6 +81,7 @@ export interface AppState {
   linkToken: LinkTokenInitialState,
   id: string | null,
   userId: string | null,
+  userPostId: string | null,
   //verify: ReturnType<typeof verifyReducer>; // Add this line
 }
 
@@ -87,10 +95,23 @@ const idInitialState: IdInitialState = {
   id: null,
 };
 
+const postIdInitialState: IdInitialState = {
+  id: null,
+};
+
 const idReducer = (state = idInitialState, action: any) => {
   switch (action.type) {
     case SET_ID:
       return { ...state, id: action.payload };
+    default:
+      return state;
+  }
+};
+
+const postIdReducer = (state = postIdInitialState, action: any) => {
+  switch (action.type) {
+    case SET_USER_POST_ID:
+      return { ...state, userPostId: action.payload };
     default:
       return state;
   }
@@ -172,6 +193,7 @@ const rootReducer = combineReducers({
   linkToken: linkTokenReducer,
   id: idReducer,
   user: userReducer,
+  userPostId: postIdReducer,
   userPhoneNumber: userPhoneNumberReducer,
 });
 
