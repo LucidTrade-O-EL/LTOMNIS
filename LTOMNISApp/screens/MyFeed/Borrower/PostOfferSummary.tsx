@@ -11,17 +11,19 @@ import {Text} from 'react-native-elements';
 export default function PostOfferSummary() {
   const navigation =
     useNavigation<NativeStackNavigationProp<FeedStackParamList>>();
-    const route = useRoute();
+  const route = useRoute();
 
-    // Unpack the 'offers' data from the route params
-    const posts = route.params?.posts;
+  // Unpack the 'offers' data from the route params
+  const posts = route.params?.posts;
 
-    console.log(`This is in the PostOfferSummary ${JSON.stringify(route.params)}`)
-  
-    // Check if offers is available
-    if (!posts) {
-      return <Text>Loading...</Text>;
-    }
+  console.log(
+    `This is in the PostOfferSummary ${JSON.stringify(route.params)}`,
+  );
+
+  // Check if offers is available
+  if (!posts) {
+    return <Text>Loading...</Text>;
+  }
 
   return (
     <View style={styles.Background}>
@@ -53,9 +55,10 @@ export default function PostOfferSummary() {
           lastName={posts.user.lastName}
           number={80}
           title={posts.title}
-          amount={posts.amount}
+          description={posts.description}
+          totalAmount={posts.totalAmount}
           interestPercentage={posts.interestPercentage}
-          progress={200}
+          progress={(posts.currentAmount / posts.totalAmount) * 100}
           participants={[
             {
               name: 'John Doe',

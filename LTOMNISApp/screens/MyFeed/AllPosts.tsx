@@ -89,7 +89,7 @@ export default function AllPosts({route, navigation}) {
 
       console.log(
         'this is the ALL screen ***************************************',
-        response.data,
+        response.data.uniquePost,
       );
     } catch (error) {
       console.error('Error fetching offers:', error);
@@ -102,7 +102,7 @@ export default function AllPosts({route, navigation}) {
       avatar={item.avatar}
       firstName={item.user.firstName}
       lastName={item.user.lastName}
-      timeElasped={item.timeElasped}
+      timeElapsed={item.timeElapsed}
       number={item.number}
       totalAmount={item.totalAmount}
       currentAmount={item.currentAmount}

@@ -59,7 +59,7 @@ export default function NewOffersScreen() {
         <OfferBigContainer
           targetScreen="ActiveOfferDetails"
           avatar={item.avatar}
-          timeElasped={item.timeElasped}
+          timeElapsed={item.timeElapsed}
           number={item.number}
           totalAmount={item.totalAmount}
           currentAmount={item.currentAmount}

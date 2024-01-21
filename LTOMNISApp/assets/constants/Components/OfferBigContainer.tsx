@@ -15,7 +15,7 @@ export type OfferBigContainerProps = {
   currentAmount: number;
   totalAmount: number;
   targetScreen: string;
-  timeElasped: string;
+  timeElapsed: string;
   interestPercentage: number;
   avatar?: string;
   number: number;

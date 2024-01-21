@@ -22,7 +22,7 @@ type PostOfferHeaderProps = {
   lastName: string;
   number: number;
   title: string;
-  amount: number;
+  totalAmount: number;
   progress: number;
   participants: Participant[]; // add this line
   description?: string;
@@ -38,14 +38,17 @@ export default function PostOfferHeader({
   number,
   title,
   progress,
-  amount,
+  totalAmount,
   participants,
   description,
   buttonText,
   interestPercentage,
 }: PostOfferHeaderProps) {
   const progressBarRef = useRef<View>(null);
-  const calculatedProgressBarWidth = (Number(progress) / Number(amount)) * 100;
+  const calculatedProgressBarWidth =
+    (Number(progress) / Number(totalAmount)) * 100;
+  console.log('THESE LOGSSS ', totalAmount);
+  console.log('this is description', description);
 
   const navigation =
     useNavigation<NativeStackNavigationProp<FeedStackParamList>>();
@@ -80,7 +83,7 @@ export default function PostOfferHeader({
       </View>
       <View style={styles.titleAmountRow}>
         <Text style={styles.titleText}>{title}</Text>
-        <Text style={styles.amountText}>{`$${amount.toLocaleString()}`}</Text>
+        <Text style={styles.amountText}>{`$${totalAmount}`}</Text>
       </View>
       <View style={styles.progressBarContainer}>
         <View style={{flexDirection: 'row', width: '100%'}}>
@@ -97,10 +100,10 @@ export default function PostOfferHeader({
       <ParticipantDetails participants={participants} />
       <CustomOfferBlock
         data={[
-          {leftText: 'Loan amount', rightText: `$${amount}`},
+          {leftText: 'Loan amount', rightText: `$${totalAmount}`},
           {leftText: 'Interest rate', rightText: `${interestPercentage}%`},
           {isDivider: true},
-          {leftText: 'Remaining', rightText: `$${amount - progress}`},
+          {leftText: 'Remaining', rightText: `$${totalAmount - progress}`},
         ]}
       />
       <View

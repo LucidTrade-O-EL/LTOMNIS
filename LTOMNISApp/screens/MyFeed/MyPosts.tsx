@@ -82,7 +82,7 @@ export default function MyPosts({route, navigation}) {
       avatar={item.avatar}
       firstName={item.user.firstName}
       lastName={item.user.lastName}
-      timeElasped={item.timeElasped}
+      timeElapsed={item.timeElapsed}
       number={item.number}
       totalAmount={item.totalAmount}
       currentAmount={item.currentAmount}

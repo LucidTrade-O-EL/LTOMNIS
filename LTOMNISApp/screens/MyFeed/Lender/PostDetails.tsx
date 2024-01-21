@@ -11,7 +11,10 @@ import AmountChips from '../../../assets/constants/Components/AmountChips';
 import ResetSubmit from '../../../assets/constants/Components/ResetSubmit';
 import StarCircle from '../../../assets/constants/Components/Buttons/StarCircle';
 import {calculateRewardPoints} from '../../../assets/constants/RewardsData/calculateRewardPoints';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
+import axios from 'axios';
+import {useSelector} from 'react-redux';
+import {AppState} from '../../../ReduxStore';
 
 export default function PostDetails() {
   const [selectedChip, setSelectedChip] = useState<string | null>(null);
@@ -23,7 +26,43 @@ export default function PostDetails() {
   const [rewardPoints, setRewardPoints] = useState<number>(0);
   const navigation = useNavigation();
 
-  
+  const [offerData, setOfferData] = useState();
+  const token = useSelector((state: AppState) => state.token);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.post(
+          'http://localhost:8080/api/omnis/offer/create',
+          {
+            headers: {
+              Authorization: `Bearer ${token.token}`,
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
+            },
+            data: {
+              amount: loanAmount,
+              interestPercentage: interestRate,
+              postId: postId,
+            }
+          },
+        );
+        setOfferData(response.data.postList);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    // Call the function immediately to fetch data initially
+    fetchData();
+
+    // Set up polling to fetch data every specified interval
+    const interval = setInterval(fetchData, 30000); // Fetch data every 30 seconds
+
+    // Clean up interval on component unmount
+    return () => clearInterval(interval);
+  }, []);
+
   useEffect(() => {
     setRewardPoints(calculateRewardPoints(loanAmount));
   }, [loanAmount]);
@@ -83,7 +122,6 @@ export default function PostDetails() {
 
   const renderAmountDisplay = () => {
     const amount = calculateTotalAmount();
-
 
     // Check if amount is "Gift" first
     if (amount === 'Gift') {

@@ -70,7 +70,6 @@ export default function Featured({route, navigation}) {
     return () => clearInterval(interval);
   }, []);
 
-
   const handleOfferPress = async (postId: string) => {
     try {
       const response = await axios.get(
@@ -84,7 +83,9 @@ export default function Featured({route, navigation}) {
         },
       );
       // Now you can do something with the offers data, like navigating to a new screen with this data
-      navigation.navigate('PostOfferSummary', {posts: response.data.uniquePost});
+      navigation.navigate('PostOfferSummary', {
+        posts: response.data.uniquePost,
+      });
 
       console.log(
         'this is the Featured screen ***************************************',
@@ -96,19 +97,19 @@ export default function Featured({route, navigation}) {
   };
 
   // renderItem function
-  const renderItem = ({item}: {item: PostCardProps}) => (
+  const renderItem = ({item}: {item: PostCardProps; index: number}) => (
     <PostCard
       avatar={item.avatar}
       firstName={item.user.firstName}
       lastName={item.user.lastName}
-      timeElasped={item.timeElasped}
+      timeElapsed={item.timeElapsed}
       number={item.number}
       totalAmount={item.totalAmount}
       currentAmount={item.currentAmount}
       title={item.title}
       description={item.description}
       imageUrl={item.imageUrl}
-      offerText={fromMyPosts ? "Edit" : "Offer"}
+      offerText={fromMyPosts ? 'Edit' : 'Offer'}
       onOfferPress={() => handleOfferPress(item.id)}
       id={item.id}
     />
