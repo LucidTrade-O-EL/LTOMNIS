@@ -27,6 +27,7 @@ export default function MyPosts({route, navigation}) {
       const res = await axios(options);
       if (res.data) {
         setPostData(res.data.myPostList); // Set the post data with the data from the API.
+        console.log('res.data.myPostList', res.data.myPostList);
       } else {
         console.log('No user data received');
       }
@@ -41,14 +42,13 @@ export default function MyPosts({route, navigation}) {
   //   const fetchInterval = setInterval(() => {
   //     fetchMyPostFeedList();
   //   }, 10000); // Fetches posts every 10 seconds
-  
+
   //   return () => clearInterval(fetchInterval); // Clean up interval on component unmount
   // }, []);
 
   useEffect(() => {
     fetchMyPostFeedList(); // Fetch data when the component mounts
   }, []);
-
 
   const handleOfferPress = async (postId: string) => {
     try {
@@ -63,7 +63,9 @@ export default function MyPosts({route, navigation}) {
         },
       );
       // Now you can do something with the offers data, like navigating to a new screen with this data
-      navigation.navigate('PostOfferSummary', {posts: response.data.uniquePost});
+      navigation.navigate('PostOfferSummary', {
+        posts: response.data.uniquePost,
+      });
 
       console.log(
         'this is the ALL screen ***************************************',
@@ -74,9 +76,8 @@ export default function MyPosts({route, navigation}) {
     }
   };
 
-
   // renderItem function
-  const renderItem = ({item, index}: {item: PostCardProps, index: number}) => (
+  const renderItem = ({item, index}: {item: PostCardProps; index: number}) => (
     <PostCard
       key={index}
       avatar={item.avatar}
@@ -89,7 +90,7 @@ export default function MyPosts({route, navigation}) {
       title={item.title}
       description={item.description}
       imageUrl={item.imageUrl}
-      offerText={fromMyPosts ? "Edit" : "Offer"}
+      offerText={fromMyPosts ? 'Edit' : 'Offer'}
       onOfferPress={() => handleOfferPress(item.id)}
       id={item.id}
     />
@@ -100,7 +101,7 @@ export default function MyPosts({route, navigation}) {
       <FlatList
         data={postData}
         renderItem={renderItem}
-        keyExtractor={item => item.id} 
+        keyExtractor={item => item.id}
         contentContainerStyle={styles.listContentContainer}
       />
     </View>

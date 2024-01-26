@@ -1,24 +1,20 @@
 import {View, Text, FlatList, StyleSheet} from 'react-native';
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import GlobalStyles from '../../../../assets/constants/colors';
 import {offersData} from '../../../../assets/constants/data';
-import OfferBigContainer, { OfferBigContainerProps } from '../../../../assets/constants/Components/OfferBigContainer';
-import { useSelector } from 'react-redux';
-import { AppState } from '../../../../ReduxStore';
+import OfferBigContainer, {
+  OfferBigContainerProps,
+} from '../../../../assets/constants/Components/OfferBigContainer';
+import {useSelector} from 'react-redux';
+import {AppState} from '../../../../ReduxStore';
 import axios from 'axios';
 
-
-
-
-
-
 export default function ActiveOffers({route}) {
-
   const [postData, setPostData] = useState<OfferBigContainerProps[]>([]);
   const token = useSelector((state: AppState) => state.token);
   const fromMyPosts = route.params?.fromMyPosts ?? false;
-  
-  const fetchMyPostFeedList = async () => {
+
+  const fetchActiveOffers = async () => {
     try {
       const options = {
         method: 'GET',
@@ -30,7 +26,7 @@ export default function ActiveOffers({route}) {
         },
       };
       console.log(`Bearer ${token.token}`);
-  
+
       const res = await axios(options);
       if (res.data) {
         setPostData(res.data.myPostList); // Set the post data with the data from the API.
@@ -42,11 +38,14 @@ export default function ActiveOffers({route}) {
     }
   };
 
+  useEffect(() => {
+    fetchActiveOffers(); // Fetch data when the component mounts
+  }, []);
 
   return (
     <FlatList
       style={{backgroundColor: GlobalStyles.Colors.primary100}}
-      data={offersData}
+      data={postData}
       renderItem={({item}) => (
         <OfferBigContainer
           targetScreen="ActiveOfferMakePayment"
@@ -55,6 +54,8 @@ export default function ActiveOffers({route}) {
           raiseNumber={item.raiseNumber}
           fullNumber={item.fullNumber}
           users={item.users}
+          firstName={item.user.firstName}
+          lastName={item.user.lastName}
         />
       )}
       keyExtractor={(item, index) => index.toString()}

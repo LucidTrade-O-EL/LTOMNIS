@@ -1,68 +1,74 @@
 import React, {useEffect, useState} from 'react';
 import {View, Text, ActivityIndicator} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
-import {useNavigation, useRoute} from '@react-navigation/native';
-import { setLinkToken } from '../../actions';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../../types';
-import { AppState } from '../../ReduxStore';
-import { link } from 'fs';
+import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
+import {setLinkToken} from '../../actions';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {RootStackParamList} from '../../types';
+import {AppState} from '../../ReduxStore';
+import {link} from 'fs';
+import axios from 'axios';
 
 interface CreateLinkTokenProps {
   navigation: NativeStackNavigationProp<RootStackParamList>;
+  route: RouteProp<RootStackParamList, 'IdentityVerificationScreen'>;
 }
 
-const CreateLinkToken: React.FC <CreateLinkTokenProps> = ({navigation}) => {
+const CreateLinkToken: React.FC<CreateLinkTokenProps> = ({
+  navigation,
+  route,
+}) => {
   const [isLoading, setIsLoading] = useState(true);
-  const id = useSelector((state: AppState) => state.id);
+  const id = useSelector((state: AppState) => state.id.id);
   const linkToken = useSelector((state: AppState) => state.linkToken);
+  const token = useSelector((state: AppState) => state.token);
   const dispatch = useDispatch();
-  const route = useRoute();
 
-  
 
   useEffect(() => {
     const createToken = async () => {
       setIsLoading(true);
       try {
-        console.log(`This could be the issue 1: ${JSON.stringify(id)}`)
-        const response = await fetch(
-          'http://localhost:8080/api/omnis/token/create',
-          {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(id),
-          
+        const options = {
+          method: 'GET',
+          url: 'http://localhost:8080/api/omnis/token/create',
+          headers: {
+            Authorization: `Bearer ${token.token}`,
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
           },
-        );
-        console.log(`This could be the issue 2: ${JSON.stringify(id)}`)
-        if (response) {
-          const id = await response.json();
-          dispatch(setLinkToken(id));
-          console.log(`this is the setLinkToken ${id}`)
+        };
+        console.log(`Bearer ${token.token}`);
+        const res = await axios(options);
+        if (res.data) {
+          dispatch(setLinkToken(res.data)); // Set the post data with the data from the API.
+          console.log('this is my res link', JSON.stringify(res.data));
         } else {
-          console.error('No link token received, response was not ok.');
+          console.log('No linkToken data received');
         }
       } catch (error) {
-        console.error('Error creating link token:', error);
+        console.error('An error occurred:', error);
+      } finally {
+        setIsLoading(false);
       }
-      setIsLoading(false);
     };
 
     createToken();
-  }, [id, dispatch]);
+  }, []); // Add dependencies if necessary
+
+  // http://localhost:8080/api/omnis/token/create
 
   useEffect(() => {
     if (linkToken) {
-      navigation.navigate('IdentityVerificationScreen', { linkToken });
-      console.log(`This is UseEffect inside the Create Token ${JSON.stringify(linkToken.LinkToken)}`)
+      navigation.navigate('IdentityVerificationScreen');
+      console.log(
+        `This is UseEffect inside the Create Token ${JSON.stringify(
+          linkToken.LinkToken,
+        )}`,
+      );
     }
   }, [linkToken, navigation]);
-  
-  
-  
+
 
   return (
     <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>

@@ -72,7 +72,6 @@ import './screens/SelectLanguage/i18n';
 import {getFocusedRouteNameFromRoute} from '@react-navigation/native';
 import OfferTransactionHistory from './screens/NewOffers/Borrower/ClosedOffers/OfferTransactionHistory';
 import IdentityVerificationScreen from './screens/SignUp/IdentityVerificationScreen';
-import CreateLinkToken from './screens/SignUp/CreateLinkToken';
 import OfferScreenLender from './screens/NewOffers/Lender/OfferScreenLender';
 import ActiveOfferDetails from './screens/NewOffers/Lender/SentOffers/ActiveOfferDetails';
 import ActiveOfferLenderDetails from './screens/NewOffers/Lender/ActiveOffersLenders/ActiveOfferLenderDetails';
@@ -120,6 +119,7 @@ import CustomPaymentBlock from './assets/constants/Components/CustomPaymentBlock
 import PaymentStatus from './screens/Spotlight/PaymentStatus';
 import ScoreBreakDown from './screens/OMNISScore/ScoreBreakDown/ScoreBreakDown';
 import AllPosts from './screens/MyFeed/AllPosts';
+import CreateLinkToken from './screens/SignUp/CreateLinkToken';
 // import store from './store';
 // import store from '../LTOMNISApp'
 
@@ -168,10 +168,6 @@ function CombinedStackNavigator() {
 
       <CombinedStack.Screen name="SignInScreen" component={SignInScreen} />
       <CombinedStack.Screen name="RegisterScreen" component={RegisterScreen} />
-      <CombinedStack.Screen
-        name="CreateLinkToken"
-        component={CreateLinkToken}
-      />
       <CombinedStack.Screen name="ForgotPassword" component={ForgotPassword} />
       <CombinedStack.Screen name="Verification" component={Verification} />
       <CombinedStack.Screen
@@ -186,6 +182,10 @@ function CombinedStackNavigator() {
       <CombinedStack.Screen
         name="CreditScoreDisplay"
         component={CreditScoreDisplay}
+      />
+      <CombinedStack.Screen
+        name="CreateLinkToken"
+        component={CreateLinkToken}
       />
       <CombinedStack.Screen
         name="MainStackNavigator"

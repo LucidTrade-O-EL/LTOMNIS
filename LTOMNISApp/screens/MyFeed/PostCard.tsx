@@ -27,7 +27,6 @@ export type PostCardProps = {
   id?: string;
 };
 
-
 export const PostCard: React.FC<PostCardProps & {onOfferPress: () => void}> = ({
   avatar,
   firstName,
@@ -48,11 +47,15 @@ export const PostCard: React.FC<PostCardProps & {onOfferPress: () => void}> = ({
   const calculatedProgressBarWidth =
     (Number(currentAmount) / Number(totalAmount)) * 100;
 
+  console.log('calculatedProgressBarWidth:: ', calculatedProgressBarWidth);
+  console.log('currentAmount:: ', currentAmount);
+  console.log('totalAmount:: ', totalAmount);
+
   const avatarTitle = `${firstName?.charAt(0) ?? ''}${
     lastName?.charAt(0) ?? ''
   }`;
 
-  console.log('total amount', totalAmount)
+  console.log('total amount', totalAmount);
 
   // const { firstName, lastName } = user
 

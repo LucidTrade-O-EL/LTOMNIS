@@ -22,9 +22,7 @@ import appleAuth, {
 import {SafeAreaView} from 'react-native-safe-area-context';
 
 export default function RegisterScreen() {
-  // const [name, setName] = useState('');
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
+
   const [email, setEmail] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [password, setPassword] = useState('');
@@ -52,18 +50,6 @@ export default function RegisterScreen() {
       setInvalidPassword(false);
     }
 
-    // if (name.length < 2) {
-    //   setErrorMessage('Name must be at least 2 characters long.');
-    //   return;
-    // }
-    if (firstName.length < 2) {
-      setErrorMessage('First Name must be at least 2 characters long.');
-      return;
-    }
-    if (lastName.length < 2) {
-      setErrorMessage('Last Name must be at least 2 characters long.');
-      return;
-    }
 
     if (errorMessage) {
       Alert.alert('Error', errorMessage);
@@ -76,11 +62,8 @@ export default function RegisterScreen() {
       const res = await axios.post(
         'http://localhost:8080/api/omnis/account/register_login',
         {
-          firstName,
-          lastName,
           email,
           password,
-          phoneNumber,
         },
       );
 
@@ -88,7 +71,7 @@ export default function RegisterScreen() {
       console.log('This is our response data', user);
 
       if (user) {
-        navigation.navigate('IdentityVerificationScreen', {userId: user.userId});
+        navigation.navigate('CreateLinkToken', {userId: user.userId});
         dispatch(setId(user.userId));
         console.log('User ID', user.userId);
 
@@ -146,33 +129,6 @@ export default function RegisterScreen() {
       <Text style={styles.smallText}>Create Your Account</Text>
       <View style={styles.view1}>
         {/* input boxes */}
-        <Text style={styles.boxSpacing}>First Name</Text>
-        <TextInput
-          style={[styles.textImputBox, styles.smallText]}
-          value={firstName}
-          onChangeText={text => setFirstName(text)}
-          aria-label="Name"
-          placeholder="First Name"
-          placeholderTextColor={'#fff'}
-        />
-        <Text style={styles.boxSpacing}>Last Name</Text>
-        <TextInput
-          style={[styles.textImputBox, styles.smallText]}
-          value={lastName}
-          onChangeText={text => setLastName(text)}
-          aria-label="Name"
-          placeholder="Last Name"
-          placeholderTextColor={'#fff'}
-        />
-        <Text style={styles.boxSpacing}>Phone Number</Text>
-        <TextInput
-          style={[styles.textImputBox, styles.smallText]}
-          value={phoneNumber}
-          onChangeText={text => setPhoneNumber(text)}
-          aria-label="Phone Number"
-          placeholder="Phone Number"
-          placeholderTextColor={'#fff'}
-        />
         <Text style={styles.boxSpacing}>Email</Text>
         <TextInput
           style={[styles.textImputBox, styles.smallText]}
@@ -349,8 +305,8 @@ const styles = StyleSheet.create({
     height: 50,
     width: '90%',
     paddingLeft: 10,
-    marginBottom: 15,
-    marginTop: 5,
+    marginVertical: 15,
+    // marginTop: 5,
   },
 
   view1: {
@@ -362,7 +318,7 @@ const styles = StyleSheet.create({
 
   view2: {
     alignItems: 'center',
-    marginTop: '2%',
+    marginTop: '40%',
     color: '#fff',
     width: '100%',
   },

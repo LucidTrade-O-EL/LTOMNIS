@@ -97,7 +97,7 @@ export default function HomeScreen({}: {}) {
           `http://localhost:8080/api/omnis/user/${userId}`,
           {
             headers: {
-              Authorization: `Bearer ${token}`,
+              Authorization: `Bearer ${token.token}`,
               Accept: 'application/json',
               'Content-Type': 'application/json',
             },
@@ -114,6 +114,44 @@ export default function HomeScreen({}: {}) {
 
     fetchUserData();
   }, [userId, token]);
+
+
+  console.log('This is After the First UseEffect')
+
+
+  useEffect(() => {
+    const fetchAdditionalData = async () => {
+      try {
+
+        console.log('Inside 2nd UseEffect')
+        console.log('Inside 2nd UseEffect Token', token.token)
+
+        // Replace with your actual API endpoint and logic
+        const response = await axios.get(
+          `http://localhost:8080/api/omnis/users/homefeed`,
+          {
+            headers: {
+              Authorization: `${token.token}`,
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
+            },
+          },
+        );
+        console.log('Inside 3rd at UseEffect')
+        const additionalData = response.data;
+        // Assuming response data has balance, offersAccepted, newOffers fields
+
+        console.log('additionalData::', additionalData)
+        setBalance(additionalData.balance);
+        setOffersAccepted(additionalData.offersAccepted);
+        setNewOffers(additionalData.newOffers);
+      } catch (error) {
+        console.error('Error fetching additional data:', error);
+      }
+    };
+
+    fetchAdditionalData();
+  }, []);
 
   const NotificationIcon = () => {
     return (

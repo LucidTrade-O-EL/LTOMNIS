@@ -11,11 +11,18 @@ import {
   Pressable,
   Alert,
 } from 'react-native';
-import {PlaidLink} from 'react-native-plaid-link-sdk';
+import {
+  LinkExit,
+  LinkSuccess,
+  PlaidLink,
+  usePlaidEmitter,
+} from 'react-native-plaid-link-sdk';
 import {useDispatch, useSelector} from 'react-redux';
 import {setLinkToken} from '../../actions';
+import {user} from '../../assets/constants/user';
 import {AppState} from '../../ReduxStore';
 import {RootStackParamList} from '../../types';
+import {usePlaidLink} from 'react-plaid-link';
 
 type IdentityVerificationScreenRouteParams = {
   linkToken: string;
@@ -33,44 +40,55 @@ const IdentityVerificationScreen: React.FC<IdentityVerificationScreenProps> = ({
   route,
   navigation,
 }) => {
-  const {linkToken} = route.params;
-  const dispatch = useDispatch();
-  const id = useSelector((state: AppState) => state.id);
+  const token = useSelector((state: AppState) => state.token);
+  const linkToken = useSelector((state: AppState) => state.linkToken);
+
+  console.log('linkToken: ', linkToken.LinkToken);
+
   console.log(
     `This is the LinkToken inside the IDV 1: ${JSON.stringify(
       linkToken.LinkToken,
     )}`,
   );
 
-  const onSuccess = async (public_token, metadata) => {
-    console.log('Plaid Link onSuccess: ', public_token, metadata);
-    console.log('ID for API call: ', id);
-
-    try {
-      const url = `http://localhost:8080/api/omnis/identity_verification/${linkToken.LinkToken}`;
-      const response = await axios.get(url);
-      console.log(
-        `This is the LinkToken inside the IDV 2: ${linkToken.LinkToken}`,
-      );
-      console.log('Response data: ', response.data);
-      dispatch(setLinkToken(response.data));
-      // Navigate to the next screen if needed
-      // navigation.navigate('NextScreen');
-    } catch (error) {
-      console.error('Error in Plaid onSuccess with Axios: ', error);
-    }
+  const onSuccess = (success: LinkSuccess) => {
+    fetch('http://localhost:8080/api/omnis/identity_verification', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token.token}`,
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        linkToken: linkToken.LinkToken,
+      }),
+    });
   };
 
-  const onExit = (exit: any) => {
-    // Handle the exit scenario
-    console.log('Plaid Link Exit: ', exit);
+  const onExit = (linkExit: LinkExit) => {
+    supportHandler.report({
+      error: linkExit.error,
+      institution: linkExit.metadata.institution,
+      linkSessionId: linkExit.metadata.linkSessionId,
+      requestId: linkExitlinkExit.metadata.requestId,
+      status: linkExit.metadata.status,
+    });
   };
+
+  usePlaidEmitter(event => {
+    console.log(event);
+  });
 
   return (
     <View style={styles.container}>
       {linkToken ? (
-        <PlaidLink token={linkToken} onSuccess={onSuccess} onExit={onExit}>
-          <Text>Verify Identity with Plaid</Text>
+        <PlaidLink
+          tokenConfig={{
+            token: linkToken.LinkToken,
+          }}
+          onSuccess={onSuccess}
+          onExit={onExit}>
+          <Text>Add Account</Text>
         </PlaidLink>
       ) : (
         <Text>Loading...</Text>
