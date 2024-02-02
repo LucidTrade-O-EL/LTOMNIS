@@ -18,7 +18,7 @@ import {useNavigation} from '@react-navigation/native';
 import {HomeStackParamList} from '../App';
 import {useDispatch, useSelector} from 'react-redux';
 import {hideTabBar, showTabBar} from '../tabBarSlice';
-import {AppState, setUserId} from '../ReduxStore';
+import {AppState, setFirstName, setLastName, setUserId} from '../ReduxStore';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import axios from 'axios';
 // import { hideTabBar, showTabBar } from '../appReducer';
@@ -30,8 +30,6 @@ export default function HomeScreen({}: {}) {
   const [OffersAccepted, setOffersAccepted] = useState(13);
   const [NewOffers, setNewOffers] = useState(5);
   const [notificationCount, setNotificationCount] = useState(3); // Example count
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
 
   const navigation =
     useNavigation<NativeStackNavigationProp<HomeStackParamList>>();
@@ -39,9 +37,13 @@ export default function HomeScreen({}: {}) {
   const token = useSelector((state: AppState) => state.token);
 
   const userId = useSelector((state: AppState) => state.user.userId);
+  const firstName = useSelector((state: AppState) => state.firstName);
+  const lastName = useSelector((state: AppState) => state.lastName);
+  console.log('This is firstName in Home', JSON.stringify(lastName))
 
   const dispatch = useDispatch();
   dispatch(setUserId(userId));
+
 
   // Example of dispatching an action
   const updateUserId = (newId: string) => {
@@ -88,11 +90,6 @@ export default function HomeScreen({}: {}) {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        // if (!userId || !token) {
-        //   console.error('User ID or Token is missing');
-        //   return;
-        // }
-
         const response = await axios.get(
           `http://localhost:8080/api/omnis/user/homefeed`,
           {
@@ -106,11 +103,15 @@ export default function HomeScreen({}: {}) {
 
         const userData = response.data;
         console.log('user Data', userData);
-        setFirstName(userData.homeFeedObject.user.firstName);
-        setLastName(userData.homeFeedObject.user.lastName);
+        // setFirstName(userData.homeFeedObject.user.firstName);
+        // setLastName(userData.homeFeedObject.user.lastName);
+        dispatch(setFirstName(userData.homeFeedObject.user.firstName));
+        console.log('this is our userData HFO', userData.homeFeedObject.user.firstName)
+        dispatch(setLastName(userData.homeFeedObject.user.lastName));
         setBalance(userData.homeFeedObject.user.balance);
         setOffersAccepted(userData.homeFeedObject.offersAccepted);
         setNewOffers(userData.homeFeedObject.newOffers);
+        console.log('this is our userData HFO', userData.homeFeedObject.user.firstName)
       } catch (error) {
         console.error('Error fetching user data:', error);
       }
@@ -119,8 +120,9 @@ export default function HomeScreen({}: {}) {
     fetchUserData();
   }, []);
 
-  console.log('This is After the First UseEffect');
 
+
+  console.log('This is After the First UseEffect');
 
   const NotificationIcon = () => {
     return (

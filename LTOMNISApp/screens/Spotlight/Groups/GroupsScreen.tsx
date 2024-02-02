@@ -15,6 +15,8 @@ import {
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {SpotlightStackParamList} from '../../../App';
+import { useSelector } from 'react-redux';
+import { AppState } from '../../../ReduxStore';
 
 export default function GroupsScreen() {
   const navigation =
@@ -31,16 +33,18 @@ export default function GroupsScreen() {
     navigation.navigate('MakeAGroupScreen');
   };
 
-  const [group, setGroup] = useState([{title: 'Initial title'}]);
+  const [group, setGroup] = useState([{title: 'My Group'}]);
   const [featuredGroup, setFeaturedGroup] = useState<FeaturedGroupItem[]>([]);
   const [interestGroup, setInterestGroup] = useState<FeaturedGroupItem[]>([]);
+  const token = useSelector((state: AppState) => state.token);
 
   const GetMyGroup = async () => {
     try {
       const options = {
         method: 'GET',
-        url: 'https://api.lucidtrades.com/api/Group',
+        url: 'http://localhost:8080/api/omnis/groups/mygroups',
         headers: {
+          Authorization: `Bearer ${token.token}`,
           Accept: 'application/json',
           'Content-Type': 'application/json',
         },

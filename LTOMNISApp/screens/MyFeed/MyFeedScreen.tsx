@@ -51,31 +51,9 @@ export type MyFeedScreenNavigationProps = StackScreenProps<
 const MyFeedScreen: React.FC<
   StackScreenProps<MyFeedStackParamList, 'MyFeedScreen'>
 > = ({navigation, route}) => {
-  const userId = useSelector((state: AppState) => state.user.userId); // Only declaration of userId
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
 
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        if (!userId) {
-          console.error('User ID is missing');
-          return;
-        }
-
-        // Replace with your actual API endpoint and token if needed
-        const response = await axios.get(
-          `http://localhost:8080/api/omnis/user/${userId}`,
-        );
-        setFirstName(response.data.firstName);
-        setLastName(response.data.lastName);
-      } catch (error) {
-        console.error('Error fetching user data:', error);
-      }
-    };
-
-    fetchUserData();
-  }, [userId]);
 
   const {} = route.params || {}; // default to an empty object if route.params is undefined
 

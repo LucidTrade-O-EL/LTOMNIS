@@ -9,41 +9,43 @@ import {Divider} from 'react-native-elements';
 import TextInputComponentWithAdd from '../../../assets/constants/Components/TextInputComponentWithAdd';
 import ToggleButton from '../../../assets/constants/Components/ToggleButton';
 import axios from 'axios';
+import { useSelector } from 'react-redux';
+import { AppState } from '../../../ReduxStore';
 
 export default function MakeAGroupScreen() {
   const [isFeatured, setIsFeatured] = React.useState(false);
   const [isPrivate, setIsPrivate] = React.useState(false);
   const [groupTitle, setGroupTitle] = React.useState(''); // New State
   const [groupDescription, setGroupDescription] = React.useState(''); // New State
+  const token = useSelector((state: AppState) => state.token);
 
   const VisibilityExposure = async () => {
     try {
       const submissionData = {
         title: groupTitle,
         description: groupDescription,
-        isPrivate: isPrivate, // true if 'Private', false if 'Public'
-        isFeatured: isFeatured, // true if 'Featured', false if 'Regular'
+        isPrivate: isPrivate, 
+        isFeatured: isFeatured, 
       };
 
       console.log('Submitting the following data:', submissionData);
 
       const options = {
         method: 'POST',
-        url: 'https://api.lucidtrades.com/api/Group',
+        url: 'http://localhost:8080/api/omnis/group/creategroup',
         headers: {
+          Authorization: `Bearer ${token.token}`,
           Accept: 'application/json',
           'Content-Type': 'application/json',
         },
         data: submissionData,
       };
-
       const res = await axios(options);
-      console.log('Response from addFriend:', res.data);
+      console.log('Response from options:', res.data);
     } catch (error) {
       console.error('An error occurred:', error);
     }
   };
-
 
   return (
     <SafeAreaView style={styles.background}>
@@ -51,7 +53,7 @@ export default function MakeAGroupScreen() {
         title="Make a group"
         showBackArrow={true}
         onBackPress={() => {
-          // Handle the back button press, e.g., navigate back
+          
         }}
       />
       <TextInputComponent
