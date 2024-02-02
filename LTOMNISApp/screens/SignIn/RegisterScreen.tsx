@@ -20,6 +20,7 @@ import appleAuth, {
   AppleAuthRequestOperation,
 } from '@invertase/react-native-apple-authentication';
 import {SafeAreaView} from 'react-native-safe-area-context';
+import { setToken } from '../../ReduxStore';
 
 export default function RegisterScreen() {
 
@@ -59,23 +60,20 @@ export default function RegisterScreen() {
     setErrorMessage(null);
 
     try {
-      const res = await axios.post(
-        'http://localhost:8080/api/omnis/account/register_login',
-        {
-          email,
-          password,
-        },
-      );
-
-      const user = res.data; // Use `res.data` to access the response data
+      const res = await axios.post('http://localhost:8080/api/omnis/account/register_login', {
+        email,
+        password,
+      });
+  
+      const user = res.data;
       console.log('This is our response data', user);
-
+  
       if (user) {
+        // Dispatch action to save JWT token
+        dispatch(setToken(user.token)); // Replace 'setJWTToken' with your actual action creator
+  
         navigation.navigate('CreateLinkToken', {userId: user.userId});
         dispatch(setId(user.userId));
-        console.log('User ID', user.userId);
-
-        // Navigate to CreateLinkToken screen with the user ID
       } else {
         console.log('No user data received');
       }
@@ -114,6 +112,7 @@ export default function RegisterScreen() {
           userData,
         );
         const {sessionToken} = res.data;
+        
 
         // Store sessionToken securely, e.g., in AsyncStorage
         // Handle navigation or other logic

@@ -29,6 +29,7 @@ const CreateLinkToken: React.FC<CreateLinkTokenProps> = ({
     const createToken = async () => {
       setIsLoading(true);
       try {
+        console.log('This is Token.token', token.token)
         const options = {
           method: 'GET',
           url: 'http://localhost:8080/api/omnis/token/create',

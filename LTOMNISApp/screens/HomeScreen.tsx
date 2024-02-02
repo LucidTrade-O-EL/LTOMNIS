@@ -24,7 +24,7 @@ import axios from 'axios';
 // import { hideTabBar, showTabBar } from '../appReducer';
 
 export default function HomeScreen({}: {}) {
-  const [balance, setBalance] = useState('$0.00'); // Default balance
+  const [balance, setBalance] = useState('0.00'); // Default balance
   const [OfferSent, setOfferSent] = useState(25);
   const [AcceptedOffers, setAcceptedOffers] = useState(6);
   const [OffersAccepted, setOffersAccepted] = useState(13);
@@ -88,13 +88,13 @@ export default function HomeScreen({}: {}) {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        if (!userId || !token) {
-          console.error('User ID or Token is missing');
-          return;
-        }
+        // if (!userId || !token) {
+        //   console.error('User ID or Token is missing');
+        //   return;
+        // }
 
         const response = await axios.get(
-          `http://localhost:8080/api/omnis/user/${userId}`,
+          `http://localhost:8080/api/omnis/user/homefeed`,
           {
             headers: {
               Authorization: `Bearer ${token.token}`,
@@ -105,53 +105,22 @@ export default function HomeScreen({}: {}) {
         );
 
         const userData = response.data;
-        setFirstName(userData.firstName);
-        setLastName(userData.lastName);
+        console.log('user Data', userData);
+        setFirstName(userData.homeFeedObject.user.firstName);
+        setLastName(userData.homeFeedObject.user.lastName);
+        setBalance(userData.homeFeedObject.user.balance);
+        setOffersAccepted(userData.homeFeedObject.offersAccepted);
+        setNewOffers(userData.homeFeedObject.newOffers);
       } catch (error) {
         console.error('Error fetching user data:', error);
       }
     };
 
     fetchUserData();
-  }, [userId, token]);
-
-
-  console.log('This is After the First UseEffect')
-
-
-  useEffect(() => {
-    const fetchAdditionalData = async () => {
-      try {
-
-        console.log('Inside 2nd UseEffect')
-        console.log('Inside 2nd UseEffect Token', token.token)
-
-        // Replace with your actual API endpoint and logic
-        const response = await axios.get(
-          `http://localhost:8080/api/omnis/users/homefeed`,
-          {
-            headers: {
-              Authorization: `${token.token}`,
-              Accept: 'application/json',
-              'Content-Type': 'application/json',
-            },
-          },
-        );
-        console.log('Inside 3rd at UseEffect')
-        const additionalData = response.data;
-        // Assuming response data has balance, offersAccepted, newOffers fields
-
-        console.log('additionalData::', additionalData)
-        setBalance(additionalData.balance);
-        setOffersAccepted(additionalData.offersAccepted);
-        setNewOffers(additionalData.newOffers);
-      } catch (error) {
-        console.error('Error fetching additional data:', error);
-      }
-    };
-
-    fetchAdditionalData();
   }, []);
+
+  console.log('This is After the First UseEffect');
+
 
   const NotificationIcon = () => {
     return (
@@ -198,7 +167,7 @@ export default function HomeScreen({}: {}) {
         <Text style={styles.LoanTitle}>Credit</Text>
       </View>
       <View>
-        <Text style={styles.LoanNumber}>{balance}</Text>
+        <Text style={styles.LoanNumber}>{`$${balance}`}</Text>
       </View>
 
       {/* Deposit & Withdraw */}
