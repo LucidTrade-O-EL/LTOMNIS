@@ -5,7 +5,7 @@ import FeedTopTabs from './FeedTopTabs';
 import Header from './Header';
 import {StackScreenProps} from '@react-navigation/stack';
 import {useDispatch, useSelector} from 'react-redux';
-import {AppState} from '../../ReduxStore';
+import {AppState, setFirstName} from '../../ReduxStore';
 import axios from 'axios';
 
 type Type1 = {
@@ -18,8 +18,6 @@ type Type2 = {
 
 export type MyFeedScreenProps = {
   MyFeedScreen: {
-    firstname: string;
-    lastname: string;
     prop1?: Type1;
     prop2?: Type2;
   };
@@ -27,8 +25,6 @@ export type MyFeedScreenProps = {
 
 type MyFeedStackParamList = {
   MyFeedScreen: {
-    firstname: string;
-    lastname: string;
     prop1?: Type1;
     prop2?: Type2;
   };
@@ -51,9 +47,12 @@ export type MyFeedScreenNavigationProps = StackScreenProps<
 const MyFeedScreen: React.FC<
   StackScreenProps<MyFeedStackParamList, 'MyFeedScreen'>
 > = ({navigation, route}) => {
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
+  // const [firstName, setFirstName] = useState('');
+  // const [lastName, setLastName] = useState('');
 
+  const firstName = useSelector((state: AppState) => state.userFirstLast.firstName) 
+  const lastName = useSelector((state: AppState) => state.userFirstLast.lastName) 
+  console.log('this is Feed Screen F', firstName)
 
   const {} = route.params || {}; // default to an empty object if route.params is undefined
 
@@ -62,8 +61,8 @@ const MyFeedScreen: React.FC<
   return (
     <SafeAreaView style={styles.background}>
       <Header
-        firstname={firstName}
-        lastname={lastName}
+        firstName={firstName}
+        lastName={lastName}
         avatarImage={avatarImage}
       />
       <FeedTopTabs />

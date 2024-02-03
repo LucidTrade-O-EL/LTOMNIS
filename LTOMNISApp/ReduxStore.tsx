@@ -57,10 +57,12 @@ export const setsUserPhoneNumber = (userPhoneNumber: string) => ({
 });
 
 // actions.js or a similar file
-export const setFirstName = (firstName: string) => ({
+export const setFirstName = (firstName: string) => (
+  {
   type: 'SET_FIRST_NAME',
   payload: firstName,
 });
+
 
 export const setLastName = (lastName: string) => ({
   type: 'SET_LAST_NAME',

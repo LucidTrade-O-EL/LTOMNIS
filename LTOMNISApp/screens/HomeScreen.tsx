@@ -5,6 +5,7 @@ import {
   SafeAreaView,
   Pressable,
   TextInput,
+  NativeModules,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {Avatar, Divider} from 'react-native-elements';
@@ -30,6 +31,8 @@ export default function HomeScreen({}: {}) {
   const [OffersAccepted, setOffersAccepted] = useState(13);
   const [NewOffers, setNewOffers] = useState(5);
   const [notificationCount, setNotificationCount] = useState(3); // Example count
+  const [firstName, setFName] = useState('');
+  const [lastName, setLName] = useState('');
 
   const navigation =
     useNavigation<NativeStackNavigationProp<HomeStackParamList>>();
@@ -37,9 +40,7 @@ export default function HomeScreen({}: {}) {
   const token = useSelector((state: AppState) => state.token);
 
   const userId = useSelector((state: AppState) => state.user.userId);
-  const firstName = useSelector((state: AppState) => state.firstName);
-  const lastName = useSelector((state: AppState) => state.lastName);
-  console.log('This is firstName in Home', JSON.stringify(lastName))
+
 
   const dispatch = useDispatch();
   dispatch(setUserId(userId));
@@ -103,15 +104,15 @@ export default function HomeScreen({}: {}) {
 
         const userData = response.data;
         console.log('user Data', userData);
-        // setFirstName(userData.homeFeedObject.user.firstName);
-        // setLastName(userData.homeFeedObject.user.lastName);
+        setFName(userData.homeFeedObject.user.firstName);
+        setLName(userData.homeFeedObject.user.lastName);
+        console.log('this is L NativeModules', firstName)
         dispatch(setFirstName(userData.homeFeedObject.user.firstName));
-        console.log('this is our userData HFO', userData.homeFeedObject.user.firstName)
+        console.log('this is everything:: ', firstName)
         dispatch(setLastName(userData.homeFeedObject.user.lastName));
         setBalance(userData.homeFeedObject.user.balance);
         setOffersAccepted(userData.homeFeedObject.offersAccepted);
         setNewOffers(userData.homeFeedObject.newOffers);
-        console.log('this is our userData HFO', userData.homeFeedObject.user.firstName)
       } catch (error) {
         console.error('Error fetching user data:', error);
       }

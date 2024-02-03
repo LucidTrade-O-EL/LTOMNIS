@@ -5,8 +5,8 @@ import Feather from 'react-native-vector-icons/Feather';
 import GlobalStyles from '../../assets/constants/colors';
 
 type HeaderProps = {
-  firstname: string;
-  lastname: string;
+  firstName: string | null;
+  lastName: string | null;
   avatarImage?: string;
   avatarSize?: number;
   avatarBackgroundColor?: string;
@@ -14,16 +14,16 @@ type HeaderProps = {
 };
 
 const Header: React.FC<HeaderProps> = ({
-  firstname,
-  lastname,
+  firstName,
+  lastName,
   avatarImage,
   avatarSize = 25,
   avatarBackgroundColor = GlobalStyles.Colors.primary100,
   avatarTextColor = GlobalStyles.Colors.primary800,
 }) => {
   const { width } = useWindowDimensions();
-  const firstNameLetter = firstname ? firstname.charAt(0) : '';
-  const lastNameLetter = lastname ? lastname.charAt(0) : '';
+  const firstNameLetter = firstName ? firstName.charAt(0) : '';
+  const lastNameLetter = lastName ? lastName.charAt(0) : '';
   const iconSize = width <= 320 ? 15 : 20;
 
   return (
