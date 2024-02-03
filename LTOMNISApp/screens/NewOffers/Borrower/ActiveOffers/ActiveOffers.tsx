@@ -42,6 +42,12 @@ export default function ActiveOffers({route}) {
     fetchActiveOffers(); // Fetch data when the component mounts
   }, []);
 
+  const renderEmptyListComponent = () => (
+    <View style={styles.emptyContainer}>
+      <Text style={styles.emptyText}>No Active Offers</Text>
+    </View>
+  );
+
   return (
     <FlatList
       style={{backgroundColor: GlobalStyles.Colors.primary100}}
@@ -60,6 +66,7 @@ export default function ActiveOffers({route}) {
       )}
       keyExtractor={(item, index) => index.toString()}
       contentContainerStyle={styles.container}
+      ListEmptyComponent={renderEmptyListComponent}
     />
   );
 }
@@ -68,5 +75,15 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     paddingVertical: 16,
+  },
+  emptyContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 50,
+  },
+  emptyText: {
+    fontSize: 18,
+    color: 'grey',
   },
 });

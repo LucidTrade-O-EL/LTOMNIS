@@ -7,6 +7,7 @@ import {
   Pressable,
   Image,
   Alert,
+  Modal,
 } from 'react-native';
 import {Divider} from '@rneui/themed';
 import axios from 'axios';
@@ -20,16 +21,16 @@ import appleAuth, {
   AppleAuthRequestOperation,
 } from '@invertase/react-native-apple-authentication';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import { setToken } from '../../ReduxStore';
+import {setToken} from '../../ReduxStore';
 
 export default function RegisterScreen() {
-
   const [email, setEmail] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [invalidPassword, setInvalidPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [modalVisible, setModalVisible] = useState(false); // Declare modalVisible state here
   const navigation = useNavigation<StackNavigationProp<any>>();
   const dispatch = useDispatch();
   // const dispatch = useDispatch();
@@ -46,11 +47,12 @@ export default function RegisterScreen() {
         'Password must be at least 8 characters, contain a number and a special character.',
       );
       setInvalidPassword(true);
+      setModalVisible(true); // Open the modal
       return;
     } else {
       setInvalidPassword(false);
+      setModalVisible(false); // Close the modal
     }
-
 
     if (errorMessage) {
       Alert.alert('Error', errorMessage);
@@ -60,18 +62,21 @@ export default function RegisterScreen() {
     setErrorMessage(null);
 
     try {
-      const res = await axios.post('http://localhost:8080/api/omnis/account/register_login', {
-        email,
-        password,
-      });
-  
+      const res = await axios.post(
+        'http://localhost:8080/api/omnis/account/register_login',
+        {
+          email,
+          password,
+        },
+      );
+
       const user = res.data;
       console.log('This is our response data', user);
-  
+
       if (user) {
         // Dispatch action to save JWT token
         dispatch(setToken(user.token)); // Replace 'setJWTToken' with your actual action creator
-  
+
         navigation.navigate('CreateLinkToken', {userId: user.userId});
         dispatch(setId(user.userId));
       } else {
@@ -112,7 +117,6 @@ export default function RegisterScreen() {
           userData,
         );
         const {sessionToken} = res.data;
-        
 
         // Store sessionToken securely, e.g., in AsyncStorage
         // Handle navigation or other logic
@@ -235,6 +239,30 @@ export default function RegisterScreen() {
           </View>
         </Pressable>
       </View>
+      {/* Modal for password constraints */}
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
+        }}>
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalText}>Password Requirements</Text>
+            <Text style={styles.modalTextDetail}>
+              - At least 8 characters long
+              {'\n'}- Contains a number
+              {'\n'}- Contains a special character
+            </Text>
+            <Pressable
+              style={[styles.buttonTwo, styles.buttonClose]}
+              onPress={() => setModalVisible(!modalVisible)}>
+              <Text style={styles.textStyle}>Close</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 }
@@ -335,5 +363,49 @@ const styles = StyleSheet.create({
     textAlign: 'left',
     alignSelf: 'flex-start',
     paddingLeft: 20,
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 22,
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: 'center',
+    fontWeight: 'bold',
+    fontSize: 18,
+  },
+  modalTextDetail: {
+    marginBottom: 15,
+    textAlign: 'center',
+  },
+  buttonTwo: {
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+  },
+  buttonClose: {
+    backgroundColor: '#BDAE8D',
+  },
+  textStyle: {
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
   },
 });

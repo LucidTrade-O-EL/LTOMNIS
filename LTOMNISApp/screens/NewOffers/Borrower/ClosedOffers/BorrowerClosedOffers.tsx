@@ -1,11 +1,12 @@
 import React from 'react';
-import {StyleSheet, FlatList} from 'react-native';
+import {StyleSheet, FlatList, Text} from 'react-native';
 import GlobalStyles from '../../../../assets/constants/colors';
 import ClosedOfferBigContainer, {
   OfferStatus,
 } from '../../../../assets/constants/Components/ClosedOfferBigContainer';
 import {offersData} from '../../../../assets/constants/data';
 import {t} from 'i18next'
+import { View } from 'react-native';
 
 const validStatuses = [
   'Closed',
@@ -17,6 +18,12 @@ const validStatuses = [
 ];
 
 export default function BorrowerClosedOffers() {
+
+  const renderEmptyListComponent = () => (
+    <View style={styles.emptyContainer}>
+      <Text style={styles.emptyText}>{t('No Closed Offers')}</Text>
+    </View>
+  );
   return (
     <FlatList
       style={{backgroundColor: GlobalStyles.Colors.primary100}}
@@ -32,6 +39,7 @@ export default function BorrowerClosedOffers() {
       )}
       keyExtractor={(item, index) => index.toString()}
       contentContainerStyle={styles.container}
+      ListEmptyComponent={renderEmptyListComponent}
     />
   );
 }
@@ -40,5 +48,15 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     paddingVertical: 16,
+  },
+  emptyContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 50,
+  },
+  emptyText: {
+    fontSize: 18,
+    color: 'grey',
   },
 });

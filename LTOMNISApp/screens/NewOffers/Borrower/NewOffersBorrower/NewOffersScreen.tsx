@@ -2,7 +2,8 @@
 
 import axios from 'axios';
 import React, {useEffect, useState} from 'react';
-import {StyleSheet, FlatList} from 'react-native';
+import { View } from 'react-native';
+import {StyleSheet, FlatList, Text} from 'react-native';
 import {useSelector} from 'react-redux';
 import GlobalStyles from '../../../../assets/constants/colors';
 import OfferBigContainer, {
@@ -51,6 +52,12 @@ export default function NewOffersScreen() {
     fetchMyPostFeedList(); // Fetch data when the component mounts
   }, []);
 
+  const renderEmptyListComponent = () => (
+    <View style={styles.emptyContainer}>
+      <Text style={styles.emptyText}>No New Offers</Text>
+    </View>
+  );
+
   return (
     <FlatList
       style={{backgroundColor: GlobalStyles.Colors.primary100}}
@@ -74,6 +81,7 @@ export default function NewOffersScreen() {
       )}
       keyExtractor={(item, index) => index.toString()}
       contentContainerStyle={styles.container}
+      ListEmptyComponent={renderEmptyListComponent}
     />
   );
 }
@@ -82,5 +90,15 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     paddingVertical: 16,
+  },
+  emptyContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 50,
+  },
+  emptyText: {
+    fontSize: 18,
+    color: 'grey',
   },
 });
