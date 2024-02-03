@@ -1,17 +1,22 @@
-import {View, Text, FlatList, StyleSheet} from 'react-native';
+import { View, Text, FlatList, StyleSheet } from 'react-native';
 import React from 'react';
 import GlobalStyles from '../../../../assets/constants/colors';
-import {offersDataLender} from '../../../../assets/constants/offersDataLender';
+import { offersDataLender } from '../../../../assets/constants/offersDataLender';
 import MediumBigContainer from '../../../../assets/constants/Components/MediumBigContainer';
 
-
-
 const ActiveOffersLender = () => {
+  // Function to render the empty list message
+  const renderEmptyListComponent = () => (
+    <View style={styles.emptyContainer}>
+      <Text style={styles.emptyText}>No Active Offers</Text>
+    </View>
+  );
+
   return (
     <FlatList
-      style={{backgroundColor: GlobalStyles.Colors.primary100}}
+      style={{ backgroundColor: GlobalStyles.Colors.primary100 }}
       data={offersDataLender}
-      renderItem={({item}) => (
+      renderItem={({ item }) => (
         <MediumBigContainer targetScreen="ActiveOfferLenderDetails"
           title={item.title}
           firstNameLetter={item.firstNameLetter}
@@ -24,6 +29,7 @@ const ActiveOffersLender = () => {
       )}
       keyExtractor={(item, index) => index.toString()}
       contentContainerStyle={styles.container}
+      ListEmptyComponent={renderEmptyListComponent}
     />
   );
 };
@@ -32,6 +38,16 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     paddingVertical: 16,
+  },
+  emptyContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 50, // Adjust as needed
+  },
+  emptyText: {
+    fontSize: 18,
+    color: 'grey', // Change as needed
   },
 });
 
