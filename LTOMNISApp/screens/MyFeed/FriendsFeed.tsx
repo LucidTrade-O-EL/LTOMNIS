@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, Text, StyleSheet, FlatList} from 'react-native';
-import { PostCard, PostCardProps } from './PostCard';
+import {PostCard, PostCardProps} from './PostCard';
 import GlobalStyles from '../../assets/constants/colors';
 
 export default function FriendsFeed() {
@@ -9,8 +9,8 @@ export default function FriendsFeed() {
     {
       id: '1',
       avatar: 'https://randomuser.me/api/portraits/men/41.jpg',
-      firstname: 'John',
-      lastname: 'Doe',
+      firstName: 'John',
+      lastName: 'Doe',
       hours: 1,
       number: 5000,
       totalAmount: 100,
@@ -24,8 +24,8 @@ export default function FriendsFeed() {
     },
     {
       id: '2',
-      firstname: 'Jane',
-      lastname: 'Smith',
+      firstName: 'Jane',
+      lastName: 'Smith',
       hours: 2,
       number: 3000,
       totalAmount: 100,
@@ -36,12 +36,18 @@ export default function FriendsFeed() {
     },
   ];
 
+  const renderEmptyListComponent = () => (
+    <View style={styles.emptyContainer}>
+      <Text style={styles.emptyText}>No Friends Posts</Text>
+    </View>
+  );
+
   // renderItem function
   const renderItem = ({item}: {item: PostCardProps}) => (
     <PostCard
       avatar={item.avatar}
-      firstname={item.firstname}
-      lastname={item.lastname}
+      firstName={item.firstName}
+      lastName={item.lastName}
       hours={item.hours}
       number={item.number}
       totalAmount={item.totalAmount}
@@ -57,9 +63,10 @@ export default function FriendsFeed() {
   return (
     <View style={styles.container}>
       <FlatList
-        data={postData} // pass the data array
-        renderItem={renderItem} // pass the renderItem function
-        keyExtractor={item => item.id} // use id for keyExtractor
+        data={postData}
+        renderItem={renderItem}
+        keyExtractor={item => item.id}
+        ListEmptyComponent={renderEmptyListComponent}
       />
     </View>
   );
@@ -69,5 +76,15 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: GlobalStyles.Colors.primary100,
     flex: 1,
+  },
+  emptyContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 50, // Adjust as needed
+  },
+  emptyText: {
+    fontSize: 18,
+    color: 'grey', // Change as needed
   },
 });

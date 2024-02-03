@@ -41,10 +41,8 @@ export default function HomeScreen({}: {}) {
 
   const userId = useSelector((state: AppState) => state.user.userId);
 
-
   const dispatch = useDispatch();
   dispatch(setUserId(userId));
-
 
   // Example of dispatching an action
   const updateUserId = (newId: string) => {
@@ -106,9 +104,9 @@ export default function HomeScreen({}: {}) {
         console.log('user Data', userData);
         setFName(userData.homeFeedObject.user.firstName);
         setLName(userData.homeFeedObject.user.lastName);
-        console.log('this is L NativeModules', firstName)
+        console.log('this is L NativeModules', firstName);
         dispatch(setFirstName(userData.homeFeedObject.user.firstName));
-        console.log('this is everything:: ', firstName)
+        console.log('this is everything:: ', firstName);
         dispatch(setLastName(userData.homeFeedObject.user.lastName));
         setBalance(userData.homeFeedObject.user.balance);
         setOffersAccepted(userData.homeFeedObject.offersAccepted);
@@ -120,8 +118,6 @@ export default function HomeScreen({}: {}) {
 
     fetchUserData();
   }, []);
-
-
 
   console.log('This is After the First UseEffect');
 
@@ -262,12 +258,18 @@ export default function HomeScreen({}: {}) {
             <View style={{flexDirection: 'row'}}>
               <Text style={styles.TextInRoles}>Offers Accepted</Text>
               <Divider orientation="vertical" width={1} />
-              <Text style={styles.NumberInRoles}>{OffersAccepted}</Text>
+              <Text style={styles.NumberInRoles}>
+                {OffersAccepted !== null && OffersAccepted !== undefined
+                  ? OffersAccepted
+                  : 0}
+              </Text>
             </View>
             <View style={{flexDirection: 'row'}}>
               <Text style={styles.TextInRoles}>New Offers</Text>
               <Divider orientation="vertical" width={1} />
-              <Text style={styles.NumberInRoles}>{NewOffers}</Text>
+              <Text style={styles.NumberInRoles}>
+                {NewOffers !== null && NewOffers !== undefined ? NewOffers : 0}
+              </Text>
             </View>
           </View>
           <View style={styles.RoleButtonContainer}>

@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {View, StyleSheet, FlatList} from 'react-native';
+import {View, StyleSheet, FlatList, Text} from 'react-native';
 import {PostCard, PostCardProps} from './PostCard';
 import GlobalStyles from '../../assets/constants/colors';
 import axios from 'axios';
@@ -10,6 +10,14 @@ export default function MyPosts({route, navigation}) {
   const [postData, setPostData] = useState<PostCardProps[]>([]);
   const token = useSelector((state: AppState) => state.token);
   const fromMyPosts = route.params?.fromMyPosts ?? false;
+
+  const renderEmptyListComponent = () => {
+    return (
+      <View style={styles.emptyContainer}>
+        <Text style={styles.emptyText}>No My Posts</Text>
+      </View>
+    );
+  };
 
   const fetchMyPostFeedList = async () => {
     try {
@@ -102,6 +110,7 @@ export default function MyPosts({route, navigation}) {
         data={postData}
         renderItem={renderItem}
         keyExtractor={item => item.id}
+        ListEmptyComponent={renderEmptyListComponent}
         contentContainerStyle={styles.listContentContainer}
       />
     </View>
@@ -115,5 +124,15 @@ const styles = StyleSheet.create({
   },
   listContentContainer: {
     paddingBottom: 80,
+  },
+  emptyContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 50, // Adjust as needed
+  },
+  emptyText: {
+    fontSize: 18,
+    color: 'grey', // Change as needed
   },
 });

@@ -8,39 +8,17 @@ import {useDispatch, useSelector} from 'react-redux';
 
 export default function AllPosts({route, navigation}) {
   const fromMyPosts = route.params?.fromMyPosts ?? false;
-  // Data array
-  // const postData = [
-  //   {
-  //     id: '1',
-  //     avatar: 'https://randomuser.me/api/portraits/men/41.jpg',
-  //     firstname: 'John',
-  //     lastname: 'Doe',
-  //     hours: 1,
-  //     number: 5000,
-  //     totalAmount: 100,
-  //     progress: 50,
-  //     title: 'This is a Post Title',
-  //     subtext: 'This is some subtext for the post. It provides more information about the post.',
-  //     imageUrl: 'https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8Y2FtcGluZ3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60',
-  //     offerText: 'Offers',
-  //   },
-  //   {
-  //     id: '2',
-  //     firstname: 'Jane',
-  //     lastname: 'Smith',
-  //     hours: 2,
-  //     number: 3000,
-  //     totalAmount: 100,
-  //     progress: 80,
-  //     title: 'Another Post Title',
-  //     subtext: 'Here is more subtext for another post.',
-  //     offerText: 'Offers',
-  //   },
-  // ];
-
   const [postData, setPostData] = useState<PostCardProps[]>([]);
   const token = useSelector((state: AppState) => state.token);
   const dispatch = useDispatch();
+
+  const renderEmptyListComponent = () => {
+    return (
+      <View style={styles.emptyContainer}>
+        <Text style={styles.emptyText}>No All Posts</Text>
+      </View>
+    );
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -71,7 +49,6 @@ export default function AllPosts({route, navigation}) {
     return () => clearInterval(interval);
   }, []);
 
-
   const handleOfferPress = async (postId: string) => {
     try {
       const response = await axios.get(
@@ -87,7 +64,7 @@ export default function AllPosts({route, navigation}) {
       // Now you can do something with the offers data, like navigating to a new screen with this data
       const uniquePostId = postId;
       dispatch(setUserPostId(uniquePostId));
-      console.log('this is the correct uniquePostId: ', uniquePostId)
+      console.log('this is the correct uniquePostId: ', uniquePostId);
       navigation.navigate('PostOfferSummary', {
         posts: response.data.uniquePost,
       });
@@ -126,6 +103,7 @@ export default function AllPosts({route, navigation}) {
         data={postData}
         renderItem={renderItem}
         keyExtractor={item => item.id}
+        ListEmptyComponent={renderEmptyListComponent}
         contentContainerStyle={styles.listContentContainer}
       />
     </View>
@@ -139,5 +117,15 @@ const styles = StyleSheet.create({
   },
   listContentContainer: {
     paddingBottom: 80,
+  },
+  emptyContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 50, // Adjust this value as needed
+  },
+  emptyText: {
+    fontSize: 18,
+    color: 'grey', // Change the color as needed
   },
 });
