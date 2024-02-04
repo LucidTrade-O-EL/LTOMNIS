@@ -13,12 +13,15 @@ export default function ActiveOffers({route}) {
   const [postData, setPostData] = useState<OfferBigContainerProps[]>([]);
   const token = useSelector((state: AppState) => state.token);
   const fromMyPosts = route.params?.fromMyPosts ?? false;
+  const id = useSelector((state: AppState) => state.user.userId);
+
+  console.log('this is the ID', id);
 
   const fetchActiveOffers = async () => {
     try {
       const options = {
         method: 'GET',
-        url: 'http://localhost:8080/api/omnis/posts/mypost',
+        url: `http://localhost:8080/api/omnis/offers/active/${id}`,
         headers: {
           Authorization: `Bearer ${token.token}`,
           Accept: 'application/json',
@@ -29,7 +32,8 @@ export default function ActiveOffers({route}) {
 
       const res = await axios(options);
       if (res.data) {
-        setPostData(res.data.myPostList); // Set the post data with the data from the API.
+        setPostData(res.data);
+        console.log('this is PostData on Borrower', JSON.stringify(res.data)); // Set the post data with the data from the API.
       } else {
         console.log('No user data received');
       }
@@ -60,8 +64,8 @@ export default function ActiveOffers({route}) {
           raiseNumber={item.raiseNumber}
           fullNumber={item.fullNumber}
           users={item.users}
-          firstName={item.user.firstName}
-          lastName={item.user.lastName}
+          // firstName={item.user.firstName}
+          // lastName={item.user.lastName}
         />
       )}
       keyExtractor={(item, index) => index.toString()}

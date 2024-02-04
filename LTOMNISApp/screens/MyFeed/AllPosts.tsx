@@ -50,6 +50,7 @@ export default function AllPosts({route, navigation}) {
   }, []);
 
   const handleOfferPress = async (postId: string) => {
+    console.log('we entered the handleOFFerPress')
     try {
       const response = await axios.get(
         `http://localhost:8080/api/omnis/post/${postId}`,
@@ -64,13 +65,13 @@ export default function AllPosts({route, navigation}) {
       // Now you can do something with the offers data, like navigating to a new screen with this data
       const uniquePostId = postId;
       dispatch(setUserPostId(uniquePostId));
-      console.log('this is the correct uniquePostId: ', uniquePostId);
+      console.log('This is the correct uniquePostId!: ', uniquePostId);
       navigation.navigate('PostOfferSummary', {
         posts: response.data.uniquePost,
       });
 
       console.log(
-        'this is the ALL screen ***************************************',
+        'this is the ALL screen ***********',
         response.data.uniquePost,
       );
     } catch (error) {

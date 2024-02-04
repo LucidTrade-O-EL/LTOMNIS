@@ -31,9 +31,11 @@ export default function PostDetails() {
   const userPostId = useSelector(
     (state: AppState) => state.userPostId.userPostId,
   );
-  console.log('Post ID for this post', userPostId);
+  console.log('Post ID for this post userPostId2', userPostId);
 
   const fetchData = async () => {
+
+    console.log('we are in the fetch data')
     try {
       const response = await axios.post(
         'http://localhost:8080/api/omnis/offer/create',
@@ -52,6 +54,7 @@ export default function PostDetails() {
       );
       setOfferData(response.data);
       // Navigate to the OfferSent screen after setting the offer data
+      console.log('response.data for Offer details', response.data )
       console.log('response.data.newOffer', response.data.newOffer);
       console.log('response.data', response.data);
       navigation.navigate('OfferSent');

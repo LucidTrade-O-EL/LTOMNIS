@@ -24,7 +24,7 @@ export type PostCardProps = {
   imageUrl?: string;
   offerText?: string;
   onOfferPress?: () => void;
-  id?: string;
+  id: string;
 };
 
 export const PostCard: React.FC<PostCardProps & {onOfferPress: () => void}> = ({
