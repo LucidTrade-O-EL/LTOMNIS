@@ -20,64 +20,28 @@ export type OfferDetailSectionProps = {
   totalAmount: number;
   interestPercentage: number;
   avatar?: string;
+  offerId: string;
   // ... any other props used in OfferDetailSection
 };
 
 const OfferDetailSection: React.FC<OfferDetailSectionProps> = ({
   avatar = null,
-  totalAmount = 1000,
+  totalAmount = 0,
   interestPercentage,
   firstName,
   lastName,
 }) => {
-  const [isLoading, setIsLoading] = useState(true);
 
-  console.log('This is the NAME', {firstName})
+  console.log('This is the NAME', {firstName});
   const NameInitials = `${firstName?.charAt(0) || ''}${
     lastName?.charAt(0) || ''
   }`;
-  
-  const [offerDetails, setOfferDetails] = useState(null);
 
   const navigation =
     useNavigation<NativeStackNavigationProp<HomeStackParamList>>();
 
   console.log('This is a Request::', JSON.stringify({firstName}));
   console.log('This is a Request::', JSON.stringify({lastName}));
-
-  const fetchData = async () => {
-    // This function simulates fetching data asynchronously
-    return new Promise(resolve => {
-      setTimeout(() => {
-        resolve({firstName: 'Zakariya', lastName: 'Veasy'});
-      }, 1000); // Simulate a network request
-    });
-  };
-
-  useEffect(() => {
-    const loadOfferDetails = async () => {
-      try {
-        const details = await fetchOfferDetails(offerId);
-        setOfferDetails(details);
-      } catch (error) {
-        // Handle the error appropriately
-        console.error(error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    loadOfferDetails();
-  }, [offerId]);
-
-  if (isLoading) {
-    return <Text>Loading offer details...</Text>;
-  }
-
-  if (!offerDetails) {
-    return <Text>Offer details not found.</Text>;
-  }
-
 
   return (
     <View
@@ -86,6 +50,8 @@ const OfferDetailSection: React.FC<OfferDetailSectionProps> = ({
         borderRadius: 20,
         height: 81,
         marginTop: 10,
+        width: '90%', 
+        alignSelf: 'center'
       }}>
       {/* Profile */}
 
@@ -116,10 +82,7 @@ const OfferDetailSection: React.FC<OfferDetailSectionProps> = ({
       </View>
       {/* Amount */}
       <View style={{flexDirection: 'row', marginTop: 6, alignItems: 'center'}}>
-        <Text style={styles.NumberInRoles}>
-          {' '}
-          {t('amount', {totalAmount: totalAmount})}
-        </Text>
+        <Text style={styles.NumberInRoles}>${totalAmount}</Text>
         <View
           style={{
             height: 15,
@@ -130,9 +93,7 @@ const OfferDetailSection: React.FC<OfferDetailSectionProps> = ({
           }}>
           <Divider orientation="vertical" width={1} />
         </View>
-        <Text style={styles.TextInRoles}>
-          {t('interestRate', {interestPercentage})}
-        </Text>
+        <Text style={styles.TextInRoles}>{interestPercentage}% interest</Text>
       </View>
       <View style={styles.RoleButtonContainer}>
         <Pressable
