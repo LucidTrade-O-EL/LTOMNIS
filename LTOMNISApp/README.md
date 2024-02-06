@@ -2,7 +2,7 @@ This is a new [**React Native**](https://reactnative.dev) project, bootstrapped 
 
 # Getting Started
 
->**Note**: Make sure you have completed the [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) instructions till "Creating a new application" step, before proceeding.
+> **Note**: Make sure you have completed the [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) instructions till "Creating a new application" step, before proceeding.
 
 ## Step 1: Start the Metro Server
 
@@ -78,15 +78,74 @@ To learn more about React Native, take a look at the following resources:
 - [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
 - [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
 
-
 <!-- LETS BEGIN (Zakariya Veasy) -->
 
-# App.tsx
- 
- This is the main file and is used to
+# Global Constants
 
+## Styling
 
-# Tabs.tsx
-This allows for bottom tabs navigation
+Global styles are defined in src/assets/constants/colors.js and imported into components as needed. The styles object in each component defines specific styles for that component.
 
+## Navigation
 
+Custom bottom tab navigation is implemented using createBottomTabNavigator from @react-navigation/bottom-tabs. The navigation state is managed to show or hide the tab bar on certain screens.
+
+## Redux Integration
+
+Redux is used for managing global state, such as the visibility of the tab bar. The tabBarSlice.js defines actions and reducers for showing and hiding the tab bar.
+
+## Types
+
+# Main Application
+
+Overview: OMNIS is a financial platform designed for the unbanked, underbanked, and immigrants. It provides access to capital and opportunities to build credit. The platform serves both Direct-to-Consumer (D2C) and Business-to-Business (B2B) audiences, particularly financial institutions offering new loan packages.
+
+## Quick Start Guide
+
+- bash
+- Copy code
+- git clone
+
+  ```git clone https://github.com/Sinndev/LTOMNIS.git
+
+  ```
+
+- Install dependencies:
+- Also make sure you have all of Key Features (npm install or npm i)
+- Install Xcode (Mac)
+- Import Pods
+  - Setup Xcode (for Mac users):
+    - Install Xcode from the Apple Store.
+    - Import necessary Pods. For more information, visit the CocoaPods website or contact the founders/management.
+- for more information on setup visit or contact founders/management (URL)
+- Start the React Native server:
+  - npm start
+  - Make sure the backend server is on as well
+
+## Prerequisites
+
+- Node.js: Download and install from Node.js website.
+- npm: Comes with Node.js.
+- React Native Development Environment: Set up according to the React Native documentation.
+
+## App.tsx
+
+This is the main file and is used to
+
+## Tabs.tsx
+
+This React Native application implements a custom bottom tab navigator using @react-navigation/bottom-tabs and @react-navigation/stack. The app includes various screens and a dynamic tab bar that adjusts its visibility based on the current screen. The project also integrates Redux for state management and uses React Native Vector Icons for enhanced UI elements.
+
+### Key Features
+
+- Custom Bottom Tab Navigator
+- Dynamic Tab Bar Visibility
+- Integration with Redux for State Management
+- Use of React Native Vector Icons
+- Setup and Installation
+- Prerequisites
+- Node.js
+- npm
+- React Native development environment
+- Installation
+- Clone the repository:
