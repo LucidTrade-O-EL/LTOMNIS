@@ -6,6 +6,7 @@ import {
   Pressable,
   Image,
   TextInput,
+  Alert,
 } from 'react-native';
 import React, {useState} from 'react';
 import IonIcon from 'react-native-vector-icons/Ionicons';
@@ -43,6 +44,7 @@ const SignInScreen: React.FC = () => {
   const [userToken, setUserToken] = useState('');
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [userPhoneNumber, setUserPhoneNumber] = useState('');
+  const [error, setError] = useState(false); // New state for error handling
 
   const dispatch = useDispatch();
 
@@ -74,6 +76,7 @@ const SignInScreen: React.FC = () => {
         const userPhoneNumber = res.data.userPhoneNumber;
 
         // Save token to AsyncStorage
+        setError(false);
         await AsyncStorage.setItem('token', token);
         setUserToken(token);
         setUser(user);
@@ -87,6 +90,8 @@ const SignInScreen: React.FC = () => {
       } else {
         // Handle non-200 responses
         console.error('Login failed with status: ' + res.status);
+        setError(true); // Set error state on unsuccessful login
+        showAlert();
       }
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
@@ -94,11 +99,22 @@ const SignInScreen: React.FC = () => {
         // that falls out of the range of 2xx
         console.error('Error data:', error.response.data);
         console.error('Error status:', error.response.status);
+        setError(true); // Set error state on error
+        showAlert();
       } else {
         // Something happened in setting up the request and triggered an Error
         console.error('Error:', error.message);
       }
     }
+  };
+
+  const showAlert = () => {
+    Alert.alert(
+      "Login Failed",
+      "Your email or password is incorrect. Please try again.",
+      [{ text: "OK", onPress: () => console.log("OK Pressed") }],
+      { cancelable: false }
+    );
   };
 
   const handleSignIn = async () => {
@@ -209,7 +225,7 @@ const SignInScreen: React.FC = () => {
             {t('emailLabel')}
           </Text>
         </View>
-        <View style={styles.emailButton}>
+        <View style={[styles.emailButton, error ? styles.inputError : null]}>
           <TextInput
             style={[styles.textInput, email ? styles.textActive : null]}
             placeholder={t('enterYourEmail')}
@@ -235,7 +251,7 @@ const SignInScreen: React.FC = () => {
             {t('passwordLabel')}
           </Text>
         </View>
-        <View style={styles.passwordButton}>
+        <View style={[styles.passwordButton, error ? styles.inputError : null]}>
           <View
             style={{
               flexDirection: 'row',
@@ -501,6 +517,9 @@ const styles = StyleSheet.create({
     height: 48, // Adjust the height as needed
     marginTop: 10, // Adjust the margin as needed
     alignSelf: 'center', // Center the button
+  },
+  inputError: {
+    borderColor: 'red', // Change border color to red
   },
 });
 
