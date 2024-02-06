@@ -6,25 +6,6 @@
  */
 
 import React, {useEffect, useState} from 'react';
-import type {PropsWithChildren} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
-
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import SplashScreen from './screens/SplashScreen/SplashScreen';
@@ -42,16 +23,11 @@ import OnboardingScreen3 from './screens/onboarding/OnboardingScreen3';
 import OnboardingScreen2 from './screens/onboarding/OnboardingScreen2';
 import Tabs from './navigation/Tabs';
 import {Provider} from 'react-redux';
-// import store, {setHasViewedOnboarding, setIsSignedIn} from './ReduxStore';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import OfferSent from './screens/MyFeed/Lender/OfferSent';
 import TransactionHistoryDetails from './screens/TransactionHistory/TransactionHistoryDetails';
-import {ParamListBase} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import TransactionHistoryTax from './screens/TransactionHistory/TransactionHistoryTax';
-import {StackNavigationProp} from '@react-navigation/stack';
-import {RouteProp} from '@react-navigation/native';
-import IdVerify from './PlaidAPI/IdVerify';
 import PlaidLinkButton from './PlaidAPI/PlaidLinkButton';
 import CreditScoreDisplay from './PlaidAPI/creditScoreDisplay';
 import WithdrawMoneyScreen from './screens/WithdrawMoney/WithdrawMoneyScreen';
@@ -65,11 +41,7 @@ import {
   SpotlightStackNavigatorProps,
   OMNISScoreStackNavigatorProps,
 } from './types';
-import {SplashScreenProps} from './types';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
-import {PanGestureHandler, State} from 'react-native-gesture-handler';
-import './screens/SelectLanguage/i18n';
-import {getFocusedRouteNameFromRoute} from '@react-navigation/native';
 import OfferTransactionHistory from './screens/NewOffers/Borrower/ClosedOffers/OfferTransactionHistory';
 import IdentityVerificationScreen from './screens/SignUp/IdentityVerificationScreen';
 import OfferScreenLender from './screens/NewOffers/Lender/OfferScreenLender';
@@ -115,13 +87,10 @@ import GroupBill from './screens/Spotlight/Groups/GroupBill';
 import GroupDetailsHistoryScreen from './screens/Spotlight/Groups/GroupDetailsHistoryScreen';
 import GroupDetailsScreen from './screens/Spotlight/Groups/GroupDetailsScreen';
 import MakeAGroupScreen from './screens/Spotlight/Groups/MakeAGroupScreen';
-import CustomPaymentBlock from './assets/constants/Components/CustomPaymentBlock';
 import PaymentStatus from './screens/Spotlight/PaymentStatus';
 import ScoreBreakDown from './screens/OMNISScore/ScoreBreakDown/ScoreBreakDown';
 import AllPosts from './screens/MyFeed/AllPosts';
 import CreateLinkToken from './screens/SignUp/CreateLinkToken';
-// import store from './store';
-// import store from '../LTOMNISApp'
 
 type MainStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
@@ -468,9 +437,6 @@ export function OMNISScoreStackNavigator({}: OMNISScoreStackNavigatorProps) {
     </OMNISScoreStack.Navigator>
   );
 }
-
-// FIX SPOTLIGHT
-// Spotlight
 
 export type SpotlightStackParamList = {
   SpotlightStackNavigator: undefined;
