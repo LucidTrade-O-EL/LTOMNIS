@@ -138,7 +138,8 @@ This is the main file and is used to
 
 ## RegisterScreen.tsx
 
-## IdentityVerificationScreen.tsx
+## Plaid APIs
+### IdentityVerificationScreen.tsx
 
 ## Tabs.tsx
 
