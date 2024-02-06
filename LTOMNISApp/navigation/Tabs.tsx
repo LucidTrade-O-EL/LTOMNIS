@@ -43,24 +43,6 @@ interface CustomTabBarButtonProps {
 
 const Tab = createBottomTabNavigator();
 
-// const CustomTabBarButton = ({children, onPress}) => {
-//   <TouchableOpacity
-//     onPress={onPress}
-//     style={[
-//       styles.shadow,
-//       {top: -20, justifyContent: 'center', alignItems: 'center'},
-//     ]}>
-//     <View
-//       style={{
-//         width: 54,
-//         height: 54,
-//         borderRadius: 54,
-//         backgroundColor: GlobalStyles.Colors.primary200,
-//       }}>
-//       {children}
-//     </View>
-//   </TouchableOpacity>;
-// };
 
 const CustomTabBarButton = ({children, onPress}) => {
   return (
@@ -96,10 +78,6 @@ const findDeepRouteName = (state: NavigationState): string => {
   let count = 0;
   if (route.state) {
     count++;
-    console.log(`Route State ${route.state}, ${count}`);
-    console.log(count);
-    console.log('Navigation State: ', state);
-    // Nested navigator detected
     return findDeepRouteName(route.state);
   }
   return route.name; // The name of the current screen
@@ -129,14 +107,10 @@ export default function Tabs({}) {
   const currentRouteName = findDeepRouteName(
     navigation.getState() as NavigationState,
   );
-  console.log(`Current Route: ${currentRouteName}`);
   const tabBarVisible = useSelector(
     (state: AppState) => state.tabBar.isVisible,
   );
-  console.log(`Tab Bar Visible: ${tabBarVisible} 12`);
   const dispatch = useDispatch();
-
-  // dispatch(showTabBar())
 
   useEffect(() => {
     dispatch(showTabBar());

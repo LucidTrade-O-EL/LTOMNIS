@@ -30,14 +30,10 @@ export default function RegisterScreen() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [invalidPassword, setInvalidPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [modalVisible, setModalVisible] = useState(false); // Declare modalVisible state here
+  const [modalVisible, setModalVisible] = useState(false); 
   const navigation = useNavigation<StackNavigationProp<any>>();
   const dispatch = useDispatch();
-  // const dispatch = useDispatch();
-  // const [isLoading, setIsLoading] = useState(true); // State to track loading status
-  // const id = useSelector((state) => state.id.id);
-  // const linkToken = useSelector(state => state.linkToken.linkToken);
-  // const dispatch = useDispatch();
+
 
   const register = async () => {
     const passwordRegex = /^(?=.*\d)(?=.*[\W_]).{8,}$/;
@@ -69,22 +65,15 @@ export default function RegisterScreen() {
           password,
         },
       );
-
       const user = res.data;
-      console.log('This is our response data', user);
-
       if (user) {
-        // Dispatch action to save JWT token
-        dispatch(setToken(user.token)); // Replace 'setJWTToken' with your actual action creator
-
+        dispatch(setToken(user.token));
         navigation.navigate('CreateLinkToken', {userId: user.userId});
         dispatch(setId(user.userId));
       } else {
-        console.log('No user data received');
+        console.error('Error:', error.message);
       }
-    } catch (error) {
-      console.error('An error occurred Type2:', error);
-    }
+    } catch (error) {}
   };
 
   const onAppleButtonPress = async () => {
@@ -102,27 +91,21 @@ export default function RegisterScreen() {
       );
 
       if (credentialState === appleAuth.State.AUTHORIZED) {
-        // Extract user data
         const {email, fullName} = appleAuthRequestResponse;
         const userData = {
           email,
           fullName,
           phoneNumber,
-          appleIdToken: appleAuthRequestResponse.identityToken, // This is important for backend verification
+          appleIdToken: appleAuthRequestResponse.identityToken, 
         };
-
-        // Send data to backend for verification and user record creation/updation
         const res = await axios.post(
           'http://localhost:8080/api/omnis/account/register_login',
           userData,
         );
         const {sessionToken} = res.data;
-
-        // Store sessionToken securely, e.g., in AsyncStorage
-        // Handle navigation or other logic
       }
     } catch (error) {
-      console.error('Apple Sign-In error:', error);
+
     }
   };
 
@@ -138,7 +121,7 @@ export default function RegisterScreen() {
           value={email}
           onChangeText={text => setEmail(text)}
           aria-label="Email"
-          placeholder="kanyewest@gmail.com"
+          placeholder="Email"
           placeholderTextColor={'#fff'}
         />
         <Text style={styles.boxSpacing}>Password</Text>
@@ -154,7 +137,7 @@ export default function RegisterScreen() {
             setPassword(text);
           }}
           aria-label="Password"
-          placeholder="password"
+          placeholder="Password"
           placeholderTextColor={'#fff'}
         />
         {invalidPassword ? (
@@ -170,7 +153,7 @@ export default function RegisterScreen() {
           value={confirmPassword}
           onChangeText={text => setConfirmPassword(text)} // Use setConfirmPassword instead of getConfirmPassword
           aria-label="Confirm Password"
-          placeholder="password"
+          placeholder="Password"
           placeholderTextColor={'#fff'}
         />
       </View>
@@ -296,10 +279,9 @@ const styles = StyleSheet.create({
   },
 
   image: {
-    // margin: 10,
     resizeMode: 'contain',
     width: '65%',
-    aspectRatio: 1, // This keeps image square while adjusting to screen width
+    aspectRatio: 1, 
     height: 'auto',
   },
 
@@ -333,7 +315,6 @@ const styles = StyleSheet.create({
     width: '90%',
     paddingLeft: 10,
     marginVertical: 15,
-    // marginTop: 5,
   },
 
   view1: {

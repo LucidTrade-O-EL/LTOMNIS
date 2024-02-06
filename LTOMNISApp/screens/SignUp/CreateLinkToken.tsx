@@ -29,7 +29,6 @@ const CreateLinkToken: React.FC<CreateLinkTokenProps> = ({
     const createToken = async () => {
       setIsLoading(true);
       try {
-        console.log('This is Token.token', token.token)
         const options = {
           method: 'GET',
           url: 'http://localhost:8080/api/omnis/token/create',
@@ -39,11 +38,9 @@ const CreateLinkToken: React.FC<CreateLinkTokenProps> = ({
             'Content-Type': 'application/json',
           },
         };
-        console.log(`Bearer ${token.token}`);
         const res = await axios(options);
         if (res.data) {
           dispatch(setLinkToken(res.data)); // Set the post data with the data from the API.
-          console.log('this is my res link', JSON.stringify(res.data));
         } else {
           console.log('No linkToken data received');
         }
@@ -62,11 +59,6 @@ const CreateLinkToken: React.FC<CreateLinkTokenProps> = ({
   useEffect(() => {
     if (linkToken) {
       navigation.navigate('IdentityVerificationScreen');
-      console.log(
-        `This is UseEffect inside the Create Token ${JSON.stringify(
-          linkToken.LinkToken,
-        )}`,
-      );
     }
   }, [linkToken, navigation]);
 

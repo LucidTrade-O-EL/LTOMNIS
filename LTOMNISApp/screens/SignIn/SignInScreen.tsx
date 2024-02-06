@@ -81,28 +81,20 @@ const SignInScreen: React.FC = () => {
         setUserToken(token);
         setUser(user);
         setUserPhoneNumber(userPhoneNumber);
-        console.log('This works!');
         dispatch(setToken(token)); // Dispatch token to Redux store
         dispatch(setUserId(userId)); // Dispatch userId to Redux store
         dispatch(setsUserPhoneNumber(userPhoneNumber));
-        console.log(`Dispatched user phone number: ${userPhoneNumber}`);
         return token;
       } else {
-        // Handle non-200 responses
-        console.error('Login failed with status: ' + res.status);
-        setError(true); // Set error state on unsuccessful login
+        
+        setError(true);
         showAlert();
       }
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
-        // The request was made and the server responded with a status code
-        // that falls out of the range of 2xx
-        console.error('Error data:', error.response.data);
-        console.error('Error status:', error.response.status);
-        setError(true); // Set error state on error
+        setError(true);
         showAlert();
       } else {
-        // Something happened in setting up the request and triggered an Error
         console.error('Error:', error.message);
       }
     }
@@ -119,18 +111,11 @@ const SignInScreen: React.FC = () => {
 
   const handleSignIn = async () => {
     const token = await signIn();
-    console.log(
-      `This is our token before the if ELSE ${JSON.stringify(token)}`,
-    );
     if (token) {
       dispatch(setToken(token));
 
       navigation.navigate('MainStackNavigator', { userPhoneNumber: userPhoneNumber });
-      console.log(
-        `We made it to the Tabs! ${JSON.stringify(token)} and ${Screen}`,
-      );
     } else {
-      // Optionally, handle the failed sign-in case
     }
   };
 
@@ -193,16 +178,13 @@ const SignInScreen: React.FC = () => {
   // APPLE AUTH
 
   async function onAppleButtonPress() {
-    // Start the sign-in request
     const appleAuthRequestResponse = await appleAuth.performRequest({
       requestedOperation: appleAuth.Operation.LOGIN,
       requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
     });
 
-    // Get the user's identity token
     const identityToken = appleAuthRequestResponse.identityToken;
 
-    // Send the identity token to your server for verification and sign-in
     sendTokenToYourServer(identityToken);
   }
 
@@ -233,7 +215,6 @@ const SignInScreen: React.FC = () => {
             keyboardType="email-address"
             onChangeText={text => setEmail(text)}
             value={email}
-            // autoCompleteType="email"
           />
         </View>
       </View>
@@ -301,7 +282,6 @@ const SignInScreen: React.FC = () => {
         </Text>
       </Pressable>
 
-      {/* navigation.navigate('SomeOtherScreen') */}
       {/* Or log in with */}
 
       <View
