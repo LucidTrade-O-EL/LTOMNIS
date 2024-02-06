@@ -1,40 +1,75 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {StyleSheet, FlatList, Text} from 'react-native';
 import GlobalStyles from '../../../../assets/constants/colors';
 import ClosedOfferBigContainer, {
   OfferStatus,
 } from '../../../../assets/constants/Components/ClosedOfferBigContainer';
 import {offersData} from '../../../../assets/constants/data';
-import {t} from 'i18next'
-import { View } from 'react-native';
+import {t} from 'i18next';
+import {View} from 'react-native';
+import axios from 'axios';
+import {useSelector} from 'react-redux';
+import {AppState} from '../../../../ReduxStore';
 
-const validStatuses = [
-  'Closed',
-  'Pending',
-  'Accepted',
-  'Not paid',
-  'In processing',
-  'Payed',
-];
+
 
 export default function BorrowerClosedOffers() {
+  const [offersData, setOffersData] = useState([]);
+  const token = useSelector((state: AppState) => state.token);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          'http://localhost:8080/api/omnis/posts/borrower/closed_offers',
+          {
+            headers: {
+              Authorization: `Bearer ${token.token}`,
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
+            },
+          },
+        );
+
+        setOffersData(response.data.closedOffersPostList);
+        console.log('/omnis/posts/borrower/closed_offers', JSON.stringify(response.data.closedOffersPostList));
+      } catch (error) {
+        console.error('Error fetching data: ', error);
+        // Handle error here
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const renderEmptyListComponent = () => (
     <View style={styles.emptyContainer}>
       <Text style={styles.emptyText}>{t('No Closed Offers')}</Text>
     </View>
   );
+
+  const renderItem = ({ item }) => (
+    <ClosedOfferBigContainer
+      title={item.title} // Assuming item has a title
+      raiseNumber={item.raiseNumber} // Assuming item has a raiseNumber
+      fullNumber={item.fullNumber} // Assuming item has a fullNumber
+      users={item.users} // Assuming item has a list of users
+      status={t('Closed')} // Here you are setting the status to a translated 'Closed' string
+    />
+  );
+
   return (
     <FlatList
-      style={{backgroundColor: GlobalStyles.Colors.primary100}}
+      style={{ backgroundColor: GlobalStyles.Colors.primary100 }}
       data={offersData}
-      renderItem={({item}) => (
+      renderItem={({ item }) => (
         <ClosedOfferBigContainer
-          title={item.title} // <-- Change offer to item
-          raiseNumber={item.raiseNumber} // <-- Change offer to item
-          fullNumber={item.fullNumber} // <-- Change offer to item
-          users={item.users} // <-- Change offer to item
-          status={t('Closed')}
+          title={item.title}
+          totalAmount={item.totalAmount}
+          currentAmount={item.currentAmount}
+          user={item.user}
+          description={item.description}
+          status={t('Closed')} // Assuming you want to display 'Closed' for all items
         />
       )}
       keyExtractor={(item, index) => index.toString()}
@@ -42,6 +77,7 @@ export default function BorrowerClosedOffers() {
       ListEmptyComponent={renderEmptyListComponent}
     />
   );
+  
 }
 
 const styles = StyleSheet.create({

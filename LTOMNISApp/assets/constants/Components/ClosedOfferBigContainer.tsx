@@ -13,12 +13,12 @@ import CustomRow from './CustomRow';
 import {useNavigation} from '@react-navigation/native';
 import {HomeStackParamList} from '../../../App';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {t} from 'i18next'
+import {t} from 'i18next';
 
 type ClosedOfferBigContainerProps = {
   title: string;
-  raiseNumber: number;
-  fullNumber: number;
+  currentAmount: number;
+  totalAmount: number;
   users: Array<any>; // define a better type for users if possible
   status:
     | 'Closed'
@@ -50,19 +50,18 @@ export const getStatusStyle = (status: OfferStatus) => {
   return statusStyles[status];
 };
 
-
 const ClosedOfferBigContainer: React.FC<ClosedOfferBigContainerProps> = ({
   title,
-  raiseNumber,
-  fullNumber,
+  currentAmount,
+  totalAmount,
   users,
   status,
 }) => {
-  const progress = raiseNumber / fullNumber;
+  const progress = currentAmount / totalAmount;
 
   //   Users Mapping
   const navigation =
-  useNavigation<NativeStackNavigationProp<HomeStackParamList>>();
+    useNavigation<NativeStackNavigationProp<HomeStackParamList>>();
 
   //   CODE
 
@@ -72,7 +71,9 @@ const ClosedOfferBigContainer: React.FC<ClosedOfferBigContainerProps> = ({
         <Text style={styles.TitleOfferText}>{title}</Text>
         <View style={{flexDirection: 'row'}}>
           <View style={[styles.statusChip, getStatusStyle(status)]}>
-            <Text style={styles.statusText}>{t('closedOfferStatus',{offerStatus: status})}</Text>
+            <Text style={styles.statusText}>
+              {t('closedOfferStatus', {offerStatus: status})}
+            </Text>
           </View>
         </View>
       </View>
@@ -84,18 +85,18 @@ const ClosedOfferBigContainer: React.FC<ClosedOfferBigContainerProps> = ({
               fontFamily: 'San Francisco',
               fontSize: 14,
               fontWeight: '700',
-            }}>{`$${raiseNumber.toLocaleString()}`}</Text>
+            }}>{`$${currentAmount}`}</Text>
         </View>
         <View>
           <Text
             style={{
               color:
-                raiseNumber >= fullNumber
+                currentAmount >= totalAmount
                   ? GlobalStyles.Colors.primary300
                   : GlobalStyles.Colors.primary500,
               fontFamily: 'San Francisco',
               fontSize: 14,
-            }}>{`$${fullNumber.toLocaleString()}`}</Text>
+            }}>{`$${totalAmount}`}</Text>
         </View>
       </View>
       <View style={styles.progressBarContainer}>
@@ -107,13 +108,13 @@ const ClosedOfferBigContainer: React.FC<ClosedOfferBigContainerProps> = ({
         />
       </View>
       <View style={{width: '90%', alignSelf: 'center', marginTop: 12}}>
-        <CustomRow
-          leftText="1 offer"
-          rightText="$3,000"
-          //   icon={<YourIconComponent />}  // Add your desired icon component here, if needed
-        />
-        <CustomRow leftText="2 offers" rightText="$4,500" />
-        <CustomRow leftText="3 offers" rightText="$600" />
+        {users.map((user, index) => (
+          <CustomRow
+            key={index}
+            leftText={`Offer ${index + 1}`}
+            rightText={`$${user.offer.amount}`} // Assuming each user object has an 'offer' object with an 'amount' property
+          />
+        ))}
         <Pressable
           style={styles.detailButton}
           onPress={() => {
