@@ -91,6 +91,9 @@ export type RootStackParamList = {
   OnboardingManager: undefined; // Add this line if it's missing
   SelectLang: undefined; // Add this line if it's missing
   OnboardingScreen1: OnboardingScreen1Props;
+  OnboardingScreen2: OnboardingScreen2Props;
+  OnboardingScreen3: OnboardingScreen3Props;
+  OnboardingScreen4: OnboardingScreen4Props;
   OfferSent: undefined;
   HomeScreen: undefined;
   HomeStackNavigator: NavigatorScreenParams<HomeStackParamList>;
@@ -103,7 +106,6 @@ export type RootStackParamList = {
   MainStackNavigator: NavigatorScreenParams<MainStackParamList>;
   TabsStackNavigator: undefined;
 };
-
 
 // Tabs Stack Navigator Props Type
 export type MainStackNavigatorProps = {
@@ -173,18 +175,47 @@ export type OnboardingStackParamList = {
   // Add other screens if needed
 };
 
+
+// Combined Stack Navigator
+
+
+// Onboarding Types
+
 export type OnboardingScreen1Props = {
-  // Define props for OnboardingScreen1 here
+  onNext: () => void;
+  onSkip: () => void;
+  onBack: () => void;
 };
 
 export type OnboardingScreen2Props = {
-  // Define props for OnboardingScreen2 here
+  onSkip: () => void;
 };
 
 export type OnboardingScreen3Props = {
-  // Define props for OnboardingScreen3 here
+  onNext: () => void;
+  onSkip: () => void;
 };
 
 export type OnboardingScreen4Props = {
-  // Define props for OnboardingScreen4 here
+  onNext: () => void;
+  onSkip: () => void;
 };
+
+
+// Main Stack Navigator
+
+
+// HomeScreen Types
+
+
+// Feed Screen Types
+
+
+// Add A post Types
+
+
+// OMNIS Score Types
+
+
+// Spotlight Types
+

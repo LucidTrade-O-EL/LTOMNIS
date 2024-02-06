@@ -89,6 +89,7 @@ Global styles are defined in src/assets/constants/colors.js and imported into co
 ## Navigation
 
 Custom bottom tab navigation is implemented using createBottomTabNavigator from @react-navigation/bottom-tabs. The navigation state is managed to show or hide the tab bar on certain screens.
+- Tabs.tsx is the navigaor  
 
 ## Redux Integration
 

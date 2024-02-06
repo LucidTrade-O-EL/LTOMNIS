@@ -4,7 +4,7 @@
  *
  * @format
  */
-
+import i18n from './screens/SelectLanguage/i18n';
 import React, {useEffect, useState} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
@@ -97,11 +97,9 @@ type MainStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 const RootStack = createNativeStackNavigator();
 const MainStack = createNativeStackNavigator();
 const FeedStack = createNativeStackNavigator();
-const CombinedStack = createNativeStackNavigator();
+const CombinedStack = createNativeStackNavigator<RootStackParamList>();
 const SpotlightStack = createNativeStackNavigator();
 const OMNISScoreStack = createNativeStackNavigator();
-
-// Define a combined stack
 
 let value: unknown;
 // If you are sure value is a string
@@ -268,7 +266,7 @@ export type HomeStackParamList = {
     lastName: string;
     totalAmount: number;
     interestPercentage: number;
-    avatar?: string; // Optional parameter
+    avatar?: string;
     currentAmount: number;
     postTotalAmount: number;
   };

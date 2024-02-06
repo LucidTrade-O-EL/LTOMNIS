@@ -10,9 +10,6 @@ import {t} from 'i18next';
 interface OnboardingScreen4Props {
   navigation: NativeStackNavigationProp<RootStackParamList>;
 }
-interface OnboardingScreen4Props {
-  onStartNow: () => void;
-}
 
 const OnboardingScreen4: React.FC<OnboardingScreen4Props> = ({navigation}) => {
 

@@ -10,22 +10,9 @@ import React from 'react';
 import GlobalStyles from '../../assets/constants/colors';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {t} from 'i18next';
+import {OnboardingScreen2Props} from '../../types';
 
-// Define the types for your navigation stack
-type OnboardingStackParamList = {
-  Onboarding3: undefined; // Add other screens as necessary
-  // ... other screens in the stack
-};
-
-interface OnboardingScreen2Props {
-  onNext: () => void;
-  onSkip: () => void;
-}
-
-const OnboardingScreen2: React.FC<OnboardingScreen2Props> = ({
-  onNext,
-  onSkip,
-}) => {
+const OnboardingScreen2: React.FC<OnboardingScreen2Props> = ({onSkip}) => {
   return (
     <View style={styles.background}>
       <ImageBackground

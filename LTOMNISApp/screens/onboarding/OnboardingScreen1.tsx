@@ -8,24 +8,14 @@ import {
 } from 'react-native';
 import React, {useState} from 'react';
 import GlobalStyles from '../../assets/constants/colors';
-import {NavigationPropType, RootStackParamList, User} from '../../types';
+import {OnboardingScreen1Props} from '../../types';
 import {t} from 'i18next';
 import IonIcon from 'react-native-vector-icons/Ionicons';
-import {NavigationContainer} from '@react-navigation/native';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-
-interface OnboardingScreen1Props {
-  onNext: () => void;
-  onSkip: () => void;
-  onBack: () => void;
-  // navigation: NativeStackNavigationProp<RootStackParamList>;
-}
 
 const OnboardingScreen1: React.FC<OnboardingScreen1Props> = ({
   onNext,
   onSkip,
   onBack,
-  // navigation,
 }) => {
   return (
     <View style={styles.screenContainer}>
@@ -33,9 +23,7 @@ const OnboardingScreen1: React.FC<OnboardingScreen1Props> = ({
         source={require('../../assets/Onboarding.png')}
         style={styles.image}>
         <View style={{height: '50%', marginTop: 75}}>
-          <Pressable
-            style={styles.backButton}
-            onPress={onBack}>
+          <Pressable style={styles.backButton} onPress={onBack}>
             <IonIcon
               name="chevron-back"
               size={24}

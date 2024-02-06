@@ -8,12 +8,8 @@ import {
 } from 'react-native';
 import React from 'react';
 import GlobalStyles from '../../assets/constants/colors';
-import { t } from 'i18next';
-
-interface OnboardingScreen3Props {
-  onNext: () => void;
-  onSkip: () => void;
-}
+import {t} from 'i18next';
+import {OnboardingScreen3Props} from '../../types';
 
 const OnboardingScreen3: React.FC<OnboardingScreen3Props> = ({
   onNext,
@@ -25,20 +21,18 @@ const OnboardingScreen3: React.FC<OnboardingScreen3Props> = ({
         source={require('../../assets/Onboarding.png')}
         style={styles.image}>
         <View style={{height: '50%', marginTop: 75}}>
-        <Pressable style={styles.button} onPress={onSkip}>
+          <Pressable style={styles.button} onPress={onSkip}>
             <Text style={{color: '#fff'}}>{t('skip')}</Text>
           </Pressable>
         </View>
         <View style={styles.view}>
           <Text style={styles.text}>{t('onboardingTitle3')}</Text>
-          <Text style={styles.smallText}>
-          {t('description3')}
-          </Text>
+          <Text style={styles.smallText}>{t('description3')}</Text>
         </View>
       </ImageBackground>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   background: {

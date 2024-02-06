@@ -1,4 +1,5 @@
 // SelectLang.tsx
+import '../SelectLanguage/i18n';
 import React, {useEffect, useState} from 'react';
 import {View, Text, SafeAreaView, StyleSheet} from 'react-native';
 import ScreenTitle from '../../assets/constants/Components/ScreenTitle';
