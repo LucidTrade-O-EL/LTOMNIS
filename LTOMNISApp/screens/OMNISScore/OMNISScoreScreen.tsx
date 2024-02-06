@@ -15,17 +15,14 @@ import SmallCreditScoreBar from '../../assets/constants/Components/SmallCreditSc
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import OmnisOptions from '../../assets/constants/Components/OmnisOptions';
 import {useNavigation} from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
+import {StackNavigationProp} from '@react-navigation/stack';
 import LevelDetails from './ScoreBreakDown/Levels/LevelDetails';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { OMNISScoreStackParamList } from '../../App';
-
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {OMNISScoreStackParamList} from '../../App';
 
 export default function OMNISScoreScreen() {
-
-
-  const navigation = useNavigation<NativeStackNavigationProp<OMNISScoreStackParamList>>();
-
+  const navigation =
+    useNavigation<NativeStackNavigationProp<OMNISScoreStackParamList>>();
 
   const refRBSheet = useRef<RBSheet>(null);
 
@@ -56,7 +53,11 @@ export default function OMNISScoreScreen() {
         </TouchableOpacity>
         <CreditScoreBar scoreUpdate={scoreUpdate} score={score} />
         <SmallCreditScoreBar creditScore={creditScore} />
-        <Pressable onPress={() => {navigation.navigate('ScoreBreakDown')}} style={styles.ScoreBreakdownButton}>
+        <Pressable
+          onPress={() => {
+            navigation.navigate('ScoreBreakDown');
+          }}
+          style={styles.ScoreBreakdownButton}>
           <Text style={styles.ScoreBreakdownButtonText}>Score Breakdown</Text>
         </Pressable>
       </View>
@@ -79,14 +80,13 @@ export default function OMNISScoreScreen() {
         }}
       />
       <Pressable onPress={() => navigation.navigate('LevelsScreen')}>
-        
-      <OmnisOptions
-        isLottie={true}
-        title="Money Master"
-        isProgressBar={true}
-        progress={2000}
-        status="silver"
-      />
+        <OmnisOptions
+          isLottie={true}
+          title="Money Master"
+          isProgressBar={true}
+          progress={2000}
+          status="silver"
+        />
       </Pressable>
       <OmnisOptions
         isLottie={false}

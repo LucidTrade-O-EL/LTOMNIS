@@ -132,9 +132,103 @@ Overview: OMNIS is a financial platform designed for the unbanked, underbanked, 
 
 This is the main file and is used to
 
+## SelectLang.tsx
+
+## SignInScreen.tsx
+
+## RegisterScreen.tsx
+
+## IdentityVerificationScreen.tsx
+
 ## Tabs.tsx
 
 This React Native application implements a custom bottom tab navigator using @react-navigation/bottom-tabs and @react-navigation/stack. The app includes various screens and a dynamic tab bar that adjusts its visibility based on the current screen. The project also integrates Redux for state management and uses React Native Vector Icons for enhanced UI elements.
+
+### HomeScreen.tsx
+
+- State Management and Data Fetching
+  Uses useState for local states like user balance, offer statistics, and notification count.
+  Integrates with Redux using useSelector and useDispatch for global state (e.g., userId, token).
+  Fetches user data via Axios in useEffect, updating local state and Redux store with user details.
+  Navigation and Event Handling
+- Employs useNavigation for screen navigation.
+  Functions like handleDeposit, handleWithdraw, for navigating to respective screens based on user actions.
+  UI Components and Layout
+- Structures layout using SafeAreaView and View.
+  Interactive elements like buttons are implemented with Pressable.
+  Displays user info (avatar, name, notifications) and financial details (balance, transaction history).
+  Renders user roles (Lender/Borrower) with relevant statistics and actions.
+
+### MyFeedScreen.tsx
+
+- Component Structure
+  Utilizes SafeAreaView for the layout, ensuring compatibility with various devices.
+  Implements Header and FeedTopTabs as child components within the screen.
+- State and Props Management
+  Uses Redux useSelector to access user's first and last names from the global state (AppState).
+  The route object from StackScreenProps is used to manage screen-specific parameters (prop1 and prop2).
+- Navigation and Types
+  Accepts navigation and route as props from StackScreenProps, allowing for screen navigation and parameter passing.
+  Defines custom types (Type1, Type2) for managing the structure of properties passed to the screen.
+- Tab Navigation
+  FeedTopTabs component, defined in the same file, uses createMaterialTopTabNavigator for tabbed navigation within the feed.
+  Tabs are configured to display different content (Featured, All Posts, Friends Feed, My Posts) with customizable styles and navigation options.
+- Redux Integration
+  Retrieves user details (firstName, lastName) from Redux store, demonstrating integration with global state management.
+
+### AddPostScreen.tsx
+
+- State Management
+  Utilizes useState to manage local state for post details including title, description, amount, featured status, image URI, and image file.
+  Retrieves the user's authentication token from the Redux store using useSelector.
+- UI Components
+  Uses SafeAreaView for the main layout.
+  Includes a ScreenTitle component for the screen header.
+  Implements multiple TextInputComponent instances for user input (title, description, amount).
+  Features a TouchableOpacity component for image upload functionality.
+  Contains a Switch component to toggle the featured status of the post.
+  Uses a CompleteButton component for submitting the post.
+- Image Handling (Commented Out)
+  The code for selecting an image from the library is commented out, but it shows the intended use of react-native-image-picker for image uploading.
+- Form Submission
+  Assembles a FormData object with post details on submission.
+  Submits the form data to a backend server using Axios for HTTP POST request.
+  Includes error handling for the HTTP request.
+- Redux Integration
+  Accesses the global state for the authentication token, demonstrating Redux integration.
+
+### OMNISScoreScreen.tsx
+
+- Navigation and Refs
+  Uses useNavigation for navigating between screens in the app.
+  Employs useRef to reference the RBSheet (react-native-raw-bottom-sheet) component.
+  State and Static Data
+  Static data variables like score, creditScore, and scoreUpdate are defined, which can be replaced with dynamic data as needed.
+- UI Components and Layout
+  Structured with SafeAreaView for compatibility across different devices.
+  Includes a ScreenTitle component displaying the screen title.
+  Implements CreditScoreBar and SmallCreditScoreBar components to visualize credit scores.
+  Utilizes Pressable and TouchableOpacity components for user interactions.
+  Incorporates a MaterialCommunityIcons icon for additional information, which triggers the bottom sheet when pressed.
+- Bottom Sheet Modal
+  RBSheet component is used to create a bottom sheet modal, which can be opened and closed with handlers (handleIconPress and handleClose).
+  Custom styles are applied to the RBSheet for its appearance and behavior.
+- Options and Navigation
+  Features several OmnisOptions components, each representing different functionalities or aspects of the OMNIS score system.
+  Navigation to different screens like LevelsScreen and ScoreBreakDown is provided through Pressable components.
+
+### SpotlightScreen.tsx
+
+- Structure and Layout: Utilizes SafeAreaView for the main layout, ensuring compatibility with various device screens. A ScreenTitle component is included to display the screen's title.
+- Navigation Component Integration: Implements SpotlightNavOne, a custom navigation component, which likely manages tabbed navigation within the Spotlight feature.
+
+- SpotlightNavOne.tsx includes a custom tab navigator setup for the Spotlight feature. Its main aspects are:
+
+  - Custom Tab Navigator: Uses createMaterialTopTabNavigator from react-navigation to create a tabbed navigation experience.
+  - Custom Tab Bar: Implements a CustomTabBar function component, which is used to render the tab bar. This component adjusts the styling and layout of the tab bar and the individual tabs.
+  - Tab Screens: Configures two tabs - GroupsScreen and FriendsScreen - as part of the navigator.
+  - Safe Area Insets: Utilizes useSafeAreaInsets for proper spacing and layout on different devices.
+  - Interactive Elements: Includes TouchableOpacity components for user interaction with tabs.
 
 ### Key Features
 
