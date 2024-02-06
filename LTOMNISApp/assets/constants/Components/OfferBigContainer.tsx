@@ -1,4 +1,4 @@
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import GlobalStyles from '../colors';
 import GlobalFonts from '../fonts';
@@ -40,8 +40,7 @@ const OfferBigContainer: React.FC<OfferBigContainerProps> = ({
 
   const token = useSelector((state: AppState) => state.token);
   const [activeData, setActiveData] = useState<PostType[]>([]);
-  const [numOfOffers, setNumOfOffers] = useState([]);
-  const [num, setNum] = useState(0);
+  const [visibleCount, setVisibleCount] = useState(4);
 
   const fetchOfferDetails = async () => {
     if (!userId) {
@@ -84,32 +83,28 @@ const OfferBigContainer: React.FC<OfferBigContainerProps> = ({
     }
   };
 
-  // Polling Underneath
-
-  // useEffect(() => {
-  //   const fetchInterval = setInterval(() => {
-  //     fetchOfferDetails();
-  //   }, 10000); // Fetches posts every 10 seconds
-
-  //   return () => clearInterval(fetchInterval); // Clean up interval on component unmount
-  // }, []);
-
   useEffect(() => {
     fetchOfferDetails();
   }, []); // Add id as a dependency
 
 
+  const handleShowMore = () => {
+    setVisibleCount(prevCount => prevCount + 4);
+  };
+
   return (
     <View style={styles.container}>
-    {activeData.map(post => (
-      <PostOfferList key={post.id} post={post} />
-    ))}
-      <View style={{width: '90%', alignSelf: 'center'}}>
-      </View>
+      {activeData.slice(0, visibleCount).map(post => (
+        <PostOfferList key={post.id} post={post} />
+      ))}
+      {visibleCount < activeData.length && (
+        <TouchableOpacity onPress={handleShowMore} style={styles.showMoreButton}>
+          <Text style={styles.showMoreText}>Show More</Text>
+        </TouchableOpacity>
+      )}
     </View>
   );
 };
-
 export default OfferBigContainer;
 
 const styles = StyleSheet.create({
@@ -152,5 +147,17 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     height: 10,
     width: '98%',
+  },
+  showMoreButton: {
+    // Add styles for the "Show More" button
+    padding: 10,
+    alignItems: 'center',
+    backgroundColor: '#E8E8E8', // Example color
+    borderRadius: 5,
+    marginVertical: 10,
+  },
+  showMoreText: {
+    // Style for the "Show More" text
+    color: '#000', // Example color
   },
 });

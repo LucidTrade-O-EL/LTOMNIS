@@ -1,5 +1,5 @@
-import {View, Text, StyleSheet} from 'react-native';
-import React from 'react';
+import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import React, {useState} from 'react';
 import {t} from 'i18next';
 import GlobalStyles from '../colors';
 import GlobalFonts from '../fonts';
@@ -27,7 +27,7 @@ export type PostType = {
 export type OfferType = {
   id: string;
   amount: number;
-  interestPercentage: number;
+  interestPercentage: number | 'Gift';
   accepted: boolean;
   user: UserType;
 };
@@ -40,8 +40,41 @@ export type UserType = {
   balance?: string;
 };
 
+const INITIAL_OFFER_COUNT = 2;
+
 const PostOfferList: React.FC<{post: PostType}> = ({post}) => {
   const progress = post.currentAmount / post.totalAmount;
+  const [visibleOffersCount, setVisibleOffersCount] =
+    useState(INITIAL_OFFER_COUNT);
+
+  // Define the custom sort function outside the map
+  const sortOffersByInterest = (a: OfferType, b: OfferType) => {
+    // Check if either interestPercentage is 'Gift'
+    const isAGift = a.interestPercentage === 'Gift';
+    const isBGift = b.interestPercentage === 'Gift';
+
+    if (isAGift && isBGift) return 0;
+    if (isAGift) return -1;
+    if (isBGift) return 1;
+
+    // Now it's safe to assume both are numbers and perform arithmetic operation
+    return a.interestPercentage - b.interestPercentage;
+  };
+
+  // First sort the offers, then map to add additional properties
+  const modifiedOffers = post.offers.sort(sortOffersByInterest).map(offer => ({
+    ...offer, // Spread existing properties of the offer
+    currentAmount: post.currentAmount, // Add currentAmount to each offer
+    postTotalAmount: post.totalAmount, // Add postTotalAmount to each offer
+  }));
+
+  const handleShowMore = () => {
+    if (visibleOffersCount > INITIAL_OFFER_COUNT) {
+      setVisibleOffersCount(INITIAL_OFFER_COUNT);
+    } else {
+      setVisibleOffersCount(post.offers.length); // Show all offers
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -69,22 +102,30 @@ const PostOfferList: React.FC<{post: PostType}> = ({post}) => {
         />
       </View>
       <FlatList
-        style={{backgroundColor: GlobalStyles.Colors.primary120, }}
-        data={post.offers}
+        style={{backgroundColor: GlobalStyles.Colors.primary120}}
+        data={post.offers.slice(0, visibleOffersCount)}
         renderItem={({item}) => (
           <OfferDetailSection
             targetScreen="OfferDetailsScreen"
             firstName={item.user.firstName}
             lastName={item.user.lastName}
             totalAmount={item.amount}
-            interestPercentage={item.interestPercentage}
-            avatar={item.user.avatar} // If avatar exists in your data structure
+            interestPercentage={
+              item.interestPercentage === 'Gift' ? 0 : item.interestPercentage
+            }
+            avatar={item.user.avatar}
             offerId={item.id}
+            currentAmount={item.currentAmount}
+            postTotalAmount={item.postTotalAmount}
           />
         )}
-        keyExtractor={item => item.id}
-        contentContainerStyle={styles.listContainer}
+        keyExtractor={(item, index) => index.toString()}
       />
+      <TouchableOpacity onPress={handleShowMore} style={styles.showMoreButton}>
+        <Text style={styles.showMoreText}>
+          {visibleOffersCount > INITIAL_OFFER_COUNT ? 'Show Less' : 'Show More'}
+        </Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -139,6 +180,18 @@ const styles = StyleSheet.create({
   },
   listContainer: {
     // styles for the FlatList content container
+  },
+  showMoreButton: {
+    padding: 10,
+    alignItems: 'center',
+    backgroundColor: '#E8E8E8', // Example color
+    borderRadius: 5,
+    marginVertical: 10,
+    width: '80%',
+    alignSelf: 'center',
+  },
+  showMoreText: {
+    color: GlobalStyles.Colors.primary900, // Example color
   },
 });
 

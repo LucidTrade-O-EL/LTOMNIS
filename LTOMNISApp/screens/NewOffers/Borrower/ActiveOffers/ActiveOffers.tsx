@@ -15,25 +15,27 @@ export default function ActiveOffers({route}) {
   const fromMyPosts = route.params?.fromMyPosts ?? false;
   const id = useSelector((state: AppState) => state.user.userId);
 
-  console.log('this is the ID', id);
+  console.log('this is the ID***', id);
 
   const fetchActiveOffers = async () => {
     try {
       const options = {
         method: 'GET',
-        url: `http://localhost:8080/api/omnis/offers/active/${id}`,
+        url: `http://localhost:8080/api/omnis/posts/borrower/active_offers`,
         headers: {
           Authorization: `Bearer ${token.token}`,
           Accept: 'application/json',
           'Content-Type': 'application/json',
         },
       };
-      console.log(`Bearer ${token.token}`);
+      console.log(`Bearer Active** ${token.token}`);
 
       const res = await axios(options);
+
+      console.log('res on active**', res)
       if (res.data) {
-        setPostData(res.data);
-        console.log('this is PostData on Borrower', JSON.stringify(res.data)); // Set the post data with the data from the API.
+        setPostData(res.data.activeOffersPostList);
+        console.log('this is PostData*** on Borrower', JSON.stringify(res.data.activeOffersPostList)); // Set the post data with the data from the API.
       } else {
         console.log('No user data received');
       }

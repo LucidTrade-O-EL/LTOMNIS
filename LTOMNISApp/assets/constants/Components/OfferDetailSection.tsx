@@ -18,21 +18,24 @@ export type OfferDetailSectionProps = {
   firstName: string;
   lastName: string;
   totalAmount: number;
-  interestPercentage: number;
+  interestPercentage: number | 'Gift';
   avatar?: string;
   offerId: string;
+  currentAmount: number;
+  postTotalAmount: number;
   // ... any other props used in OfferDetailSection
 };
 
 const OfferDetailSection: React.FC<OfferDetailSectionProps> = ({
-  avatar = null,
-  totalAmount = 0,
-  interestPercentage,
+  offerId,
   firstName,
   lastName,
+  totalAmount,
+  interestPercentage,
+  avatar,
+  currentAmount,
+  postTotalAmount
 }) => {
-
-  console.log('This is the NAME', {firstName});
   const NameInitials = `${firstName?.charAt(0) || ''}${
     lastName?.charAt(0) || ''
   }`;
@@ -50,8 +53,8 @@ const OfferDetailSection: React.FC<OfferDetailSectionProps> = ({
         borderRadius: 20,
         height: 81,
         marginTop: 10,
-        width: '90%', 
-        alignSelf: 'center'
+        width: '90%',
+        alignSelf: 'center',
       }}>
       {/* Profile */}
 
@@ -97,7 +100,18 @@ const OfferDetailSection: React.FC<OfferDetailSectionProps> = ({
       </View>
       <View style={styles.RoleButtonContainer}>
         <Pressable
-          onPress={() => navigation.navigate('TransactionHistoryTax')}
+          onPress={() =>
+            navigation.navigate('NewOfferDetails', {
+              offerId: offerId,
+              firstName: firstName,
+              lastName: lastName,
+              totalAmount: totalAmount,
+              interestPercentage: interestPercentage === 'Gift' ? 0 : interestPercentage,
+              avatar: avatar,
+              currentAmount: currentAmount,
+              postTotalAmount: postTotalAmount,
+            })
+          }
           style={styles.ViewButtonContainer}>
           <Text style={styles.ViewButton}>{t('Details')}</Text>
         </Pressable>

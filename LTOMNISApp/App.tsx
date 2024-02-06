@@ -276,7 +276,6 @@ export type HomeStackParamList = {
   ClosedOfferGiftAccepted: undefined;
   LoanDetailsScreen: undefined;
   OfferScreen: undefined;
-  NewOfferDetails: undefined;
   ChoosePaymentPlanScreen: undefined;
   PaymentChosenScreen: undefined;
   OfferSentSuccessful: undefined;
@@ -294,6 +293,16 @@ export type HomeStackParamList = {
   AppFeedBack: undefined;
   BeforeYouGo: undefined;
   BeforeYouGoAgain: undefined;
+  NewOfferDetails: {
+    offerId: string;
+    firstName: string;
+    lastName: string;
+    totalAmount: number;
+    interestPercentage: number;
+    avatar?: string; // Optional parameter
+    currentAmount: number;
+    postTotalAmount: number;
+  };
 };
 
 const HomeStack = createNativeStackNavigator<HomeStackParamList>();

@@ -11,12 +11,17 @@ type ProgressWithLabelProps = {
 };
 
 const ProgressWithLabel: React.FC<ProgressWithLabelProps> = ({
-  collected,
-  goal,
-  collectedLabel = 'Collected', // Default value
-  goalLabel = 'Goal', // Default value
+  collected = 0, // Default to 0 if not provided
+  goal = 1, // Default to 1 to prevent division by zero
+  collectedLabel = 'Collected',
+  goalLabel = 'Goal',
 }) => {
-  const progress = collected / goal;
+  // Ensure goal is a number and is not zero to avoid division by zero
+  const safeCollected = Number(collected) || 0;
+  const safeGoal = Number(goal) || 1;
+  const progress = safeCollected / safeGoal;
+
+  console.log('Progress:', progress);
 
   return (
     <View style={styles.container}>
