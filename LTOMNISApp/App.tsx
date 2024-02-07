@@ -176,21 +176,33 @@ function MainStackNavigator() {
 
 const App = () => {
   const [hasViewedOnboarding, setHasViewedOnboarding] = useState(false);
-
-  // const hasCompletedVerify = useSelector(state => state.verify.hasCompletedOnboarding);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
-    const checkOnboarding = async () => {
+    const initializeApp = async () => {
+      // Check onboarding status
       const viewedOnboarding = await AsyncStorage.getItem(
         'hasViewedOnboarding',
       );
-      if (viewedOnboarding !== null) {
-        setHasViewedOnboarding(viewedOnboarding === 'true');
-      }
+      setHasViewedOnboarding(viewedOnboarding === 'true');
+
+      // Check authentication status
+      const userToken = await AsyncStorage.getItem('userToken');
+      setIsAuthenticated(!!userToken);
     };
 
-    checkOnboarding();
+    initializeApp();
   }, []);
+
+  // Determine which navigator to show
+  let RootNavigator;
+  if (!hasViewedOnboarding) {
+    RootNavigator = CombinedStackNavigator;
+  } else if (isAuthenticated) {
+    RootNavigator = MainStackNavigator;
+  } else {
+    RootNavigator = SignInScreen; // Or any other initial screen for unauthenticated users
+  }
 
   const onOnboardingFinish = async () => {
     await AsyncStorage.setItem('hasViewedOnboarding', 'true');
@@ -200,19 +212,7 @@ const App = () => {
   return (
     <NavigationContainer>
       <RootStack.Navigator screenOptions={{headerShown: false}}>
-        {!hasViewedOnboarding ? (
-          // {!hasViewedOnboarding && !token ? (
-          // Use CombinedStackNavigator here
-          <RootStack.Screen
-            name="CombinedStack"
-            component={CombinedStackNavigator}
-          />
-        ) : (
-          <RootStack.Screen
-            name="MainStackNavigator"
-            component={MainStackNavigator}
-          />
-        )}
+        <RootStack.Screen name="RootNavigator" component={RootNavigator} />
       </RootStack.Navigator>
     </NavigationContainer>
   );

@@ -9,14 +9,17 @@ import {
 import axios from 'axios';
 
 import {
-  FeaturedGroupItem,
   SmallCustomCarousel,
 } from '../../../assets/constants/Components/SmallCustomCarousel';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {SpotlightStackParamList} from '../../../App';
-import { useSelector } from 'react-redux';
-import { AppState } from '../../../ReduxStore';
+import {useSelector} from 'react-redux';
+import {AppState} from '../../../ReduxStore';
+
+interface GroupItem {
+  title: string;
+}
 
 export default function GroupsScreen() {
   const navigation =
@@ -25,7 +28,7 @@ export default function GroupsScreen() {
     console.log('Button Pressed');
   };
   const handleLocal = () => {
-    navigation.navigate('GroupDetailsHistoryScreen')
+    navigation.navigate('GroupDetailsHistoryScreen');
   };
 
   const handleCreateButtonPress = () => {
@@ -33,31 +36,37 @@ export default function GroupsScreen() {
     navigation.navigate('MakeAGroupScreen');
   };
 
-  const [group, setGroup] = useState([{title: 'My Group'}]);
-  const [featuredGroup, setFeaturedGroup] = useState<FeaturedGroupItem[]>([]);
-  const [interestGroup, setInterestGroup] = useState<FeaturedGroupItem[]>([]);
+  const [group, setGroup] = useState<GroupItem[]>([]);
+  const [featuredGroup, setFeaturedGroup] = useState<GroupItem[]>([]);
+  const [interestGroup, setInterestGroup] = useState<GroupItem[]>([]);
+
   const token = useSelector((state: AppState) => state.token);
+
+  useEffect(() => {
+    const fetchGroups = async () => {
+      await GetMyGroup();
+      await GetMyFeaturedGroup();
+      await GetMyInterestGroup();
+    };
+
+    fetchGroups();
+  }, []); 
+
 
   const GetMyGroup = async () => {
     try {
-      const options = {
-        method: 'GET',
-        url: 'http://localhost:8080/api/omnis/groups/mygroups',
-        headers: {
-          Authorization: `Bearer ${token.token}`,
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
+      const response = await axios.get(
+        'http://localhost:8080/api/omnis/groups/mygroups',
+        {
+          headers: {
+            Authorization: `Bearer ${token.token}`,
+            'Content-Type': 'application/json',
+          },
         },
-      };
+      );
 
-      const res = await axios(options);
-
-      console.log('data payload ', res.data, res.headers);
-
-      const group = res.data;
-
-      // if (group == null) {
-      setGroup(res.data ?? []);
+      console.log('data payload /omnis/groups/mygroups ', response.data.myGroups, response.headers);
+      setGroup(response.data.myGroups ?? []);
     } catch (error) {
       console.error('An error occurred:', error);
     }
@@ -65,53 +74,39 @@ export default function GroupsScreen() {
 
   const GetMyFeaturedGroup = async () => {
     try {
-      const options = {
-        method: 'GET',
-        url: 'https://api.lucidtrades.com/api/Group/featured',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
+      const response = await axios.get(
+        'http://localhost:8080/api/omnis/groups/featured',
+        {
+          headers: {
+            Authorization: `Bearer ${token.token}`,
+            'Content-Type': 'application/json',
+          },
         },
-      };
+      );
 
-      const res = await axios(options);
-
-      console.log('data payload ', res.data, res.headers);
-
-      const featuredGroup = res.data;
-
-      // if (featuredGroup == null) {
-      //   console.log('No featured group data received');
-      // }
-      setFeaturedGroup(res.data ?? []);
+      console.log('data payload /omnis/groups/featured ', response.data.featuredGroups, response.headers);
+      setFeaturedGroup(response.data.featuredGroups ?? []);
     } catch (error) {
-      console.error('An error occurred:', error);
+      console.error('An error occurred /omnis/groups/featured:', error);
     }
   };
 
   const GetMyInterestGroup = async () => {
     try {
-      const options = {
-        method: 'GET',
-        url: 'https://api.lucidtrades.com/api/Group/all',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
+      const response = await axios.get(
+        'http://localhost:8080/api/omnis/groups/all',
+        {
+          headers: {
+            Authorization: `Bearer ${token.token}`,
+            'Content-Type': 'application/json',
+          },
         },
-      };
+      );
 
-      const res = await axios(options);
-
-      console.log('data payload ', res.data, res.headers);
-
-      const interestGroup = res.data;
-
-      // if (interestGroup == null) {
-      //   console.log('No interest group data received');
-      // }
-      setInterestGroup(res.data ?? []);
+      console.log('data payload ', response.data, response.headers);
+      setInterestGroup(response.data ?? []);
     } catch (error) {
-      console.error('An error occurred:', error);
+      console.error('An error occurred /omnis/groups/all:', error);
     }
   };
 
@@ -124,95 +119,8 @@ export default function GroupsScreen() {
 
     fetchData();
   }, []);
-
-  const images = [
-    {
-      url: 'https://images.unsplash.com/photo-1693985320387-9b08d2c8e1ad?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwzfHx8ZW58MHx8fHx8&auto=format&fit=crop&w=800&q=60',
-      tag: 'Tag 1',
-    },
-    {
-      url: 'https://images.unsplash.com/photo-1525547719571-a2d4ac8945e2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8Y29tcHV0ZXJ8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=800&q=60',
-      tag: 'Tag 2',
-    },
-    {
-      url: 'https://images.unsplash.com/photo-1693985320387-9b08d2c8e1ad?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwzfHx8ZW58MHx8fHx8&auto=format&fit=crop&w=800&q=60',
-      tag: 'Tag 1',
-    },
-    {
-      url: 'https://images.unsplash.com/photo-1525547719571-a2d4ac8945e2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8Y29tcHV0ZXJ8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=800&q=60',
-      tag: 'Tag 2',
-    },
-    {
-      url: 'https://images.unsplash.com/photo-1693985320387-9b08d2c8e1ad?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwzfHx8ZW58MHx8fHx8&auto=format&fit=crop&w=800&q=60',
-      tag: 'Tag 1',
-    },
-    {
-      url: 'https://images.unsplash.com/photo-1525547719571-a2d4ac8945e2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8Y29tcHV0ZXJ8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=800&q=60',
-      tag: 'Tag 2',
-    },
-    // ... more image URLs
-  ];
-
-  const image1 = [
-    {
-      url: 'https://images.unsplash.com/photo-1693985320387-9b08d2c8e1ad?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwzfHx8ZW58MHx8fHx8&auto=format&fit=crop&w=800&q=60',
-      tag: 'Tag 1',
-    },
-    {
-      url: 'https://images.unsplash.com/photo-1525547719571-a2d4ac8945e2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8Y29tcHV0ZXJ8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=800&q=60',
-      tag: 'Tag 2',
-    },
-    {
-      url: 'https://images.unsplash.com/photo-1693985320387-9b08d2c8e1ad?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwzfHx8ZW58MHx8fHx8&auto=format&fit=crop&w=800&q=60',
-      tag: 'Tag 1',
-    },
-    {
-      url: 'https://images.unsplash.com/photo-1525547719571-a2d4ac8945e2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8Y29tcHV0ZXJ8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=800&q=60',
-      tag: 'Tag 2',
-    },
-    {
-      url: 'https://images.unsplash.com/photo-1693985320387-9b08d2c8e1ad?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwzfHx8ZW58MHx8fHx8&auto=format&fit=crop&w=800&q=60',
-      tag: 'Tag 1',
-    },
-    {
-      url: 'https://images.unsplash.com/photo-1525547719571-a2d4ac8945e2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8Y29tcHV0ZXJ8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=800&q=60',
-      tag: 'Tag 2',
-    },
-    // ... more image URLs
-  ];
-
-  const images2 = [
-    {
-      url: 'https://images.unsplash.com/photo-1693985320387-9b08d2c8e1ad?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwzfHx8ZW58MHx8fHx8&auto=format&fit=crop&w=800&q=60',
-      text: '1234567891',
-    },
-    {
-      url: 'https://images.unsplash.com/photo-1525547719571-a2d4ac8945e2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8Y29tcHV0ZXJ8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=800&q=60',
-      text: 'Baseball Team',
-    },
-    {
-      url: 'https://images.unsplash.com/photo-1693985320387-9b08d2c8e1ad?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwzfHx8ZW58MHx8fHx8&auto=format&fit=crop&w=800&q=60',
-    },
-    {
-      url: 'https://images.unsplash.com/photo-1525547719571-a2d4ac8945e2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8Y29tcHV0ZXJ8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=800&q=60',
-    },
-    {
-      url: 'https://images.unsplash.com/photo-1693985320387-9b08d2c8e1ad?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwzfHx8ZW58MHx8fHx8&auto=format&fit=crop&w=800&q=60',
-    },
-    {
-      url: 'https://images.unsplash.com/photo-1525547719571-a2d4ac8945e2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8Y29tcHV0ZXJ8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=800&q=60',
-    },
-  ];
-
-  useEffect(() => {
-    const fetchData = async () => {
-      await GetMyGroup();
-      await GetMyFeaturedGroup();
-      await GetMyInterestGroup();
-    };
-
-    fetchData();
-  }, []);
+  
+  
   return (
     <SafeAreaView style={styles.background}>
       <View style={{marginTop: 20, width: '100%', alignSelf: 'center'}}>
@@ -222,15 +130,15 @@ export default function GroupsScreen() {
           buttonText="Create"
           onButtonPress={handleCreateButtonPress}
         />
-        <CustomCarousel data={[]} images={images} />
-        <View style={{marginTop: 20}} />
+        <CustomCarousel data={group} />
+        <View style={{marginTop: 20,}} />
         <CustomTitle
           data={featuredGroup}
           title="Local groups"
           buttonText="Show all"
           onButtonPress={handleLocal}
         />
-        <SmallCustomCarousel data={[]} images={image1} />
+        <SmallCustomCarousel data={featuredGroup}/>
         <View style={{marginTop: 20}} />
         <CustomTitle
           data={interestGroup}
@@ -238,7 +146,7 @@ export default function GroupsScreen() {
           buttonText="Show all"
           onButtonPress={handleLocal}
         />
-        <SmallCustomCarousel data={[]} images={images2} />
+        <SmallCustomCarousel data={interestGroup} />
       </View>
     </SafeAreaView>
   );

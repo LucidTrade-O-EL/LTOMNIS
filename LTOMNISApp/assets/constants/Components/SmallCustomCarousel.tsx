@@ -1,88 +1,52 @@
-import React, { useState, useCallback } from 'react';
-import { View, Text, StyleSheet, Image, FlatList, Animated, Pressable } from 'react-native';
-import ScrollingBarComponent from './Buttons/ScrollingBarComponent';
-import { ViewToken } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import React from 'react';
+import { View, Text, StyleSheet, Image, FlatList, Pressable } from 'react-native';
 import { SpotlightStackParamList } from '../../../App';
 
-export interface FeaturedGroupItem {
-  url: string;
-  text?: string; 
+export interface GroupItem {
+  id: string;
+  title: string;
+  url?: string;
+  // other properties...
 }
 
- interface SmallCustomCarouselProps {
-  images: FeaturedGroupItem[];
-  data: FeaturedGroupItem[]; // Use the defined type for the data prop
+interface SmallCustomCarouselProps {
+  data: GroupItem[];
 }
 
-export const SmallCustomCarousel: React.FC<SmallCustomCarouselProps> = ({ data, images }) => {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const scrollPosition = useState(new Animated.Value(0))[0];
-  const navigation =
-    useNavigation<NativeStackNavigationProp<SpotlightStackParamList>>();
-
-  const totalWidth = images.length * 80; // Adjust as necessary
-  const flatListWidth = 400; // Adjust as necessary
-  const highlightedWidth = flatListWidth * 0.4; // Adjust as necessary
-  const individualBarWidth = 300 / images.length;
-
-  const onScroll = Animated.event(
-    [{ nativeEvent: { contentOffset: { x: scrollPosition } } }],
-    { useNativeDriver: false },
-  );
-
-  const formatText = (text?: string) => {
-    if (text && text.length > 7) {
-      return text.slice(0, 7) + '...';
-    }
-    return text || 'Default Text';
-  };
-
-  const onViewableItemsChanged = useCallback(({ viewableItems }: { viewableItems: ViewToken[] }) => {
-    setCurrentIndex(viewableItems[0]?.index || 0);
-  }, []);
-
-  const combinedData = images.map((image, index) => ({
-    ...image,
-    additionalData: data[index]
-  }));
+export const SmallCustomCarousel: React.FC<SmallCustomCarouselProps> = ({ data }) => {
+  const navigation = useNavigation<NativeStackNavigationProp<SpotlightStackParamList>>();
 
   return (
-    <View>
+    <View style={{ marginLeft: 10 }} >
       <FlatList
-        data={combinedData}
+        data={data}
         horizontal
         showsHorizontalScrollIndicator={false}
-        onScroll={onScroll}
-        renderItem={({ item, index }) => (
-          <Pressable onPress={() => {navigation.navigate('GroupDetailsHistoryScreen')}} style={styles.imageContainer}>
-            <Image source={{ uri: item.url }} style={styles.image} />
-            <Text style={styles.text}>{formatText(item.text)}</Text>
+        renderItem={({ item }) => (
+          <Pressable
+            onPress={() => navigation.navigate('GroupDetailsHistoryScreen')}
+            style={styles.imageContainer}>
+            {item.url ? (
+              <Image source={{ uri: item.url }} style={styles.image} />
+            ) : (
+              <View style={styles.carouselItemWithBackground}>
+                <Text style={styles.carouselTitle}>{item.title}</Text>
+              </View>
+            )}
           </Pressable>
         )}
-        keyExtractor={(item, index) => index.toString()}
-        onViewableItemsChanged={onViewableItemsChanged}
-        viewabilityConfig={{ viewAreaCoveragePercentThreshold: 50 }}
+        keyExtractor={item => item.id}
       />
-      <View style={styles.barContainer}>
-        <ScrollingBarComponent
-          scrollPosition={scrollPosition}
-          totalWidth={totalWidth}
-          flatListWidth={flatListWidth}
-          highlightedWidth={highlightedWidth}
-        />
-      </View>
     </View>
   );
 };
 
-
-
 const styles = StyleSheet.create({
   imageContainer: {
     alignItems: 'center',
-    marginHorizontal: 5, 
+    marginHorizontal: 5,
   },
   image: {
     height: 74,
@@ -104,5 +68,14 @@ const styles = StyleSheet.create({
     height: 2,
     borderRadius: 1,
     marginHorizontal: 2,
+  },
+  carouselItemWithBackground: {
+    backgroundColor: 'rgba(256,256,256,0.8)',
+    width: 300, // or your defined width
+    height: 162, // or your defined height
+    borderRadius: 20, // or your defined borderRadius
+    marginRight: 8,
+    justifyContent: 'center', // Center the text vertically
+    alignItems: 'center', // Center the text horizontally
   },
 });

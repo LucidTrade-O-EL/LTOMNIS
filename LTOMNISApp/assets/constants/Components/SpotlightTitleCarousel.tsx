@@ -1,5 +1,5 @@
-import { useNavigation } from '@react-navigation/native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import React from 'react';
 import {
   View,
@@ -10,15 +10,20 @@ import {
   Image,
   Pressable,
 } from 'react-native';
-import { SpotlightStackParamList } from '../../../App';
+import {SpotlightStackParamList} from '../../../App';
 import GlobalStyles from '../colors';
-import { FeaturedGroupItem } from './SmallCustomCarousel';
 
+interface GroupItem {
+  title: string;
+  // Include other properties of GroupItem if there are any
+}
+
+// Then define CustomTitleProps using GroupItem
 interface CustomTitleProps {
   title: string;
   buttonText: string;
   onButtonPress: () => void;
-  data: FeaturedGroupItem[]; // If every item has a title
+  data: GroupItem[];
 }
 
 export const CustomTitle: React.FC<CustomTitleProps> = ({
@@ -29,7 +34,7 @@ export const CustomTitle: React.FC<CustomTitleProps> = ({
 }) => {
   return (
     <View style={styles.titleContainer}>
-      <Text style={styles.titleText}>{data[0]?.title}</Text>
+      <Text style={styles.titleText}>{title}</Text>
       <TouchableOpacity style={styles.button} onPress={onButtonPress}>
         <Text style={styles.buttonText}>{buttonText}</Text>
       </TouchableOpacity>
@@ -44,26 +49,13 @@ interface ImageData {
 
 interface CustomCarouselProps {
   images: ImageData[];
-  data: ImageData[];
 }
 
-interface ViewableItem {
-  item: ImageData; // Assuming ImageData is the correct type for item
-  key: string;
-  index: number | null;
-  isViewable: boolean;
-}
-
-interface OnViewableItemsChangedInfo {
-  viewableItems: ViewableItem[];
-  changed: ViewableItem[];
-}
-
-export const CustomCarousel: React.FC<CustomCarouselProps> = ({data, images}) => {
+export const CustomCarousel: React.FC<CustomCarouselProps> = ({data}) => {
   const [currentIndex, setCurrentIndex] = React.useState(0);
 
   const navigation =
-  useNavigation<NativeStackNavigationProp<SpotlightStackParamList>>();
+    useNavigation<NativeStackNavigationProp<SpotlightStackParamList>>();
 
   const viewConfigRef = React.useRef({
     viewAreaCoveragePercentThreshold: 50,
@@ -76,45 +68,36 @@ export const CustomCarousel: React.FC<CustomCarouselProps> = ({data, images}) =>
     [],
   );
 
-  const combinedData = images.map((image, index) => ({
-    ...image,
-    additionalData: data[index]
-  }));
-
-  const handleButtonPress = () => {
-    console.log('Button Pressed');
-    navigation.navigate('GroupDetailsScreen');
+  const handleButtonPress = (itemData: ImageData) => {
+    console.log('Button Pressed with data', itemData);
+    navigation.navigate('GroupDetailsScreen', {itemData});
   };
 
   return (
     <View style={{left: 20}}>
       <FlatList
-        data={combinedData}
+        data={data}
         horizontal
         showsHorizontalScrollIndicator={false}
-        renderItem={({item, index}) => (
-          <Pressable onPress={handleButtonPress}>
-          <View style={styles.carouselItem}>
-            <Image
-              source={{uri: item.url}}
-              style={{flex: 1, borderRadius: 20}}
-              resizeMode="cover"
-            />
-            {item.tag && (
-              <View style={styles.tagContainer}>
-                <Text style={styles.tagText}>{item.tag}</Text>
-              </View>
-            )}
-          </View>
-          </Pressable>
+        renderItem={({item}) => (
+          <TouchableOpacity
+            onPress={() => handleButtonPress(item)}
+            style={{opacity: 0.8}} // Set the desired opacity
+          >
+            <View style={styles.carouselItemWithBackground}>
+              {/* Text information */}
+              <Text style={styles.carouselTitle}>{item.title}</Text>
+              <Text style={styles.carouselDescription}>{item.description}</Text>
+            </View>
+          </TouchableOpacity>
         )}
-        keyExtractor={(item, index) => index.toString()}
+        keyExtractor={item => item.id}
         contentContainerStyle={{marginBottom: 24}}
         onViewableItemsChanged={onViewableItemsChanged}
         viewabilityConfig={viewConfigRef}
       />
       <View style={styles.indicatorContainer}>
-        {images.map((image, index) => (
+        {data.map((item: GroupItem, index: number) => (
           <View
             key={index}
             style={{
@@ -196,5 +179,24 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 8,
     width: '90%',
+  },
+  carouselTitle: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#333',
+    marginBottom: 8,
+  },
+  carouselDescription: {
+    fontSize: 14,
+    color: '#666',
+  },
+  carouselItemWithBackground: {
+    backgroundColor: '#fff', // White background
+    width: 300, // or your defined width
+    height: 162, // or your defined height
+    borderRadius: 20, // or your defined borderRadius
+    marginRight: 8,
+    justifyContent: 'center', // Center the text vertically
+    alignItems: 'center', // Center the text horizontally
   },
 });

@@ -31,8 +31,8 @@ export default function BorrowerClosedOffers() {
           },
         );
 
-        setOffersData(response.data.closedOffersPostList);
-        console.log('/omnis/posts/borrower/closed_offers', JSON.stringify(response.data.closedOffersPostList));
+        setOffersData(response.data);
+        console.log('/omnis/posts/borrower/closed_offers', JSON.stringify(response.data));
       } catch (error) {
         console.error('Error fetching data: ', error);
         // Handle error here

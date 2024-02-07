@@ -1,58 +1,53 @@
 import React from 'react';
-import { View, Animated, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, FlatList } from 'react-native';
 import GlobalStyles from '../../colors';
 
-interface ScrollingBarComponentProps {
-  scrollPosition: Animated.Value;
-  totalWidth: number;
-  flatListWidth: number;
-  highlightedWidth: number;
+interface GroupItem {
+  id: string;
+  title: string;
+  // other properties...
 }
 
-const ScrollingBarComponent: React.FC<ScrollingBarComponentProps> = ({ scrollPosition, totalWidth, flatListWidth, highlightedWidth }) => {
+interface ScrollingBarComponentProps {
+  data: GroupItem[];
+}
 
-  console.log(`this is totalWidth ${totalWidth} and this is ${flatListWidth}. Is totalWidth Greater or Equal ${totalWidth>=flatListWidth}`)
+const ScrollingBarComponent: React.FC<ScrollingBarComponentProps> = ({ data }) => {
   return (
-    <View style={styles.barContainer}>
-      <View
-        style={{
-          ...styles.bar,
-          width: flatListWidth * 0.90,
-          backgroundColor: 'grey',
-        }}>
-        <Animated.View
-          style={{
-            height: 2,
-            width: highlightedWidth,
-            backgroundColor: GlobalStyles.Colors.primary210, // Set a background color
-            borderRadius: 10,
-            transform: [
-              {
-                translateX: scrollPosition.interpolate({
-                  inputRange: [0, totalWidth - flatListWidth],
-                  outputRange: [0, flatListWidth * 0.9 - highlightedWidth],
-                  extrapolate: 'clamp',
-                }),
-              },
-            ],
-          }}
-        />
-      </View>
+    <View style={styles.container}>
+      <FlatList
+        data={data}
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        renderItem={({ item }) => (
+          <View style={styles.itemContainer}>
+            <Text style={styles.title}>{item.title}</Text>
+            {/* Add other item details here */}
+          </View>
+        )}
+        keyExtractor={item => item.id}
+      />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  barContainer: {
-    flexDirection: 'row',
+  container: {
+    flex: 1,
+    alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 10,
+  },
+  itemContainer: {
+    marginHorizontal: 10,
+    padding: 20,
+    backgroundColor: GlobalStyles.Colors.primary210,
     borderRadius: 10,
   },
-  bar: {
-    height: 2,
-    borderRadius: 10,
+  title: {
+    fontSize: 16,
+    color: '#fff',
   },
+  // Add other styles as needed
 });
 
 export default ScrollingBarComponent;

@@ -82,6 +82,7 @@ export default function Verification({route}) {
         {
           method: 'POST',
           headers: {
+            Accept: 'application/json',
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({twilioCode: verificationCode}),
@@ -92,7 +93,7 @@ export default function Verification({route}) {
       if (data.success) {
         console.log('Verification successful.', data);
         // dispatch(setHasCompletedOnboarding(true));
-        console.log(`This is the dispatch of Verify`)
+        console.log(`This is the dispatch of Verify`);
         navigation.navigate('MainStackNavigator');
       } else {
         console.log('Invalid verification code.');
