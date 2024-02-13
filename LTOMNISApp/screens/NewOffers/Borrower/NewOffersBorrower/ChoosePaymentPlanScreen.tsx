@@ -15,8 +15,7 @@ import axios from 'axios';
 import {OfferBigContainerProps} from '../../../../assets/constants/Components/OfferBigContainer';
 
 type ChoosePaymentPlanRouteProps = {
-  offerId: string; // Adjust the type according to your needs
-  // Include other route parameters here if needed
+  offerId: string;
 };
 
 type ChoosePaymentPlanScreenProps = {
@@ -26,21 +25,26 @@ type ChoosePaymentPlanScreenProps = {
 const ChoosePaymentPlanScreen: React.FC<ChoosePaymentPlanScreenProps> = ({
   route,
 }) => {
-  const {offerId} = route.params;
+  const {offerId, interestPercentage, totalAmount} = route.params;
+
+  console.log('totalWithInterest');
+
+  console.log('offerId', offerId);
   const [selectedPlan, setSelectedPlan] =
     useState<OfferBigContainerProps | null>(null);
   const token = useSelector((state: AppState) => state.token);
 
-  const sendPaymentPlanData = async planDetails => {
+  const sendPaymentPlanData = async () => {
     const url = 'http://localhost:8080/api/omnis/paymentplan/create'; // Replace with your backend URL
-// ppm stands for price per month
+    // ppm stands for price per month
     try {
       const response = await axios.post(
         url,
         {
-          offerId: planDetails.offerId,
-          ppm: 123,
+          offerId: offerId,
+          ppm: interestPercentage,
           months: 3,
+          totalAmount: totalAmount,
         },
         {
           headers: {
@@ -88,21 +92,16 @@ const ChoosePaymentPlanScreen: React.FC<ChoosePaymentPlanScreenProps> = ({
               key={index}
               title={plan}
               offerId={offerId}
-              offerNumber={52}
-              raiseNumber={300}
-              fullNumber={500}
-              apr={50}
-              payStartDate={'March'}
-              rewardPoints={51}
-              monthlyCost={50}
+              fullNumber={totalAmount} // Use totalAmount here
+              payStartDate={'March'} // Assuming this is static or comes from somewhere else
               onSelect={() => handlePlanSelect(plan)}
               users={[
                 {
                   firstNameLetter: 'Z',
                   lastNameLetter: 'K',
                   userName: 'Zak',
-                  amount: 250,
-                  interest: 5,
+                  interest: interestPercentage, // Use interestPercentage here
+                  amount: totalAmount, // Add the missing 'amount' property here
                 },
               ]}
             />

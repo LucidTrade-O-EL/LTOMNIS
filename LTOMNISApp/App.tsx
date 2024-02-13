@@ -245,6 +245,8 @@ export type HomeStackParamList = {
   OfferScreen: undefined;
   ChoosePaymentPlanScreen: {
     offerId: string;
+    interestPercentage: number;
+    totalAmount: number;
   };
   PaymentChosenScreen: undefined;
   OfferSentSuccessful: undefined;

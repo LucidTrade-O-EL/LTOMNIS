@@ -4,13 +4,20 @@ import {Divider} from 'react-native-elements';
 import {t} from 'i18next';
 import GlobalStyles from '../colors';
 import StarCircle from './Buttons/StarCircle';
+import axios from 'axios';
+import {useSelector} from 'react-redux';
+import {AppState} from '../../../ReduxStore';
 
 type OfferBigContainerProps = {
   title: string;
+  offerNumber: number;
+  raiseNumber: number;
   fullNumber: number;
   offerId: string;
   onSelect: any;
   payStartDate: string; // Payment start date
+  rewardPoints: number; // Reward points
+  monthlyCost: number; // Monthly cost
   users: {
     firstNameLetter: string;
     lastNameLetter: string;
@@ -20,35 +27,17 @@ type OfferBigContainerProps = {
   }[];
 };
 
-const PaymentPlanBox: React.FC<OfferBigContainerProps> = ({
+const PaymentPlanBoxTwo: React.FC<OfferBigContainerProps> = ({
   title,
   offerId,
   fullNumber,
   payStartDate,
+  rewardPoints,
+  monthlyCost,
   users = [],
   onSelect,
 }) => {
-  const monthDuration = Number(title.split(' ')[0]);
   const [isChosen, setIsChosen] = useState(false);
-
-  const calculateMonthlyPayment = (
-    amount: number,
-    interest: number,
-    duration: number,
-  ): number => {
-    const interestDecimal = interest / 100;
-    const totalWithInterest = amount * (1 + interestDecimal);
-    return totalWithInterest / duration;
-  };
-
-  let monthlyPayment = 0;
-  if (users.length > 0) {
-    monthlyPayment = calculateMonthlyPayment(
-      fullNumber,
-      users[0].interest,
-      monthDuration,
-    );
-  }
 
   const getRewardPointsBasedOnMonths = (months: number) => {
     switch (months) {
@@ -63,25 +52,27 @@ const PaymentPlanBox: React.FC<OfferBigContainerProps> = ({
     }
   };
 
-  const calculateStartPayDate = () => {
+  function addDaysToDate(daysToAdd: number): string {
     const currentDate = new Date();
-    const twoWeeksLater = new Date(
-      currentDate.getTime() + 14 * 24 * 60 * 60 * 1000,
-    ); // Add 14 days
-    const day = twoWeeksLater.getDate();
-    const month = twoWeeksLater.getMonth() + 1; // JavaScript months are 0-based
-    const year = twoWeeksLater.getFullYear();
-    return `${day < 10 ? '0' + day : day}.${
-      month < 10 ? '0' + month : month
-    }.${year}`;
-  };
+    currentDate.setDate(currentDate.getDate() + daysToAdd);
+    return `${currentDate.getDate()}.${
+      currentDate.getMonth() + 1
+    }.${currentDate.getFullYear()}`;
+  }
 
-  const startPayDate = calculateStartPayDate();
+  const calculateMonthlyPayment = (fullAmount: number, months: number) => {
+    if (!fullAmount || !months || isNaN(fullAmount) || isNaN(months)) {
+      return '8.57'; // default value or handle appropriately
+    }
+    return (fullAmount / months).toFixed(2);
+  };
 
   return (
     <View style={styles.container}>
       <View style={styles.innerContainerTitle}>
-        <Text style={styles.TitleOfferLeftText}>{monthDuration} months</Text>
+        <Text style={styles.TitleOfferLeftText}>
+          {} months
+        </Text>
         <View style={styles.rewardPointsContainer}>
           <StarCircle iconName="star-four-points-outline" />
           <Text style={styles.TitleOfferRightText}>
@@ -89,21 +80,18 @@ const PaymentPlanBox: React.FC<OfferBigContainerProps> = ({
           </Text>
         </View>
       </View>
-      {users.map((user, index) => {
-        const monthlyPayment = calculateMonthlyPayment(
-          fullNumber,
-          user.interest,
-          monthDuration,
-        );
-        return (
-          <View key={index} style={styles.userContainer}>
-            <Text style={styles.TextInRoles}>{user.interest}% interest</Text>
-            <Divider orientation="vertical" width={1} />
-            <Text style={styles.NumberInRoles}>{startPayDate}</Text>
-          </View>
-        );
-      })}
 
+      {users.map((user, index) => (
+        <View key={index} style={styles.userContainer}>
+          <Text style={styles.TextInRoles}>
+            ARP
+          </Text>
+          <Divider orientation="vertical" width={1} />
+          <Text style={styles.NumberInRoles}>
+            30.03.2024
+          </Text>
+        </View>
+      ))}
       <Divider
         width={1}
         style={styles.divider}
@@ -111,9 +99,9 @@ const PaymentPlanBox: React.FC<OfferBigContainerProps> = ({
       />
       <View style={styles.innerContainerBar}>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
-          <Text style={styles.monthlyAmount}>{`$${monthlyPayment.toFixed(
-            2,
-          )}`}</Text>
+          <Text style={styles.monthlyAmount}>
+            ${calculateMonthlyPayment(fullNumber, Number(title.split(' ')[0]))}
+          </Text>
           <Text style={styles.perMonth}>{t('perMonth')}</Text>
         </View>
         <Pressable
@@ -122,18 +110,14 @@ const PaymentPlanBox: React.FC<OfferBigContainerProps> = ({
             onSelect({
               title,
               offerId,
-              startPayDate,
-              monthDuration,
+              payStartDate,
+              rewardPoints,
+              monthlyCost,
             });
-          }}
-          style={({pressed}) => [
-            styles.viewButtonBefore,
-            isChosen && styles.selectedButtonBefore,
-            pressed && styles.pressedButtonBefore,
-          ]}>
+          }}>
           <Text
             style={[
-              styles.viewButton,
+              styles.ViewButton,
               isChosen && styles.selectedButtonTextStyle,
             ]}>
             {isChosen ? t('Chosen') : t('Choose')}
@@ -231,7 +215,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '500',
   },
-  viewButton: {
+  ViewButton: {
     color: GlobalStyles.Colors.primary200,
     fontSize: 16,
     textAlign: 'center',
@@ -242,6 +226,7 @@ const styles = StyleSheet.create({
     width: '40%',
     height: 40,
     borderColor: GlobalStyles.Colors.primary200,
+    borderWidth: 2,
     alignSelf: 'center',
     justifyContent: 'center',
     borderRadius: 8,
@@ -265,25 +250,9 @@ const styles = StyleSheet.create({
   selectedButtonTextStyle: {
     color: GlobalStyles.Colors.primary100,
     borderRadius: 20,
-    paddingHorizontal: 10,
-    paddingVertical: 2,
-  },
-  viewButtonBefore: {
-    borderWidth: 2,
-    borderColor: GlobalStyles.Colors.primary200,
-    borderRadius: 5,
-    paddingHorizontal: 10,
-    paddingVertical: 2,
-  },
-  selectedButtonBefore: {
     backgroundColor: GlobalStyles.Colors.primary200,
-    color: GlobalStyles.Colors.primary200,
-    paddingHorizontal: 10,
-    paddingVertical: 2,
-  },
-  pressedButtonBefore: {
-    color: GlobalStyles.Colors.primary200,
+    padding: 5
   },
 });
 
-export default PaymentPlanBox;
+export default PaymentPlanBoxTwo;

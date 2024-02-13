@@ -11,8 +11,6 @@ import ScreenTitle from '../../../../assets/constants/Components/ScreenTitle';
 import {t} from 'i18next';
 import {RouteProp} from '@react-navigation/native';
 
-
-
 type NewOfferDetailsProps = {
   route: RouteProp<HomeStackParamList, 'NewOfferDetails'>;
   initialRaiseNumber?: number;
@@ -36,6 +34,9 @@ const NewOfferDetails: React.FC<NewOfferDetailsProps> = ({route}) => {
   } = route.params;
   console.log('this is postCurrentAmount^^', postCurrentAmount);
   console.log('this is postTotalAmount', postTotalAmount);
+
+  const totalWithInterest = totalAmount * (1 + interestPercentage / 100);
+
   return (
     <SafeAreaView style={styles.Background}>
       <ScreenTitle
@@ -66,7 +67,11 @@ const NewOfferDetails: React.FC<NewOfferDetailsProps> = ({route}) => {
 
       <CompleteButton
         onPress={() => {
-          navigation.navigate('ChoosePaymentPlanScreen', {offerId: offerId});
+          navigation.navigate('ChoosePaymentPlanScreen', {
+            offerId: offerId,
+            interestPercentage: interestPercentage, // Pass interestPercentage
+            totalAmount: totalAmount, // Pass totalAmount
+          });
         }}
         text={t('Complete')}
       />
