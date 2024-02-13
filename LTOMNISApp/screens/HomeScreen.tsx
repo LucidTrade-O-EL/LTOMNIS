@@ -30,9 +30,13 @@ export default function HomeScreen({}: {}) {
   const [AcceptedOffers, setAcceptedOffers] = useState(6);
   const [OffersAccepted, setOffersAccepted] = useState(13);
   const [NewOffers, setNewOffers] = useState(5);
+  const [borrowerAcceptedOffers, setBorrowerAcceptedOffers] = useState(13);
+  const [borrowerNewOffers, setBorrowerNewOffers] = useState(5);
   const [notificationCount, setNotificationCount] = useState(3); // Example count
   const [firstName, setFName] = useState('');
   const [lastName, setLName] = useState('');
+
+  // borrowerNewOffers
 
   const navigation =
     useNavigation<NativeStackNavigationProp<HomeStackParamList>>();
@@ -111,6 +115,10 @@ export default function HomeScreen({}: {}) {
         setBalance(userData.homeFeedObject.user.balance);
         setOffersAccepted(userData.homeFeedObject.offersAccepted);
         setNewOffers(userData.homeFeedObject.newOffers);
+        setBorrowerAcceptedOffers(
+          userData.homeFeedObject.borrowerAcceptedOffers,
+        );
+        setBorrowerNewOffers(userData.homeFeedObject.borrowerNewOffers);
       } catch (error) {
         console.error('Error fetching user data:', error);
       }
@@ -258,18 +266,12 @@ export default function HomeScreen({}: {}) {
             <View style={{flexDirection: 'row'}}>
               <Text style={styles.TextInRoles}>Offers Accepted</Text>
               <Divider orientation="vertical" width={1} />
-              <Text style={styles.NumberInRoles}>
-                {OffersAccepted !== null && OffersAccepted !== undefined
-                  ? OffersAccepted
-                  : 0}
-              </Text>
+              <Text style={styles.NumberInRoles}>{borrowerAcceptedOffers}</Text>
             </View>
             <View style={{flexDirection: 'row'}}>
               <Text style={styles.TextInRoles}>New Offers</Text>
               <Divider orientation="vertical" width={1} />
-              <Text style={styles.NumberInRoles}>
-                {NewOffers !== null && NewOffers !== undefined ? NewOffers : 0}
-              </Text>
+              <Text style={styles.NumberInRoles}>{borrowerNewOffers}</Text>
             </View>
           </View>
           <View style={styles.RoleButtonContainer}>

@@ -1,15 +1,24 @@
 import React, {useState} from 'react';
 import {View, Text, StyleSheet, Pressable} from 'react-native';
 import {Divider} from 'react-native-elements';
-import {t} from 'i18next'
+import {t} from 'i18next';
 import GlobalStyles from '../colors';
 import StarCircle from './Buttons/StarCircle';
+import axios from 'axios';
+import {useSelector} from 'react-redux';
+import {AppState} from '../../../ReduxStore';
 
 type OfferBigContainerProps = {
   title: string;
   offerNumber: number;
   raiseNumber: number;
   fullNumber: number;
+  offerId: string;
+  onSelect: any;
+  apr: number; // Annual Percentage Rate
+  payStartDate: string; // Payment start date
+  rewardPoints: number; // Reward points
+  monthlyCost: number; // Monthly cost
   users: {
     firstNameLetter: string;
     lastNameLetter: string;
@@ -21,8 +30,14 @@ type OfferBigContainerProps = {
 
 const PaymentPlanBox: React.FC<OfferBigContainerProps> = ({
   title,
+  offerId,
   fullNumber,
+  apr,
+  payStartDate,
+  rewardPoints,
+  monthlyCost,
   users = [],
+  onSelect,
 }) => {
   const [isChosen, setIsChosen] = useState(false);
 
@@ -57,7 +72,9 @@ const PaymentPlanBox: React.FC<OfferBigContainerProps> = ({
   return (
     <View style={styles.container}>
       <View style={styles.innerContainerTitle}>
-        <Text style={styles.TitleOfferLeftText}>{t('paymentPlanTitle', {paymentPlanTitle: title})}</Text>
+        <Text style={styles.TitleOfferLeftText}>
+          {t('months', {paymentPlanTitle: title})}
+        </Text>
         <View style={styles.rewardPointsContainer}>
           <StarCircle iconName="star-four-points-outline" />
           <Text style={styles.TitleOfferRightText}>
@@ -68,12 +85,13 @@ const PaymentPlanBox: React.FC<OfferBigContainerProps> = ({
 
       {users.map((user, index) => (
         <View key={index} style={styles.userContainer}>
-          <Text
-            style={
-              styles.TextInRoles
-            }>{t('paymentPlanAPR', {APR: user.interest.toLocaleString()})}</Text>
+          <Text style={styles.TextInRoles}>
+            {t('paymentPlanAPR', {APR: user.interest.toLocaleString()})}
+          </Text>
           <Divider orientation="vertical" width={1} />
-          <Text style={styles.NumberInRoles}>{t('paymentPlanStarting', {starting: addDaysToDate(user.amount)})}</Text>
+          <Text style={styles.NumberInRoles}>
+            {t('paymentPlanStarting', {starting: addDaysToDate(user.amount)})}
+          </Text>
         </View>
       ))}
 
@@ -91,11 +109,17 @@ const PaymentPlanBox: React.FC<OfferBigContainerProps> = ({
           <Text style={styles.perMonth}>{t('perMonth')}</Text>
         </View>
         <Pressable
-          style={[
-            styles.ViewButtonContainer,
-            isChosen && styles.selectedButtonStyle,
-          ]}
-          onPress={() => setIsChosen(!isChosen)}>
+          onPress={() => {
+            setIsChosen(!isChosen);
+            onSelect({
+              title,
+              offerId,
+              apr,
+              payStartDate,
+              rewardPoints,
+              monthlyCost,
+            });
+          }}>
           <Text
             style={[
               styles.ViewButton,

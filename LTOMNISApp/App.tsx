@@ -243,7 +243,9 @@ export type HomeStackParamList = {
   ClosedOfferGiftAccepted: undefined;
   LoanDetailsScreen: undefined;
   OfferScreen: undefined;
-  ChoosePaymentPlanScreen: undefined;
+  ChoosePaymentPlanScreen: {
+    offerId: string;
+  };
   PaymentChosenScreen: undefined;
   OfferSentSuccessful: undefined;
   SuccessOffer: undefined;

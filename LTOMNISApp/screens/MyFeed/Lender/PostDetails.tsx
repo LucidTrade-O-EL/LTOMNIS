@@ -21,8 +21,8 @@ export default function PostDetails() {
   const [customRate, setCustomRate] = useState<number | null>(null);
   const [loanAmount, setLoanAmount] = useState<number>(0); // Moved from being a constant
   const [interestRate, setInterestRate] = useState<number | null>(null);
-  const [loanAmountInput, setLoanAmountInput] = useState<string>('0');
-  const [interestRateInput, setInterestRateInput] = useState<string>('0');
+  const [loanAmountInput, setLoanAmountInput] = useState<string>('');
+  const [interestRateInput, setInterestRateInput] = useState<string>('');
   const [rewardPoints, setRewardPoints] = useState<number>(0);
   const navigation = useNavigation();
 

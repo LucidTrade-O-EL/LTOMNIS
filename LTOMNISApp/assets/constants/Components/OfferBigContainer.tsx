@@ -14,7 +14,6 @@ import {FlatList} from 'react-native-gesture-handler';
 import PostOfferList, { PostType } from './PostOfferList';
 
 export type OfferBigContainerProps = {
-  title: string;
   currentAmount: number;
   totalAmount: number;
   targetScreen: string;
@@ -25,15 +24,17 @@ export type OfferBigContainerProps = {
   description?: string;
   imageUrl?: string;
   offerText?: string;
-  id?: string;
+  id: string;
+  title: string;
+  onSelect: (planDetails: OfferBigContainerProps) => void;
 };
-
 
 const OfferBigContainer: React.FC<OfferBigContainerProps> = ({
   title,
   currentAmount,
   totalAmount,
   targetScreen,
+  id,
 }) => {
   const progress = currentAmount / totalAmount;
   const userId = useSelector((state: AppState) => state.user.userId); // Only declaration of userId
@@ -41,6 +42,7 @@ const OfferBigContainer: React.FC<OfferBigContainerProps> = ({
   const token = useSelector((state: AppState) => state.token);
   const [activeData, setActiveData] = useState<PostType[]>([]);
   const [visibleCount, setVisibleCount] = useState(4);
+  const [numOfOffers, setNumOfOffers] = useState<number[]>([]);
 
   const fetchOfferDetails = async () => {
     if (!userId) {
@@ -65,7 +67,7 @@ const OfferBigContainer: React.FC<OfferBigContainerProps> = ({
         const allNumOfOffers = res.data.borrowerPostList.map(
           post => post.numOfOffers,
         );
-        setNumOfOffers(allNumOfOffers); // Set the array of number of offers
+        setNumOfOffers(allNumOfOffers);
         console.log(
           'this is my res count',
           JSON.stringify(res.data.borrowerPostList.numOfOffers),
@@ -87,18 +89,20 @@ const OfferBigContainer: React.FC<OfferBigContainerProps> = ({
     fetchOfferDetails();
   }, []); // Add id as a dependency
 
-
   const handleShowMore = () => {
     setVisibleCount(prevCount => prevCount + 4);
   };
 
   return (
     <View style={styles.container}>
-      {activeData.slice(0, visibleCount).map(post => (
+      {activeData.slice(0, visibleCount).map((post: PostType) => (
         <PostOfferList key={post.id} post={post} />
       ))}
+
       {visibleCount < activeData.length && (
-        <TouchableOpacity onPress={handleShowMore} style={styles.showMoreButton}>
+        <TouchableOpacity
+          onPress={handleShowMore}
+          style={styles.showMoreButton}>
           <Text style={styles.showMoreText}>Show More</Text>
         </TouchableOpacity>
       )}

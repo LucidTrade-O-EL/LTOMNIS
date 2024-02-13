@@ -32,6 +32,7 @@ export default function NewOffersScreen() {
       const res = await axios(options);
       if (res.data) {
         setPostData(res.data.myPostList); // Set the post data with the data from the API.
+        console.log('This is my Posts',res.data.myPostList )
       } else {
         console.log('No user data received');
       }
@@ -39,14 +40,6 @@ export default function NewOffersScreen() {
       console.error('An error occurred:', error);
     }
   };
-
-  // useEffect(() => {
-  //   const fetchInterval = setInterval(() => {
-  //     fetchMyPostFeedList();
-  //   }, 10000); // Fetches posts every 10 seconds
-
-  //   return () => clearInterval(fetchInterval); // Clean up interval on component unmount
-  // }, []);
 
   useEffect(() => {
     fetchMyPostFeedList(); // Fetch data when the component mounts
@@ -57,6 +50,12 @@ export default function NewOffersScreen() {
       <Text style={styles.emptyText}>No New Offers</Text>
     </View>
   );
+
+  const handleSelect = (item: OfferBigContainerProps) => {
+    console.log("Selected item:", item);
+    // Your selection logic here
+  };
+  
 
   return (
     <FlatList
@@ -75,8 +74,8 @@ export default function NewOffersScreen() {
           interestPercentage={item.interestPercentage}
           // imageUrl={item.imageUrl}
           // offerText={fromMyPosts ? 'Edit' : 'Offer'}
-          // onOfferPress={() => handleOfferPress(item.id)}
           id={item.id}
+          onSelect={() => handleSelect(item)} // Add this line
         />
       )}
       keyExtractor={(item, index) => index.toString()}

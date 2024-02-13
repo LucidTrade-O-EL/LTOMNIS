@@ -11,8 +11,8 @@ type ProgressWithLabelProps = {
 };
 
 const ProgressWithLabel: React.FC<ProgressWithLabelProps> = ({
-  collected = 0, // Default to 0 if not provided
-  goal = 1, // Default to 1 to prevent division by zero
+  collected, // Default to 0 if not provided
+  goal, 
   collectedLabel = 'Collected',
   goalLabel = 'Goal',
 }) => {
@@ -21,13 +21,15 @@ const ProgressWithLabel: React.FC<ProgressWithLabelProps> = ({
   const safeGoal = Number(goal) || 1;
   const progress = safeCollected / safeGoal;
 
+  console.log("this is a number", goal)
+
   console.log('Progress:', progress);
 
   return (
     <View style={styles.container}>
       <View style={styles.labelContainer}>
-        <Text style={styles.labelCollected}>${collected.toFixed(2)}</Text>
-        <Text style={styles.labelGoal}>${goal.toFixed(2)}</Text>
+        <Text style={styles.labelCollected}>${collected}</Text>
+        <Text style={styles.labelGoal}>${goal}</Text>
       </View>
       <View style={styles.progressBarContainer}>
         <LinearProgress
