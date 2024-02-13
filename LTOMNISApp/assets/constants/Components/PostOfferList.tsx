@@ -64,7 +64,7 @@ const PostOfferList: React.FC<{post: PostType}> = ({post}) => {
   // First sort the offers, then map to add additional properties
   const modifiedOffers = post.offers.sort(sortOffersByInterest).map(offer => ({
     ...offer, // Spread existing properties of the offer
-    currentAmount: post.currentAmount, // Add currentAmount to each offer
+    postCurrentAmount: post.currentAmount, // Add currentAmount to each offer
     postTotalAmount: post.totalAmount, // Add postTotalAmount to each offer
   }));
 
@@ -72,7 +72,7 @@ const PostOfferList: React.FC<{post: PostType}> = ({post}) => {
     if (visibleOffersCount > INITIAL_OFFER_COUNT) {
       setVisibleOffersCount(INITIAL_OFFER_COUNT);
     } else {
-      setVisibleOffersCount(post.offers.length); // Show all offers
+      setVisibleOffersCount(modifiedOffers.length); // Show all modified offers
     }
   };
 
@@ -102,25 +102,26 @@ const PostOfferList: React.FC<{post: PostType}> = ({post}) => {
         />
       </View>
       <FlatList
-        style={{backgroundColor: GlobalStyles.Colors.primary120}}
-        data={post.offers.slice(0, visibleOffersCount)}
-        renderItem={({item}) => (
-          <OfferDetailSection
-            targetScreen="OfferDetailsScreen"
-            firstName={item.user.firstName}
-            lastName={item.user.lastName}
-            totalAmount={item.amount}
-            interestPercentage={
-              item.interestPercentage === 'Gift' ? 0 : item.interestPercentage
-            }
-            avatar={item.user.avatar}
-            offerId={item.id}
-            currentAmount={item.currentAmount}
-            postTotalAmount={item.postTotalAmount}
-          />
-        )}
-        keyExtractor={(item, index) => index.toString()}
+    style={{backgroundColor: GlobalStyles.Colors.primary120}}
+    data={modifiedOffers.slice(0, visibleOffersCount)} // Use modifiedOffers here
+    renderItem={({ item }) => (
+      <OfferDetailSection
+        targetScreen="OfferDetailsScreen"
+        firstName={item.user.firstName}
+        lastName={item.user.lastName}
+        totalAmount={item.amount}
+        interestPercentage={
+          item.interestPercentage === 'Gift' ? 0 : item.interestPercentage
+        }
+        avatar={item.user.avatar}
+        offerId={item.id}
+        currentAmount={item.currentAmount}
+        postTotalAmount={item.postTotalAmount}
+        postCurrentAmount={item.postCurrentAmount}
       />
+    )}
+    keyExtractor={(item, index) => index.toString()}
+  />
       <TouchableOpacity onPress={handleShowMore} style={styles.showMoreButton}>
         <Text style={styles.showMoreText}>
           {visibleOffersCount > INITIAL_OFFER_COUNT ? 'Show Less' : 'Show More'}

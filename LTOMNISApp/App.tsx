@@ -271,6 +271,7 @@ export type HomeStackParamList = {
     avatar?: string;
     currentAmount: number;
     postTotalAmount: number;
+    postCurrentAmount:  number;
   };
 };
 

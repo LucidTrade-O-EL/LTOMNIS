@@ -22,6 +22,7 @@ export type OfferDetailSectionProps = {
   avatar?: string;
   offerId: string;
   currentAmount: number;
+  postCurrentAmount: number;
   postTotalAmount: number;
   // ... any other props used in OfferDetailSection
 };
@@ -34,7 +35,8 @@ const OfferDetailSection: React.FC<OfferDetailSectionProps> = ({
   interestPercentage,
   avatar,
   currentAmount,
-  postTotalAmount
+  postTotalAmount,
+  postCurrentAmount
 }) => {
   const NameInitials = `${firstName?.charAt(0) || ''}${
     lastName?.charAt(0) || ''
@@ -45,6 +47,8 @@ const OfferDetailSection: React.FC<OfferDetailSectionProps> = ({
 
   console.log('This is a Request::', JSON.stringify({firstName}));
   console.log('This is a Request::', JSON.stringify({lastName}));
+
+  console.log('postCurrentAmount &&', postCurrentAmount)
 
   return (
     <View
@@ -110,6 +114,7 @@ const OfferDetailSection: React.FC<OfferDetailSectionProps> = ({
               avatar: avatar,
               currentAmount: currentAmount,
               postTotalAmount: postTotalAmount,
+              postCurrentAmount: postCurrentAmount,
             })
           }
           style={styles.ViewButtonContainer}>

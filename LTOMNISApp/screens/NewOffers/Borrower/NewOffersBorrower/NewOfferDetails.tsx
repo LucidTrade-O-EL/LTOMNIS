@@ -32,8 +32,9 @@ const NewOfferDetails: React.FC<NewOfferDetailsProps> = ({route}) => {
     avatar,
     currentAmount,
     postTotalAmount,
+    postCurrentAmount,
   } = route.params;
-  console.log('this is currentAmount', currentAmount);
+  console.log('this is postCurrentAmount^^', postCurrentAmount);
   console.log('this is postTotalAmount', postTotalAmount);
   return (
     <SafeAreaView style={styles.Background}>
@@ -61,7 +62,7 @@ const NewOfferDetails: React.FC<NewOfferDetailsProps> = ({route}) => {
           },
         ]}
       />
-      <ProgressWithLabel collected={postTotalAmount} goal={currentAmount} />
+      <ProgressWithLabel collected={postCurrentAmount} goal={postTotalAmount} />
 
       <CompleteButton
         onPress={() => {
