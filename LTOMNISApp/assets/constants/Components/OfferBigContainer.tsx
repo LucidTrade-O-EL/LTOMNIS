@@ -11,22 +11,37 @@ import {AppState} from '../../../ReduxStore';
 import {useSelector} from 'react-redux';
 import axios from 'axios';
 import {FlatList} from 'react-native-gesture-handler';
-import PostOfferList, { PostType } from './PostOfferList';
+import PostOfferList, {PostType} from './PostOfferList';
+
+type User = {
+  firstNameLetter?: string;
+  lastNameLetter?: string;
+  userName?: string;
+  interest?: number;
+  amount?: number;
+};
 
 export type OfferBigContainerProps = {
-  currentAmount: number;
-  totalAmount: number;
-  targetScreen: string;
-  timeElapsed: string;
-  interestPercentage: number;
+  currentAmount?: number;
+  startPayDate?: any;
+  monthlyPayment?: number;
+  offerId: string;
+  fullNumber: number;
+  totalAmount?: number;
+  targetScreen?: string;
+  timeElapsed?: string;
+  interestPercentage?: number;
   avatar?: string;
-  number: number;
+  number?: number;
   description?: string;
   imageUrl?: string;
   offerText?: string;
-  id: string;
-  title: string;
-  onSelect: (planDetails: OfferBigContainerProps) => void;
+  id?: string;
+  title?: string;
+  monthDuration?: number;
+  onSelect?: (planDetails: OfferBigContainerProps) => void;
+  users: User[];
+  isSelected?: boolean;
 };
 
 const OfferBigContainer: React.FC<OfferBigContainerProps> = ({

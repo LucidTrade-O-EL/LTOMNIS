@@ -1,4 +1,4 @@
-import {View, Text, SafeAreaView} from 'react-native';
+import {View, Text, SafeAreaView, Alert} from 'react-native';
 import React, {useState} from 'react';
 import ScreenTitle from '../../../../assets/constants/Components/ScreenTitle';
 import {StyleSheet} from 'react-native';
@@ -22,10 +22,27 @@ type ChoosePaymentPlanScreenProps = {
   route: RouteProp<HomeStackParamList, 'ChoosePaymentPlanScreen'>;
 };
 
+interface SelectedPlanDetails {
+  title: string;
+  offerId: string;
+  fullNumber: number;
+  startPayDate: string; // Assuming startPayDate is a string
+  monthDuration?: number;
+  monthlyPayment?: number;
+  users: {
+    firstNameLetter: string;
+    lastNameLetter: string;
+    userName: string;
+    amount: number;
+    interest: number;
+  }[];
+}
+
 const ChoosePaymentPlanScreen: React.FC<ChoosePaymentPlanScreenProps> = ({
   route,
 }) => {
   const {offerId, interestPercentage, totalAmount} = route.params;
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   console.log('totalWithInterest');
 
@@ -34,17 +51,18 @@ const ChoosePaymentPlanScreen: React.FC<ChoosePaymentPlanScreenProps> = ({
     useState<OfferBigContainerProps | null>(null);
   const token = useSelector((state: AppState) => state.token);
 
-  const sendPaymentPlanData = async () => {
+  const sendPaymentPlanData = async (planDetails: OfferBigContainerProps) => {
     const url = 'http://localhost:8080/api/omnis/paymentplan/create'; // Replace with your backend URL
-    // ppm stands for price per month
     try {
       const response = await axios.post(
         url,
         {
           offerId: offerId,
           ppm: interestPercentage,
-          months: 3,
-          totalAmount: totalAmount,
+          months: planDetails.title,
+          // totalAmount: totalAmount,
+          // user: planDetails.users, // Include startPayDate in the payload
+          // startPayDate: planDetails.startPayDate,
         },
         {
           headers: {
@@ -53,21 +71,26 @@ const ChoosePaymentPlanScreen: React.FC<ChoosePaymentPlanScreenProps> = ({
           },
         },
       );
-
-      console.log('/omnis/paymentplan/create', JSON.stringify(response.data));
-
+      console.log('planDetails.monthDuration', planDetails.monthDuration);
+      console.log('/omnis/paymentplan/create Success', JSON.stringify(response.data));
+      
       return response.data;
     } catch (error) {
+      console.log('error**', error)
       throw error;
     }
   };
 
-  // Function to handle plan selection
-  const handlePlanSelect = (planDetails: OfferBigContainerProps) => {
-    setSelectedPlan(planDetails);
+  const handlePlanSelect = (selectedPlanDetails: SelectedPlanDetails) => {
+    // If the same plan is selected again, deselect it
+    if (selectedPlan && selectedPlan.offerId === selectedPlanDetails.offerId) {
+      setSelectedPlan(null);
+    } else {
+      setSelectedPlan(selectedPlanDetails);
+    }
   };
 
-  const paymentPlans = ['3', '6 ', '12'];
+  const paymentPlans = ['3', '6', '12'];
   const navigation =
     useNavigation<NativeStackNavigationProp<HomeStackParamList>>();
 
@@ -92,16 +115,34 @@ const ChoosePaymentPlanScreen: React.FC<ChoosePaymentPlanScreenProps> = ({
               key={index}
               title={plan}
               offerId={offerId}
-              fullNumber={totalAmount} // Use totalAmount here
-              payStartDate={'March'} // Assuming this is static or comes from somewhere else
-              onSelect={() => handlePlanSelect(plan)}
+              fullNumber={totalAmount}
+              isSelected={selectedPlan?.offerId === offerId}
+              onSelect={(selectedPlanDetails: SelectedPlanDetails) => {
+                // console.log('Received plan details:', selectedPlanDetails);
+                // handlePlanSelect({
+                //   title: plan,
+                //   offerId: offerId,
+                //   fullNumber: totalAmount,
+                //   startPayDate: selectedPlanDetails.startPayDate,
+                //   users: [
+                //     {
+                //       firstNameLetter: 'Z',
+                //       lastNameLetter: 'K',
+                //       userName: 'Zak',
+                //       interest: interestPercentage,
+                //       amount: totalAmount,
+                //     },
+                //   ],
+                // });
+                handlePlanSelect(selectedPlanDetails);
+              }}
               users={[
                 {
                   firstNameLetter: 'Z',
                   lastNameLetter: 'K',
                   userName: 'Zak',
-                  interest: interestPercentage, // Use interestPercentage here
-                  amount: totalAmount, // Add the missing 'amount' property here
+                  interest: interestPercentage,
+                  amount: totalAmount,
                 },
               ]}
             />
@@ -110,32 +151,24 @@ const ChoosePaymentPlanScreen: React.FC<ChoosePaymentPlanScreenProps> = ({
       </View>
       <CompleteButton
         onPress={() => {
+          console.log('Selected Plan on Complete:', selectedPlan);
           if (selectedPlan) {
+            setIsSubmitting(true); // Start loading state
             sendPaymentPlanData(selectedPlan)
               .then(response => {
-                console.log('Data sent successfully:', response);
-                navigation.navigate('PaymentChosenScreen');
+                // navigation.navigate('PaymentChosenScreen');
               })
               .catch(error => {
-                if (error.response) {
-                  // The request was made and the server responded with a status code
-                  // that falls out of the range of 2xx
-                  console.error('Response data:', error.response.data);
-                  console.error('Response status:', error.response.status);
-                  console.error('Response headers:', error.response.headers);
-                } else if (error.request) {
-                  // The request was made but no response was received
-                  console.error('Request made, no response:', error.request);
-                } else {
-                  // Something happened in setting up the request that triggered an Error
-                  console.error('Error message:', error.message);
-                }
-                console.error('Config:', error.config);
+                Alert.alert('Failed to submit the plan. Please try again.', error.message);
+              })
+              .finally(() => {
+                setIsSubmitting(false); // End loading state
+                navigation.navigate('PaymentChosenScreen');
               });
           } else {
             // Handle the case where no plan is selected
             console.error('No plan selected');
-            // Possibly show an error message to the user
+            Alert.alert('Please select a plan before proceeding.'); // Added an alert for better user feedback
           }
         }}
         text={t('Complete')}

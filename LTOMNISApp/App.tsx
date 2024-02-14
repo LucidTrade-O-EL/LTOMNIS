@@ -91,6 +91,7 @@ import PaymentStatus from './screens/Spotlight/PaymentStatus';
 import ScoreBreakDown from './screens/OMNISScore/ScoreBreakDown/ScoreBreakDown';
 import AllPosts from './screens/MyFeed/AllPosts';
 import CreateLinkToken from './screens/SignUp/CreateLinkToken';
+import PaymentPlanBoxChangePlan from './assets/constants/Components/PaymentPlanBoxChangePlan';
 
 type MainStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
@@ -263,6 +264,7 @@ export type HomeStackParamList = {
   EditProfile: undefined;
   AppFeedBack: undefined;
   BeforeYouGo: undefined;
+  PaymentPlanBoxChangePlan: undefined;
   BeforeYouGoAgain: undefined;
   NewOfferDetails: {
     offerId: string;
@@ -368,6 +370,7 @@ export function HomeStackNavigator({}: HomeStackNavigatorProps) {
       />
       <HomeStack.Screen name="BeforeYouGo" component={BeforeYouGo} />
       <HomeStack.Screen name="BeforeYouGoAgain" component={BeforeYouGoAgain} />
+      <HomeStack.Screen name="PaymentPlanBoxChangePlan" component={PaymentPlanBoxChangePlan} />
     </HomeStack.Navigator>
   );
 }

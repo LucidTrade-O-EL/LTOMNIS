@@ -10,7 +10,8 @@ type OfferBigContainerProps = {
   fullNumber: number;
   offerId: string;
   onSelect: any;
-  payStartDate: string; // Payment start date
+  monthDuration?: number;
+  isSelected: any;
   users: {
     firstNameLetter: string;
     lastNameLetter: string;
@@ -24,9 +25,9 @@ const PaymentPlanBox: React.FC<OfferBigContainerProps> = ({
   title,
   offerId,
   fullNumber,
-  payStartDate,
   users = [],
   onSelect,
+  isSelected,
 }) => {
   const monthDuration = Number(title.split(' ')[0]);
   const [isChosen, setIsChosen] = useState(false);
@@ -118,13 +119,19 @@ const PaymentPlanBox: React.FC<OfferBigContainerProps> = ({
         </View>
         <Pressable
           onPress={() => {
-            setIsChosen(!isChosen);
-            onSelect({
-              title,
-              offerId,
-              startPayDate,
-              monthDuration,
-            });
+            const newIsChosen = !isChosen;
+            setIsChosen(newIsChosen);
+            if (newIsChosen) {
+              const planDetails = {
+                title,
+                offerId,
+                startPayDate: startPayDate,
+                monthDuration: monthDuration,
+                monthlyPayment,
+              };
+              console.log('Selecting Plan:', planDetails);
+              onSelect(planDetails);
+            }
           }}
           style={({pressed}) => [
             styles.viewButtonBefore,

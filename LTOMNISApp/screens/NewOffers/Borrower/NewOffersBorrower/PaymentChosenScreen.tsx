@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, Text, SafeAreaView, StyleSheet} from 'react-native';
 
 import CheckBox from '@react-native-community/checkbox';
@@ -13,6 +13,7 @@ import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {HomeStackParamList} from '../../../../App';
 import {t} from 'i18next'
+import axios from 'axios';
 
 type NewOfferDetailsProps = {
   initialRaiseNumber?: number;
@@ -30,6 +31,31 @@ export default function PaymentChosenScreen({
   const [isModalVisible, setModalVisible] = useState(false);
   const [isChecked, setChecked] = useState(false);
   const [interestRate, setInterestRate] = React.useState<string>('Gift'); // set default as '3%'
+  const [paymentPlanDetails, setPaymentPlanDetails] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+
+  const fetchPaymentPlanDetails = async () => {
+    try {
+      setIsLoading(true);
+      const response = await axios.get('http://localhost:8080/api/omnis/paymentplan/change');
+      setPaymentPlanDetails(response.data);
+      setError(null); // Clear any previous errors
+    } catch (error) {
+      setError('Failed to fetch data'); // Set the error message
+      console.error('Failed to fetch payment plan details:', error);
+      // Additional error handling (e.g., showing an alert)
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+
+  // useEffect to call the function when the component mounts
+  useEffect(() => {
+    fetchPaymentPlanDetails();
+  }, [])
 
   const AcceptAndDeclineStyles = StyleSheet.create({
     acceptButtonActive: {},
@@ -77,7 +103,7 @@ export default function PaymentChosenScreen({
         ]}
       />
       <ProgressWithLabel collected={raiseNumber} goal={fullNumber} />
-      {interestRate !== 'Gift' ? (
+      {interestRate !== '2%' ? (
         <>
           <View
             style={{
