@@ -171,7 +171,7 @@ export default function HomeScreen({}: {}) {
       {/* Balance or Credit */}
 
       <View>
-        <Text style={styles.LoanTitle}>Credit</Text>
+        <Text style={styles.LoanTitle}>Balance</Text>
       </View>
       <View>
         <Text style={styles.LoanNumber}>{`$${balance}`}</Text>

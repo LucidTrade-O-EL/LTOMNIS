@@ -59,10 +59,11 @@ const ChoosePaymentPlanScreen: React.FC<ChoosePaymentPlanScreenProps> = ({
         {
           offerId: offerId,
           ppm: interestPercentage,
-          months: planDetails.title,
-          // totalAmount: totalAmount,
-          // user: planDetails.users, // Include startPayDate in the payload
-          // startPayDate: planDetails.startPayDate,
+          months: 4,
+          // months: planDetails.title,
+          totalAmount: totalAmount,
+          user: planDetails.users, // Include startPayDate in the payload
+          startPayDate: planDetails.startPayDate,
         },
         {
           headers: {
@@ -72,11 +73,14 @@ const ChoosePaymentPlanScreen: React.FC<ChoosePaymentPlanScreenProps> = ({
         },
       );
       console.log('planDetails.monthDuration', planDetails.monthDuration);
-      console.log('/omnis/paymentplan/create Success', JSON.stringify(response.data));
-      
+      console.log(
+        '/omnis/paymentplan/create Success',
+        JSON.stringify(response.data),
+      );
+
       return response.data;
     } catch (error) {
-      console.log('error**', error)
+      console.log('error**', error);
       throw error;
     }
   };
@@ -159,7 +163,10 @@ const ChoosePaymentPlanScreen: React.FC<ChoosePaymentPlanScreenProps> = ({
                 // navigation.navigate('PaymentChosenScreen');
               })
               .catch(error => {
-                Alert.alert('Failed to submit the plan. Please try again.', error.message);
+                Alert.alert(
+                  'Failed to submit the plan. Please try again.',
+                  error.message,
+                );
               })
               .finally(() => {
                 setIsSubmitting(false); // End loading state

@@ -6,7 +6,7 @@ import GlobalStyles from '../colors';
 import StarCircle from './Buttons/StarCircle';
 
 type OfferBigContainerProps = {
-  title: string;
+  title: number;
   fullNumber: number;
   offerId: string;
   onSelect: any;
@@ -29,7 +29,7 @@ const PaymentPlanBox: React.FC<OfferBigContainerProps> = ({
   onSelect,
   isSelected,
 }) => {
-  const monthDuration = Number(title.split(' ')[0]);
+  const monthDuration = title
   const [isChosen, setIsChosen] = useState(false);
 
   const calculateMonthlyPayment = (

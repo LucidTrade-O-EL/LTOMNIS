@@ -37,7 +37,7 @@ export type OfferBigContainerProps = {
   imageUrl?: string;
   offerText?: string;
   id?: string;
-  title?: string;
+  title?: number;
   monthDuration?: number;
   onSelect?: (planDetails: OfferBigContainerProps) => void;
   users: User[];

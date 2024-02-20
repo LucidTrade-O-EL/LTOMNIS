@@ -19,6 +19,7 @@ const SET_USER_PHONE_NUMBER = 'SET_USER_PHONE_NUMBER';
 const SET_USER_POST_ID = 'SET_USER_POST_ID';
 const SET_FIRST_NAME = 'SET_FIRST_NAME';
 const SET_LAST_NAME = 'SET_LAST_NAME';
+const SET_PLAN = 'SET_PLAN';
 
 export interface AppInitialState {
   hasViewedOnboarding: boolean;
@@ -57,12 +58,10 @@ export const setsUserPhoneNumber = (userPhoneNumber: string) => ({
 });
 
 // actions.js or a similar file
-export const setFirstName = (firstName: string) => (
-  {
+export const setFirstName = (firstName: string) => ({
   type: 'SET_FIRST_NAME',
   payload: firstName,
 });
-
 
 export const setLastName = (lastName: string) => ({
   type: 'SET_LAST_NAME',
@@ -137,9 +136,22 @@ const postIdInitialState: IdInitialState = {
   id: null,
 };
 
+const SetPlanInitialState: IdInitialState = {
+  id: null,
+};
+
 const idReducer = (state = idInitialState, action: any) => {
   switch (action.type) {
     case SET_ID:
+      return {...state, id: action.payload};
+    default:
+      return state;
+  }
+};
+
+const paymentPlanReducer = (state = SetPlanInitialState, action: any) => {
+  switch (action.type) {
+    case SET_PLAN:
       return {...state, id: action.payload};
     default:
       return state;
@@ -233,7 +245,7 @@ const rootReducer = combineReducers({
   user: userReducer,
   userPostId: postIdReducer,
   userPhoneNumber: userPhoneNumberReducer,
-  userFirstLast: userFirstLastReducer
+  userFirstLast: userFirstLastReducer,
 });
 
 // Store
