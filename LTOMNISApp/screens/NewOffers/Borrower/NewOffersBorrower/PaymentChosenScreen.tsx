@@ -124,7 +124,18 @@ export default function PaymentChosenScreen() {
   const handleAcceptModal = () => {
     setModalVisible(false);
     fetchPaymentPlanDetails;
-    navigation.navigate('SuccessOffer'); // Adjust as needed
+    navigation.navigate('SuccessOffer', {
+      offerId: offerId,
+      firstName: firstName,
+      lastName: lastName,
+      postCurrentAmount: postCurrentAmount,
+      postTotalAmount: postTotalAmount,
+      totalWithInterest: totalWithInterest,
+      interestPercentage: interestPercentage,
+      monthDuration: monthDuration,
+      monthlyPayment: monthlyPayment,
+      fullNumber: fullNumber
+    });
   };
 
   const handleDeclineModal = () => {

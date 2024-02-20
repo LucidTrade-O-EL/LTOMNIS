@@ -101,7 +101,7 @@ export default function PostOfferHeader({
       <CustomOfferBlock
         data={[
           {leftText: 'Loan amount', rightText: `$${totalAmount}`},
-          {leftText: 'Interest rate', rightText: `${interestPercentage}%`},
+          {leftText: 'Interest rate', rightText: `${interestPercentage.toFixed(2)}%`},
           {isDivider: true},
           {leftText: 'Remaining', rightText: `$${totalAmount - progress}`},
         ]}

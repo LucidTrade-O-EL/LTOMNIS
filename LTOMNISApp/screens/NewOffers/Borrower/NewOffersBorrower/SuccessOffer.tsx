@@ -5,20 +5,67 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import GlobalStyles from '../../../../assets/constants/colors';
 import SmallOfferDetailsVOne from '../../../../assets/constants/Components/SmallOfferDetailsVOne';
 import CompleteButton from '../../../../assets/constants/Components/Buttons/CompleteButton';
-import {useNavigation} from '@react-navigation/native';
+import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {HomeStackParamList} from '../../../../App';
 import {t} from 'i18next';
 
 type SuccessOfferProps = {
   receivedAmount?: string;
+  offerId: string;
+  interestPercentage: number;
+  monthDuration: number;
+  monthlyPayment: number;
+  rewardNumber: number;
+  fullNumber: number;
+  postCurrentAmount: number;
+  postTotalAmount: number;
+  totalWithInterest: number;
+  firstName: string;
+  lastName: string;
 };
 
 const SuccessOffer: React.FC<SuccessOfferProps> = ({
   receivedAmount = '$15',
 }) => {
+  const route =
+    useRoute<RouteProp<{params: PaymentChosenScreenRouteParams}, 'params'>>();
+  const {
+    offerId,
+    interestPercentage,
+    monthDuration,
+    monthlyPayment,
+    rewardNumber,
+    fullNumber,
+    postCurrentAmount,
+    postTotalAmount,
+    totalWithInterest,
+    firstName,
+    lastName,
+  } = route.params;
   const navigation =
     useNavigation<NativeStackNavigationProp<HomeStackParamList>>();
+
+  const getCurrentDateTimeStamp = () => {
+    const now = new Date();
+
+    const month = now.getMonth() + 1; // getMonth() returns 0-11
+    const day = now.getDate();
+    const year = now.getFullYear();
+
+    const hours = now.getHours(); // 24-hour format
+    const minutes = now.getMinutes();
+
+    // Format the month, day, hours, and minutes to ensure two digits
+    const formattedMonth = month < 10 ? `0${month}` : month;
+    const formattedDay = day < 10 ? `0${day}` : day;
+    const formattedHours = hours < 10 ? `0${hours}` : hours;
+    const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
+
+    return `${formattedMonth}/${formattedDay}/${year}, ${formattedHours}:${formattedMinutes}`;
+  };
+
+  const datetimeStamp = getCurrentDateTimeStamp();
 
   return (
     <SafeAreaView style={styles.Background}>
@@ -54,22 +101,22 @@ const SuccessOffer: React.FC<SuccessOfferProps> = ({
         </Text>
       </View>
       <SmallOfferDetailsVOne
-        title={t("OfferDetails")}
+        title={t('OfferDetails')}
         rightWords={[
-          '01/02/2023',
-          '06:00 PM',
-          'John Doe',
-          '4%',
-          '$32',
-          '$6',
-          '5%APR, 6 months',
+          datetimeStamp.split(', ')[0], // Date part
+          datetimeStamp.split(', ')[1], // Time part
+          firstName + ' ' + lastName,
+          `4%`,
+          `$${fullNumber}`,
+          `$${monthlyPayment}`,
+          `${interestPercentage}%APR, ${monthDuration} months`,
         ]}
       />
       <CompleteButton
         onPress={() => {
           navigation.pop(4);
         }}
-        text={t("Done")}
+        text={t('Done')}
       />
     </SafeAreaView>
   );
