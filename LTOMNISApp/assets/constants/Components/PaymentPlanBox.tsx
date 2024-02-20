@@ -1,36 +1,45 @@
 import React, {useState} from 'react';
-import {View, Text, StyleSheet, Pressable} from 'react-native';
+import {View, Text, StyleSheet, Pressable, Touchable} from 'react-native';
 import {Divider} from 'react-native-elements';
 import {t} from 'i18next';
 import GlobalStyles from '../colors';
 import StarCircle from './Buttons/StarCircle';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 
 type OfferBigContainerProps = {
-  title: number;
+  term: number;
   fullNumber: number;
   offerId: string;
   onSelect: any;
   monthDuration?: number;
-  isSelected: any;
+  isSelected: boolean;
   users: {
-    firstNameLetter: string;
-    lastNameLetter: string;
-    userName: string;
     amount: number;
     interest: number;
   }[];
 };
 
 const PaymentPlanBox: React.FC<OfferBigContainerProps> = ({
-  title,
+  term,
   offerId,
   fullNumber,
   users = [],
   onSelect,
   isSelected,
 }) => {
-  const monthDuration = title
-  const [isChosen, setIsChosen] = useState(false);
+  const monthDuration = term;
+
+  const handlePress = () => {
+    const planDetails = {
+      offerId: offerId,
+      monthDuration: monthDuration,
+      rewardNumber: rewardNumber,
+      monthlyPayment: monthlyPayment,
+      fullNumber: fullNumber
+    };
+    onSelect(planDetails); // Trigger the callback passed as prop
+    console.log('Plan Details', planDetails); // This should now execute on press
+  };
 
   const calculateMonthlyPayment = (
     amount: number,
@@ -51,8 +60,8 @@ const PaymentPlanBox: React.FC<OfferBigContainerProps> = ({
     );
   }
 
-  const getRewardPointsBasedOnMonths = (months: number) => {
-    switch (months) {
+  const getRewardNumber = (duration: number) => {
+    switch (duration) {
       case 3:
         return 250;
       case 6:
@@ -60,9 +69,11 @@ const PaymentPlanBox: React.FC<OfferBigContainerProps> = ({
       case 12:
         return 800;
       default:
-        return 100;
+        return null;
     }
   };
+
+  const rewardNumber = getRewardNumber(term); // Use term directly
 
   const calculateStartPayDate = () => {
     const currentDate = new Date();
@@ -82,11 +93,11 @@ const PaymentPlanBox: React.FC<OfferBigContainerProps> = ({
   return (
     <View style={styles.container}>
       <View style={styles.innerContainerTitle}>
-        <Text style={styles.TitleOfferLeftText}>{monthDuration} months</Text>
+        <Text style={styles.TitleOfferLeftText}>{term} months</Text>
         <View style={styles.rewardPointsContainer}>
           <StarCircle iconName="star-four-points-outline" />
           <Text style={styles.TitleOfferRightText}>
-            {getRewardPointsBasedOnMonths(Number(title.split(' ')[0]))}
+            {rewardNumber}
           </Text>
         </View>
       </View>
@@ -100,7 +111,7 @@ const PaymentPlanBox: React.FC<OfferBigContainerProps> = ({
           <View key={index} style={styles.userContainer}>
             <Text style={styles.TextInRoles}>{user.interest}% interest</Text>
             <Divider orientation="vertical" width={1} />
-            <Text style={styles.NumberInRoles}>{startPayDate}</Text>
+            <Text style={styles.NumberInRoles}>TBD</Text>
           </View>
         );
       })}
@@ -117,35 +128,21 @@ const PaymentPlanBox: React.FC<OfferBigContainerProps> = ({
           )}`}</Text>
           <Text style={styles.perMonth}>{t('perMonth')}</Text>
         </View>
-        <Pressable
-          onPress={() => {
-            const newIsChosen = !isChosen;
-            setIsChosen(newIsChosen);
-            if (newIsChosen) {
-              const planDetails = {
-                title,
-                offerId,
-                startPayDate: startPayDate,
-                monthDuration: monthDuration,
-                monthlyPayment,
-              };
-              console.log('Selecting Plan:', planDetails);
-              onSelect(planDetails);
-            }
-          }}
-          style={({pressed}) => [
-            styles.viewButtonBefore,
-            isChosen && styles.selectedButtonBefore,
-            pressed && styles.pressedButtonBefore,
-          ]}>
-          <Text
-            style={[
-              styles.viewButton,
-              isChosen && styles.selectedButtonTextStyle,
+          <Pressable
+            onPress={handlePress}
+            style={({pressed}) => [
+              styles.viewButtonBefore,
+              isSelected ? styles.selectedButtonBefore : {},
+              pressed && styles.pressedButtonBefore, // Optional: for pressed effect
             ]}>
-            {isChosen ? t('Chosen') : t('Choose')}
-          </Text>
-        </Pressable>
+            <Text
+              style={[
+                styles.viewButton,
+                isSelected ? styles.selectedButtonTextStyle : {},
+              ]}>
+              {isSelected ? t('Chosen') : t('Choose')}
+            </Text>
+          </Pressable>
       </View>
     </View>
   );
@@ -290,6 +287,12 @@ const styles = StyleSheet.create({
   },
   pressedButtonBefore: {
     color: GlobalStyles.Colors.primary200,
+  },
+  durationButton: {
+    // Style for the duration button
+  },
+  selectedDurationButton: {
+    // Style to indicate the button is selected
   },
 });
 

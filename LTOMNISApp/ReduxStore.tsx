@@ -46,7 +46,7 @@ export const setUserId = (userId: string) => ({
   type: SET_USER_ID,
   payload: userId,
 });
-
+// HHHHHHH
 export const setUserPostId = (userPostId: string) => ({
   type: SET_USER_POST_ID,
   payload: userPostId,
@@ -157,8 +157,9 @@ const paymentPlanReducer = (state = SetPlanInitialState, action: any) => {
       return state;
   }
 };
-
+// HHHHHH
 const postIdReducer = (state = postIdInitialState, action: any) => {
+  console.log("Action :", action)
   switch (action.type) {
     case SET_USER_POST_ID:
       return {...state, userPostId: action.payload};

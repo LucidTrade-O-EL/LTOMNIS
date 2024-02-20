@@ -9,24 +9,49 @@ import GlobalStyles from '../../../../assets/constants/colors';
 import PaymentPlanBoxChangePlan from '../../../../assets/constants/Components/PaymentPlanBoxChangePlan';
 import AcceptAndDecline from '../../../../assets/constants/Components/Buttons/AcceptAndDecline';
 import BottomSheetModal from '../../../../assets/constants/Components/BottomSheetModal';
-import {useNavigation} from '@react-navigation/native';
+import {RouteProp, useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {HomeStackParamList} from '../../../../App';
-import {t} from 'i18next'
+import {t} from 'i18next';
 import axios from 'axios';
+import {useRoute} from '@react-navigation/native';
+import {AppState} from '../../../../ReduxStore';
+import {useSelector} from 'react-redux';
 
-type NewOfferDetailsProps = {
-  initialRaiseNumber?: number;
-  initialFullNumber?: number;
+type PaymentChosenScreenRouteParams = {
+  offerId: string;
+  interestPercentage: number;
+  monthDuration: number;
+  monthlyPayment: number;
+  rewardNumber: number;
+  fullNumber: number;
+  postCurrentAmount: number;
+  postTotalAmount: number;
+  totalWithInterest: number;
+  firstName: string;
+  lastName: string;
 };
 
-export default function PaymentChosenScreen({
-  initialRaiseNumber = 40,
-  initialFullNumber = 100,
-}: NewOfferDetailsProps) {
-  const [raiseNumber, setRaiseNumber] = React.useState(initialRaiseNumber);
-  const [fullNumber, setFullNumber] = React.useState(initialFullNumber);
+export default function PaymentChosenScreen() {
+  const route =
+    useRoute<RouteProp<{params: PaymentChosenScreenRouteParams}, 'params'>>();
+  const {
+    offerId,
+    interestPercentage,
+    monthDuration,
+    monthlyPayment,
+    rewardNumber,
+    fullNumber,
+    postCurrentAmount,
+    postTotalAmount,
+    totalWithInterest,
+    firstName,
+    lastName,
+  } = route.params;
 
+  const [raiseNumber, setRaiseNumber] = React.useState(2);
+  // const [fullNumber, setFullNumber] = React.useState(3);
+  const token = useSelector((state: AppState) => state.token);
   const paymentPlans = ['5 months'];
   const [isModalVisible, setModalVisible] = useState(false);
   const [isChecked, setChecked] = useState(false);
@@ -34,14 +59,40 @@ export default function PaymentChosenScreen({
   const [paymentPlanDetails, setPaymentPlanDetails] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const offerIdPost = offerId;
+  const monthDurationPost = monthDuration;
+  const ppm = monthlyPayment;
 
+  console.log('ppm:', ppm);
+  console.log('offerIdPost:', offerIdPost);
+  console.log('monthDurationPost:', monthDurationPost);
+  console.log('fullNumber', fullNumber);
 
   const fetchPaymentPlanDetails = async () => {
+    const headers = {
+      Authorization: `Bearer ${token.token}`,
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    };
+
+    const body = {
+      offerId: offerIdPost,
+      paymentPlan: {
+        ppm: ppm,
+        months: monthDurationPost,
+      },
+    };
+
     try {
       setIsLoading(true);
-      const response = await axios.get('http://localhost:8080/api/omnis/paymentplan/change');
+      const response = await axios.post(
+        'http://localhost:8080/api/omnis/offer/accept',
+        body,
+        {headers: headers},
+      );
       setPaymentPlanDetails(response.data);
       setError(null); // Clear any previous errors
+      console.log('response.data /omnis/offer/accept', response.data);
     } catch (error) {
       setError('Failed to fetch data'); // Set the error message
       console.error('Failed to fetch payment plan details:', error);
@@ -49,13 +100,7 @@ export default function PaymentChosenScreen({
     } finally {
       setIsLoading(false);
     }
-  }
-
-
-  // useEffect to call the function when the component mounts
-  useEffect(() => {
-    fetchPaymentPlanDetails();
-  }, [])
+  };
 
   const AcceptAndDeclineStyles = StyleSheet.create({
     acceptButtonActive: {},
@@ -78,6 +123,7 @@ export default function PaymentChosenScreen({
 
   const handleAcceptModal = () => {
     setModalVisible(false);
+    fetchPaymentPlanDetails;
     navigation.navigate('SuccessOffer'); // Adjust as needed
   };
 
@@ -95,14 +141,17 @@ export default function PaymentChosenScreen({
       />
       <CustomOfferBlock
         data={[
-          {leftText: t('sentFrom'), rightText: 'Zak Veasy'},
-          {leftText: t('amountOffered'), rightText: '$15'},
-          {leftText: t('newOfferDetails-interestRate'), rightText: '3%'},
+          {leftText: t('sentFrom'), rightText: firstName + ' ' + lastName},
+          {leftText: t('amountOffered'), rightText: `$${fullNumber}`},
+          {
+            leftText: t('newOfferDetails-interestRate'),
+            rightText: `${interestPercentage}%`,
+          },
           {isDivider: true},
-          {leftText: t('Total'), rightText: '$15.45'},
+          {leftText: t('Total'), rightText: `$${totalWithInterest}`},
         ]}
       />
-      <ProgressWithLabel collected={raiseNumber} goal={fullNumber} />
+      <ProgressWithLabel collected={postCurrentAmount} goal={postTotalAmount} />
       {interestRate !== '2%' ? (
         <>
           <View
@@ -128,6 +177,10 @@ export default function PaymentChosenScreen({
               offerNumber={52}
               raiseNumber={300}
               fullNumber={500}
+              rewardNumber={rewardNumber}
+              interestPercentage={interestPercentage}
+              monthDurationPost={monthDurationPost}
+              ppm={ppm}
               users={[
                 {
                   firstNameLetter: 'Z',

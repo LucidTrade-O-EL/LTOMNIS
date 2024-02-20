@@ -248,8 +248,23 @@ export type HomeStackParamList = {
     offerId: string;
     interestPercentage: number;
     totalAmount: number;
+    postCurrentAmount?: number;
+    postTotalAmount?: number;
+    totalWithInterest?: number;
+    firstName: string;
+    lastName: string;
   };
-  PaymentChosenScreen: undefined;
+  PaymentChosenScreen: {
+    offerId: string;
+    interestPercentage: number;
+    term: number;
+    monthlyPayment: number;
+    postCurrentAmount?: number;
+    postTotalAmount?: number;
+    totalWithInterest?: number;
+    firstName: string;
+    lastName: string;
+  };
   OfferSentSuccessful: undefined;
   SuccessOffer: undefined;
   ActiveOfferMakePayment: undefined;

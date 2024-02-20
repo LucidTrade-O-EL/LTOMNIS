@@ -64,8 +64,8 @@ export default function AllPosts({route, navigation}) {
       );
       // Now you can do something with the offers data, like navigating to a new screen with this data
       const uniquePostId = postId;
-      dispatch(setUserPostId(uniquePostId));
       console.log('This is the correct uniquePostId!: ', uniquePostId);
+      dispatch(setUserPostId(uniquePostId))
       navigation.navigate('PostOfferSummary', {
         posts: response.data.uniquePost,
       });

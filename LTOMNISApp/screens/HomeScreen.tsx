@@ -26,13 +26,13 @@ import axios from 'axios';
 
 export default function HomeScreen({}: {}) {
   const [balance, setBalance] = useState('0.00'); // Default balance
-  const [OfferSent, setOfferSent] = useState(25);
-  const [AcceptedOffers, setAcceptedOffers] = useState(6);
+  const [OfferSent, setOfferSent] = useState(0);
+  const [AcceptedOffers, setAcceptedOffers] = useState(0);
   const [OffersAccepted, setOffersAccepted] = useState(13);
   const [NewOffers, setNewOffers] = useState(5);
   const [borrowerAcceptedOffers, setBorrowerAcceptedOffers] = useState(13);
-  const [borrowerNewOffers, setBorrowerNewOffers] = useState(5);
-  const [notificationCount, setNotificationCount] = useState(3); // Example count
+  const [borrowerNewOffers, setBorrowerNewOffers] = useState(0);
+  const [notificationCount, setNotificationCount] = useState(0); // Example count
   const [firstName, setFName] = useState('');
   const [lastName, setLName] = useState('');
 

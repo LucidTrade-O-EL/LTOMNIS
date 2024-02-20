@@ -1,5 +1,5 @@
 import {View, Text, SafeAreaView, Alert} from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import ScreenTitle from '../../../../assets/constants/Components/ScreenTitle';
 import {StyleSheet} from 'react-native';
 import GlobalStyles from '../../../../assets/constants/colors';
@@ -13,90 +13,55 @@ import {useSelector} from 'react-redux';
 import {AppState} from '../../../../ReduxStore';
 import axios from 'axios';
 import {OfferBigContainerProps} from '../../../../assets/constants/Components/OfferBigContainer';
-
-type ChoosePaymentPlanRouteProps = {
-  offerId: string;
-};
+import {title} from 'process';
 
 type ChoosePaymentPlanScreenProps = {
   route: RouteProp<HomeStackParamList, 'ChoosePaymentPlanScreen'>;
 };
 
-interface SelectedPlanDetails {
-  title: string;
+// Notes: http://localhost:8080/api/omnis/paymentplan/create
+
+type PlanDetailsType = {
   offerId: string;
-  fullNumber: number;
-  startPayDate: string; // Assuming startPayDate is a string
-  monthDuration?: number;
-  monthlyPayment?: number;
-  users: {
-    firstNameLetter: string;
-    lastNameLetter: string;
-    userName: string;
-    amount: number;
-    interest: number;
-  }[];
-}
+  interestPercentage: number;
+  term: number;
+  monthlyPayment: number;
+  totalAmount: number;
+  postCurrentAmount: number;
+};
 
 const ChoosePaymentPlanScreen: React.FC<ChoosePaymentPlanScreenProps> = ({
   route,
 }) => {
-  const {offerId, interestPercentage, totalAmount} = route.params;
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const {offerId, interestPercentage, totalAmount, postCurrentAmount, postTotalAmount, totalWithInterest, firstName, lastName} = route.params;
+  const [selectedPlan, setSelectedPlan] = useState<PlanDetailsType | null>(null);
+  const navigation = useNavigation<NativeStackNavigationProp<HomeStackParamList>>();
 
-  console.log('totalWithInterest');
-
-  console.log('offerId', offerId);
-  const [selectedPlan, setSelectedPlan] =
-    useState<OfferBigContainerProps | null>(null);
-  const token = useSelector((state: AppState) => state.token);
-
-  const sendPaymentPlanData = async (planDetails: OfferBigContainerProps) => {
-    const url = 'http://localhost:8080/api/omnis/paymentplan/create'; // Replace with your backend URL
-    try {
-      const response = await axios.post(
-        url,
-        {
-          offerId: offerId,
-          ppm: interestPercentage,
-          months: 4,
-          // months: planDetails.title,
-          totalAmount: totalAmount,
-          user: planDetails.users, // Include startPayDate in the payload
-          startPayDate: planDetails.startPayDate,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json',
-          },
-        },
-      );
-      console.log('planDetails.monthDuration', planDetails.monthDuration);
-      console.log(
-        '/omnis/paymentplan/create Success',
-        JSON.stringify(response.data),
-      );
-
-      return response.data;
-    } catch (error) {
-      console.log('error**', error);
-      throw error;
-    }
-  };
-
-  const handlePlanSelect = (selectedPlanDetails: SelectedPlanDetails) => {
-    // If the same plan is selected again, deselect it
-    if (selectedPlan && selectedPlan.offerId === selectedPlanDetails.offerId) {
+  const handleSelectPlan = (planDetails: PlanDetailsType) => {
+    if (selectedPlan && selectedPlan.term === planDetails.term) {
       setSelectedPlan(null);
     } else {
-      setSelectedPlan(selectedPlanDetails);
+      setSelectedPlan(planDetails);
     }
   };
 
-  const paymentPlans = ['3', '6', '12'];
-  const navigation =
-    useNavigation<NativeStackNavigationProp<HomeStackParamList>>();
+console.log('firstName + lastName', firstName + ' ' + lastName)
+
+  // useEffect to navigate when selectedPlan changes
+  useEffect(() => {
+    if (selectedPlan) {
+      navigation.navigate('PaymentChosenScreen', {
+        ...selectedPlan,
+        offerId: offerId,
+        firstName: firstName,
+        lastName: lastName,
+        postCurrentAmount: postCurrentAmount,
+        postTotalAmount: postTotalAmount,
+        totalWithInterest: totalWithInterest,
+        interestPercentage: interestPercentage,
+      });
+    }
+  }, [selectedPlan, navigation, offerId, interestPercentage]);
 
   return (
     <View style={styles.Background}>
@@ -105,7 +70,7 @@ const ChoosePaymentPlanScreen: React.FC<ChoosePaymentPlanScreenProps> = ({
           title={t('choosePaymentPlan')}
           showBackArrow={true}
           onBackPress={() => {
-            // Handle the back button press, e.g., navigate back
+            navigation.goBack();
           }}
         />
         <View
@@ -114,37 +79,16 @@ const ChoosePaymentPlanScreen: React.FC<ChoosePaymentPlanScreenProps> = ({
             borderRadius: 24,
             flex: 1,
           }}>
-          {paymentPlans.map((plan, index) => (
+          {[3, 6, 12].map(duration => (
             <PaymentPlanBox
-              key={index}
-              title={plan}
+              key={duration}
+              term={duration}
               offerId={offerId}
               fullNumber={totalAmount}
-              isSelected={selectedPlan?.offerId === offerId}
-              onSelect={(selectedPlanDetails: SelectedPlanDetails) => {
-                // console.log('Received plan details:', selectedPlanDetails);
-                // handlePlanSelect({
-                //   title: plan,
-                //   offerId: offerId,
-                //   fullNumber: totalAmount,
-                //   startPayDate: selectedPlanDetails.startPayDate,
-                //   users: [
-                //     {
-                //       firstNameLetter: 'Z',
-                //       lastNameLetter: 'K',
-                //       userName: 'Zak',
-                //       interest: interestPercentage,
-                //       amount: totalAmount,
-                //     },
-                //   ],
-                // });
-                handlePlanSelect(selectedPlanDetails);
-              }}
+              isSelected={selectedPlan?.term === duration}
+              onSelect={handleSelectPlan}
               users={[
                 {
-                  firstNameLetter: 'Z',
-                  lastNameLetter: 'K',
-                  userName: 'Zak',
                   interest: interestPercentage,
                   amount: totalAmount,
                 },
@@ -153,33 +97,6 @@ const ChoosePaymentPlanScreen: React.FC<ChoosePaymentPlanScreenProps> = ({
           ))}
         </View>
       </View>
-      <CompleteButton
-        onPress={() => {
-          console.log('Selected Plan on Complete:', selectedPlan);
-          if (selectedPlan) {
-            setIsSubmitting(true); // Start loading state
-            sendPaymentPlanData(selectedPlan)
-              .then(response => {
-                // navigation.navigate('PaymentChosenScreen');
-              })
-              .catch(error => {
-                Alert.alert(
-                  'Failed to submit the plan. Please try again.',
-                  error.message,
-                );
-              })
-              .finally(() => {
-                setIsSubmitting(false); // End loading state
-                navigation.navigate('PaymentChosenScreen');
-              });
-          } else {
-            // Handle the case where no plan is selected
-            console.error('No plan selected');
-            Alert.alert('Please select a plan before proceeding.'); // Added an alert for better user feedback
-          }
-        }}
-        text={t('Complete')}
-      />
     </View>
   );
 };

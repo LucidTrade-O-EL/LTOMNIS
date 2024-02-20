@@ -31,7 +31,11 @@ export default function PostDetails() {
   const userPostId = useSelector(
     (state: AppState) => state.userPostId.userPostId,
   );
+  const userstate = useSelector(
+    (state: AppState) => state.userPostId.userPostId,
+  );
   console.log('Post ID for this post userPostId2', userPostId);
+  console.log('Post ID for this post userstate', userstate);
 
   const fetchData = async () => {
 

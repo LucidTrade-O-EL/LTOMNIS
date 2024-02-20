@@ -1,7 +1,9 @@
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React, {useState} from 'react';
 import {View, Text, StyleSheet, Pressable} from 'react-native';
 import {Divider} from 'react-native-elements';
-
+import { HomeStackParamList } from '../../../App';
 import GlobalStyles from '../colors';
 import StarCircle from './Buttons/StarCircle';
 
@@ -10,6 +12,10 @@ type OfferBigContainerProps = {
   offerNumber: number;
   raiseNumber: number;
   fullNumber: number;
+  interestPercentage: number;
+  monthDurationPost: number;
+  ppm: number;
+  rewardNumber: number;
   users: {
     firstNameLetter: string;
     lastNameLetter: string;
@@ -21,47 +27,23 @@ type OfferBigContainerProps = {
 
 const PaymentPlanBoxChangePlan: React.FC<OfferBigContainerProps> = ({
   title,
-  fullNumber,
+  interestPercentage,
+  monthDurationPost,
+  rewardNumber,
   users = [],
+  ppm,
 }) => {
-  const [isChosen, setIsChosen] = useState(false);
 
-  const getRewardPointsBasedOnMonths = (months: number) => {
-    switch (months) {
-      case 3:
-        return 250;
-      case 6:
-        return 500; // Change to desired value
-      case 12:
-        return 800; // Change to desired value
-      default:
-        return 100;
-    }
-  };
-
-  function addDaysToDate(daysToAdd: number): string {
-    const currentDate = new Date();
-    currentDate.setDate(currentDate.getDate() + daysToAdd);
-    return `${currentDate.getDate()}.${
-      currentDate.getMonth() + 1
-    }.${currentDate.getFullYear()}`;
-  }
-
-  const calculateMonthlyPayment = (fullAmount: number, months: number) => {
-    if (!fullAmount || !months || isNaN(fullAmount) || isNaN(months)) {
-      return '8.57'; // default value or handle appropriately
-    }
-    return (fullAmount / months).toFixed(2);
-  };
+  const navigation = useNavigation<NativeStackNavigationProp<HomeStackParamList>>();
 
   return (
     <View style={styles.container}>
       <View style={styles.innerContainerTitle}>
-        <Text style={styles.TitleOfferLeftText}>{title}</Text>
+        <Text style={styles.TitleOfferLeftText}>{`${monthDurationPost} months`}</Text>
         <View style={styles.rewardPointsContainer}>
           <StarCircle iconName="star-four-points-outline" />
           <Text style={styles.TitleOfferRightText}>
-            {getRewardPointsBasedOnMonths(Number(title.split(' ')[0]))}
+            {rewardNumber}
           </Text>
         </View>
       </View>
@@ -71,11 +53,9 @@ const PaymentPlanBoxChangePlan: React.FC<OfferBigContainerProps> = ({
           <Text
             style={
               styles.TextInRoles
-            }>{`${user.interest.toLocaleString()}% APR`}</Text>
+            }>{`${interestPercentage}% interest`}</Text>
           <Divider orientation="vertical" width={1} />
-          <Text style={styles.NumberInRoles}>{`Starting ${addDaysToDate(
-            user.amount,
-          )}`}</Text>
+          <Text style={styles.NumberInRoles}>TBD</Text>
         </View>
       ))}
 
@@ -88,13 +68,13 @@ const PaymentPlanBoxChangePlan: React.FC<OfferBigContainerProps> = ({
       <View style={styles.innerContainerBar}>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
           <Text style={styles.monthlyAmount}>
-            ${calculateMonthlyPayment(fullNumber, Number(title.split(' ')[0]))}
+            ${ppm.toFixed(2)}
           </Text>
           <Text style={styles.perMonth}> /month</Text>
         </View>
         <Pressable
           style={[styles.ViewButtonContainer, styles.selectedButtonStyle]}
-          onPress={() => {}}>
+          onPress={() => {navigation.pop(2)}}>
           <Text style={[styles.ViewButton, styles.selectedButtonTextStyle]}>
             Change Plan
           </Text>

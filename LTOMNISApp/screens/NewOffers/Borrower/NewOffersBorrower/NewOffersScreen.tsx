@@ -55,7 +55,7 @@ export default function NewOffersScreen() {
     console.log("Selected item:", item);
     // Your selection logic here
   };
-  
+
 
   return (
     <FlatList
@@ -75,7 +75,10 @@ export default function NewOffersScreen() {
           // imageUrl={item.imageUrl}
           // offerText={fromMyPosts ? 'Edit' : 'Offer'}
           id={item.id}
-          onSelect={() => handleSelect(item)} // Add this line
+          offerId={item.offerId} // Assuming these are part of your item object
+          fullNumber={item.fullNumber}
+          users={item.users}
+          onSelect={() => handleSelect(item)}
         />
       )}
       keyExtractor={(item, index) => index.toString()}

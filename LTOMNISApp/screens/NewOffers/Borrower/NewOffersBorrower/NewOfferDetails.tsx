@@ -71,6 +71,11 @@ const NewOfferDetails: React.FC<NewOfferDetailsProps> = ({route}) => {
             offerId: offerId,
             interestPercentage: interestPercentage, // Pass interestPercentage
             totalAmount: totalAmount, // Pass totalAmount
+            postCurrentAmount: postCurrentAmount,
+            postTotalAmount: postTotalAmount,
+            totalWithInterest: totalWithInterest,
+            firstName: firstName,
+            lastName: lastName,
           });
         }}
         text={t('Complete')}
