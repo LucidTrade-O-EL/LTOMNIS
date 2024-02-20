@@ -35,7 +35,10 @@ const NewOfferDetails: React.FC<NewOfferDetailsProps> = ({route}) => {
   console.log('this is postCurrentAmount^^', postCurrentAmount);
   console.log('this is postTotalAmount', postTotalAmount);
 
-  const totalWithInterest = totalAmount * (1 + interestPercentage / 100);
+  const totalWithInterest = (
+    totalAmount *
+    (1 + interestPercentage / 100)
+  ).toFixed(2);
 
   return (
     <SafeAreaView style={styles.Background}>
@@ -59,7 +62,7 @@ const NewOfferDetails: React.FC<NewOfferDetailsProps> = ({route}) => {
           {isDivider: true},
           {
             leftText: t('Total'),
-            rightText: `$${totalAmount * (1 + interestPercentage / 100)}`,
+            rightText: `$${totalWithInterest}`,
           },
         ]}
       />

@@ -92,6 +92,7 @@ import ScoreBreakDown from './screens/OMNISScore/ScoreBreakDown/ScoreBreakDown';
 import AllPosts from './screens/MyFeed/AllPosts';
 import CreateLinkToken from './screens/SignUp/CreateLinkToken';
 import PaymentPlanBoxChangePlan from './assets/constants/Components/PaymentPlanBoxChangePlan';
+import MyPosts from './screens/MyFeed/MyPosts';
 
 type MainStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
@@ -290,7 +291,7 @@ export type HomeStackParamList = {
     avatar?: string;
     currentAmount: number;
     postTotalAmount: number;
-    postCurrentAmount:  number;
+    postCurrentAmount: number;
   };
 };
 
@@ -385,7 +386,10 @@ export function HomeStackNavigator({}: HomeStackNavigatorProps) {
       />
       <HomeStack.Screen name="BeforeYouGo" component={BeforeYouGo} />
       <HomeStack.Screen name="BeforeYouGoAgain" component={BeforeYouGoAgain} />
-      <HomeStack.Screen name="PaymentPlanBoxChangePlan" component={PaymentPlanBoxChangePlan} />
+      <HomeStack.Screen
+        name="PaymentPlanBoxChangePlan"
+        component={PaymentPlanBoxChangePlan}
+      />
     </HomeStack.Navigator>
   );
 }

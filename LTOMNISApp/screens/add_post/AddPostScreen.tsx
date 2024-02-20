@@ -5,7 +5,7 @@ import ScreenTitle from '../../assets/constants/Components/ScreenTitle';
 import TextInputComponent from '../../assets/constants/Components/TextInputComponent';
 import Feather from 'react-native-vector-icons/Feather';
 import CompleteButton from '../../assets/constants/Components/Buttons/CompleteButton';
-import {NavigationContainer} from '@react-navigation/native';
+import {NavigationContainer, useNavigation} from '@react-navigation/native';
 import {launchImageLibrary} from 'react-native-image-picker';
 import {MediaType} from 'react-native-image-picker';
 
@@ -13,6 +13,8 @@ import axios from 'axios';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {useSelector} from 'react-redux';
 import {AppState} from '../../rootReducer';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {FeedStackParamList, HomeStackParamList} from '../../App';
 
 export default function AddPostScreen() {
   const [title, setTitle] = useState('');
@@ -21,6 +23,8 @@ export default function AddPostScreen() {
   const [featured, setIsFeatured] = useState(false);
   const [imageUri, setImageUri] = useState(null);
   const [imageFile, setImageFile] = useState(null);
+  const navigation =
+    useNavigation<NativeStackNavigationProp<FeedStackParamList>>();
 
   // const selectImageFromLibrary = () => {
   //   const options = {
@@ -51,9 +55,8 @@ export default function AddPostScreen() {
     formData.append('title', title);
     formData.append('description', description);
     console.log('Amount before appending to FormData:', amount);
-    formData.append('amount', amount);
+    formData.append('amount', amount.toFixed(2));
     formData.append('featured', String(featured)); // Convert boolean to string
-
 
     // if (imageFile) {
     //   formData.append('image', {
@@ -73,12 +76,13 @@ export default function AddPostScreen() {
     axios
       .post('http://localhost:8080/api/omnis/post/create', formData, config)
       .then(response => {
-        // Handle success
         console.log(response.data);
+        // Navigate back on success
+        navigation.navigate('FeedStackNavigator', {screen: 'MyFeedScreen'});
       })
       .catch(error => {
-        // Handle error
         console.error(error);
+        // Handle error (e.g., show an alert to the user)
       });
   };
 
@@ -113,14 +117,13 @@ export default function AddPostScreen() {
       <TextInputComponent
         title="Amount"
         placeholder="Enter Amount"
-        keyboardType="default"
+        keyboardType="numeric" // Changed to 'numeric' to better handle numeric input
         onChangeText={text => {
-          // Remove any non-numeric characters from input
-          const cleanedText = text.replace(/[^0-9]/g, '');
+          // Allow numbers and a single decimal point
+          const cleanedText = text.replace(/[^0-9.]/g, '');
 
-          // Convert the cleaned text to a number
-          const numericValue =
-            cleanedText === '' ? 0 : parseInt(cleanedText, 10);
+          // Check if the cleaned text is a valid number
+          const numericValue = cleanedText === '' ? 0 : parseFloat(cleanedText);
 
           // Set the amount state to the numeric value
           setAmount(numericValue);

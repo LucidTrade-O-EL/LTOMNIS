@@ -3,12 +3,12 @@ import {View, Text, StyleSheet, FlatList} from 'react-native';
 import {PostCard, PostCardProps} from './PostCard';
 import GlobalStyles from '../../assets/constants/colors';
 import axios from 'axios';
-import {AppState} from '../../ReduxStore';
-import {useSelector} from 'react-redux';
+import {AppState, setUserPostId} from '../../ReduxStore';
+import {useDispatch, useSelector} from 'react-redux';
 
 export default function Featured({route, navigation}) {
   const fromMyPosts = route.params?.fromMyPosts ?? false;
-
+  const dispatch = useDispatch();
 
   const renderEmptyListComponent = () => {
     return (
@@ -35,7 +35,10 @@ export default function Featured({route, navigation}) {
           },
         );
         setPostData(response.data.featuredPostList);
-        console.log('response.data.featuredPostList', response.data.featuredPostList)
+        console.log(
+          'response.data.featuredPostList',
+          response.data.featuredPostList,
+        );
       } catch (error) {
         console.error('Error fetching data:', error.message);
       }
@@ -64,8 +67,12 @@ export default function Featured({route, navigation}) {
         },
       );
       // Now you can do something with the offers data, like navigating to a new screen with this data
+      const uniquePostId = postId;
+      console.log('This is the correct uniquePostId!: ', uniquePostId);
+      dispatch(setUserPostId(uniquePostId))
       navigation.navigate('PostOfferSummary', {
         posts: response.data.uniquePost,
+        
       });
 
       console.log(
@@ -95,7 +102,6 @@ export default function Featured({route, navigation}) {
       id={item.id}
     />
   );
-
 
   return (
     <View style={styles.container}>
