@@ -34,8 +34,8 @@ const PaymentPlanBox: React.FC<OfferBigContainerProps> = ({
       offerId: offerId,
       monthDuration: monthDuration,
       rewardNumber: rewardNumber,
-      monthlyPayment: monthlyPayment,
-      fullNumber: fullNumber
+      monthlyPayment: monthlyPayment.toFixed(2),
+      fullNumber: fullNumber,
     };
     onSelect(planDetails); // Trigger the callback passed as prop
     console.log('Plan Details', planDetails); // This should now execute on press
@@ -47,16 +47,20 @@ const PaymentPlanBox: React.FC<OfferBigContainerProps> = ({
     duration: number,
   ): number => {
     const interestDecimal = interest / 100;
-    const totalWithInterest = amount * (1 + interestDecimal);
-    return totalWithInterest / duration;
+    const monthlyInterestRate = interestDecimal / 12;
+    const monthlyPayment =
+      (amount * monthlyInterestRate) /
+      (1 - Math.pow(1 + monthlyInterestRate, -duration));
+    return monthlyPayment;
   };
 
   let monthlyPayment = 0;
   if (users.length > 0) {
+    const monthDurationNumber = +monthDuration.toFixed(2); // Convert to number
     monthlyPayment = calculateMonthlyPayment(
       fullNumber,
       users[0].interest,
-      monthDuration,
+      monthDurationNumber,
     );
   }
 
@@ -88,17 +92,13 @@ const PaymentPlanBox: React.FC<OfferBigContainerProps> = ({
     }.${year}`;
   };
 
-  const startPayDate = calculateStartPayDate();
-
   return (
     <View style={styles.container}>
       <View style={styles.innerContainerTitle}>
         <Text style={styles.TitleOfferLeftText}>{term} months</Text>
         <View style={styles.rewardPointsContainer}>
           <StarCircle iconName="star-four-points-outline" />
-          <Text style={styles.TitleOfferRightText}>
-            {rewardNumber}
-          </Text>
+          <Text style={styles.TitleOfferRightText}>{rewardNumber}</Text>
         </View>
       </View>
       {users.map((user, index) => {
@@ -128,21 +128,21 @@ const PaymentPlanBox: React.FC<OfferBigContainerProps> = ({
           )}`}</Text>
           <Text style={styles.perMonth}>{t('perMonth')}</Text>
         </View>
-          <Pressable
-            onPress={handlePress}
-            style={({pressed}) => [
-              styles.viewButtonBefore,
-              isSelected ? styles.selectedButtonBefore : {},
-              pressed && styles.pressedButtonBefore, // Optional: for pressed effect
+        <Pressable
+          onPress={handlePress}
+          style={({pressed}) => [
+            styles.viewButtonBefore,
+            isSelected ? styles.selectedButtonBefore : {},
+            pressed && styles.pressedButtonBefore, // Optional: for pressed effect
+          ]}>
+          <Text
+            style={[
+              styles.viewButton,
+              isSelected ? styles.selectedButtonTextStyle : {},
             ]}>
-            <Text
-              style={[
-                styles.viewButton,
-                isSelected ? styles.selectedButtonTextStyle : {},
-              ]}>
-              {isSelected ? t('Chosen') : t('Choose')}
-            </Text>
-          </Pressable>
+            {isSelected ? t('Chosen') : t('Choose')}
+          </Text>
+        </Pressable>
       </View>
     </View>
   );

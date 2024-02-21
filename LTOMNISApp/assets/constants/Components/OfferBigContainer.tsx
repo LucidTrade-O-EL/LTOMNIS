@@ -82,6 +82,7 @@ const OfferBigContainer: React.FC<OfferBigContainerProps> = ({
         const allNumOfOffers = res.data.borrowerPostList.map(
           post => post.numOfOffers,
         );
+        console.log('the Borrower data', res.data)
         setNumOfOffers(allNumOfOffers);
         console.log(
           'this is my res count',

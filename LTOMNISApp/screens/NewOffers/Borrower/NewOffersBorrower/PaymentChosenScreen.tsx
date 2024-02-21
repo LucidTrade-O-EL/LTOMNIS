@@ -87,7 +87,13 @@ export default function PaymentChosenScreen() {
       setIsLoading(true);
       const response = await axios.post(
         'http://localhost:8080/api/omnis/offer/accept',
-        body,
+        {
+          offerId: offerIdPost,
+          paymentPlan: {
+            ppm: ppm,
+            months: monthDurationPost,
+          },
+        },
         {headers: headers},
       );
       setPaymentPlanDetails(response.data);
@@ -134,7 +140,7 @@ export default function PaymentChosenScreen() {
       interestPercentage: interestPercentage,
       monthDuration: monthDuration,
       monthlyPayment: monthlyPayment,
-      fullNumber: fullNumber
+      fullNumber: fullNumber,
     });
   };
 

@@ -7,7 +7,6 @@ import {
   TouchableOpacity,
   Pressable,
 } from 'react-native';
-import RBSheet from 'react-native-raw-bottom-sheet';
 import ScreenTitle from '../../assets/constants/Components/ScreenTitle';
 import GlobalStyles from '../../assets/constants/colors';
 import CreditScoreBar from '../../assets/constants/Components/CreditScoreBar';
@@ -19,16 +18,11 @@ import {StackNavigationProp} from '@react-navigation/stack';
 import LevelDetails from './ScoreBreakDown/Levels/LevelDetails';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {OMNISScoreStackParamList} from '../../App';
+import RBSheet from 'react-native-raw-bottom-sheet';
 
 export default function OMNISScoreScreen() {
   const navigation =
     useNavigation<NativeStackNavigationProp<OMNISScoreStackParamList>>();
-
-  const refRBSheet = useRef<RBSheet>(null);
-
-  const handleIconPress = () => {
-    refRBSheet.current?.open();
-  };
 
   const handleClose = () => {
     refRBSheet.current?.close();
@@ -37,6 +31,25 @@ export default function OMNISScoreScreen() {
   const score = 80; // Replace with actual score
   const creditScore = 780;
   const scoreUpdate = 20;
+
+  const refRBSheet = useRef<RBSheet>(null);
+
+  const handleIconPress = () => {
+    refRBSheet.current?.open();
+  };
+
+  // Define the content for the bottom sheet
+  const BottomSheetContent = () => (
+    <View style={{alignItems: 'center', padding: 20}}>
+      <MaterialCommunityIcons
+        name={'account-circle-outline'}
+        size={24}
+        color={'gray'}
+      />
+      <Text style={{marginTop: 10, fontSize: 16}}>User Information</Text>
+      <Text style={{marginTop: 5}}>Details about the user's account...</Text>
+    </View>
+  );
 
   return (
     <SafeAreaView style={styles.Background}>
@@ -77,9 +90,14 @@ export default function OMNISScoreScreen() {
             justifyContent: 'center',
             alignItems: 'center',
           },
-        }}
-      />
-      <Pressable onPress={() => navigation.navigate('LevelsScreen')}>
+        }}>
+        {/* Render the bottom sheet content */}
+        <BottomSheetContent />
+      </RBSheet>
+
+      <Pressable
+        style={{marginTop: 40}}
+        onPress={() => navigation.navigate('LevelsScreen')}>
         <OmnisOptions
           isLottie={true}
           title="Money Master"
@@ -88,7 +106,7 @@ export default function OMNISScoreScreen() {
           status="silver"
         />
       </Pressable>
-      <OmnisOptions
+      {/* <OmnisOptions
         isLottie={false}
         imageSource={require('../../assets/Icons/knowledge.png')}
         title="Learning Hub"
@@ -101,7 +119,7 @@ export default function OMNISScoreScreen() {
         title="Visit Reward Shop"
         isProgressBar={false}
         subText="Redeem Points by buying best rewards for your purpose"
-      />
+      /> */}
     </SafeAreaView>
   );
 }
@@ -119,6 +137,7 @@ const styles = StyleSheet.create({
     height: '40%',
     backgroundColor: 'white',
     borderRadius: 24,
+    marginTop: 50,
   },
   ScoreBreakdownButton: {
     height: 56,

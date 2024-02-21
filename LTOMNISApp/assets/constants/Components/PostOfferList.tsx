@@ -76,6 +76,8 @@ const PostOfferList: React.FC<{post: PostType}> = ({post}) => {
     }
   };
 
+
+
   return (
     <View style={styles.container}>
       <View style={styles.innerContainerTitle}>

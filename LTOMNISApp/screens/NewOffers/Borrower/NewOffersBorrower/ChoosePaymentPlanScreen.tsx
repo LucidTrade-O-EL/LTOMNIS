@@ -3,17 +3,12 @@ import React, {useEffect, useState} from 'react';
 import ScreenTitle from '../../../../assets/constants/Components/ScreenTitle';
 import {StyleSheet} from 'react-native';
 import GlobalStyles from '../../../../assets/constants/colors';
-import CompleteButton from '../../../../assets/constants/Components/Buttons/CompleteButton';
 import PaymentPlanBox from '../../../../assets/constants/Components/PaymentPlanBox';
 import {RouteProp, useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {t} from 'i18next';
 import {HomeStackParamList} from '../../../../App';
-import {useSelector} from 'react-redux';
-import {AppState} from '../../../../ReduxStore';
-import axios from 'axios';
-import {OfferBigContainerProps} from '../../../../assets/constants/Components/OfferBigContainer';
-import {title} from 'process';
+
 
 type ChoosePaymentPlanScreenProps = {
   route: RouteProp<HomeStackParamList, 'ChoosePaymentPlanScreen'>;
