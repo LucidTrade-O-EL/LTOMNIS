@@ -8,27 +8,34 @@ import StarCircle from './Buttons/StarCircle';
 
 interface MediumBigContainerProps {
     title: string;
-    firstNameLetter: string;
-    lastNameLetter: string;
+    firstName: string;
+    lastName: string;
     avatarImage: string;
     userName: string;
     amount: number;
     interest: number;
     targetScreen: string;
+    timeElapsed: string;
+    postId: string;
 };
 
 const MediumBigContainer: React.FC<MediumBigContainerProps> = ({
     title,
-    firstNameLetter,
-    lastNameLetter,
+    firstName,
+    lastName,
     avatarImage,
     userName,
     amount,
     interest,
     targetScreen,
+    timeElapsed,
+    postId,
   }) => {
 
     const formattedAmount = amount?.toLocaleString() || '0';
+
+    console.log('firstNameLetter', firstName)
+    console.log('lastNameLetter', lastName)
 
 
     return (
@@ -45,11 +52,13 @@ const MediumBigContainer: React.FC<MediumBigContainerProps> = ({
           <OfferDetailSectionLender targetScreen={targetScreen}
             offers={[
               {
-                firstNameLetter: firstNameLetter,
-                lastNameLetter: lastNameLetter,
+                firstName: firstName,
+                lastName: lastName,
                 userName: userName,
                 amount: amount,
                 interest: interest,
+                postId: postId,
+                timeElapsed: timeElapsed,
               },
             ]}
           />
@@ -59,8 +68,6 @@ const MediumBigContainer: React.FC<MediumBigContainerProps> = ({
   };
   
   export default MediumBigContainer;
-  
-  // ... rest of your code
   
 
 const styles = StyleSheet.create({

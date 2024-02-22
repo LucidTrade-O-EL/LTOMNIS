@@ -1,11 +1,55 @@
-import { View, Text, FlatList, StyleSheet } from 'react-native';
-import React from 'react';
+import {View, Text, FlatList, StyleSheet} from 'react-native';
+import React, { useEffect, useState } from 'react';
 import GlobalStyles from '../../../../assets/constants/colors';
-import { offersDataLender } from '../../../../assets/constants/offersDataLender';
+import {offersDataLender} from '../../../../assets/constants/offersDataLender';
 import MediumBigContainer from '../../../../assets/constants/Components/MediumBigContainer';
+import { useSelector } from 'react-redux';
+import { AppState } from '../../../../ReduxStore';
+import axios from 'axios';
+
+interface OfferData {
+  id: number; // Assuming id is a number
+  title: string;
+  firstName: string;
+  lastName: string;
+  totalAmount: number;
+  interestPercentage: number;
+  timeElapsed: string;
+  offers: [];
+  // Include other fields as needed
+}
 
 const ActiveOffersLender = () => {
   // Function to render the empty list message
+  const [offersData, setOffersData] = useState<OfferData[]>([]);
+  const token = useSelector((state: AppState) => state.token);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          'http://localhost:8080/api/omnis/post/lender/active_offers',
+          {
+            headers: {
+              Authorization: `Bearer ${token.token}`,
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
+            },
+          },
+        );
+        setOffersData(response.data.lenderActiveOfferPostList);
+        console.log(
+          'response.data lender/active_offers',
+          JSON.stringify(response.data.lenderActiveOfferPostList),
+        );
+      } catch (error) {
+        console.error('Error fetching data: ', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   const renderEmptyListComponent = () => (
     <View style={styles.emptyContainer}>
       <Text style={styles.emptyText}>No Active Offers</Text>
@@ -14,17 +58,20 @@ const ActiveOffersLender = () => {
 
   return (
     <FlatList
-      style={{ backgroundColor: GlobalStyles.Colors.primary100 }}
-      data={offersDataLender}
-      renderItem={({ item }) => (
-        <MediumBigContainer targetScreen="ActiveOfferLenderDetails"
+      style={{backgroundColor: GlobalStyles.Colors.primary100}}
+      data={offersData}
+      renderItem={({item}) => (
+        <MediumBigContainer
+          targetScreen="ActiveOfferLenderDetails"
           title={item.title}
-          firstNameLetter={item.firstNameLetter}
-          lastNameLetter={item.lastNameLetter}
-          avatarImage={item.avatarImage}
-          userName={item.userName}
-          amount={item.amount}
-          interest={item.interest}
+          firstName={item.offers[0].user.firstName}
+          lastName={item.offers[0].user.lastName}
+          // avatarImage={item.avatarImage}
+          // userName={item.userName}
+          amount={item.offers[0].amount}
+          interest={item.offers[0].interestPercentage}
+          postId={item.id}
+          timeElapsed={item.timeElapsed}
         />
       )}
       keyExtractor={(item, index) => index.toString()}

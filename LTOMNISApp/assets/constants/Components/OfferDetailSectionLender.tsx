@@ -8,12 +8,14 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {HomeStackParamList} from '../../../App';
 
 interface OfferDetail {
-  firstNameLetter: string;
-  lastNameLetter: string;
+  firstName: string;
+  lastName: string;
   avatarImage?: string | null;
   userName: string;
   amount: number;
   interest: number;
+  postId: string;
+  timeElapsed: string;
 }
 
 interface OfferDetailSectionLenderProps {
@@ -43,7 +45,7 @@ const OfferDetailSectionLender: React.FC<OfferDetailSectionLenderProps> = ({
               <Avatar
                 size={25}
                 rounded
-                title={`${offer.firstNameLetter}${offer.lastNameLetter}`}
+                title={`${offer.firstName?.charAt(0) || ''}${offer.lastName?.charAt(0) || ''}`}
                 containerStyle={{
                   backgroundColor: GlobalStyles.Colors.primary100,
                 }}
@@ -53,7 +55,7 @@ const OfferDetailSectionLender: React.FC<OfferDetailSectionLenderProps> = ({
                 }}
               />
             )}
-            <Text style={styles.Subtext}>by {offer.userName}</Text>
+            <Text style={styles.Subtext}>by {offer.firstName} {offer.lastName}</Text>
             <View
               style={{
                 height: 15,
@@ -64,7 +66,7 @@ const OfferDetailSectionLender: React.FC<OfferDetailSectionLenderProps> = ({
               }}>
               <Divider orientation="vertical" width={1} />
             </View>
-            <Text style={styles.Subtext}>30 mins ago</Text>
+            <Text style={styles.Subtext}>{offer.timeElapsed}</Text>
           </View>
 
           <View
@@ -72,7 +74,7 @@ const OfferDetailSectionLender: React.FC<OfferDetailSectionLenderProps> = ({
             <Text
               style={
                 styles.NumberInRoles
-              }>{`$${offer.amount.toLocaleString()}`}</Text>
+              }>{`$${offer.amount}`}</Text>
             <View
               style={{
                 height: 15,
@@ -86,7 +88,7 @@ const OfferDetailSectionLender: React.FC<OfferDetailSectionLenderProps> = ({
             <Text
               style={
                 styles.TextInRoles
-              }>{`${offer.interest.toLocaleString()}% interest`}</Text>
+              }>{`${offer.interest}% interest`}</Text>
           </View>
           <View style={styles.RoleButtonContainer}>
             <Pressable
