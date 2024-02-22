@@ -1,9 +1,9 @@
-import { useNavigation } from '@react-navigation/native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import React, {useState} from 'react';
 import {View, Text, StyleSheet, Pressable} from 'react-native';
 import {Divider} from 'react-native-elements';
-import { HomeStackParamList } from '../../../App';
+import {HomeStackParamList} from '../../../App';
 import GlobalStyles from '../colors';
 import StarCircle from './Buttons/StarCircle';
 
@@ -33,18 +33,19 @@ const PaymentPlanBoxChangePlan: React.FC<OfferBigContainerProps> = ({
   users = [],
   ppm,
 }) => {
-
-  const navigation = useNavigation<NativeStackNavigationProp<HomeStackParamList>>();
+  const navigation =
+    useNavigation<NativeStackNavigationProp<HomeStackParamList>>();
 
   return (
     <View style={styles.container}>
       <View style={styles.innerContainerTitle}>
-        <Text style={styles.TitleOfferLeftText}>{`${monthDurationPost} months`}</Text>
+        <Text
+          style={
+            styles.TitleOfferLeftText
+          }>{`${monthDurationPost} months`}</Text>
         <View style={styles.rewardPointsContainer}>
           <StarCircle iconName="star-four-points-outline" />
-          <Text style={styles.TitleOfferRightText}>
-            {rewardNumber}
-          </Text>
+          <Text style={styles.TitleOfferRightText}>{rewardNumber}</Text>
         </View>
       </View>
 
@@ -67,14 +68,14 @@ const PaymentPlanBoxChangePlan: React.FC<OfferBigContainerProps> = ({
 
       <View style={styles.innerContainerBar}>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
-          <Text style={styles.monthlyAmount}>
-            ${ppm.toFixed(2)}
-          </Text>
+          <Text style={styles.monthlyAmount}>${ppm}</Text>
           <Text style={styles.perMonth}> /month</Text>
         </View>
         <Pressable
           style={[styles.ViewButtonContainer, styles.selectedButtonStyle]}
-          onPress={() => {navigation.pop(2)}}>
+          onPress={() => {
+            navigation.pop(2);
+          }}>
           <Text style={[styles.ViewButton, styles.selectedButtonTextStyle]}>
             Change Plan
           </Text>

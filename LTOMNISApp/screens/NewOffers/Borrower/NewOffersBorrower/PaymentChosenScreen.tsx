@@ -63,26 +63,13 @@ export default function PaymentChosenScreen() {
   const monthDurationPost = monthDuration;
   const ppm = monthlyPayment;
 
-  console.log('ppm:', ppm);
-  console.log('offerIdPost:', offerIdPost);
-  console.log('monthDurationPost:', monthDurationPost);
-  console.log('fullNumber', fullNumber);
-
   const fetchPaymentPlanDetails = async () => {
     const headers = {
       Authorization: `Bearer ${token.token}`,
       Accept: 'application/json',
       'Content-Type': 'application/json',
     };
-
-    const body = {
-      offerId: offerIdPost,
-      paymentPlan: {
-        ppm: ppm,
-        months: monthDurationPost,
-      },
-    };
-
+    console.log('Im in the try');
     try {
       setIsLoading(true);
       const response = await axios.post(
@@ -129,7 +116,7 @@ export default function PaymentChosenScreen() {
 
   const handleAcceptModal = () => {
     setModalVisible(false);
-    fetchPaymentPlanDetails;
+    fetchPaymentPlanDetails();
     navigation.navigate('SuccessOffer', {
       offerId: offerId,
       firstName: firstName,
