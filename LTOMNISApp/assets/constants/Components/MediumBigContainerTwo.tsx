@@ -11,19 +11,28 @@ import { useNavigation } from '@react-navigation/native';
 
 interface MediumBigContainerTwoProps {
   title: string;
-  firstNameLetter: string;
-  lastNameLetter: string;
+  firstName: string;
+  lastName: string;
   avatarImage: string;
   userName: string;
   amount: number;
   interest: number;
-  status: OfferStatus;
   targetScreen: string;
+  timeElapsed: string;
+  postId: string;
+  status: string;
 };
 
 const MediumBigContainerTwo: React.FC<MediumBigContainerTwoProps> = ({
   title,
+  firstName,
+  lastName,
+  avatarImage,
+  userName,
   amount,
+  interest,
+  timeElapsed,
+  postId,
   status,
   targetScreen,
 }) => {

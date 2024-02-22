@@ -1,8 +1,23 @@
 import {View, Text, FlatList, StyleSheet} from 'react-native';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import GlobalStyles from '../../../../assets/constants/colors';
 import {offersDataLender} from '../../../../assets/constants/offersDataLender';
 import MediumBigContainerTwo from '../../../../assets/constants/Components/MediumBigContainerTwo';
+import {useSelector} from 'react-redux';
+import {AppState} from '../../../../ReduxStore';
+import axios from 'axios';
+
+interface OfferData {
+  id: number; // Assuming id is a number
+  title: string;
+  firstName: string;
+  lastName: string;
+  totalAmount: number;
+  interestPercentage: number;
+  timeElapsed: string;
+  offers: [];
+  // Include other fields as needed
+}
 
 const ClosedOfferLender = () => {
   const renderEmptyListComponent = () => (
@@ -11,20 +26,51 @@ const ClosedOfferLender = () => {
     </View>
   );
 
+  const [offersData, setOffersData] = useState<OfferData[]>([]);
+  const token = useSelector((state: AppState) => state.token);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          'http://localhost:8080/api/omnis/posts/lender/closed_offers',
+          {
+            headers: {
+              Authorization: `Bearer ${token.token}`,
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
+            },
+          },
+        );
+        setOffersData(response.data.lenderClosedOfferPostList);
+        console.log(
+          'response.data /omnis/posts/lender/closed_offers',
+          JSON.stringify(response.data.lenderClosedOfferPostList),
+        );
+      } catch (error) {
+        console.error('Error fetching data: ', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <FlatList
       style={{backgroundColor: GlobalStyles.Colors.primary100}}
-      data={offersDataLender}
+      data={offersData}
       renderItem={({item}) => (
         <MediumBigContainerTwo
           targetScreen="ActiveOfferLenderDetails"
           title={item.title}
-          firstNameLetter={item.firstNameLetter}
-          lastNameLetter={item.lastNameLetter}
-          avatarImage={item.avatarImage}
-          userName={item.userName}
-          amount={item.amount}
-          interest={item.interest}
+          firstName={item.offers[0].user.firstName}
+          lastName={item.offers[0].user.lastName}
+          // avatarImage={item.avatarImage}
+          // userName={item.userName}
+          amount={item.offers[0].amount}
+          interest={item.offers[0].interestPercentage}
+          postId={item.id}
+          timeElapsed={item.timeElapsed}
           status={'Closed'}
         />
       )}
