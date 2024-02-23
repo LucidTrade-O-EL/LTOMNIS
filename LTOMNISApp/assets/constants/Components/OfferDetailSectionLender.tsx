@@ -14,7 +14,7 @@ interface OfferDetail {
   userName: string;
   amount: number;
   interest: number;
-  postId: string;
+  offerId: string;
   timeElapsed: string;
 }
 
@@ -24,10 +24,12 @@ interface OfferDetailSectionLenderProps {
 }
 
 const OfferDetailSectionLender: React.FC<OfferDetailSectionLenderProps> = ({
-  offers, targetScreen
+  offers,
+  targetScreen,
 }) => {
   const navigation =
     useNavigation<NativeStackNavigationProp<HomeStackParamList>>();
+
   return (
     <View style={{flex: 1}}>
       {offers.map((offer, index) => (
@@ -45,7 +47,9 @@ const OfferDetailSectionLender: React.FC<OfferDetailSectionLenderProps> = ({
               <Avatar
                 size={25}
                 rounded
-                title={`${offer.firstName?.charAt(0) || ''}${offer.lastName?.charAt(0) || ''}`}
+                title={`${offer.firstName?.charAt(0) || ''}${
+                  offer.lastName?.charAt(0) || ''
+                }`}
                 containerStyle={{
                   backgroundColor: GlobalStyles.Colors.primary100,
                 }}
@@ -55,7 +59,9 @@ const OfferDetailSectionLender: React.FC<OfferDetailSectionLenderProps> = ({
                 }}
               />
             )}
-            <Text style={styles.Subtext}>by {offer.firstName} {offer.lastName}</Text>
+            <Text style={styles.Subtext}>
+              by {offer.firstName} {offer.lastName}
+            </Text>
             <View
               style={{
                 height: 15,
@@ -71,10 +77,7 @@ const OfferDetailSectionLender: React.FC<OfferDetailSectionLenderProps> = ({
 
           <View
             style={{flexDirection: 'row', marginTop: 18, alignItems: 'center'}}>
-            <Text
-              style={
-                styles.NumberInRoles
-              }>{`$${offer.amount}`}</Text>
+            <Text style={styles.NumberInRoles}>{`$${offer.amount}`}</Text>
             <View
               style={{
                 height: 15,
@@ -86,14 +89,14 @@ const OfferDetailSectionLender: React.FC<OfferDetailSectionLenderProps> = ({
               <Divider orientation="vertical" width={1} />
             </View>
             <Text
-              style={
-                styles.TextInRoles
-              }>{`${offer.interest}% interest`}</Text>
+              style={styles.TextInRoles}>{`${offer.interest}% interest`}</Text>
           </View>
           <View style={styles.RoleButtonContainer}>
             <Pressable
               onPress={() => {
-                navigation.navigate(targetScreen as keyof HomeStackParamList);
+                navigation.navigate('ActiveOfferDetails', {
+                  offerId: offer.offerId,
+                });
               }}
               style={styles.ViewButtonContainer}>
               <Text style={styles.ViewButton}>Details</Text>

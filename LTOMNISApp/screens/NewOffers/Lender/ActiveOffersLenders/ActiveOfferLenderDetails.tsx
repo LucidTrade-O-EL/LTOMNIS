@@ -1,5 +1,5 @@
 import {View, Text, SafeAreaView, StyleSheet} from 'react-native';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import ScreenTitle from '../../../../assets/constants/Components/ScreenTitle';
 import GlobalStyles from '../../../../assets/constants/colors';
 import CustomOfferBlockWithProfile from '../../../../assets/constants/Components/CustomOfferBlockWithProfile';
@@ -8,12 +8,60 @@ import ProgressWithLabel from '../../../../assets/constants/Components/ProgressW
 import TransactionHistory from '../../../../assets/constants/Components/CustomTransactionButton';
 import SmallOfferDetailsVFour from '../../../../assets/constants/Components/SmallOfferDetailsVFour';
 import CompleteButton from '../../../../assets/constants/Components/Buttons/CompleteButton';
+import {AppState} from '../../../../ReduxStore';
+import {useSelector} from 'react-redux';
+import axios from 'axios';
+import {RouteProp} from '@react-navigation/native';
+import {HomeStackParamList} from '../../../../App';
 
 function handleTransaction() {
   console.log('Transaction History Button Pressed');
 }
+interface OfferData {
+  id: number; // Assuming id is a number
+  title: string;
+  firstName: string;
+  lastName: string;
+  totalAmount: number;
+  interestPercentage: number;
+  timeElapsed: string;
+  offers: [];
+  // Include other fields as needed
+}
 
-export default function ActiveOfferLenderDetails() {
+type ActiveOfferLenderDetailsProps = {
+  route: RouteProp<HomeStackParamList, 'ActiveOfferLenderDetails'>;
+};
+const ActiveOfferLenderDetails: React.FC<ActiveOfferLenderDetailsProps> = ({route}) => {
+  const [offersData, setOffersData] = useState<OfferData[]>([]);
+  const token = useSelector((state: AppState) => state.token);
+  const {offerId} = route.params;
+
+  console.log('this is the post ID', offerId);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:8080/api/omnis/offers/details/${offerId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token.token}`,
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
+            },
+          },
+        );
+        setOffersData(response.data);
+        console.log('response.data /omnis/offers/details/', JSON.stringify(response.data));
+      } catch (error) {
+        console.error('Error fetching data: ', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <SafeAreaView style={styles.Background}>
       <ScreenTitle
@@ -66,7 +114,9 @@ export default function ActiveOfferLenderDetails() {
       />
     </SafeAreaView>
   );
-}
+};
+
+export default ActiveOfferLenderDetails;
 
 const styles = StyleSheet.create({
   Background: {

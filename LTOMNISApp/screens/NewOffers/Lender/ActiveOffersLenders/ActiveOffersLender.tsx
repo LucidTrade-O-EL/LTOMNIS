@@ -28,7 +28,7 @@ const ActiveOffersLender = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          'http://localhost:8080/api/omnis/post/lender/active_offers',
+          'http://localhost:8080/api/omnis/posts/lender/active_offers',
           {
             headers: {
               Authorization: `Bearer ${token.token}`,

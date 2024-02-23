@@ -69,7 +69,7 @@ const NewOffersLender = () => {
           // userName={item.userName}
           amount={item.offers[0].amount}
           interest={item.offers[0].interestPercentage}
-          postId={item.id}
+          offerId={item.offers[0].id}
           timeElapsed={item.timeElapsed}
         />
       )}

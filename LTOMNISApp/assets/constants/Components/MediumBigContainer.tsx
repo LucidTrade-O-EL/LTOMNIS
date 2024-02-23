@@ -16,7 +16,7 @@ interface MediumBigContainerProps {
     interest: number;
     targetScreen: string;
     timeElapsed: string;
-    postId: string;
+    offerId: string;
 };
 
 const MediumBigContainer: React.FC<MediumBigContainerProps> = ({
@@ -29,7 +29,7 @@ const MediumBigContainer: React.FC<MediumBigContainerProps> = ({
     interest,
     targetScreen,
     timeElapsed,
-    postId,
+    offerId,
   }) => {
 
     const formattedAmount = amount?.toLocaleString() || '0';
@@ -57,7 +57,7 @@ const MediumBigContainer: React.FC<MediumBigContainerProps> = ({
                 userName: userName,
                 amount: amount,
                 interest: interest,
-                postId: postId,
+                offerId: offerId,
                 timeElapsed: timeElapsed,
               },
             ]}

@@ -93,6 +93,7 @@ import AllPosts from './screens/MyFeed/AllPosts';
 import CreateLinkToken from './screens/SignUp/CreateLinkToken';
 import PaymentPlanBoxChangePlan from './assets/constants/Components/PaymentPlanBoxChangePlan';
 import MyPosts from './screens/MyFeed/MyPosts';
+import NewOffersLender from './screens/NewOffers/Lender/SentOffers/NewOffersLender';
 
 type MainStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
@@ -240,8 +241,6 @@ export type HomeStackParamList = {
   OfferTransactionHistory: undefined;
   DepositMoneyScreen: undefined;
   WithdrawMoneyScreen: undefined;
-  ActiveOfferDetails: undefined;
-  ActiveOfferLenderDetails: undefined;
   ClosedOfferGiftAccepted: undefined;
   LoanDetailsScreen: undefined;
   OfferScreen: undefined;
@@ -293,6 +292,12 @@ export type HomeStackParamList = {
   BeforeYouGo: undefined;
   PaymentPlanBoxChangePlan: undefined;
   BeforeYouGoAgain: undefined;
+  ActiveOfferDetails: {
+    offerId: string;
+  };
+  ActiveOfferLenderDetails: {
+    offerId: string;
+  };
   NewOfferDetails: {
     offerId: string;
     firstName: string;
@@ -396,6 +401,7 @@ export function HomeStackNavigator({}: HomeStackNavigatorProps) {
         component={DepositMoneyScreen}
       />
       <HomeStack.Screen name="BeforeYouGo" component={BeforeYouGo} />
+      <HomeStack.Screen name="NewOffersLender" component={NewOffersLender} />
       <HomeStack.Screen name="BeforeYouGoAgain" component={BeforeYouGoAgain} />
       <HomeStack.Screen
         name="PaymentPlanBoxChangePlan"

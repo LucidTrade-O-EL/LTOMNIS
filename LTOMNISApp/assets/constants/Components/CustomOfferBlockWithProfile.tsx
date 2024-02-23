@@ -27,9 +27,13 @@ type DividerData = {
 
 type CustomOfferBlockProps = {
   data: Array<RowData | DividerData>;
-  firstname: string;
-  lastname: string;
+  firstName: string;
+  lastName: string;
+  amount: number;
+  interestPercentage: number;
+  id: number;
   status: OfferStatus;
+  createdAt: Date;
 };
 
 export type OfferStatus =
@@ -55,13 +59,17 @@ const statusStyles = {
 
 const CustomOfferBlockWithProfile: React.FC<CustomOfferBlockProps> = ({
   data,
-  firstname,
-  lastname,
+  firstName,
+  lastName,
+  amount,
+  interestPercentage,
+  id,
+  createdAt,
   status,
 }) => {
   const avatarImage = ''; // Assuming you'd get this from props or somewhere else
-  const firstNameLetter = firstname.charAt(0);
-  const lastNameLetter = lastname.charAt(0);
+  const firstNameLetter = firstName.charAt(0);
+  const lastNameLetter = lastName.charAt(0);
 
   return (
     <View style={styles.container}>
@@ -88,7 +96,7 @@ const CustomOfferBlockWithProfile: React.FC<CustomOfferBlockProps> = ({
             />
           )}
           <Text style={styles.TitleOfferText}>
-            {firstname} {lastname}
+            {firstName} {lastName}
           </Text>
         </View>
 
