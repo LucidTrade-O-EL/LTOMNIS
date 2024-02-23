@@ -1,33 +1,48 @@
-import React from 'react';
+import axios from 'axios';
+import React, { useCallback, useEffect, useState } from 'react';
 import { View, TextInput, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { useSelector } from 'react-redux';
+import { AppState } from '../../../../ReduxStore';
 import GlobalStyles from '../../colors';
+import _ from 'lodash';
 
-interface FriendListProps {
-  searchFriendHandler: (friend: Friend) => void;
-}
+const SearchTextBox = ({ placeholder = "Search", onSearch, ...props }) => {
+  const [offersData, setOffersData] = useState();
+  const token = useSelector((state: AppState) => state.token);
 
-const friendsData: Friend[] = [
-  {
-    id: '1',
-    name: 'Zak Veasy',
-    username: 'pablo',
-    avatarImage: '',
-    isFriend: false,
-    friends: [], // <-- add this
-    // friends property is missing here
-  },
-  {
-    id: '2',
-    name: 'Friend Ns',
-    username: 'pablo2',
-    isFriend: true,
-    friends: [], // <-- add this
-    // friends property is missing here too
-  },
-];
+  // Debounced search function
+  const debouncedSearch = useCallback(_.debounce(async (searchTerm) => {
+    console.log('before the try friends/search?query', debouncedSearch)
+    try {
+      const response = await axios.get(
+        `http://localhost:8080/api/omnis/friends/search?query=${searchTerm}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token.token}`,
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+        },
+      );
+      setOffersData(response.data.potentialFriendsList);
+      console.log('response.data friends/search?query', response.data.potentialFriendsList)
+    } catch (error) {
+      console.error('Error fetching data: ', error);
+    }
+  }, 300), [token.token]); // Adjust debounce time as needed
 
-const SearchTextBox = ({ placeholder = "Search", ...props }) => {
+  const handleSearch = (text: string) => {
+    debouncedSearch(text);
+  };
+
+  useEffect(() => {
+    if (onSearch) {
+      onSearch(offersData);
+    }
+  }, [offersData, onSearch]);
+
+
   return (
     <View style={styles.container}>
       <Icon name="search" size={16} color="white" style={styles.icon} />
@@ -35,6 +50,7 @@ const SearchTextBox = ({ placeholder = "Search", ...props }) => {
         style={styles.input} 
         placeholder={placeholder} 
         placeholderTextColor={GlobalStyles.Colors.accent100}
+        onChangeText={handleSearch} 
         {...props} 
       />
     </View>

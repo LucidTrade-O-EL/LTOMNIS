@@ -39,6 +39,7 @@
     "i18n-js": "^4.3.0",
     "i18next": "^23.7.11",
     "intl-pluralrules": "^2.0.1",
+    "lodash": "^4.17.21",
     "lottie-react-native": "^6.3.1",
     "plaid": "^16.0.0",
     "react": "18.2.0",

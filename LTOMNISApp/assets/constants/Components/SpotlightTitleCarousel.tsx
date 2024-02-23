@@ -1,6 +1,7 @@
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import React from 'react';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -10,7 +11,9 @@ import {
   Image,
   Pressable,
 } from 'react-native';
+import { useSelector } from 'react-redux';
 import {SpotlightStackParamList} from '../../../App';
+import { AppState } from '../../../ReduxStore';
 import GlobalStyles from '../colors';
 
 interface GroupItem {
@@ -32,6 +35,7 @@ export const CustomTitle: React.FC<CustomTitleProps> = ({
   onButtonPress,
   data,
 }) => {
+
   return (
     <View style={styles.titleContainer}>
       <Text style={styles.titleText}>{title}</Text>

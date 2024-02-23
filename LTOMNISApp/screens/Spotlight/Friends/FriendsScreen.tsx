@@ -22,7 +22,7 @@ export default function FriendsScreen() {
     };
 
     const handleShowAllButtonPress = () => {
-      console.log('Button Pressed');
+      console.log('Button Pressed in show');
       navigation.navigate('AddFriendScreen');
     };
     

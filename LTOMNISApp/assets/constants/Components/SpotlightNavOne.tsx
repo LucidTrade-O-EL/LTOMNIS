@@ -111,11 +111,11 @@ export default function SpotlightNavOne() {
           name="GroupsScreen"
           component={GroupsScreen}
         />        
-        {/* <Tab.Screen
+        <Tab.Screen
           options={{title: 'Friends'}}
           name="FriendsScreen"
           component={FriendsScreen}
-        /> */}
+        />
       </Tab.Navigator>
     );
   }

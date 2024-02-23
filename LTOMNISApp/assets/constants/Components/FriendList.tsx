@@ -6,8 +6,8 @@ import GlobalStyles from '../colors';
 
 export interface Friend {
   id: string;
-  name: string;
-  username: string;
+  firstName: string;
+  lastName: string;
   avatarImage?: string;
   isFriend: boolean; // Add this line
   friends?: Array<any>; // <-- use the optional modifier (?)
@@ -16,13 +16,14 @@ export interface Friend {
 interface FriendListProps {
   addFriendHandler: (friend: Friend) => void;
   unfriendHandler: (friend: Friend) => void;
+  friendListData: Friend[];
 }
 
 const friendsData: Friend[] = [
   {
     id: '1',
-    name: 'Zak Veasy',
-    username: 'pablo',
+    firstName: 'Zak',
+    lastName: 'Veasy',
     avatarImage: '',
     isFriend: false,
     friends: [], // <-- add this
@@ -30,14 +31,13 @@ const friendsData: Friend[] = [
   },
   {
     id: '2',
-    name: 'Friend Ns',
-    username: 'pablo2',
+    firstName: 'Pablo',
+    lastName: 'Veasy',
     isFriend: true,
     friends: [], // <-- add this
     // friends property is missing here too
   },
 ];
-
 
 const getInitials = (name: string) => {
   const parts = name.split(' ');
@@ -46,15 +46,14 @@ const getInitials = (name: string) => {
 };
 
 const FriendList: React.FC<FriendListProps> = ({
+  friendListData,
   addFriendHandler,
   unfriendHandler,
 }) => {
   const [friends, setFriends] = useState(friendsData);
 
-
   const renderFriendItem = ({item}: {item: Friend}) => {
     const isFriend = item.isFriend;
-
     const buttonStyle = isFriend
       ? {backgroundColor: GlobalStyles.Colors.primary600}
       : {backgroundColor: GlobalStyles.Colors.primary200};
@@ -63,18 +62,10 @@ const FriendList: React.FC<FriendListProps> = ({
 
     const handleFriendAction = (friend: Friend) => {
       if (friend.isFriend) {
-        unfriend(friend);
+        unfriendHandler(friend);
       } else {
-        addFriend(friend);
+        addFriendHandler(friend);
       }
-      // Toggle friend status in the friends state.
-      const updatedFriends = friends.map(f => {
-        if (f.id === friend.id) {
-          return {...f, isFriend: !f.isFriend}; // Toggle the isFriend flag.
-        }
-        return f;
-      });
-      setFriends(updatedFriends);
     };
 
     const addFriend = (friend: Friend) => {
@@ -93,7 +84,11 @@ const FriendList: React.FC<FriendListProps> = ({
           <Avatar
             size={44}
             rounded
-            title={item.avatarImage ? undefined : getInitials(item.name)}
+            title={
+              item.avatarImage
+                ? undefined
+                : getInitials(item.firstName) + getInitials(item.lastName)
+            }
             source={item.avatarImage ? {uri: item.avatarImage} : undefined}
             overlayContainerStyle={{
               backgroundColor: GlobalStyles.Colors.primary100,
@@ -101,8 +96,13 @@ const FriendList: React.FC<FriendListProps> = ({
             titleStyle={{color: 'black', fontSize: 14, fontWeight: '700'}}
           />
           <View>
-            <Text style={styles.friendName}>{item.name}</Text>
-            <Text style={styles.username}>@{item.username}</Text>
+            <Text style={styles.friendName}>
+              {item.firstName} {item.lastName}
+            </Text>
+            <Text style={styles.username}>
+              @{item.firstName}
+              {item.lastName}
+            </Text>
           </View>
         </View>
         <Pressable
@@ -120,7 +120,7 @@ const FriendList: React.FC<FriendListProps> = ({
 
   return (
     <FlatList
-      data={friends} // Use the friends state here instead of friendsData
+      data={friendListData}
       renderItem={renderFriendItem}
       keyExtractor={item => item.id}
     />

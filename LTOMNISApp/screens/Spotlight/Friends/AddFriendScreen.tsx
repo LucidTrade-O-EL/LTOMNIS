@@ -8,7 +8,7 @@ import axios from 'axios';
 import {Friend} from '../../../assets/constants/Components/FriendList';
 
 export default function AddFriendScreen() {
-  const [friendListData, setFriendListData] = React.useState<Friend[]>([]);
+  const [friendListData, setFriendListData] = useState<Friend[]>([]);
 
   const fetchFriendListData = async () => {
     try {
@@ -106,6 +106,12 @@ export default function AddFriendScreen() {
     fetchFriendListData(); // Fetch data when the component mounts
   }, []);
 
+
+  const handleSearch = (searchResults: Friend[]) => {
+    setFriendListData(searchResults);
+  };
+  
+
   return (
     <SafeAreaView style={styles.Background}>
       <ScreenTitle
@@ -119,9 +125,9 @@ export default function AddFriendScreen() {
         rightIconName="person-add" // replace with actual Feather icon name
         onRightIconPress={() => {}}
       />
-      <SearchTextBox />
+      <SearchTextBox onSearch={handleSearch} />
       <View style={{marginTop: 20, width: '100%', alignSelf: 'center'}}>
-        <FriendList addFriendHandler={addFriend} unfriendHandler={unfriend} />
+        <FriendList  friendListData={friendListData} addFriendHandler={addFriend} unfriendHandler={unfriend} />
       </View>
     </SafeAreaView>
   );
