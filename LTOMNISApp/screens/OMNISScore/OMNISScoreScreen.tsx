@@ -40,16 +40,36 @@ export default function OMNISScoreScreen() {
 
   // Define the content for the bottom sheet
   const BottomSheetContent = () => (
-    <View style={{alignItems: 'center', padding: 20}}>
-      <MaterialCommunityIcons
-        name={'account-circle-outline'}
-        size={24}
-        color={'gray'}
-      />
-      <Text style={{marginTop: 10, fontSize: 16}}>User Information</Text>
-      <Text style={{marginTop: 5}}>Details about the user's account...</Text>
+    <View style={styles.bottomSheetContainer}>
+      <View style={styles.scoreSection}>
+        <Text style={styles.titleText}>Your Score</Text>
+        <View style={styles.scoreDetails}>
+          <MaterialCommunityIcons
+            name={'star-circle-outline'} // Placeholder for the OMNIS score icon
+            size={24}
+            color={'white'}
+          />
+          <Text style={styles.scoreDescription}>
+            It's your personal OMNIS score that shows how active you are and if your financial decisions are wise. Learn more on Score Breakdown to see how your actions affect your OMNIS score.
+          </Text>
+        </View>
+        <View style={styles.scoreDetails}>
+          <MaterialCommunityIcons
+            name={'alert-circle-outline'} // Placeholder for the Credit score icon
+            size={24}
+            color={'red'}
+          />
+          <Text style={styles.scoreDescription}>
+            It's your actual credit score based on the data collected from International Data Report. It can be improved with the help of high OMNIS Score.
+          </Text>
+        </View>
+      </View>
+      <TouchableOpacity style={styles.gotItButton} onPress={handleClose}>
+        <Text style={styles.gotItButtonText}>Got It</Text>
+      </TouchableOpacity>
     </View>
   );
+  
 
   return (
     <SafeAreaView style={styles.Background}>
@@ -161,5 +181,45 @@ const styles = StyleSheet.create({
   closeButtonText: {
     color: 'white',
     fontSize: 16,
+  },
+  bottomSheetContainer: {
+    flex: 1,
+    alignItems: 'center',
+    padding: 20,
+    backgroundColor: GlobalStyles.Colors.primary800, // Set your background color
+  },
+  scoreSection: {
+    alignItems: 'flex-start',
+    width: '100%',
+  },
+  titleText: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: 'white',
+    marginBottom: 10,
+  },
+  scoreDetails: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  scoreDescription: {
+    flex: 1,
+    marginLeft: 10,
+    color: 'white',
+  },
+  gotItButton: {
+    height: 56,
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%', // Match the width to your button style
+    backgroundColor: GlobalStyles.Colors.primary200, // Set your button background color
+    borderRadius: 16,
+    padding: 10,
+  },
+  gotItButtonText: {
+    color: GlobalStyles.Colors.primary100,
+    fontSize: 18,
+    fontWeight: 'bold',
   },
 });
