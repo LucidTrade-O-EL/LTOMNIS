@@ -64,7 +64,7 @@ import PaymentChosenScreen from './screens/NewOffers/Borrower/NewOffersBorrower/
 import SuccessOffer from './screens/NewOffers/Borrower/NewOffersBorrower/SuccessOffer';
 import ActiveOfferMakePayment from './screens/NewOffers/Borrower/ActiveOffers/ActiveOfferMakePayment';
 import OfferDetailsAccepted from './screens/NewOffers/Borrower/ClosedOffers/OfferDetailsAccepted';
-import store from './ReduxStore';
+import store, {Friend} from './ReduxStore';
 import OMNISScoreScreen from './screens/OMNISScore/OMNISScoreScreen';
 import GroupsScreen from './screens/Spotlight/Groups/GroupsScreen';
 import FriendsScreen from './screens/Spotlight/Friends/FriendsScreen';
@@ -282,6 +282,9 @@ export type HomeStackParamList = {
   OfferDetailsAccepted: undefined;
   NotificationScreen: undefined;
   MyProfile: undefined;
+  FriendsProfile: {
+    id: string;
+  };
   FAQ: undefined;
   Settings: undefined;
   LanguagesSettings: undefined;

@@ -47,11 +47,11 @@ export default function Featured({route, navigation}) {
     // Call the function immediately to fetch data initially
     fetchData();
 
-    // Set up polling to fetch data every specified interval
-    const interval = setInterval(fetchData, 30000); // Fetch data every 30 seconds
+    // // Set up polling to fetch data every specified interval
+    // const interval = setInterval(fetchData, 30000); // Fetch data every 30 seconds
 
-    // Clean up interval on component unmount
-    return () => clearInterval(interval);
+    // // Clean up interval on component unmount
+    // return () => clearInterval(interval);
   }, []);
 
   const handleOfferPress = async (postId: string) => {

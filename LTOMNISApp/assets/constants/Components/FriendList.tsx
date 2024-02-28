@@ -1,7 +1,10 @@
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import React, {useState} from 'react';
 import {Pressable} from 'react-native';
 import {View, Text, StyleSheet, FlatList} from 'react-native';
 import {Avatar} from 'react-native-elements';
+import {HomeStackParamList} from '../../../App';
 import GlobalStyles from '../colors';
 
 export interface Friend {
@@ -11,6 +14,7 @@ export interface Friend {
   avatarImage?: string;
   isFriend: boolean; // Add this line
   friends?: Array<any>; // <-- use the optional modifier (?)
+  email: string;
 }
 
 interface FriendListProps {
@@ -19,25 +23,7 @@ interface FriendListProps {
   friendListData: Friend[];
 }
 
-const friendsData: Friend[] = [
-  {
-    id: '1',
-    firstName: 'Zak',
-    lastName: 'Veasy',
-    avatarImage: '',
-    isFriend: false,
-    friends: [], // <-- add this
-    // friends property is missing here
-  },
-  {
-    id: '2',
-    firstName: 'Pablo',
-    lastName: 'Veasy',
-    isFriend: true,
-    friends: [], // <-- add this
-    // friends property is missing here too
-  },
-];
+const friendsData: Friend[] = [];
 
 const getInitials = (name: string) => {
   const parts = name.split(' ');
@@ -51,6 +37,8 @@ const FriendList: React.FC<FriendListProps> = ({
   unfriendHandler,
 }) => {
   const [friends, setFriends] = useState(friendsData);
+  const navigation =
+    useNavigation<NativeStackNavigationProp<HomeStackParamList>>();
 
   const renderFriendItem = ({item}: {item: Friend}) => {
     const isFriend = item.isFriend;
@@ -80,7 +68,13 @@ const FriendList: React.FC<FriendListProps> = ({
 
     return (
       <View style={styles.friendContainer}>
-        <View style={styles.infoContainer}>
+        <Pressable
+          onPress={() => {
+            navigation.navigate('FriendsProfile', {
+              id: item.id, // Pass the friend's ID correctly here
+            });
+          }}
+          style={styles.infoContainer}>
           <Avatar
             size={44}
             rounded
@@ -100,11 +94,12 @@ const FriendList: React.FC<FriendListProps> = ({
               {item.firstName} {item.lastName}
             </Text>
             <Text style={styles.username}>
-              @{item.firstName}
-              {item.lastName}
+              {/* @{item.firstName}
+              {item.lastName} */}
+              @{item.email}
             </Text>
           </View>
-        </View>
+        </Pressable>
         <Pressable
           onPress={() => handleFriendAction(item)}
           style={[styles.buttonContainer, buttonStyle]}>

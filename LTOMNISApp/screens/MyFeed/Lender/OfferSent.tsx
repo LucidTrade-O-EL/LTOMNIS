@@ -6,9 +6,9 @@ import ScreenTitle from '../../../assets/constants/Components/ScreenTitle';
 import SmallOfferDetailsVFour from '../../../assets/constants/Components/SmallOfferDetailsVFour';
 import CompleteButton from '../../../assets/constants/Components/Buttons/CompleteButton';
 import CustomOfferBlock from '../../../assets/constants/Components/CustomOfferBlock';
-import { NavigationContainer, useNavigation } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { RootStackParamList } from '../../../types';
+import {NavigationContainer, useNavigation} from '@react-navigation/native';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {RootStackParamList} from '../../../types';
 
 type OfferSentProps = {
   receivedAmount?: string;
@@ -16,7 +16,8 @@ type OfferSentProps = {
 };
 
 const OfferSent: React.FC<OfferSentProps> = ({receivedAmount = '$399.78'}) => {
-  const navigation = useNavigation<StackNavigationProp<RootStackParamList, 'OfferSent'>>();
+  const navigation =
+    useNavigation<StackNavigationProp<RootStackParamList, 'OfferSent'>>();
 
   return (
     <SafeAreaView style={styles.Background}>
@@ -81,7 +82,7 @@ const OfferSent: React.FC<OfferSentProps> = ({receivedAmount = '$399.78'}) => {
         text="Visit Spotlight"
         iconColor={GlobalStyles.Colors.primary100}
         color={GlobalStyles.Colors.primary200}
-        onPress={() => navigation.navigate('SpotlightStackNavigator')}
+        onPress={() => 'SpotlightStackNavigator'}
       />
     </SafeAreaView>
   );

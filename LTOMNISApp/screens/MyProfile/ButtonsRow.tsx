@@ -1,5 +1,3 @@
-import {useNavigation} from '@react-navigation/native';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import React from 'react';
 import {
   View,
@@ -9,17 +7,18 @@ import {
   Dimensions,
 } from 'react-native';
 import GlobalStyles from '../../assets/constants/colors';
-import {RootStackParamList} from '../../types';
 
 const {width} = Dimensions.get('window');
-interface ButtonsRowProps {
+
+type ButtonsRowProps = {
   leftButtonText: string;
-  rightButtonText: string;
-  onLeftButtonPress: () => void; // Callback for left button press
-  onRightButtonPress: () => void; // Callback for right button press
-  isLeftButtonActive: boolean; // New prop to determine if left button is active
-  isRightButtonActive: boolean; // New prop to determine if right button is active
-}
+  rightButtonText?: string;
+  onLeftButtonPress: () => void;
+  onRightButtonPress?: () => void;
+  isLeftButtonActive: boolean;
+  isRightButtonActive?: boolean;
+  buttonState: 'add' | 'pending' | 'default'; // New prop to determine the state
+};
 
 const ButtonsRow = ({
   leftButtonText,
@@ -28,25 +27,37 @@ const ButtonsRow = ({
   onRightButtonPress,
   isLeftButtonActive,
   isRightButtonActive,
+  buttonState,
 }: ButtonsRowProps) => {
+  const getButtonStyle = (buttonType: 'left' | 'right') => {
+    switch (buttonState) {
+      case 'add':
+        return [styles.fullWidthButton, styles.add];
+      case 'pending':
+        return [styles.fullWidthButton, styles.pending];
+      default:
+        return [
+          styles.button,
+          buttonType === 'left' && isLeftButtonActive ? styles.activeButton : styles.inactiveButton,
+          buttonType === 'right' && isRightButtonActive ? styles.activeButton : styles.inactiveButton,
+        ];
+    }
+  };
+
   return (
     <View style={styles.container}>
       <TouchableOpacity
         onPress={onLeftButtonPress}
-        style={[
-          styles.button,
-          isLeftButtonActive ? styles.activeButton : styles.inactiveButton,
-        ]}>
+        style={getButtonStyle('left')}>
         <Text style={styles.buttonText}>{leftButtonText}</Text>
       </TouchableOpacity>
-      <TouchableOpacity
-        onPress={onRightButtonPress}
-        style={[
-          styles.button,
-          isRightButtonActive ? styles.activeButton : styles.inactiveButton,
-        ]}>
-        <Text style={styles.buttonText}>{rightButtonText}</Text>
-      </TouchableOpacity>
+      {rightButtonText && onRightButtonPress && (
+        <TouchableOpacity
+          onPress={onRightButtonPress}
+          style={getButtonStyle('right')}>
+          <Text style={styles.buttonText}>{rightButtonText}</Text>
+        </TouchableOpacity>
+      )}
     </View>
   );
 };
@@ -56,7 +67,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     width: width * 0.85,
-    alignSelf: 'center', // To center the container
+    alignSelf: 'center',
     marginVertical: 20,
   },
   button: {
@@ -66,17 +77,25 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 8,
   },
-  buttonLeft: {
-    backgroundColor: GlobalStyles.Colors.primary200, // Change to desired color
-  },
-  buttonRight: {
-    backgroundColor: GlobalStyles.Colors.primary200, // Change to desired color
+  fullWidthButton: {
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 8,
+    padding: 5
   },
   activeButton: {
     backgroundColor: GlobalStyles.Colors.primary200,
   },
   inactiveButton: {
     backgroundColor: GlobalStyles.Colors.primary700,
+  },
+  add: {
+    backgroundColor: GlobalStyles.Colors.primary200, // Adjust as needed
+  },
+  pending: {
+    backgroundColor: GlobalStyles.Colors.primary700, // Adjust as needed
+    // For a different text color, you would need to adjust the text style conditionally as well
   },
   buttonText: {
     color: 'white',

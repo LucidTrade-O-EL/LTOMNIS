@@ -6,9 +6,12 @@ import SearchTextBox from '../../../assets/constants/Components/Buttons/SearchTe
 import FriendList from '../../../assets/constants/Components/FriendList';
 import axios from 'axios';
 import {Friend} from '../../../assets/constants/Components/FriendList';
+import { useSelector } from 'react-redux';
+import { AppState, setFriendsList, setSelectedFriend } from '../../../ReduxStore';
 
 export default function AddFriendScreen() {
   const [friendListData, setFriendListData] = useState<Friend[]>([]);
+  const token = useSelector((state: AppState) => state.token);
 
   const fetchFriendListData = async () => {
     try {
@@ -28,7 +31,7 @@ export default function AddFriendScreen() {
       const user = res.data;
 
       if (user) {
-        setFriendListData(user); // Assuming the data structure matches your Friend type
+        setFriendsList(user); // Assuming the data structure matches your Friend type
       } else {
         console.log('No user data received');
       }
@@ -68,14 +71,17 @@ export default function AddFriendScreen() {
     try {
       const options = {
         method: 'POST',
-        url: 'https://api.lucidtrades.com/api/FriendRequest',
+        url: 'http://localhost:8080/api/omnis/friend/send/request',
         headers: {
+          Authorization: `Bearer ${token.token}`,
           Accept: 'application/json',
           'Content-Type': 'application/json',
         },
-        // Adjust this line to send the friend's ID as part of the request payload
-        data: {id: friendData.id},
+        data: {friendId: friendData.id},
       };
+
+      setSelectedFriend(friendData.id)
+      console.log('Response from FriendID:', friendData.id);
 
       const res = await axios(options);
       console.log('Response from addFriend:', res.data);
@@ -127,7 +133,7 @@ export default function AddFriendScreen() {
       />
       <SearchTextBox onSearch={handleSearch} />
       <View style={{marginTop: 20, width: '100%', alignSelf: 'center'}}>
-        <FriendList  friendListData={friendListData} addFriendHandler={addFriend} unfriendHandler={unfriend} />
+        <FriendList friendListData={friendListData} addFriendHandler={addFriend} unfriendHandler={unfriend} />
       </View>
     </SafeAreaView>
   );

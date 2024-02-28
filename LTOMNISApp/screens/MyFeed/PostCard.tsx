@@ -73,7 +73,7 @@ export const PostCard: React.FC<PostCardProps & {onOfferPress: () => void}> = ({
         <Pressable
           style={styles.header}
           onPress={() => {
-            navigation.navigate('FriendsProfile');
+            ('FriendsProfile');
           }}>
           <Avatar
             size={25}
@@ -87,7 +87,7 @@ export const PostCard: React.FC<PostCardProps & {onOfferPress: () => void}> = ({
         </Pressable>
         <Pressable
           onPress={() => {
-            navigation.navigate('LevelsScreen');
+            ('LevelsScreen');
           }}
           style={styles.right}>
           <StarCircle
@@ -126,7 +126,7 @@ export const PostCard: React.FC<PostCardProps & {onOfferPress: () => void}> = ({
         {/* <Pressable
           style={styles.offerContainer}
           onPress={() => {
-            navigation.navigate('PostOfferSummary', {
+            ('PostOfferSummary', {
               avatar: avatar,
               firstName: firstName,
               lastName: lastName,

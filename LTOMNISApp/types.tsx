@@ -18,8 +18,10 @@ export type NavigationPropType = {
 
 // User Type
 export type User = {
+  firstName: string;
+  lastName: string;
+  avatarUri: string;
   id: number;
-  name: string;
   email: string;
 };
 

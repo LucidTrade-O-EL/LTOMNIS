@@ -20,6 +20,7 @@ const SET_USER_POST_ID = 'SET_USER_POST_ID';
 const SET_FIRST_NAME = 'SET_FIRST_NAME';
 const SET_LAST_NAME = 'SET_LAST_NAME';
 const SET_PLAN = 'SET_PLAN';
+const SELECT_fRIEND = 'SELECT_fRIEND';
 
 export interface AppInitialState {
   hasViewedOnboarding: boolean;
@@ -96,6 +97,15 @@ export interface TokenInitialState {
   token: string | null;
 }
 
+export interface Friend {
+  id: string;
+  firstName: string;
+  lastName: string;
+  avatarImage?: string;
+  isFriend: boolean; // Add this line
+  friends?: Array<any>; // <-- use the optional modifier (?)
+}
+
 const tokenInitialState: TokenInitialState = {
   token: null,
 };
@@ -159,7 +169,7 @@ const paymentPlanReducer = (state = SetPlanInitialState, action: any) => {
 };
 // HHHHHH
 const postIdReducer = (state = postIdInitialState, action: any) => {
-  console.log("Action :", action)
+  console.log('Action :', action);
   switch (action.type) {
     case SET_USER_POST_ID:
       return {...state, userPostId: action.payload};
@@ -235,6 +245,31 @@ const userPhoneNumberReducer = (state = initialStatePhone, action: Action) => {
   }
 };
 
+export interface FriendsInitialState {
+  selectedFriendId: string | null;
+}
+
+const friendsInitialState: FriendsInitialState = {
+  selectedFriendId: null,
+};
+
+export const setSelectedFriend = (selectedFriend: string) => ({
+  type: 'SELECT_fRIEND',
+  payload: selectedFriend,
+});
+
+const friendsReducer = (state = friendsInitialState, action: Action) => {
+  switch (action.type) {
+    case SELECT_fRIEND:
+      return {
+        ...state,
+        selectedFriendId: action.payload, // Now action.payload is correctly recognized
+      };
+    default:
+      return state;
+  }
+};
+
 // Combine Reducers
 const rootReducer = combineReducers({
   app: appReducer,
@@ -247,6 +282,7 @@ const rootReducer = combineReducers({
   userPostId: postIdReducer,
   userPhoneNumber: userPhoneNumberReducer,
   userFirstLast: userFirstLastReducer,
+  friends: friendsReducer,
 });
 
 // Store

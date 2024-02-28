@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, Text, StyleSheet, SafeAreaView, Alert} from 'react-native';
 import ScreenTitle from '../../assets/constants/Components/ScreenTitle';
 import {Avatar, Divider, Icon} from 'react-native-elements';
@@ -7,43 +7,108 @@ import GlobalStyles from '../../assets/constants/colors';
 import StatisticItem from '../MyProfile/StatisticItem';
 import ButtonsRow from '../MyProfile/ButtonsRow';
 import GrayBox from '../MyProfile/GrayBox';
+import {User} from '../../types';
+import axios from 'axios';
+import {useSelector} from 'react-redux';
+import {AppState} from '../../ReduxStore';
+import {RouteProp, useRoute} from '@react-navigation/native';
+import {HomeStackParamList} from '../../App';
 
+const FriendsProfile = () => {
+  const route = useRoute<RouteProp<HomeStackParamList, 'FriendsProfile'>>();
+  const {id} = route.params;
 
-export default function FriendsProfile() {
-  const firstUser = importedUser[0];
+  const [friendUserData, setFriendUserData] = useState();
+  const token = useSelector((state: AppState) => state.token);
+  const [friendshipStatus, setFriendshipStatus] = useState('not_friends'); // Example initial value
 
+  let buttonText = 'Add';
+  let buttonAction = () => console.log('Send friend request'); // Placeholder for your add friend function
+  let buttonActive = true; // Assuming it's always active in this context, adjust as needed
+  let buttonState = 'default'; // Default state, adjust based on your component's logic
 
-  const initials = firstUser.name
-    ? firstUser.name
-        .split(' ')
-        .map(word => word[0])
-        .join('')
-    : 'ZV';
+  // Example logic to set buttonState based on some condition
+  if (friendshipStatus === 'not_friends') {
+    buttonState = 'add'; // Now TypeScript knows buttonState is one of the allowed literals
+  } else if (friendshipStatus === 'pending') {
+    buttonState = 'pending'; // Same here
+  } else {
+    buttonState = 'default'; // And here
+  }
+
+  const friendId = id;
+  console.log('this idd', id);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:8080/api/omnis/user/friend/profile/${friendId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token.token}`,
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
+            },
+          },
+        );
+        setFriendUserData(response.data.friendsProfileObject);
+
+        console.log(
+          'response.data /omnis/user/friend/profile/${id}',
+          JSON.stringify(response.data.friendsProfileObject),
+        );
+      } catch (error) {
+        console.error('Error fetching data: ', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const initials = friendUserData
+    ? `${friendUserData.firstName[0]}${friendUserData.lastName[0]}`
+    : 'NA';
 
   return (
     <SafeAreaView style={styles.Background}>
-      <ScreenTitle
-        showBackArrow={true}
-        showRightIcon={false}
-      />
+      <ScreenTitle showBackArrow={true} showRightIcon={false} />
       <View style={styles.avatarContainer}>
         <Avatar
           size={80}
           rounded
-          title={!firstUser.avatarUri ? initials : undefined}
-          source={firstUser.avatarUri ? {uri: firstUser.avatarUri} : undefined}
+          title={!friendUserData?.avatarUri ? initials : undefined}
+          source={
+            friendUserData?.avatarUri
+              ? {uri: friendUserData.avatarUri}
+              : undefined
+          }
           overlayContainerStyle={{backgroundColor: 'gray'}}
           containerStyle={{width: 80, height: 80}}
         />
       </View>
+
       <View
         style={{marginTop: 10, flexDirection: 'column', alignItems: 'center'}}>
-        <Text style={styles.nameTitle}>Zakariya Veasy</Text>
-        <Text style={styles.usernameTitle}>@easy</Text>
+        {friendUserData ? (
+          <>
+            <Text style={styles.nameTitle}>
+              {`${friendUserData.firstName} ${friendUserData.lastName}`}
+            </Text>
+            <Text style={styles.usernameTitle}>@{friendUserData.email}</Text>
+          </>
+        ) : (
+          // Render a placeholder or a loading indicator if friendUserData is undefined
+          <Text>Loading...</Text>
+        )}
       </View>
+
       <View>
         <View style={styles.statisticsContainer}>
-          <StatisticItem value="12" label="Friends" />
+          <StatisticItem
+            value={friendUserData?.numOfFriends ?? '0'}
+            label="Friends"
+          />
           <VerticalDivider />
           <StatisticItem value="80" label="Score" />
           <VerticalDivider />
@@ -53,16 +118,10 @@ export default function FriendsProfile() {
           />
         </View>
         <ButtonsRow
-          leftButtonText="Accept"
-          rightButtonText="Decline"
-          onLeftButtonPress={() => {
-            console.log('Left button pressed');
-          }}
-          onRightButtonPress={() => {
-            console.log('Right button pressed');
-          }}
-          isLeftButtonActive={true} // or false based on your state
-          isRightButtonActive={false} // or true based on your state
+          leftButtonText="Add Friend" // Example text, adjust based on your actual logic
+          onLeftButtonPress={() => console.log('Action for button')} // Placeholder function, replace with actual functionality
+          isLeftButtonActive={true} // Example, adjust based on your actual logic
+          buttonState={buttonState} // Correctly typed, no error should be thrown here
         />
       </View>
       <View
@@ -90,7 +149,9 @@ export default function FriendsProfile() {
       </View>
     </SafeAreaView>
   );
-}
+};
+
+export default FriendsProfile;
 
 const VerticalDivider = () => {
   return <Divider style={styles.divider} />;
