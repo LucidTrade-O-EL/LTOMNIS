@@ -135,7 +135,7 @@ export default function MyProfile() {
           leftButtonText="Edit Profile"
           rightButtonText="Share Profile"
           onLeftButtonPress={() => {
-            console.log('Left button pressed');
+            console.log(navigation.navigate('EditProfile'));
           }}
           onRightButtonPress={() => {
             console.log('Right button pressed');

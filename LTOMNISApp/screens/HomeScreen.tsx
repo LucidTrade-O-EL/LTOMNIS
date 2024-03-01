@@ -32,6 +32,8 @@ export default function HomeScreen({}: {}) {
   const [NewOffers, setNewOffers] = useState(5);
   const [borrowerAcceptedOffers, setBorrowerAcceptedOffers] = useState(13);
   const [borrowerNewOffers, setBorrowerNewOffers] = useState(0);
+  const [lenderAcceptedOffers, setLenderAcceptedOffers] = useState(0);
+  const [lenderNumOfOffersSent, setLenderNumOfOffersSent] = useState(0);
   const [notificationCount, setNotificationCount] = useState(0); // Example count
   const [firstName, setFName] = useState('');
   const [lastName, setLName] = useState('');
@@ -119,6 +121,8 @@ export default function HomeScreen({}: {}) {
           userData.homeFeedObject.borrowerAcceptedOffers,
         );
         setBorrowerNewOffers(userData.homeFeedObject.borrowerNewOffers);
+        setLenderAcceptedOffers(userData.homeFeedObject.lenderAcceptedOffers);
+        setLenderNumOfOffersSent(userData.homeFeedObject.lenderNumOfOffersSent);
       } catch (error) {
         console.error('Error fetching user data:', error);
       }
@@ -230,14 +234,14 @@ export default function HomeScreen({}: {}) {
           <View style={styles.RoleLabelContainer}>
             <Text style={styles.LenderBorrowerText}>Lender</Text>
             <View style={{flexDirection: 'row'}}>
-              <Text style={styles.TextInRoles}>Offer Sent</Text>
+              <Text style={styles.TextInRoles}>Offers Sent</Text>
               <Divider orientation="vertical" width={1} />
-              <Text style={styles.NumberInRoles}>{OfferSent}</Text>
+              <Text style={styles.NumberInRoles}>{lenderNumOfOffersSent}</Text>
             </View>
             <View style={{flexDirection: 'row'}}>
               <Text style={styles.TextInRoles}>Accepted Offers</Text>
               <Divider orientation="vertical" width={1} />
-              <Text style={styles.NumberInRoles}>{AcceptedOffers}</Text>
+              <Text style={styles.NumberInRoles}>{lenderAcceptedOffers}</Text>
             </View>
           </View>
           <View style={styles.RoleButtonContainer}>
