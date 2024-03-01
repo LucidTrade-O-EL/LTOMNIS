@@ -1,4 +1,4 @@
-import {View, Text, FlatList, StyleSheet} from 'react-native';
+import {View, Text, FlatList, StyleSheet, RefreshControl} from 'react-native'; // Import RefreshControl
 import React, {useEffect, useState} from 'react';
 import GlobalStyles from '../../../../assets/constants/colors';
 import {offersData} from '../../../../assets/constants/data';
@@ -12,12 +12,14 @@ import axios from 'axios';
 export default function ActiveOffers({route}) {
   const [postData, setPostData] = useState<OfferBigContainerProps[]>([]);
   const token = useSelector((state: AppState) => state.token);
+  const [refreshing, setRefreshing] = useState(false); // Added refreshing state
   const fromMyPosts = route.params?.fromMyPosts ?? false;
   const id = useSelector((state: AppState) => state.user.userId);
 
   console.log('this is the ID***', id);
 
   const fetchActiveOffers = async () => {
+    setRefreshing(true); // Start refreshing
     try {
       const options = {
         method: 'GET',
@@ -28,21 +30,21 @@ export default function ActiveOffers({route}) {
           'Content-Type': 'application/json',
         },
       };
-      console.log(`Bearer Active** ${token.token}`);
 
       const res = await axios(options);
-
-      console.log('res on active**', res)
       if (res.data) {
-        setPostData(res.data.activeOffersPostList);
-        console.log('this is PostData*** on Borrower', JSON.stringify(res.data.activeOffersPostList)); // Set the post data with the data from the API.
-      } else {
-        console.log('No user data received');
+        setPostData(res.data.activeOffersPostList); // Update post data
       }
-    } catch (error: any) {
+    } catch (error) {
       console.error('An error occurred:', error);
+    } finally {
+      setRefreshing(false); // Stop refreshing
     }
   };
+
+  useEffect(() => {
+    fetchActiveOffers(); // Initial fetch
+  }, []);
 
   useEffect(() => {
     fetchActiveOffers(); // Fetch data when the component mounts
@@ -73,6 +75,12 @@ export default function ActiveOffers({route}) {
       keyExtractor={(item, index) => index.toString()}
       contentContainerStyle={styles.container}
       ListEmptyComponent={renderEmptyListComponent}
+      refreshControl={
+        <RefreshControl
+          refreshing={refreshing}
+          onRefresh={fetchActiveOffers} // Refresh function
+        />
+      }
     />
   );
 }

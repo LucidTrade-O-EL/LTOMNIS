@@ -1,10 +1,10 @@
-import {View, Text, FlatList, StyleSheet} from 'react-native';
-import React, { useEffect, useState } from 'react';
+import {View, Text, FlatList, StyleSheet, RefreshControl} from 'react-native';
+import React, {useEffect, useState} from 'react';
 import GlobalStyles from '../../../../assets/constants/colors';
 import {offersDataLender} from '../../../../assets/constants/offersDataLender';
 import MediumBigContainer from '../../../../assets/constants/Components/MediumBigContainer';
-import { useSelector } from 'react-redux';
-import { AppState } from '../../../../ReduxStore';
+import {useSelector} from 'react-redux';
+import {AppState} from '../../../../ReduxStore';
 import axios from 'axios';
 
 interface OfferData {
@@ -23,32 +23,32 @@ const ActiveOffersLender = () => {
   // Function to render the empty list message
   const [offersData, setOffersData] = useState<OfferData[]>([]);
   const token = useSelector((state: AppState) => state.token);
+  const [refreshing, setRefreshing] = useState(false); // Added refreshing state
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          'http://localhost:8080/api/omnis/posts/lender/active_offers',
-          {
-            headers: {
-              Authorization: `Bearer ${token.token}`,
-              Accept: 'application/json',
-              'Content-Type': 'application/json',
-            },
-          },
-        );
-        setOffersData(response.data.lenderActiveOfferPostList);
-        console.log(
-          'response.data lender/active_offers',
-          JSON.stringify(response.data.lenderActiveOfferPostList),
-        );
-      } catch (error) {
-        console.error('Error fetching data: ', error);
-      }
-    };
-
     fetchData();
   }, []);
+
+  const fetchData = async () => {
+    setRefreshing(true); // Start refreshing
+    try {
+      const response = await axios.get(
+        'http://localhost:8080/api/omnis/posts/lender/active_offers',
+        {
+          headers: {
+            Authorization: `Bearer ${token.token}`,
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+        },
+      );
+      setOffersData(response.data.lenderActiveOfferPostList);
+    } catch (error) {
+      console.error('Error fetching data: ', error);
+    } finally {
+      setRefreshing(false); // Stop refreshing
+    }
+  };
 
   const renderEmptyListComponent = () => (
     <View style={styles.emptyContainer}>
@@ -77,6 +77,12 @@ const ActiveOffersLender = () => {
       keyExtractor={(item, index) => index.toString()}
       contentContainerStyle={styles.container}
       ListEmptyComponent={renderEmptyListComponent}
+      refreshControl={
+        <RefreshControl
+          refreshing={refreshing}
+          onRefresh={fetchData} // Call fetchData on pull-to-refresh
+        />
+      }
     />
   );
 };

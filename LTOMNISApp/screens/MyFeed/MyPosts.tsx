@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {View, StyleSheet, FlatList, Text} from 'react-native';
+import {View, StyleSheet, FlatList, Text, RefreshControl} from 'react-native';
 import {PostCard, PostCardProps} from './PostCard';
 import GlobalStyles from '../../assets/constants/colors';
 import axios from 'axios';
@@ -9,6 +9,7 @@ import {AppState} from '../../ReduxStore';
 export default function MyPosts({route, navigation}) {
   const [postData, setPostData] = useState<PostCardProps[]>([]);
   const token = useSelector((state: AppState) => state.token);
+  const [refreshing, setRefreshing] = useState(false); // Added for pull-to-refresh
   const fromMyPosts = route.params?.fromMyPosts ?? false;
 
   const renderEmptyListComponent = () => {
@@ -20,6 +21,7 @@ export default function MyPosts({route, navigation}) {
   };
 
   const fetchMyPostFeedList = async () => {
+    setRefreshing(true); // Enable refreshing indicator
     try {
       const options = {
         method: 'GET',
@@ -41,6 +43,8 @@ export default function MyPosts({route, navigation}) {
       }
     } catch (error: any) {
       console.error('An error occurred:', error);
+    } finally {
+      setRefreshing(false); // Disable refreshing indicator once data is fetched
     }
   };
 
@@ -112,6 +116,12 @@ export default function MyPosts({route, navigation}) {
         keyExtractor={item => item.id}
         ListEmptyComponent={renderEmptyListComponent}
         contentContainerStyle={styles.listContentContainer}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={fetchMyPostFeedList}
+          />
+        }
       />
     </View>
   );

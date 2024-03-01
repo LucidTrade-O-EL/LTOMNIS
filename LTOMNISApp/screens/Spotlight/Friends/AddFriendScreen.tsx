@@ -117,6 +117,9 @@ export default function AddFriendScreen() {
     setFriendListData(searchResults);
   };
   
+  console.log('this AddFriendScreen', friendListData)
+  // We need status of friend
+  // We also need the backend to be okay with null result as the user has not searched
 
   return (
     <SafeAreaView style={styles.Background}>

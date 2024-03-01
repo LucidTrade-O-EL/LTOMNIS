@@ -1,4 +1,4 @@
-import {View, Text, FlatList, StyleSheet} from 'react-native';
+import {View, Text, FlatList, StyleSheet, RefreshControl} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import GlobalStyles from '../../../../assets/constants/colors';
 import {offersDataLender} from '../../../../assets/constants/offersDataLender';
@@ -15,38 +15,39 @@ interface OfferData {
   totalAmount: number;
   interestPercentage: number;
   timeElapsed: string;
-  offers: [
-    
-  ];
+  offers: [];
   // Include other fields as needed
 }
 
 const NewOffersLender = () => {
   const [offersData, setOffersData] = useState<OfferData[]>([]);
   const token = useSelector((state: AppState) => state.token);
+  const [refreshing, setRefreshing] = useState(false); // Added refreshing state
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          'http://localhost:8080/api/omnis/posts/lender',
-          {
-            headers: {
-              Authorization: `Bearer ${token.token}`,
-              Accept: 'application/json',
-              'Content-Type': 'application/json',
-            },
-          },
-        );
-        setOffersData(response.data.lenderPostList);
-        console.log('response.data', JSON.stringify(response.data.lenderPostList))
-      } catch (error) {
-        console.error('Error fetching data: ', error);
-      }
-    };
-
     fetchData();
   }, []);
+
+  const fetchData = async () => {
+    setRefreshing(true); // Start refreshing
+    try {
+      const response = await axios.get(
+        'http://localhost:8080/api/omnis/posts/lender',
+        {
+          headers: {
+            Authorization: `Bearer ${token.token}`,
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+        },
+      );
+      setOffersData(response.data.lenderPostList);
+    } catch (error) {
+      console.error('Error fetching data: ', error);
+    } finally {
+      setRefreshing(false); // Stop refreshing
+    }
+  };
 
   // Function to render the empty list message
   const renderEmptyListComponent = () => (
@@ -76,6 +77,12 @@ const NewOffersLender = () => {
       keyExtractor={item => item.id.toString()}
       contentContainerStyle={styles.container}
       ListEmptyComponent={renderEmptyListComponent}
+      refreshControl={
+        <RefreshControl
+          refreshing={refreshing}
+          onRefresh={fetchData}
+        />
+      }
     />
   );
 };

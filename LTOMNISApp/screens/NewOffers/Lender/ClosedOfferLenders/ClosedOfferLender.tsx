@@ -1,4 +1,4 @@
-import {View, Text, FlatList, StyleSheet} from 'react-native';
+import {View, Text, FlatList, StyleSheet, RefreshControl} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import GlobalStyles from '../../../../assets/constants/colors';
 import {offersDataLender} from '../../../../assets/constants/offersDataLender';
@@ -28,32 +28,32 @@ const ClosedOfferLender = () => {
 
   const [offersData, setOffersData] = useState<OfferData[]>([]);
   const token = useSelector((state: AppState) => state.token);
+  const [refreshing, setRefreshing] = useState(false); // Added refreshing state
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          'http://localhost:8080/api/omnis/posts/lender/closed_offers',
-          {
-            headers: {
-              Authorization: `Bearer ${token.token}`,
-              Accept: 'application/json',
-              'Content-Type': 'application/json',
-            },
-          },
-        );
-        setOffersData(response.data.lenderClosedOfferPostList);
-        console.log(
-          'response.data /omnis/posts/lender/closed_offers',
-          JSON.stringify(response.data.lenderClosedOfferPostList),
-        );
-      } catch (error) {
-        console.error('Error fetching data: ', error);
-      }
-    };
-
     fetchData();
   }, []);
+
+  const fetchData = async () => {
+    setRefreshing(true); // Start refreshing
+    try {
+      const response = await axios.get(
+        'http://localhost:8080/api/omnis/posts/lender/closed_offers',
+        {
+          headers: {
+            Authorization: `Bearer ${token.token}`,
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+        },
+      );
+      setOffersData(response.data.lenderClosedOfferPostList);
+    } catch (error) {
+      console.error('Error fetching data: ', error);
+    } finally {
+      setRefreshing(false); // Stop refreshing
+    }
+  };
 
   return (
     <FlatList
@@ -77,6 +77,12 @@ const ClosedOfferLender = () => {
       keyExtractor={(item, index) => index.toString()}
       contentContainerStyle={styles.container}
       ListEmptyComponent={renderEmptyListComponent}
+      refreshControl={
+        <RefreshControl
+          refreshing={refreshing}
+          onRefresh={fetchData} // Call fetchData on pull-to-refresh
+        />
+      }
     />
   );
 };

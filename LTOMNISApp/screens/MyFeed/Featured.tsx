@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, StyleSheet, FlatList} from 'react-native';
+import {View, Text, StyleSheet, FlatList, RefreshControl} from 'react-native';
 import {PostCard, PostCardProps} from './PostCard';
 import GlobalStyles from '../../assets/constants/colors';
 import axios from 'axios';
@@ -8,6 +8,7 @@ import {useDispatch, useSelector} from 'react-redux';
 
 export default function Featured({route, navigation}) {
   const fromMyPosts = route.params?.fromMyPosts ?? false;
+  const [refreshing, setRefreshing] = useState(false);
   const dispatch = useDispatch();
 
   const renderEmptyListComponent = () => {
@@ -21,37 +22,29 @@ export default function Featured({route, navigation}) {
   const [postData, setPostData] = useState<PostCardProps[]>([]);
   const token = useSelector((state: AppState) => state.token);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          'http://localhost:8080/api/omnis/posts/featured',
-          {
-            headers: {
-              Authorization: `Bearer ${token.token}`,
-              Accept: 'application/json',
-              'Content-Type': 'application/json',
-            },
+  const fetchData = async () => {
+    setRefreshing(true);
+    try {
+      const response = await axios.get(
+        'http://localhost:8080/api/omnis/posts/featured',
+        {
+          headers: {
+            Authorization: `Bearer ${token.token}`,
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
           },
-        );
-        setPostData(response.data.featuredPostList);
-        console.log(
-          'response.data.featuredPostList',
-          response.data.featuredPostList,
-        );
-      } catch (error) {
-        console.error('Error fetching data:', error.message);
-      }
-    };
+        },
+      );
+      setPostData(response.data.featuredPostList);
+    } catch (error) {
+      console.error('Error fetching data:', error.message);
+    } finally {
+      setRefreshing(false);
+    }
+  };
 
-    // Call the function immediately to fetch data initially
+  useEffect(() => {
     fetchData();
-
-    // // Set up polling to fetch data every specified interval
-    // const interval = setInterval(fetchData, 30000); // Fetch data every 30 seconds
-
-    // // Clean up interval on component unmount
-    // return () => clearInterval(interval);
   }, []);
 
   const handleOfferPress = async (postId: string) => {
@@ -69,10 +62,9 @@ export default function Featured({route, navigation}) {
       // Now you can do something with the offers data, like navigating to a new screen with this data
       const uniquePostId = postId;
       console.log('This is the correct uniquePostId!: ', uniquePostId);
-      dispatch(setUserPostId(uniquePostId))
+      dispatch(setUserPostId(uniquePostId));
       navigation.navigate('PostOfferSummary', {
         posts: response.data.uniquePost,
-        
       });
 
       console.log(
@@ -111,6 +103,9 @@ export default function Featured({route, navigation}) {
         keyExtractor={item => item.id}
         ListEmptyComponent={renderEmptyListComponent}
         contentContainerStyle={styles.listContentContainer}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={fetchData} />
+        }
       />
     </View>
   );

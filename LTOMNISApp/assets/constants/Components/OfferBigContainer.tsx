@@ -51,7 +51,6 @@ const OfferBigContainer: React.FC<OfferBigContainerProps> = ({
   targetScreen,
   id,
 }) => {
-  const progress = currentAmount / totalAmount;
   const userId = useSelector((state: AppState) => state.user.userId); // Only declaration of userId
 
   const token = useSelector((state: AppState) => state.token);
@@ -61,7 +60,7 @@ const OfferBigContainer: React.FC<OfferBigContainerProps> = ({
 
   const fetchOfferDetails = async () => {
     if (!userId) {
-      console.error('Offer ID is missing');
+      console.error('User ID is missing'); // Changed from Offer ID to User ID for clarity.
       return;
     }
     try {
@@ -74,32 +73,34 @@ const OfferBigContainer: React.FC<OfferBigContainerProps> = ({
           'Content-Type': 'application/json',
         },
       };
-      console.log(`Bearer ${token.token}`);
-
+  
       const res = await axios(options);
-      if (res.data) {
-        setActiveData(res.data.borrowerPostList);
-        const allNumOfOffers = res.data.borrowerPostList.map(
-          post => post.numOfOffers,
-        );
-        console.log('the Borrower data', res.data)
-        setNumOfOffers(allNumOfOffers);
-        console.log(
-          'this is my res count',
-          JSON.stringify(res.data.borrowerPostList.numOfOffers),
-        );
-        console.log(
-          'this is my res in Big Con',
-          JSON.stringify(res.data.borrowerPostList),
-        );
-        console.log('this Active data', JSON.stringify(res.data.user));
+      if (res.data && res.data.borrowerPostList) {
+        setActiveData(prevData => {
+          const newData = res.data.borrowerPostList;
+          // Combine and remove duplicates
+          const combinedData = [...prevData, ...newData].filter(
+            (v, i, a) => a.findIndex(t => t.id === v.id) === i
+          );
+          return combinedData;
+        });
+  
+        // Correctly calculating and setting numOfOffers based on the updated activeData
+        const allNumOfOffers = res.data.borrowerPostList.map(post => post.numOfOffers);
+        setNumOfOffers(allNumOfOffers); // Assuming you want to update numOfOffers state with new data
+  
+        console.log('the Borrower data', res.data);
+        console.log('this is my res count', JSON.stringify(allNumOfOffers)); // Updated to log the correct variable
+        console.log('this is my res in Big Con', JSON.stringify(res.data.borrowerPostList));
+        console.log('this Active data', JSON.stringify(res.data.user)); // Make sure this is the correct data you want to log
       } else {
-        console.log('No user data received');
+        console.log('No data received');
       }
-    } catch (error: any) {
+    } catch (error) {
       console.error('An error occurred:', error);
     }
   };
+  
 
   useEffect(() => {
     fetchOfferDetails();

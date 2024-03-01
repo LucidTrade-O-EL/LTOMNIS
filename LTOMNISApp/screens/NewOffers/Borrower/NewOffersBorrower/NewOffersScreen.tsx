@@ -2,21 +2,21 @@
 
 import axios from 'axios';
 import React, {useEffect, useState} from 'react';
-import { View } from 'react-native';
-import {StyleSheet, FlatList, Text} from 'react-native';
+import {View, StyleSheet, FlatList, Text, RefreshControl} from 'react-native';
 import {useSelector} from 'react-redux';
 import GlobalStyles from '../../../../assets/constants/colors';
 import OfferBigContainer, {
   OfferBigContainerProps,
 } from '../../../../assets/constants/Components/OfferBigContainer';
-import {offersData} from '../../../../assets/constants/data';
 import {AppState} from '../../../../ReduxStore';
 
 export default function NewOffersScreen() {
   const [postData, setPostData] = useState<OfferBigContainerProps[]>([]);
+  const [refreshing, setRefreshing] = useState(false);
   const token = useSelector((state: AppState) => state.token);
 
   const fetchMyPostFeedList = async () => {
+    setRefreshing(true); // Start refreshing
     try {
       const options = {
         method: 'GET',
@@ -27,19 +27,21 @@ export default function NewOffersScreen() {
           'Content-Type': 'application/json',
         },
       };
-      console.log(`Bearer ${token.token}`);
 
       const res = await axios(options);
       if (res.data) {
-        setPostData(res.data.myPostList); // Set the post data with the data from the API.
-        console.log('This is my Posts',res.data.myPostList )
-      } else {
-        console.log('No user data received');
+        setPostData(res.data.myPostList); // Update the post data
       }
-    } catch (error: any) {
+    } catch (error) {
       console.error('An error occurred:', error);
+    } finally {
+      setRefreshing(false); // Stop refreshing
     }
   };
+
+  useEffect(() => {
+    fetchMyPostFeedList(); // Initial data fetch
+  }, []);
 
   useEffect(() => {
     fetchMyPostFeedList(); // Fetch data when the component mounts
@@ -52,10 +54,11 @@ export default function NewOffersScreen() {
   );
 
   const handleSelect = (item: OfferBigContainerProps) => {
-    console.log("Selected item:", item);
+    console.log('Selected item:', item);
     // Your selection logic here
   };
 
+console.log('postData', postData.length)
 
   return (
     <FlatList
@@ -84,6 +87,12 @@ export default function NewOffersScreen() {
       keyExtractor={(item, index) => index.toString()}
       contentContainerStyle={styles.container}
       ListEmptyComponent={renderEmptyListComponent}
+      refreshControl={
+        <RefreshControl
+          refreshing={refreshing}
+          onRefresh={fetchMyPostFeedList} // Call your fetch function
+        />
+      }
     />
   );
 }

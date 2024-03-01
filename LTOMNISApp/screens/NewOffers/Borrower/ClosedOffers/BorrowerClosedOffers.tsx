@@ -1,46 +1,49 @@
 import React, {useEffect, useState} from 'react';
-import {StyleSheet, FlatList, Text} from 'react-native';
+import {StyleSheet, FlatList, Text, RefreshControl, View} from 'react-native';
 import GlobalStyles from '../../../../assets/constants/colors';
 import ClosedOfferBigContainer, {
   OfferStatus,
 } from '../../../../assets/constants/Components/ClosedOfferBigContainer';
 import {offersData} from '../../../../assets/constants/data';
 import {t} from 'i18next';
-import {View} from 'react-native';
 import axios from 'axios';
 import {useSelector} from 'react-redux';
 import {AppState} from '../../../../ReduxStore';
 
-
-
 export default function BorrowerClosedOffers() {
   const [offersData, setOffersData] = useState([]);
   const token = useSelector((state: AppState) => state.token);
+  const [refreshing, setRefreshing] = useState(false); // Added refreshing state
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          'http://localhost:8080/api/omnis/posts/borrower/closed_offers',
-          {
-            headers: {
-              Authorization: `Bearer ${token.token}`,
-              Accept: 'application/json',
-              'Content-Type': 'application/json',
-            },
-          },
-        );
-
-        setOffersData(response.data);
-        console.log('/omnis/posts/borrower/closed_offers', JSON.stringify(response.data));
-      } catch (error) {
-        console.error('Error fetching data: ', error);
-        // Handle error here
-      }
-    };
-
     fetchData();
   }, []);
+
+  const fetchData = async () => {
+    setRefreshing(true); // Start refreshing
+    try {
+      const response = await axios.get(
+        'http://localhost:8080/api/omnis/posts/borrower/closed_offers',
+        {
+          headers: {
+            Authorization: `Bearer ${token.token}`,
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+        },
+      );
+
+      setOffersData(response.data);
+      console.log(
+        '/omnis/posts/borrower/closed_offers',
+        JSON.stringify(response.data),
+      );
+    } catch (error) {
+      console.error('Error fetching data: ', error);
+    } finally {
+      setRefreshing(false); // Stop refreshing
+    }
+  };
 
   const renderEmptyListComponent = () => (
     <View style={styles.emptyContainer}>
@@ -48,7 +51,7 @@ export default function BorrowerClosedOffers() {
     </View>
   );
 
-  const renderItem = ({ item }) => (
+  const renderItem = ({item}) => (
     <ClosedOfferBigContainer
       title={item.title} // Assuming item has a title
       raiseNumber={item.raiseNumber} // Assuming item has a raiseNumber
@@ -60,9 +63,9 @@ export default function BorrowerClosedOffers() {
 
   return (
     <FlatList
-      style={{ backgroundColor: GlobalStyles.Colors.primary100 }}
+      style={{backgroundColor: GlobalStyles.Colors.primary100}}
       data={offersData}
-      renderItem={({ item }) => (
+      renderItem={({item}) => (
         <ClosedOfferBigContainer
           title={item.title}
           totalAmount={item.totalAmount}
@@ -75,9 +78,11 @@ export default function BorrowerClosedOffers() {
       keyExtractor={(item, index) => index.toString()}
       contentContainerStyle={styles.container}
       ListEmptyComponent={renderEmptyListComponent}
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={fetchData} />
+      }
     />
   );
-  
 }
 
 const styles = StyleSheet.create({

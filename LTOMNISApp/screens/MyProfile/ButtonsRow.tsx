@@ -65,7 +65,7 @@ const ButtonsRow = ({
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'space-between', //
     width: width * 0.85,
     alignSelf: 'center',
     marginVertical: 20,
@@ -78,11 +78,12 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   fullWidthButton: {
-    width: '100%',
+    width: '50%',
     justifyContent: 'center',
     alignItems: 'center',
+    alignSelf: 'center',
     borderRadius: 8,
-    padding: 5
+    padding: 10
   },
   activeButton: {
     backgroundColor: GlobalStyles.Colors.primary200,
