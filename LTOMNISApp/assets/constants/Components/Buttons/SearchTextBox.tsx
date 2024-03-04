@@ -26,7 +26,7 @@ const SearchTextBox = ({ placeholder = "Search", onSearch, ...props }) => {
         },
       );
       setOffersData(response.data.potentialFriendsList);
-      console.log('response.data friends/search?query', response.data.potentialFriendsList)
+      console.log('response.data friends/search?query', response.data)
     } catch (error) {
       console.error('Error fetching data: ', error);
     }

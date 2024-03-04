@@ -15,6 +15,7 @@ export interface Friend {
   isFriend: boolean; // Add this line
   friends?: Array<any>; // <-- use the optional modifier (?)
   email: string;
+  status: string;
 }
 
 interface FriendListProps {
@@ -103,7 +104,11 @@ const FriendList: React.FC<FriendListProps> = ({
         <Pressable
           onPress={() => handleFriendAction(item)}
           style={[styles.buttonContainer, buttonStyle]}>
-          <Text style={styles.buttonText}>{buttonText}</Text>
+          {item.status ? (
+            <Text style={styles.buttonText}>{item.status}</Text>
+          ) : (
+            <Text style={styles.buttonText}>Add</Text>
+          )}
         </Pressable>
       </View>
     );
@@ -118,6 +123,7 @@ const FriendList: React.FC<FriendListProps> = ({
       data={friendListData}
       renderItem={renderFriendItem}
       keyExtractor={item => item.id}
+      contentContainerStyle={{paddingBottom: '30%'}}
     />
   );
 };

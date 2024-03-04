@@ -8,9 +8,7 @@ import {
 } from '../../../assets/constants/Components/SpotlightTitleCarousel';
 import axios from 'axios';
 
-import {
-  SmallCustomCarousel,
-} from '../../../assets/constants/Components/SmallCustomCarousel';
+import {SmallCustomCarousel} from '../../../assets/constants/Components/SmallCustomCarousel';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {SpotlightStackParamList} from '../../../App';
@@ -50,8 +48,18 @@ export default function GroupsScreen() {
     };
 
     fetchGroups();
-  }, []); 
+  }, []);
 
+  const renderGroupContent = (groupData, CarouselComponent, noDataMessage) => {
+    if (groupData.length === 0) {
+      return (
+        <View style={styles.noGroupsContainer}>
+          <Text style={styles.noGroupsText}>{noDataMessage}</Text>
+        </View>
+      );
+    }
+    return <CarouselComponent data={groupData} />;
+  };
 
   const GetMyGroup = async () => {
     try {
@@ -65,7 +73,11 @@ export default function GroupsScreen() {
         },
       );
 
-      console.log('data payload /omnis/groups/mygroups ', response.data.myGroups, response.headers);
+      console.log(
+        'data payload /omnis/groups/mygroups ',
+        response.data.myGroups,
+        response.headers,
+      );
       setGroup(response.data.myGroups ?? []);
     } catch (error) {
       console.error('An error occurred:', error);
@@ -84,7 +96,11 @@ export default function GroupsScreen() {
         },
       );
 
-      console.log('data payload /omnis/groups/featured ', response.data.featuredGroups, response.headers);
+      console.log(
+        'data payload /omnis/groups/featured ',
+        response.data.featuredGroups,
+        response.headers,
+      );
       setFeaturedGroup(response.data.featuredGroups ?? []);
     } catch (error) {
       console.error('An error occurred /omnis/groups/featured:', error);
@@ -119,34 +135,38 @@ export default function GroupsScreen() {
 
     fetchData();
   }, []);
-  
-  
+
   return (
     <SafeAreaView style={styles.background}>
       <View style={{marginTop: 20, width: '100%', alignSelf: 'center'}}>
         <CustomTitle
-          data={group}
           title="My groups"
           buttonText="Create"
           onButtonPress={handleCreateButtonPress}
         />
-        <CustomCarousel data={group} />
-        <View style={{marginTop: 20,}} />
+        {renderGroupContent(group, CustomCarousel, 'No Groups')}
+        <View style={{marginTop: 20}} />
         <CustomTitle
-          data={featuredGroup}
           title="Local groups"
           buttonText="Show all"
           onButtonPress={handleLocal}
         />
-        <SmallCustomCarousel data={featuredGroup}/>
+        {renderGroupContent(
+          featuredGroup,
+          SmallCustomCarousel,
+          'No Local Groups',
+        )}
         <View style={{marginTop: 20}} />
         <CustomTitle
-          data={interestGroup}
           title="Based on your interest"
           buttonText="Show all"
           onButtonPress={handleLocal}
         />
-        <SmallCustomCarousel data={interestGroup} />
+        {renderGroupContent(
+          interestGroup,
+          SmallCustomCarousel,
+          'No Groups Based on Interest',
+        )}
       </View>
     </SafeAreaView>
   );
@@ -156,5 +176,16 @@ const styles = StyleSheet.create({
   background: {
     flex: 1,
     backgroundColor: GlobalStyles.Colors.primary800,
+  },
+  noGroupsContainer: {
+    alignSelf: 'stretch', 
+    alignItems: 'center',
+    justifyContent: 'center', 
+    paddingVertical: 35,
+  },
+  noGroupsText: {
+    color: 'white',
+    fontWeight: 'bold', 
+    fontSize: 16,
   },
 });
