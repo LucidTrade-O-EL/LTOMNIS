@@ -14,6 +14,7 @@ export type ListItemProps = {
   topTextRight: string;
   bottomTextLeft: string;
   bottomTextRight: string;
+  topTextRightStyle?: object;
 };
 
 const ListItemWithRadial: React.FC<ListItemProps> = ({
@@ -24,6 +25,7 @@ const ListItemWithRadial: React.FC<ListItemProps> = ({
   topTextRight,
   bottomTextLeft,
   bottomTextRight,
+  topTextRightStyle,
 }) => {
   const determineTopTextColor = (text: string) => {
     if (text.startsWith('+')) {
@@ -85,7 +87,11 @@ const ListItemWithRadial: React.FC<ListItemProps> = ({
               }}>
               {topTextLeft}
             </Text>
-            <Text style={{color: determineTopTextColor(topTextRight)}}>
+            <Text
+              style={[
+                {color: determineTopTextColor(topTextRight)},
+                topTextRightStyle,
+              ]}>
               {formatCurrency(topTextRight)}
             </Text>
           </View>

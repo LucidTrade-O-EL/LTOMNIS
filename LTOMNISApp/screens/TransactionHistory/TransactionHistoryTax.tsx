@@ -1,40 +1,49 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, Text, SafeAreaView, StyleSheet, FlatList} from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import GlobalStyles from '../../assets/constants/colors';
 import CompleteButton from '../../assets/constants/Components/Buttons/CompleteButton';
-import ListItemWithRadial, { ListItemProps } from '../../assets/constants/Components/ListItemWithRadial';
+import ListItemWithRadial, {
+  ListItemProps,
+} from '../../assets/constants/Components/ListItemWithRadial';
 import ScreenTitle from '../../assets/constants/Components/ScreenTitle';
-import { AppState } from '../../ReduxStore';
-import { hideTabBar, showTabBar } from '../../tabBarSlice';
+import {AppState} from '../../ReduxStore';
+import {hideTabBar, showTabBar} from '../../tabBarSlice';
 // import { hideTabBar, showTabBar } from '../../appReducer';
-
 
 const TransactionHistoryTax: React.FC = () => {
   const token = useSelector((state: AppState) => state.token);
-  const [transactionHistory, setTransactionHistory] = useState(0);
-
+  const [transactionHistory, setTransactionHistory] = useState([]);
+  const dispatch = useDispatch();
+  const firstName = useSelector(
+    (state: AppState) => state.userFirstLast.firstName,
+  );
 
   const formatCurrency = (value: string) => {
-    const sign = ['+', '-'].includes(value[0]) ? value[0] : '';
-    const amountValue = value.replace('$', '').trim(); // remove dollar sign if it exists
-    const numericalValue = sign ? amountValue.slice(1) : amountValue;
-    const amount = parseFloat(numericalValue);
+    // First, remove any currency symbols and plus signs to get a clean numeric string
+    const numericValue = value.replace(/[\$,+]/g, '').trim();
+
+    // Convert the cleaned string to a number
+    const amount = parseFloat(numericValue);
 
     if (isNaN(amount)) {
-      console.error(`Invalid currency value: ${value}`);
-      return value;
+        console.error(`Invalid currency value: ${value}`);
+        return value; // Return the original string if it cannot be converted
     }
 
+    // Use Intl.NumberFormat to format the amount as a currency string
     const formattedAmount = new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
-      minimumFractionDigits: 2,
+        style: 'currency',
+        currency: 'USD',
+        minimumFractionDigits: 2,
     }).format(amount);
 
-    return `${sign}${formattedAmount}`;
-  };
+    // Check if the original value was positive and ensure to add a plus sign if so
+    return value.trim().startsWith('-') ? formattedAmount : `+${formattedAmount}`;
+};
+
+
 
   // Data array
   const data: ListItemProps[] = [
@@ -99,9 +108,34 @@ const TransactionHistoryTax: React.FC = () => {
           },
         );
 
-        const transactionHistoryData = response.data;
-        setTransactionHistory(transactionHistoryData.myTransactions);
-        console.log('transactionHistoryData: ', transactionHistoryData.myTransactions);
+        // Assuming the response structure matches your logged data
+        const transactionHistoryData = response.data.myTransactions;
+
+        console.log("this is Trnasaction", response.data.myTransactions)
+
+        const mappedData = transactionHistoryData.map(transaction => {
+          const isCurrentUserTheBorrower = transaction.borrowerFirstName === firstName;
+          
+
+          const sign = isCurrentUserTheBorrower ? '+' : '-';
+          const formattedAmount = formatCurrency(transaction.amount);
+
+
+          // Set the text color based on the condition
+          const textColor = isCurrentUserTheBorrower ? 'green' : 'red';
+
+          return {
+            radialType: 'radio', // Or other logic for setting the radial type
+            iconName: '', // Determine if you need an icon and set accordingly
+            topTextLeft: `Transfer to ${transaction.lenderFirstName} ${transaction.lenderLastName}`,
+            topTextRight: `${sign}${formattedAmount}`,
+            topTextRightStyle: {color: textColor}, // Assuming your ListItemWithRadial supports this
+            bottomTextLeft: 'Completed', // Adjust based on actual transaction status
+            bottomTextRight: new Date(transaction.timestamp).toLocaleString(),
+          };
+        });
+
+        setTransactionHistory(mappedData);
       } catch (error) {
         console.error('Error fetching user data:', error);
       }
@@ -109,7 +143,6 @@ const TransactionHistoryTax: React.FC = () => {
 
     fetchUserData();
   }, []);
-
 
   return (
     <SafeAreaView style={styles.Background}>
@@ -123,7 +156,7 @@ const TransactionHistoryTax: React.FC = () => {
       <View style={styles.contentContainer}>
         <View style={styles.container}>
           <FlatList
-            data={processedData}
+            data={transactionHistory} // Use the state variable that holds the processed transactions
             keyExtractor={(item, index) => index.toString()}
             renderItem={({item}) => <ListItemWithRadial {...item} />}
           />
