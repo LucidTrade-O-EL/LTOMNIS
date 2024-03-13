@@ -33,6 +33,8 @@ export default function ActiveOffers({route}) {
 
       const res = await axios(options);
       if (res.data) {
+        console.log("Active List", res.data)
+        console.log("Active List 2", JSON.stringfy(res.data.activeOffersPostList.offers[0]))
         setPostData(res.data.activeOffersPostList); // Update post data
       }
     } catch (error) {

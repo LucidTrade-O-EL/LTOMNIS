@@ -1,6 +1,6 @@
 import {createStore, combineReducers} from 'redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {AppActionTypes, SetLinkTokenAction, TokenActionTypes} from './types'; // Adjust the import path
+import {AppActionTypes, SetAuthTokenAction, SetLinkTokenAction, TokenActionTypes} from './types'; // Adjust the import path
 import tabBarReducer, {TabBarInitialState} from './tabBarSlice';
 import languageReducer, {
   LanguageInitialState,
@@ -13,7 +13,7 @@ const SET_IS_SIGNED_IN = 'SET_IS_SIGNED_IN';
 const SET_TOKEN = 'SET_TOKEN';
 const REMOVE_TOKEN = 'REMOVE_TOKEN';
 const SET_LINK_TOKEN = 'SET_LINK_TOKEN';
-const REMOVE_LINK_TOKEN = 'REMOVE_LINK_TOKEN';
+const SET_AUTH_TOKEN = 'SET_AUTH_TOKEN';
 const SET_USER_ID = 'SET_USER_ID';
 const SET_USER_PHONE_NUMBER = 'SET_USER_PHONE_NUMBER';
 const SET_USER_POST_ID = 'SET_USER_POST_ID';
@@ -112,11 +112,23 @@ const tokenInitialState: TokenInitialState = {
 
 const LinkTokenInitialState: LinkTokenInitialState = {
   token: null,
+  LinkToken: ''
+};
+
+const AuthLinkTokenInitialState: AuthLinkTokenInitialState = {
+  authToken: null,
+  LinkToken: ''
 };
 
 export interface LinkTokenInitialState {
+  LinkToken: string;
   token: string | null;
 }
+
+export interface AuthLinkTokenInitialState {
+  authToken: string;
+}
+
 
 export interface AppState {
   app: AppInitialState;
@@ -124,6 +136,7 @@ export interface AppState {
   language: LanguageInitialState;
   tabBar: TabBarInitialState;
   linkToken: LinkTokenInitialState;
+  authToken: AuthLinkTokenInitialState;
   id: string | null;
   userId: string | null;
   userPostId: string | null;
@@ -197,6 +210,18 @@ const linkTokenReducer = (
   switch (action.type) {
     case SET_LINK_TOKEN:
       return {...state, LinkToken: action.payload};
+    default:
+      return state;
+  }
+};
+
+const authLinkTokenReducer = (
+  state = AuthLinkTokenInitialState,
+  action: SetAuthTokenAction,
+) => {
+  switch (action.type) {
+    case SET_AUTH_TOKEN:
+      return {...state, authToken: action.payload};
     default:
       return state;
   }
@@ -277,6 +302,7 @@ const rootReducer = combineReducers({
   tabBar: tabBarReducer,
   language: languageReducer,
   linkToken: linkTokenReducer,
+  authToken: authLinkTokenReducer,
   id: idReducer,
   user: userReducer,
   userPostId: postIdReducer,

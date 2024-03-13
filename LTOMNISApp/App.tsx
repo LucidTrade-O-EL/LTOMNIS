@@ -94,6 +94,8 @@ import CreateLinkToken from './screens/SignUp/CreateLinkToken';
 import PaymentPlanBoxChangePlan from './assets/constants/Components/PaymentPlanBoxChangePlan';
 import MyPosts from './screens/MyFeed/MyPosts';
 import NewOffersLender from './screens/NewOffers/Lender/SentOffers/NewOffersLender';
+import Auth from './screens/SignUp/Auth';
+import CreateAuthLink from './screens/SignUp/CreateAuthLink';
 
 type MainStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
@@ -150,12 +152,20 @@ function CombinedStackNavigator() {
         component={IdentityVerificationScreen}
       />
       <CombinedStack.Screen
+        name="Auth"
+        component={Auth}
+      />
+      <CombinedStack.Screen
         name="CreditScoreDisplay"
         component={CreditScoreDisplay}
       />
       <CombinedStack.Screen
         name="CreateLinkToken"
         component={CreateLinkToken}
+      />
+      <CombinedStack.Screen
+        name="CreateAuthLink"
+        component={CreateAuthLink}
       />
       <CombinedStack.Screen
         name="MainStackNavigator"

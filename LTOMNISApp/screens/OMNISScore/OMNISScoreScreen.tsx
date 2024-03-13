@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {
   View,
   Text,
@@ -19,16 +19,22 @@ import LevelDetails from './ScoreBreakDown/Levels/LevelDetails';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {OMNISScoreStackParamList} from '../../App';
 import RBSheet from 'react-native-raw-bottom-sheet';
+import {useSelector} from 'react-redux';
+import {AppState} from '../../ReduxStore';
+import axios from 'axios';
 
 export default function OMNISScoreScreen() {
   const navigation =
     useNavigation<NativeStackNavigationProp<OMNISScoreStackParamList>>();
+  const token = useSelector((state: AppState) => state.token);
 
   const handleClose = () => {
     refRBSheet.current?.close();
   };
 
-  const score = 80; // Replace with actual score
+  const [score, setScore] = useState(0);
+
+  // const score = 80; // Replace with actual score
   const creditScore = 780;
   const scoreUpdate = 20;
 
@@ -37,6 +43,33 @@ export default function OMNISScoreScreen() {
   const handleIconPress = () => {
     refRBSheet.current?.open();
   };
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:8080/api/omnis/score`,
+          {
+            headers: {
+              Authorization: `Bearer ${token.token}`,
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
+            },
+          },
+        );
+
+        const omnisScore = response.data;
+        setScore(omnisScore.scoreObject.score);
+        console.log('omnisScore', omnisScore);
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+      }
+    };
+
+    fetchUserData();
+  }, []);
+
+  console.log('this is a score', score)
 
   // Define the content for the bottom sheet
   const BottomSheetContent = () => (
@@ -50,7 +83,9 @@ export default function OMNISScoreScreen() {
             color={'white'}
           />
           <Text style={styles.scoreDescription}>
-            It's your personal OMNIS score that shows how active you are and if your financial decisions are wise. Learn more on Score Breakdown to see how your actions affect your OMNIS score.
+            It's your personal OMNIS score that shows how active you are and if
+            your financial decisions are wise. Learn more on Score Breakdown to
+            see how your actions affect your OMNIS score.
           </Text>
         </View>
         <View style={styles.scoreDetails}>
@@ -60,7 +95,9 @@ export default function OMNISScoreScreen() {
             color={'red'}
           />
           <Text style={styles.scoreDescription}>
-            It's your actual credit score based on the data collected from International Data Report. It can be improved with the help of high OMNIS Score.
+            It's your actual credit score based on the data collected from
+            International Data Report. It can be improved with the help of high
+            OMNIS Score.
           </Text>
         </View>
       </View>
@@ -69,7 +106,6 @@ export default function OMNISScoreScreen() {
       </TouchableOpacity>
     </View>
   );
-  
 
   return (
     <SafeAreaView style={styles.Background}>

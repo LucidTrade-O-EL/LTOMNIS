@@ -8,9 +8,7 @@ import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {HomeStackParamList} from '../../../App';
 import {t} from 'i18next';
-import axios from 'axios';
-import {AppState} from '../../../ReduxStore';
-import {useSelector} from 'react-redux';
+
 
 // Define this in a separate file or at the top of your current file
 export type OfferDetailSectionProps = {

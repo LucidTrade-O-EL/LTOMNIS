@@ -27,7 +27,7 @@ function CreditScoreBar({score, scoreUpdate}: CreditScoreBarProps) {
   const progress = Math.max(0, Math.min(score / 100, 1));
   const offset = circumference * (1 - progress);
 
-  const cy = svgHeight / 2 - 10; // Adjusted Y-coordinate to bring it up slightly
+  const cy = svgHeight / 2 - 10; 
 
   const d = `
       M ${sidePadding + strokeWidth / 2} ${cy}

@@ -1,15 +1,19 @@
-import React, { useEffect } from 'react';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import {View, Text, SafeAreaView, StyleSheet, FlatList} from 'react-native';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import GlobalStyles from '../../assets/constants/colors';
 import CompleteButton from '../../assets/constants/Components/Buttons/CompleteButton';
 import ListItemWithRadial, { ListItemProps } from '../../assets/constants/Components/ListItemWithRadial';
 import ScreenTitle from '../../assets/constants/Components/ScreenTitle';
+import { AppState } from '../../ReduxStore';
 import { hideTabBar, showTabBar } from '../../tabBarSlice';
 // import { hideTabBar, showTabBar } from '../../appReducer';
 
 
 const TransactionHistoryTax: React.FC = () => {
+  const token = useSelector((state: AppState) => state.token);
+  const [transactionHistory, setTransactionHistory] = useState(0);
 
 
   const formatCurrency = (value: string) => {
@@ -80,6 +84,32 @@ const TransactionHistoryTax: React.FC = () => {
     ...item,
     topTextRight: formatCurrency(item.topTextRight),
   }));
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:8080/api/omnis/transactions/mytransactions`,
+          {
+            headers: {
+              Authorization: `Bearer ${token.token}`,
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
+            },
+          },
+        );
+
+        const transactionHistoryData = response.data;
+        setTransactionHistory(transactionHistoryData.myTransactions);
+        console.log('transactionHistoryData: ', transactionHistoryData.myTransactions);
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+      }
+    };
+
+    fetchUserData();
+  }, []);
+
 
   return (
     <SafeAreaView style={styles.Background}>

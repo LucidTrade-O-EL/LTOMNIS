@@ -1,55 +1,30 @@
-import {RouteProp} from '@react-navigation/native';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import axios from 'axios';
-import {link} from 'fs';
-import React, {useEffect, useState} from 'react';
-import {
-  View,
-  Text,
-  TextInput,
-  StyleSheet,
-  Pressable,
-  Alert,
-} from 'react-native';
-import {
+import {View, Text, StyleSheet} from 'react-native';
+import React from 'react';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {useDispatch, useSelector} from 'react-redux';
+import {useNavigation} from '@react-navigation/native';
+import {AppState, setUserId} from '../../ReduxStore';
+import GlobalStyles from '../../assets/constants/colors';
+import PlaidLink, {
   LinkExit,
   LinkSuccess,
-  PlaidLink,
   usePlaidEmitter,
 } from 'react-native-plaid-link-sdk';
-import {useDispatch, useSelector} from 'react-redux';
-import {setLinkToken} from '../../actions';
-import {user} from '../../assets/constants/user';
-import {AppState} from '../../ReduxStore';
-import {RootStackParamList} from '../../types';
-import {usePlaidLink} from 'react-plaid-link';
-import {useNavigation} from '@react-navigation/native';
-import {StackNavigationProp} from '@react-navigation/stack';
-import GlobalStyles from '../../assets/constants/colors';
 
-type IdentityVerificationScreenRouteParams = {
-  linkToken: string;
-};
-
-type IdentityVerificationScreenProps = {
-  route: RouteProp<RootStackParamList, 'IdentityVerificationScreen'>;
-  navigation: NativeStackNavigationProp<
-    RootStackParamList,
-    'IdentityVerificationScreen'
-  >;
-};
-
-const IdentityVerificationScreen: React.FC<IdentityVerificationScreenProps> = ({
-  route,
-}) => {
+const Auth = () => {
   const token = useSelector((state: AppState) => state.token);
-  const linkToken = useSelector((state: AppState) => state.linkToken);
+  const publicToken = useSelector((state: AppState) => state.authToken);
   const navigation = useNavigation<StackNavigationProp<any>>();
+  const userId = useSelector((state: AppState) => state.user.userId);
+
+  console.log('this is an ID in Auth', userId);
+
+  console.log('Auth Token on Auth 1', publicToken);
 
   const onSuccess = async (success: LinkSuccess) => {
     try {
       const response = await fetch(
-        'http://localhost:8080/api/omnis/identity_verification',
+        'http://localhost:8080/api/omnis/token/public_exchange/get_products',
         {
           method: 'POST',
           headers: {
@@ -58,26 +33,19 @@ const IdentityVerificationScreen: React.FC<IdentityVerificationScreenProps> = ({
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            linkToken: success.metadata.linkSessionId,
+            publicToken: success.publicToken,
           }),
         },
       );
 
-      // Check if the response is OK
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-
       const data = await response.json();
 
-      if (data.user.firstName) {
-        navigation.navigate('SplashScreen');
-        setTimeout(() => {
-          navigation.navigate('CreateAuthLink');
-        }, 3000);
-      } else {
-        console.log('firstName not found in response');
-      }
+      console.log('This is the response data on Auth: ', data);
+
+      navigation.navigate('SplashScreen');
+      setTimeout(() => {
+        navigation.navigate('MainStackNavigator');
+      }, 3000);
     } catch (error) {
       console.error('Error in Plaid Link onSuccess:', error);
     }
@@ -97,18 +65,20 @@ const IdentityVerificationScreen: React.FC<IdentityVerificationScreenProps> = ({
     console.log(event);
   });
 
+  console.log('Auth Token on Auth 2', publicToken);
+
   return (
     <View style={styles.container}>
-      {linkToken ? (
+      {publicToken ? (
         <PlaidLink
           tokenConfig={{
-            token: linkToken.LinkToken,
+            token: publicToken.authToken,
           }}
           onSuccess={onSuccess}
           onExit={onExit}
           style={styles.plaidLink}>
           <View style={styles.plaidLink}>
-            <Text style={styles.buttonText}>Finish Verification</Text>
+            <Text style={styles.buttonText}>Connect Account</Text>
           </View>
         </PlaidLink>
       ) : (
@@ -148,4 +118,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default IdentityVerificationScreen;
+export default Auth;
