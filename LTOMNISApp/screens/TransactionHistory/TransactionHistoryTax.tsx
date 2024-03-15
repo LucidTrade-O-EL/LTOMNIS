@@ -118,7 +118,7 @@ const TransactionHistoryTax: React.FC = () => {
           
 
           const sign = isCurrentUserTheBorrower ? '+' : '-';
-          const formattedAmount = formatCurrency(transaction.amount);
+          const formattedAmount = transaction.amount;
 
 
           // Set the text color based on the condition

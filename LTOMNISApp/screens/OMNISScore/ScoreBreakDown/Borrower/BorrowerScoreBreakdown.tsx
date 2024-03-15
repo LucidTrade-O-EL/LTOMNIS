@@ -40,13 +40,13 @@ const BorrowerScoreBreakdown = () => {
 
   return (
     <SafeAreaView style={styles.background}>
-      <TitleWithMeter title="Repayment Timeliness Meter" />
+      <TitleWithMeter title="Repayment Timeliness Meter" score={scoreBorrower} />
       <Divider
         width={1}
         style={{width: '95%', alignSelf: 'center'}}
         color={GlobalStyles.Colors.accent250}
       />
-      <TitleWithGraph title="Amount Borrowed vs Repaid" />
+      <TitleWithGraph score={scoreBorrower} title="Amount Borrowed vs Repaid" />
       <OmnisScoreChips
         chips={[
           {text: 'Borrowed', backgroundColor: GlobalStyles.Colors.primary800},

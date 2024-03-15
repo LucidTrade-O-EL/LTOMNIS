@@ -9,16 +9,19 @@ const {width} = Dimensions.get('window');
 
 interface TitleWithGraphProps {
   title: string;
+  score: number;
 }
 
-const TitleWithGraph: FC<TitleWithGraphProps> = ({title}) => {
+const TitleWithGraph: FC<TitleWithGraphProps> = ({ title, score }) => {
+console.log('this is a graph', score)
+
   return (
     <View style={styles.container}>
       <View style={styles.titleContainer}>
         <Text style={styles.title}>{title}</Text>
         <AntDesign name="exclamationcircleo" size={18} style={styles.icon} />
       </View>
-      <OMNISGraph />
+      <OMNISGraph score={score} />
     </View>
   );
 };
