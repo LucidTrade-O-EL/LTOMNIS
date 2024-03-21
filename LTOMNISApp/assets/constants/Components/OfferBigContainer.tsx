@@ -58,6 +58,8 @@ const OfferBigContainer: React.FC<OfferBigContainerProps> = ({
   const [visibleCount, setVisibleCount] = useState(4);
   const [numOfOffers, setNumOfOffers] = useState<number[]>([]);
 
+  // This http://localhost:8080/api/omnis/posts/borrower ISSUE
+
   const fetchOfferDetails = async () => {
     if (!userId) {
       console.error('User ID is missing'); // Changed from Offer ID to User ID for clarity.
@@ -78,7 +80,6 @@ const OfferBigContainer: React.FC<OfferBigContainerProps> = ({
       if (res.data && res.data.borrowerPostList) {
         setActiveData(prevData => {
           const newData = res.data.borrowerPostList;
-          // Combine and remove duplicates
           const combinedData = [...prevData, ...newData].filter(
             (v, i, a) => a.findIndex(t => t.id === v.id) === i
           );
@@ -110,6 +111,8 @@ const OfferBigContainer: React.FC<OfferBigContainerProps> = ({
     setVisibleCount(prevCount => prevCount + 4);
   };
 
+
+  console.log('this is a active', activeData)
   return (
     <View style={styles.container}>
       {activeData.slice(0, visibleCount).map((post: PostType) => (
