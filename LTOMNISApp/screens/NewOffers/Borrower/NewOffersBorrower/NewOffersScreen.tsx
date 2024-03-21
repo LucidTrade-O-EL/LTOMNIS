@@ -59,7 +59,7 @@ export default function NewOffersScreen() {
   };
 
 console.log('postData', postData.length)
-console.log('postData', postData)
+console.log('postData askj', postData)
 
   return (
     <FlatList

@@ -28,9 +28,9 @@ export default function HomeScreen({}: {}) {
   const [balance, setBalance] = useState('0.00'); // Default balance
   const [OfferSent, setOfferSent] = useState(0);
   const [AcceptedOffers, setAcceptedOffers] = useState(0);
-  const [OffersAccepted, setOffersAccepted] = useState(13);
+  const [OffersAccepted, setOffersAccepted] = useState(0);
   const [NewOffers, setNewOffers] = useState(5);
-  const [borrowerAcceptedOffers, setBorrowerAcceptedOffers] = useState(13);
+  const [borrowerAcceptedOffers, setBorrowerAcceptedOffers] = useState(0);
   const [borrowerNewOffers, setBorrowerNewOffers] = useState(0);
   const [lenderAcceptedOffers, setLenderAcceptedOffers] = useState(0);
   const [lenderNumOfOffersSent, setLenderNumOfOffersSent] = useState(0);
@@ -132,6 +132,9 @@ export default function HomeScreen({}: {}) {
   }, []);
 
   console.log('This is After the First UseEffect');
+
+  console.log('this home firstName', firstName)
+  console.log('this home firstName', firstName)
 
   const NotificationIcon = () => {
     return (

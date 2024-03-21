@@ -10,7 +10,8 @@ import {AppState} from '../../../../ReduxStore';
 import axios from 'axios';
 
 export default function ActiveOffers({route}) {
-  const [postData, setPostData] = useState<OfferBigContainerProps[]>([]);
+  // const [postData, setPostData] = useState<OfferBigContainerProps[]>([]);
+  const [postData, setPostData] = useState([]);
   const token = useSelector((state: AppState) => state.token);
   const [refreshing, setRefreshing] = useState(false); // Added refreshing state
   const fromMyPosts = route.params?.fromMyPosts ?? false;
@@ -19,7 +20,7 @@ export default function ActiveOffers({route}) {
   console.log('this is the ID***', id);
 
   const fetchActiveOffers = async () => {
-    setRefreshing(true); // Start refreshing
+    setRefreshing(true);
     try {
       const options = {
         method: 'GET',
@@ -30,19 +31,22 @@ export default function ActiveOffers({route}) {
           'Content-Type': 'application/json',
         },
       };
-
+  
       const res = await axios(options);
-      if (res.data) {
-        console.log("Active List", res.data)
-        console.log("Active List 2", JSON.stringfy(res.data.activeOffersPostList.offers[0]))
-        setPostData(res.data.activeOffersPostList); // Update post data
+      console.log("API Response", res.data); // Check entire response
+      if (res.data && res.data.activeOffersPostList) {
+        console.log("Active List", res.data.activeOffersPostList); // Check the data structure
+        setPostData(res.data.activeOffersPostList);
+      } else {
+        console.log("No data in activeOffersPostList");
       }
     } catch (error) {
       console.error('An error occurred:', error);
     } finally {
-      setRefreshing(false); // Stop refreshing
+      setRefreshing(false);
     }
   };
+  
 
   useEffect(() => {
     fetchActiveOffers(); // Initial fetch
@@ -57,6 +61,8 @@ export default function ActiveOffers({route}) {
       <Text style={styles.emptyText}>No Active Offers</Text>
     </View>
   );
+
+  console.log('Active postData!!!!', postData)
 
   return (
     <FlatList

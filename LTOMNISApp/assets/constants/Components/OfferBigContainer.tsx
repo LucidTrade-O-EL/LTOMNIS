@@ -12,6 +12,7 @@ import {useSelector} from 'react-redux';
 import axios from 'axios';
 import {FlatList} from 'react-native-gesture-handler';
 import PostOfferList, {PostType} from './PostOfferList';
+import { AsyncLocalStorage } from 'async_hooks';
 
 type User = {
   firstNameLetter?: string;
@@ -62,7 +63,7 @@ const OfferBigContainer: React.FC<OfferBigContainerProps> = ({
 
   const fetchOfferDetails = async () => {
     if (!userId) {
-      console.error('User ID is missing'); // Changed from Offer ID to User ID for clarity.
+      console.error('User ID is missing');
       return;
     }
     try {
@@ -75,25 +76,10 @@ const OfferBigContainer: React.FC<OfferBigContainerProps> = ({
           'Content-Type': 'application/json',
         },
       };
-  
+
       const res = await axios(options);
       if (res.data && res.data.borrowerPostList) {
-        setActiveData(prevData => {
-          const newData = res.data.borrowerPostList;
-          const combinedData = [...prevData, ...newData].filter(
-            (v, i, a) => a.findIndex(t => t.id === v.id) === i
-          );
-          return combinedData;
-        });
-  
-        // Correctly calculating and setting numOfOffers based on the updated activeData
-        const allNumOfOffers = res.data.borrowerPostList.map(post => post.numOfOffers);
-        setNumOfOffers(allNumOfOffers); // Assuming you want to update numOfOffers state with new data
-  
-        console.log('the Borrower data', res.data);
-        console.log('this is my res count', JSON.stringify(allNumOfOffers)); // Updated to log the correct variable
-        console.log('this is my res in Big Con', JSON.stringify(res.data.borrowerPostList));
-        console.log('this Active data', JSON.stringify(res.data.user)); // Make sure this is the correct data you want to log
+        setActiveData(res.data.borrowerPostList);
       } else {
         console.log('No data received');
       }
@@ -101,28 +87,22 @@ const OfferBigContainer: React.FC<OfferBigContainerProps> = ({
       console.error('An error occurred:', error);
     }
   };
-  
 
   useEffect(() => {
     fetchOfferDetails();
-  }, []); // Add id as a dependency
+  }, []);
 
   const handleShowMore = () => {
-    setVisibleCount(prevCount => prevCount + 4);
+    setVisibleCount((prevCount) => prevCount + 4);
   };
 
-
-  console.log('this is a active', activeData)
   return (
     <View style={styles.container}>
       {activeData.slice(0, visibleCount).map((post: PostType) => (
         <PostOfferList key={post.id} post={post} />
       ))}
-
       {visibleCount < activeData.length && (
-        <TouchableOpacity
-          onPress={handleShowMore}
-          style={styles.showMoreButton}>
+        <TouchableOpacity onPress={handleShowMore} style={styles.showMoreButton}>
           <Text style={styles.showMoreText}>Show More</Text>
         </TouchableOpacity>
       )}
